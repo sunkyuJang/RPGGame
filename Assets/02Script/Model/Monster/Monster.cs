@@ -49,26 +49,30 @@ public class Monster : Model
     IEnumerator DoRoaming()
     {
         float roamingDistance = 5f;
-        float nowRoamingDistance = roamingDistance;
+        float nowRoamingDistance = 0f;
         bool isOut = false;
         while(BeForeState == State.roaming)
         {
-            if (nowRoamingDistance >= roamingDistance)
+            nowRoamingDistance = 0f;
+            transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
+
+            while(nowRoamingDistance < roamingDistance)
             {
-                yield return new WaitForSeconds(2f);
-                transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
+                nowRoamingDistance += SPD * Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+
+                if (IsOutRoamingArea)
+                {
+                    transform.LookAt(GMath.ConvertV2ToV3xz( RoamingArea.center));
+                }
                 Rigidbody.velocity = transform.forward * SPD;
-                nowRoamingDistance = 0f;
+                print(nowRoamingDistance);
             }
-            else if (IsOutRoamonArea >= ro)
-            {
-                transform.LookAt(GMath.ConvertV2ToV3xz(RoamingArea.center));
-            }
-            nowRoamingDistance += SPD * Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
+            Rigidbody.velocity = Vector3.zero;
+            yield return new WaitForSeconds(2f);
         }
     }
-    bool IsOutRoamonArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
+    bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
     protected void OnDrawGizmos()
     {
     }
