@@ -8,7 +8,7 @@ public class Slime : Monster
     private void Awake()
     {
         SetInfo("허접한 슬라임", 100, 0, 5, 1, 5);
-        MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(4, 4)));
+        MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(8, 8)));
         base.Awake();
         nowPosition = transform.position;
     }

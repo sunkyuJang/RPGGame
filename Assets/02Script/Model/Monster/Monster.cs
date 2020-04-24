@@ -4,6 +4,8 @@ using UnityEngine;
 using GLip;
 public class Monster : Model
 {
+    Character Character { set; get; }
+    RaycastHit raycastHit = new RaycastHit();
     protected Rect RoamingArea { set; get; }
     protected enum State { roaming, following, battle, attack, getHit, non }
     protected State NowState { set; get; }
@@ -41,7 +43,7 @@ public class Monster : Model
             switch (NowState)
             {
                 case State.roaming: StartCoroutine(DoRoaming()); break;
-
+                case State.following: StartCoroutine(DoFollowing()); break;
             }
         }
     }
@@ -50,9 +52,9 @@ public class Monster : Model
     {
         float roamingDistance = 5f;
         float nowRoamingDistance = 0f;
-        bool isOut = false;
         while(BeForeState == State.roaming)
         {
+            yield return new WaitForSeconds(2f);
             nowRoamingDistance = 0f;
             transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
 
@@ -66,14 +68,38 @@ public class Monster : Model
                     transform.LookAt(GMath.ConvertV2ToV3xz( RoamingArea.center));
                 }
                 Rigidbody.velocity = transform.forward * SPD;
-                print(nowRoamingDistance);
+                if (IsDetectedCharacter)
+                {
+                    Character = raycastHit.transform.GetComponent<Character>();
+                    NowState = State.following;
+                    break;
+                }
             }
             Rigidbody.velocity = Vector3.zero;
-            yield return new WaitForSeconds(2f);
         }
     }
+    IEnumerator DoFollowing()
+    {
+        while (BeForeState == State.following) 
+        {
+            transform.LookAt(Character.transform.position);
+
+            Rigidbody.velocity = transform.forward * SPD;
+        }
+        yield return null;
+    }
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
+    bool IsDetectedCharacter { get { 
+            if (Physics.SphereCast(transform.position, 3f, transform.forward, out raycastHit, 5f)) 
+            {
+                if (raycastHit.transform.CompareTag("Character")) 
+                {
+                    return true;
+                }
+            } 
+            return false; } }
     protected void OnDrawGizmos()
     {
+        
     }
 }
