@@ -47,7 +47,9 @@ public partial class Character : Model
         {
             DoAnimator(AnimatorState.Running);
             transform.rotation = Quaternion.Euler(Direction);
-            Rigidbody.MovePosition(transform.position + (transform.forward * SPD * Time.fixedDeltaTime));
+            Rigidbody.velocity = transform.forward * SPD;
+            //Rigidbody.MovePosition(transform.position + (transform.forward * SPD * Time.fixedDeltaTime));
+            //print(transform.forward);
         }
         else
         {

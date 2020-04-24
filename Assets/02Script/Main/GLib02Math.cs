@@ -13,14 +13,25 @@ namespace GLip
             now.y = rectTransform.position.y + rectTransform.rect.y;
             return new Rect(now.x, now.y, rectTransform.rect.width, rectTransform.rect.height);
         }
-
+/*
         public static Rect GetRect(Vector2 startPoint, Vector2 endPoint, Vector2 centerPosition)
         {
             startPoint= centerPosition - startPoint;
             endPoint = centerPosition - endPoint;
             return new Rect(startPoint, endPoint);
+        }*/
+
+        public static Rect GetRect(Vector2 centerPosition, Vector2 size)
+        {
+            Rect rect = new Rect(Vector2.zero, size);
+            rect.center = centerPosition;
+            return rect;
         }
 
+        public static void PrintRectArea(Rect rect)
+        {
+            Debug.Log(rect.xMin+"//"+rect.yMin+"//"+rect.xMax+"//"+rect.yMax);
+        }
         public static bool IsInArea(List<Vector2> points, Rect area, ref Vector2 point)
         {
             for(int i = 0; i < points.Count; i++)
