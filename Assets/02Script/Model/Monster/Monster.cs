@@ -11,7 +11,7 @@ public class Monster : Model
     protected State NowState { set; get; }
     protected State BeForeState { set; get; }
     Coroutine stateProcess;
-    protected void Awake()
+    new protected void Awake()
     {
         base.Awake();
         NowState = State.roaming;
@@ -24,9 +24,9 @@ public class Monster : Model
         RoamingArea = roamingArea; 
     }
     // Start is called before the first frame update
-    protected void Start()
+    new protected void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -51,33 +51,39 @@ public class Monster : Model
 
     IEnumerator DoRoaming()
     {
-        float roamingDistance = 5f;
         float nowRoamingDistance = 0f;
+        float roamingDistance = 5f;
+        float pauseTime = 0f;
+        float pauseTimeLimit = 3f;
         while(BeForeState == State.roaming)
         {
-            nowRoamingDistance = 0f;
             transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
-
-            while(nowRoamingDistance < roamingDistance)
+            
+            while (pauseTime < pauseTimeLimit) 
             {
-                nowRoamingDistance += SPD * Time.fixedDeltaTime;
-                yield return new WaitForFixedUpdate();
-
                 if (IsOutRoamingArea)
                 {
-                    transform.LookAt(GMath.ConvertV2ToV3xz( RoamingArea.center));
+                    transform.LookAt(GMath.ConvertV2ToV3xz(RoamingArea.center));
                 }
-                Rigidbody.velocity = transform.forward * SPD;
-                if (IsDetectedCharacter)
+                else if (IsDetectedCharacter)
                 {
                     Character = raycastHit.transform.GetComponent<Character>();
                     NowState = State.following;
-                    break;
+                    yield break;
                 }
-                print(nowRoamingDistance);
+
+                nowRoamingDistance += SPD * Time.fixedDeltaTime;
+                
+                Rigidbody.velocity = nowRoamingDistance < roamingDistance 
+                    ? transform.forward * SPD : Vector3.zero;
+
+                pauseTime += Rigidbody.velocity != Vector3.zero
+                    ? 0f :Time.fixedDeltaTime;
+
+                yield return new WaitForFixedUpdate();
             }
-            Rigidbody.velocity = Vector3.zero;
-            yield return new WaitForSeconds(3f);
+            pauseTime = 0f;
+            nowRoamingDistance = 0f;
         }
     }
     IEnumerator DoFollowing()
@@ -117,7 +123,7 @@ public class Monster : Model
     }
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
     bool IsDetectedCharacter { get { 
-            if (Physics.SphereCast(transform.position, 3f, transform.forward, out raycastHit, 5f)) 
+            if (Physics.SphereCast(transform.position, 3f, transform.forward, out raycastHit, 3f)) 
             {
                 if (raycastHit.transform.CompareTag("Character")) 
                 {
@@ -130,6 +136,6 @@ public class Monster : Model
         } }
     protected void OnDrawGizmos()
     {
-        
+        Gizmos.DrawSphere(transform.forward.normalized * 3f, 3f);
     }
 }
