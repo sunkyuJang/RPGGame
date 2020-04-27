@@ -30,8 +30,6 @@ public class Slime : Monster
     }
     new private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0, 0, 0, 0.5f);
-        Gizmos.DrawCube(nowPosition, new Vector3(RoamingArea.width, 0.5f, RoamingArea.height));
         base.OnDrawGizmos();
     }
 }

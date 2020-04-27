@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+
 public class Monster : Model
 {
     Character Character { set; get; }
@@ -11,6 +12,12 @@ public class Monster : Model
     protected State NowState { set; get; }
     protected State BeForeState { set; get; }
     Coroutine stateProcess;
+
+    public const float sightRadius = 3f;
+    public const float SigthLimitRad = 60f * Mathf.Deg2Rad ;
+    float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
+
+
     new protected void Awake()
     {
         base.Awake();
@@ -20,8 +27,8 @@ public class Monster : Model
     }
 
     protected void MonsterSetInfo(Rect roamingArea) 
-    { 
-        RoamingArea = roamingArea; 
+    {
+        RoamingArea = roamingArea;
     }
     // Start is called before the first frame update
     new protected void Start()
@@ -48,7 +55,6 @@ public class Monster : Model
             }
         }
     }
-
     IEnumerator DoRoaming()
     {
         float nowRoamingDistance = 0f;
@@ -67,18 +73,17 @@ public class Monster : Model
                 }
                 else if (IsDetectedCharacter)
                 {
-                    Character = raycastHit.transform.GetComponent<Character>();
                     NowState = State.following;
                     yield break;
                 }
 
                 nowRoamingDistance += SPD * Time.fixedDeltaTime;
-                
-                Rigidbody.velocity = nowRoamingDistance < roamingDistance 
+
+                Rigidbody.velocity = nowRoamingDistance < roamingDistance
                     ? transform.forward * SPD : Vector3.zero;
 
                 pauseTime += Rigidbody.velocity != Vector3.zero
-                    ? 0f :Time.fixedDeltaTime;
+                    ? 0f : Time.fixedDeltaTime;
 
                 yield return new WaitForFixedUpdate();
             }
@@ -105,6 +110,7 @@ public class Monster : Model
                 NowState = State.attack;
                 break;
             }
+            Debug.DrawRay(transform.position, Character.transform.position - transform.position);
         }
     }
 
@@ -122,20 +128,34 @@ public class Monster : Model
         }
     }
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
-    bool IsDetectedCharacter { get { 
-            if (Physics.SphereCast(transform.position, 3f, transform.forward, out raycastHit, 3f)) 
+    bool IsDetectedCharacter 
+    { 
+        get 
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, sightRadius, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore);
+            foreach(Collider collider in colliders)
             {
-                if (raycastHit.transform.CompareTag("Character")) 
+                if (collider.CompareTag("Character"))
                 {
-                    return true;
+                    Character = collider.GetComponent<Character>();
+                    float fowardToCharacterRad = Vector3.Angle(transform.forward, Character.transform.position - transform.position) * Mathf.Deg2Rad;
+                    if(fowardToCharacterRad <= SigthLimitRad)
+                    {
+                        return true;                    
+                    }
                 }
-            } 
-            return false; } }
+            }
+            return false; } 
+    }
     bool IsCloseEnoughWithChracter { get {
             return Vector3.Distance(Character.transform.position, transform.position) <= 1f;
         } }
     protected void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(transform.forward.normalized * 3f, 3f);
-    }
+        Gizmos.color = new Color(1,1,1, 0.5f);
+        Gizmos.DrawCube(GMath.ConvertV2ToV3xz( RoamingArea.center), GMath.ConvertV2ToV3xz(RoamingArea.size) + Vector3.up);
+        Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
+        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.red);
+        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[1]), Color.red);
+      }
 }
