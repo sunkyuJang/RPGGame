@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using UnityEditor;
 
 public class Monster : Model
 {
     Character Character { set; get; }
     RaycastHit raycastHit = new RaycastHit();
     protected Rect RoamingArea { set; get; }
-    protected enum State { roaming, following, battle, attack, getHit, non }
+    protected enum State { roaming, following, battle, attack, getHit, Dead, non }
     protected State NowState { set; get; }
     protected State BeForeState { set; get; }
     Coroutine stateProcess;
 
-    public const float sightRadius = 3f;
-    public const float SigthLimitRad = 60f * Mathf.Deg2Rad ;
+    public const float sightRadius = 5f;
+    public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
     float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
 
 
@@ -127,6 +128,20 @@ public class Monster : Model
             }
         }
     }
+    void DoDead()
+    {
+        Destroy(gameObject);
+    }
+
+    public void GetHit(int Damege)
+    {
+        nowHP -= Damege - DEF;
+        if(nowHP <= 0)
+        {
+            NowState = State.Dead;
+        }
+    }
+
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
     bool IsDetectedCharacter 
     { 
@@ -138,22 +153,45 @@ public class Monster : Model
                 if (collider.CompareTag("Character"))
                 {
                     Character = collider.GetComponent<Character>();
-                    float fowardToCharacterRad = Vector3.Angle(transform.forward, Character.transform.position - transform.position) * Mathf.Deg2Rad;
+                    Vector3 CharacterDirection = Character.transform.position - transform.position;
+                    float fowardToCharacterRad = Vector3.Angle(transform.forward, CharacterDirection) * Mathf.Deg2Rad;
                     if(fowardToCharacterRad <= SigthLimitRad)
                     {
-                        return true;                    
+                        RaycastHit hit = new RaycastHit();
+                        if (Physics.Raycast(transform.position + Vector3.up, CharacterDirection, out hit, Vector3.Distance(transform.position, Character.transform.position)))
+                        {
+                            print("isIn");
+                            if (hit.collider.CompareTag("Character"))
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
-            return false; } 
+            return false; 
+        } 
     }
     bool IsCloseEnoughWithChracter { get {
             return Vector3.Distance(Character.transform.position, transform.position) <= 1f;
         } }
+
+/*    public void DoAnimation(State state) 
+    {
+        switch (state)
+        {
+            case State.roaming:  break;
+            case State.following: break;
+            case State.roaming:break;
+            case State.roaming:break;
+        }
+    }*/
     protected void OnDrawGizmos()
     {
         Gizmos.color = new Color(1,1,1, 0.5f);
-        Gizmos.DrawCube(GMath.ConvertV2ToV3xz( RoamingArea.center), GMath.ConvertV2ToV3xz(RoamingArea.size) + Vector3.up);
+        Gizmos.DrawCube(GMath.ConvertV2ToV3xz(RoamingArea.center), GMath.ConvertV2ToV3xz(RoamingArea.size) + Vector3.up);
+        Gizmos.DrawSphere(transform.position, sightRadius);
+
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
         Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.red);
         Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[1]), Color.red);
