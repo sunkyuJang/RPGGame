@@ -170,6 +170,7 @@ public class Monster : Model
     IEnumerator DoAttack()
     {
         DoAnimator(State.attack);
+        Character.GetHit(ATK);
         while (BeForeState == State.attack)
         {
             yield return new WaitForFixedUpdate();
