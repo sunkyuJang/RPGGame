@@ -41,7 +41,7 @@ public partial class Character : Model
 
     private void FixedUpdate()
     {
-        FixedUpdateWithMove();
+        FixedUpdatePartialMove();
     }
 
     public void SetStateViewer()
