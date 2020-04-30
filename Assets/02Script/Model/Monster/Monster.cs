@@ -125,17 +125,20 @@ public class Monster : Model
         DoAnimator(State.battle);
         while(BeForeState == State.battle)
         {
+            transform.LookAt(Character.transform.position);
+            yield return new WaitForFixedUpdate();
+
             if (!IsCloseEnoughWithChracter)
             {
                 NowState = State.following;
                 break;
             }
-            else if (canAttack)
+            
+            if (canAttack)
             {
                 NowState = State.attack;
                 break;
             }
-            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator DoFollowing()
@@ -143,16 +146,17 @@ public class Monster : Model
         DoAnimator(State.following);
         while (BeForeState == State.following) 
         {
-            yield return new WaitForFixedUpdate();
             transform.LookAt(Character.transform.position);
             Rigidbody.velocity = transform.forward * SPD;
+            yield return new WaitForFixedUpdate();
 
             if (IsOutRoamingArea)
             {
                 NowState = State.roaming;
                 break;
             }
-            else if(IsCloseEnoughWithChracter)
+            
+            if(IsCloseEnoughWithChracter)
             {
                 DoAnimator(State.battle);
                 Rigidbody.velocity = Vector3.zero;
@@ -172,7 +176,10 @@ public class Monster : Model
             transform.LookAt(Character.transform.position);
 
             while (!NowAnimatorInfo.IsName("Attack01"))
+            {
+
                 yield return new WaitForFixedUpdate();
+            }
 
             if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
@@ -209,14 +216,23 @@ public class Monster : Model
 
     void DoAnimator(State state)
     {
+        ResetAnimatorState();
         switch (state)
         {
-            case State.idle: Animator.SetTrigger("NomalIdle"); break;
-            case State.following: Animator.SetTrigger("Walking"); break;
-            case State.battle: Animator.SetTrigger("BattleIdle"); break;
-            case State.attack: Animator.SetTrigger("Attack"); break;
-            case State.getHit: Animator.SetTrigger("GetHit"); break;
+            case State.idle: Animator.SetBool("NomalIdle", true); break;
+            case State.following: Animator.SetBool("Walking", true); break;
+            case State.battle: Animator.SetBool("BattleIdle", true); break;
+            case State.attack: Animator.SetBool("Attack", true); break;
+            case State.getHit: Animator.SetBool("GetHit", true); break;
         }
+    }
+    void ResetAnimatorState()
+    {
+        Animator.SetBool("NomalIdle", false);
+        Animator.SetBool("Walking", false);
+        Animator.SetBool("BattleIdle", false);
+        Animator.SetBool("Attack", false);
+        Animator.SetBool("GetHit", false);
     }
 
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
@@ -250,7 +266,7 @@ public class Monster : Model
         } 
     }
     bool IsCloseEnoughWithChracter { get {
-            return Vector3.Distance(Character.transform.position, transform.position) <= 1f;
+            return Vector3.Distance(Character.transform.position, transform.position) <= 2f;
         } }
     protected void OnDrawGizmos()
     {
