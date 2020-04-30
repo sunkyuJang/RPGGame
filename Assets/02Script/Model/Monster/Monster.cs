@@ -17,7 +17,9 @@ public class Monster : Model
     public const float sightRadius = 5f;
     public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
     float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
-
+    
+    float attackDelayTimer = 0f;
+    bool canAttack = true;
 
     new protected void Awake()
     {
@@ -49,81 +51,20 @@ public class Monster : Model
             BeForeState = NowState;
             switch (NowState)
             {
-                case State.idle: StartCoroutine(DoIdle(true)); break;
-                case State.battle: StartCoroutine(DoIdle(false)); break;
+                case State.idle: StartCoroutine(DoIdle()); break;
+                case State.battle: StartCoroutine(DoBattle()); break;
                 case State.roaming: StartCoroutine(DoRoaming()); break;
                 case State.following: StartCoroutine(DoFollowing()); break;
                 case State.attack: StartCoroutine(DoAttack()); break;
             }
         }
     }
-    IEnumerator DoRoaming()
+
+    IEnumerator DoIdle()
     {
-        DoAnimator(State.following);
-        float roamingDistance = 0f;
-        float roamingDistanceLimit = 5f;
-/*        float pauseTime = 0f;
-        float pauseTimeLimit = 3f;*/
-        transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
-        Rigidbody.velocity = transform.forward * SPD;
-        
-        while(BeForeState == State.roaming)
-        {
-            if(roamingDistance < roamingDistanceLimit)
-            {
-                roamingDistance += SPD * Time.fixedDeltaTime;
-            }
-            else
-            {
-                Rigidbody.velocity = Vector3.zero;
-                NowState = State.idle;
-                yield break;
-            }
-
-            yield return new WaitForFixedUpdate();
-            
-            if (IsOutRoamingArea)
-            {
-                transform.LookAt(GMath.ConvertV2ToV3xz(RoamingArea.center));
-                Rigidbody.velocity = transform.forward * SPD;
-            }
-            else if (IsDetectedCharacter)
-            {
-                NowState = State.following;
-                yield break;
-            }
-
-            /*while (pauseTime < pauseTimeLimit) 
-            {
-                if (IsOutRoamingArea)
-                {
-                    transform.LookAt(GMath.ConvertV2ToV3xz(RoamingArea.center));
-                }
-                else if (IsDetectedCharacter)
-                {
-                    NowState = State.following;
-                    yield break;
-                }
-
-                nowRoamingDistance += SPD * Time.fixedDeltaTime;
-
-                Rigidbody.velocity = nowRoamingDistance < roamingDistance
-                    ? transform.forward * SPD : Vector3.zero;
-
-                DoAnimator(Rigidbody.velocity != Vector3.zero ? State.following : State.idle);
-
-                pauseTime += Rigidbody.velocity != Vector3.zero
-                    ? 0f : Time.fixedDeltaTime;
-
-                yield return new WaitForFixedUpdate();
-            }*/
-        }
-    }
-    IEnumerator DoIdle(bool isNomalIdle)
-    {
-        DoAnimator(isNomalIdle ? State.idle : State.battle);
+        DoAnimator(State.idle);
         float pauseTime = 0f;
-        float pauseTimeLimit = isNomalIdle ? 3f : 1f;
+        float pauseTimeLimit = 3f;
         while(BeForeState == State.idle)
         {
             if (pauseTime < pauseTimeLimit)
@@ -142,6 +83,59 @@ public class Monster : Model
                 NowState = State.roaming;
                 yield break;
             }
+        }
+    }
+    IEnumerator DoRoaming()
+    {
+        DoAnimator(State.following);
+        float roamingDistance = 0f;
+        float roamingDistanceLimit = 5f;
+        transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
+        Rigidbody.velocity = transform.forward * SPD;
+
+        while (BeForeState == State.roaming)
+        {
+            if (roamingDistance < roamingDistanceLimit)
+            {
+                roamingDistance += SPD * Time.fixedDeltaTime;
+            }
+            else
+            {
+                Rigidbody.velocity = Vector3.zero;
+                NowState = State.idle;
+                yield break;
+            }
+
+            yield return new WaitForFixedUpdate();
+
+            if (IsOutRoamingArea)
+            {
+                transform.LookAt(GMath.ConvertV2ToV3xz(RoamingArea.center));
+                Rigidbody.velocity = transform.forward * SPD;
+            }
+            else if (IsDetectedCharacter)
+            {
+                NowState = State.following;
+                yield break;
+            }
+        }
+    }
+    IEnumerator DoBattle()
+    {
+        DoAnimator(State.battle);
+        while(BeForeState == State.battle)
+        {
+            if (!IsCloseEnoughWithChracter)
+            {
+                NowState = State.following;
+                break;
+            }
+            else if (canAttack)
+            {
+                NowState = State.attack;
+                break;
+            }
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator DoFollowing()
@@ -172,26 +166,32 @@ public class Monster : Model
     IEnumerator DoAttack()
     {
         DoAnimator(State.attack);
-        float pauseTime = 0f;
-        float pauseTimeLimit = 1f;
         while (BeForeState == State.attack)
         {
             yield return new WaitForFixedUpdate();
-
             transform.LookAt(Character.transform.position);
 
-            if (!IsCloseEnoughWithChracter)
+            while (!NowAnimatorInfo.IsName("Attack01"))
+                yield return new WaitForFixedUpdate();
+
+            if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
-                NowState = State.following;
+                NowState = State.battle;
+                StartCoroutine(StartAttackDelayTimer(1.5f));
                 break;
             }
-            
-            if (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.98f)
-            {
-
-            }
         }
-        print("isOut");
+    }
+    IEnumerator StartAttackDelayTimer(float limit)
+    {
+        canAttack = false;
+        while (attackDelayTimer <= limit) 
+        {
+            attackDelayTimer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        attackDelayTimer = 0f;
+        canAttack = true;
     }
     void DoDead()
     {

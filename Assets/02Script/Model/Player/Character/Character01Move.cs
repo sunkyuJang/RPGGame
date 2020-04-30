@@ -11,7 +11,6 @@ public partial class Character : Model
     Vector3 Direction { set; get; }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal }
     AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
-    AnimatorStateInfo NowAnimatorInfo { get { return Animator.GetCurrentAnimatorStateInfo(0); } }
     bool CanMoving { get { return !NowAnimatorInfo.IsName("NomalAttack"); } }
     bool CanAttack { get { return NowAnimatorInfo.IsName("BattleIdle"); } }
     bool IsAttaking { set; get; } = false;

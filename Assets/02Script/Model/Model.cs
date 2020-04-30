@@ -10,6 +10,7 @@ public class Model : MonoBehaviour
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
     public Animator Animator { private set; get; }
+    protected AnimatorStateInfo NowAnimatorInfo { get { return Animator.GetCurrentAnimatorStateInfo(0); } }
 
     public bool isPlayer { protected set; get; }
     public int lastDialog { set; get; }
