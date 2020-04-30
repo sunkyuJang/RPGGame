@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using UnityEditorInternal;
 
 public partial class Character : Model
 {
     Ray ray;
     RaycastHit hit = new RaycastHit();
     bool IsPlayerMove { set; get; }
-    Vector3 Direction { set; get; }
+    Vector3 Rotation { set; get; }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal }
     AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
-    AnimatorStateInfo NowAnimatorInfo { get { return Animator.GetCurrentAnimatorStateInfo(0); } }
     bool CanMoving { get { return !NowAnimatorInfo.IsName("NomalAttack"); } }
     bool CanAttack { get { return NowAnimatorInfo.IsName("BattleIdle"); } }
     bool IsAttaking { set; get; } = false;
@@ -39,17 +39,22 @@ public partial class Character : Model
     public void Move(bool isPlayerMove, float joypadRadian)
     {
         IsPlayerMove = isPlayerMove;
-        if(IsPlayerMove) Direction = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
+        if(IsPlayerMove) Rotation = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
     }
-    private void FixedUpdateWithMove()
+    public void GetHit(int Damege)
+    {
+        DoAnimator(AnimatorState.GetHit);
+        Damege -= DEF;
+        nowHP -= Damege <= 0 ? 0 : Damege;
+        SetStateViewer();
+    }
+    private void FixedUpdatePartialMove()
     {
         if (IsPlayerMove && CanMoving)
         {
             DoAnimator(AnimatorState.Running);
-            transform.rotation = Quaternion.Euler(Direction);
+            transform.rotation = Quaternion.Euler(Rotation);
             Rigidbody.velocity = transform.forward * SPD;
-            //Rigidbody.MovePosition(transform.position + (transform.forward * SPD * Time.fixedDeltaTime));
-            //print(transform.forward);
         }
         else
         {
@@ -91,7 +96,6 @@ public partial class Character : Model
             StartCoroutine(CountingAttackTime());
         }
     }
-
     IEnumerator CountingAttackTime()
     {
         if (!IsAttaking) //locking
