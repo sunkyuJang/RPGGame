@@ -16,9 +16,9 @@ public partial class Player : MonoBehaviour
     public void HideInventoryView()
     {
         Inventory.gameObject.SetActive(false);
-        if (otherNpc != null) 
-        { 
-            if (otherNpc.Inventory.gameObject.activeSelf) 
+        if (otherNpc != null)
+        {
+            if (otherNpc.Inventory.gameObject.activeSelf)
                 otherNpc.Inventory.gameObject.SetActive(false);
         }
         IntoNomalUI();

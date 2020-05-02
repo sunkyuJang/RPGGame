@@ -21,7 +21,7 @@ public class Slime : Monster
     // Update is called once per frame
     new void Update()
     {
-        
+        base.Update();
     }
 
     new private void FixedUpdate()

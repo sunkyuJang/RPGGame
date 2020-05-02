@@ -19,7 +19,7 @@ public partial class Player : MonoBehaviour
     {
 
     }
-    public void GetMove(bool isPlayerMove, float radian) { Character.Move(isPlayerMove, radian); }
+    public void SetMove(bool isPlayerMove, float radian) { Character.Move(isPlayerMove, radian); }
     public void GetAction()
     {
         OtherModel = Character.GetExistModel;
@@ -33,6 +33,12 @@ public partial class Player : MonoBehaviour
             if (IsInField)
             {
                 Character.DoAttackMotion();
+                print(OtherModel);
+                if(OtherModel is Monster)
+                {
+                    Monster monster = OtherModel as Monster;
+                    monster.GetHit(Character.ATK);
+                }
             }
             else
             {

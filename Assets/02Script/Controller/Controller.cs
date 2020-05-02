@@ -5,7 +5,7 @@ using GLip;
 public partial class Controller : MonoBehaviour
 {
     public GameObject playerObj;
-    public GameObject cameraObj;
+    public GameObject cameraControllerObj;
     public GameObject joypadObj;
     public GameObject actionKeyObj;
     public GameObject pauseKeyObj;
@@ -14,7 +14,7 @@ public partial class Controller : MonoBehaviour
 
     private Player player;
     private Joypad joypad;
-    private new Camera camera;
+    private CameraController cameraController;
 
     private bool isJoypadPressed = false;
 
@@ -23,15 +23,15 @@ public partial class Controller : MonoBehaviour
     {
         player = playerObj.GetComponent<Player>();
         joypad = joypadObj.GetComponent<Joypad>();
-        camera = cameraObj.GetComponent<Camera>();
+        cameraController = cameraControllerObj.GetComponent<CameraController>();
     } 
 
     // Update is called once per frame
     void Update()
     {
         if (isJoypadPressed) { joypad.Pressed(); }
-        player.GetMove(isJoypadPressed, GetJoypadRadian);
-        camera.Follow(player.Character.Transform.position);
+        player.SetMove(isJoypadPressed, GetJoypadRadian);
+        cameraController.Follow(player.Character.Transform.position);
     }
     public void joypadPressed() { isJoypadPressed = true; }
     public void JoypadUp() { isJoypadPressed = false; }
@@ -46,8 +46,8 @@ public partial class Controller : MonoBehaviour
         SetAllActive(false);
         player.Character.EquipmentView.gameObject.SetActive(true);
     }
-    public void PressCamera() { camera.SetCenterTouch(); }
-    public void DragCamera() { camera.SetCamera(player.Character.Transform.position); }
+    public void PresscameraController() { cameraController.SetCenterTouch(); }
+    public void DragcameraController() { cameraController.SetCamera(player.Character.Transform.position); }
     public void SetAllActive(bool active)
     {
         joypadObj.SetActive(active);
@@ -56,5 +56,5 @@ public partial class Controller : MonoBehaviour
         pauseKeyObj.SetActive(active);
         EquipmentKeyObj.SetActive(active);
     }
-    public float GetJoypadRadian { get { return joypad.radian + camera.Radian; } }
+    public float GetJoypadRadian { get { return joypad.radian + cameraController.Radian; } }
 }
