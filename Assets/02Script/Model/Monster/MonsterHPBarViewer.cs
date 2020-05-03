@@ -7,20 +7,18 @@ public class MonsterHPBarViewer : MonoBehaviour
 {
     Monster Monster { set; get; }
     RectTransform RectTransform { set; get; }
-    float originalWidth { set; get; }
-    float originalHigth { set; get; }
+    float OriginalWidth { set; get; }
+    float OriginalHigth { set; get; }
     Image HPBar { set; get; }
 
-    public float minDist { private set; get; }
-    public float maxDist { private set; get; }
+    public float MinDist { get { return 3.5f; } }
+    public float DiminishingDist { get { return 10f; } }
+    public float MaxDist { get { return 20f; } }
     private void Awake()
     {
         RectTransform = GetComponent<RectTransform>();
-        originalWidth = RectTransform.rect.size.x;
-        originalHigth = RectTransform.rect.size.y;
-
-        minDist = 3.5f;
-        maxDist = 20f;
+        OriginalWidth = RectTransform.rect.size.x;
+        OriginalHigth = RectTransform.rect.size.y;
 
         HPBar = GetComponent<Image>();
         HPBar.type = Image.Type.Filled;
@@ -39,15 +37,10 @@ public class MonsterHPBarViewer : MonoBehaviour
     private void Update()
     {
         transform.position = Camera.main.WorldToScreenPoint(Monster.HPBarPositionGuide.position);
-        if(transform.position.z < 10)
+        if (transform.position.z >= DiminishingDist)
         {
-            RectTransform.sizeDelta = new Vector2(originalWidth, originalHigth);
-        }
-        else if (transform.position.z >= 10f)
-        {
-            float rectSize = transform.position.z / maxDist;
-            print(originalWidth - (originalWidth * rectSize));
-            RectTransform.sizeDelta = new Vector2(originalWidth - (originalWidth * rectSize), originalHigth - (originalHigth * rectSize));
+            float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
+            RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
         }
         HPBar.fillAmount = Monster.nowHP / Monster.HP;
     }

@@ -33,7 +33,6 @@ public partial class Player : MonoBehaviour
             if (IsInField)
             {
                 Character.DoAttackMotion();
-                print(OtherModel);
                 if(OtherModel is Monster)
                 {
                     Monster monster = OtherModel as Monster;

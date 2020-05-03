@@ -30,7 +30,6 @@ public partial class Character : Model
     {
         get
         {
-            print(isObjectExist);
             if (isObjectExist)
             {
                 Model model = hit.collider.gameObject.GetComponent<Model>();

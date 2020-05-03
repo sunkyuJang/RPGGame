@@ -9,7 +9,6 @@ using JetBrains.Annotations;
 public class Monster : Model
 {
     Character Character { set; get; }
-    RaycastHit raycastHit = new RaycastHit();
     MonsterHPBarViewer HPViewer { set; get; }
     public Transform HPBarPositionGuide { private set; get; }
     bool CanShowingHPBar 
@@ -17,9 +16,7 @@ public class Monster : Model
         get 
         {
             Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
-            float minDist = 3.5f;
-            float maxDist = 20f;
-            if(minDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < maxDist)
+            if(HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
             {
                 return true;
             }
