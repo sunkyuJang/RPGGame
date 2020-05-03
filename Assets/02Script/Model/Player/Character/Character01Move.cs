@@ -8,6 +8,7 @@ public partial class Character : Model
 {
     Ray ray;
     RaycastHit hit = new RaycastHit();
+    float rayDist = 3f;
     bool IsPlayerMove { set; get; }
     Vector3 Rotation { set; get; }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal }
@@ -21,13 +22,15 @@ public partial class Character : Model
         get
         {
             ray = new Ray(transform.position, transform.forward);
-            return Physics.SphereCast(ray, 2f, out hit, 5f);
+            Debug.DrawRay(transform.position + Vector3.up, transform.forward * rayDist);
+            return Physics.Raycast(transform.position + Vector3.up, transform.forward * rayDist, out hit);
         }
     }
     public Model GetExistModel
     {
         get
         {
+            print(isObjectExist);
             if (isObjectExist)
             {
                 Model model = hit.collider.gameObject.GetComponent<Model>();

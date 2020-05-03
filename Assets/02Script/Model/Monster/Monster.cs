@@ -3,16 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using GLip;
 using UnityEditor;
+using UnityEngine.UIElements;
+using JetBrains.Annotations;
 
 public class Monster : Model
 {
     Character Character { set; get; }
     RaycastHit raycastHit = new RaycastHit();
+    MonsterHPBarViewer HPViewer { set; get; }
+    public Transform HPBarPositionGuide { private set; get; }
+    bool CanShowingHPBar 
+    { 
+        get 
+        {
+            Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
+            float minDist = 3.5f;
+            float maxDist = 20f;
+            if(minDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < maxDist)
+            {
+                return true;
+            }
+            return false;
+        } 
+    }
     protected Rect RoamingArea { set; get; }
     protected enum State { roaming, following, battle, attack, getHit, dead, idle}
     protected State NowState { set; get; }
     protected State BeForeState { set; get; }
-    Coroutine stateProcess;
 
     public const float sightRadius = 5f;
     public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
@@ -26,6 +43,8 @@ public class Monster : Model
         base.Awake();
         NowState = State.roaming;
         BeForeState = State.idle;
+        HPViewer = MonsterHPBarViewer.GetNew(this, GameObject.Find("Canvas").GetComponent<Transform>());
+        HPBarPositionGuide = transform.Find("HPBarPositionGuide");
     }
 
     protected void MonsterSetInfo(Rect roamingArea) 
@@ -41,7 +60,10 @@ public class Monster : Model
     // Update is called once per frame
     protected void Update()
     {
-        
+        if(CanShowingHPBar != HPViewer.gameObject.activeSelf)
+        {
+            HPViewer.gameObject.SetActive(CanShowingHPBar);
+        }
     }
 
     protected void FixedUpdate()
@@ -58,6 +80,7 @@ public class Monster : Model
                 case State.attack: StartCoroutine(DoAttack()); break;
             }
         }
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
     }
 
     IEnumerator DoIdle()
@@ -178,7 +201,6 @@ public class Monster : Model
 
             while (!NowAnimatorInfo.IsName("Attack01"))
             {
-
                 yield return new WaitForFixedUpdate();
             }
 
