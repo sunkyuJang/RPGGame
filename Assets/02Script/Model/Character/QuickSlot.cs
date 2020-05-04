@@ -79,7 +79,7 @@ public class QuickSlot : MonoBehaviour
 
     public static QuickSlot GetNew()
     {
-        QuickSlot quickSlot = Create.GetNew<QuickSlot>();
+        QuickSlot quickSlot = Create.GetNewInCanvas<QuickSlot>();
         quickSlot.gameObject.SetActive(false);
         return quickSlot;
     }

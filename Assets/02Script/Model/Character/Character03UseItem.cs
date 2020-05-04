@@ -60,7 +60,6 @@ public partial class Character : Model
                 }
             }
         }
-        SetStateViewer();
     }
     public IEnumerator IncreaseEffect(List<ItemManager.EffectName> effectName, List<string> _increase, UsingItem _thisUsingItem)
     {

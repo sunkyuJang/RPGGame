@@ -7,7 +7,9 @@ using GLip;
 
 public class DialogueManager : MonoBehaviour
 {
-    private static Model model;
+    public Character Character { set; get; }
+
+    private static Npc model;
     
     public static DialogueManager dialogueManager;
     public static GameObject DialogueManagerChild;
@@ -31,12 +33,14 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
+        Character = GameObject.Find("Character").GetComponent<Character>();
+
         dialogue = dialogueSheet.sheets[0].list;
         transform = gameObject.GetComponent<RectTransform>();
         
         dialogueManager = this;
 
-        Transform childTransform = transform.Find("DialogueManager");
+        Transform childTransform = Instantiate(Resources.Load<GameObject>("Managers/DialogueManager"), transform).GetComponent<Transform>();
         DialogueManagerChild = childTransform.gameObject;
         nameText = childTransform.GetChild(0).GetComponent<Text>();
         scriptText = childTransform.GetChild(1).GetComponent<Text>();
@@ -44,7 +48,7 @@ public class DialogueManager : MonoBehaviour
         selecterTransform = selectorObj.GetComponent<Transform>();
         DialogueManagerChild.SetActive(false);
     }
-    public static void GetScript(Model _model)
+    public static void GetScript(Npc _model)
     {
         _model.dialogue = new List<DialogueSheet.Param>();
         _model.selecter = new List<DialogueSheet.Param>();
@@ -66,7 +70,7 @@ public class DialogueManager : MonoBehaviour
             else if(_model.dialogue.Count != 0 && dialogue[i].Name != _model.CharacterName) { break; }
         }
     }
-    public static void ShowDialogue(Model _model)
+    public static void ShowDialogue(Npc _model)
     {
         model = _model;
         nameText.text = model.CharacterName;
@@ -206,20 +210,19 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                Player player = StaticManager.Player;
                 nextStepState step = nextStepStates[selectNum - 1];
                 switch (step)
                 {
-                    case nextStepState.trade: 
-                        player.DoTrade(npc);
+                    case nextStepState.trade:
+                        Character.SetActionState(Character.ActionState.Trade);
                         DialogueManagerChild.SetActive(false);
                         break;
                     case nextStepState.quest:
                         selectorObj.SetActive(false);
                         DoQuestState(npc, state);
                         break;
-                    case nextStepState.end: 
-                        player.IntoNomalUI();
+                    case nextStepState.end:
+                        Character.IntoNomalUI();
                         DialogueManagerChild.SetActive(false);
                         break;
                 }
@@ -250,7 +253,7 @@ public class DialogueManager : MonoBehaviour
             case questState.process:
                 int index = int.Parse(_state.Substring(14, _state.Length - 14));
                 npc.lastDialog++;
-                if (QuestManager.CanClearQuest(StaticManager.Player.Inventory, npc.CharacterName, index))
+                if (QuestManager.CanClearQuest(Character.Inventory, npc.CharacterName, index))
                 {
                     StartShowLine(ShowLine(++npc.lastDialog));
                 }

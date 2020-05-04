@@ -45,11 +45,6 @@ public partial class Inventory : MonoBehaviour
         }
     }
 
-    public void HideInventory()
-    {
-        StaticManager.Player.HideInventoryView();
-    }
-
     public void SwapingItem(int[] indexs)
     {
         ItemView viewFir = itemViews[indexs[0]];
@@ -73,10 +68,10 @@ public partial class Inventory : MonoBehaviour
         }
         else
         {
-            Player player = StaticManager.Player;
+            Character character= StaticManager.Character;
             if (isPlayer)
             {
-                QuickSlot playerQuickSlot = player.Character.QuickSlot;
+                QuickSlot playerQuickSlot = character.QuickSlot;
                 if (playerQuickSlot.gameObject.activeSelf)
                 {
                     int slotNum = playerQuickSlot.IsIn(viewPosition);
@@ -95,7 +90,7 @@ public partial class Inventory : MonoBehaviour
             }
             else
             {
-                Inventory playerInventory = player.Inventory;
+                Inventory playerInventory = character.Inventory;
                 if (playerInventory.Area.Contains(viewPosition))
                 {
                     if (playerInventory.CanTrade(_itemView.ItemCounter))

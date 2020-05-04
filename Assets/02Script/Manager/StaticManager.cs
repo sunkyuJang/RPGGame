@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class StaticManager : MonoBehaviour
 {
-    public static Player Player { private set; get; }
+    public GameObject characterObj;
+    public static Character Character { private set; get; }
     protected static RectTransform canvasTrasform;
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
@@ -16,7 +17,7 @@ public class StaticManager : MonoBehaviour
     int alretLimite { set; get; }
     void Awake()
     {
-        Player = GameObject.Find("Player").GetComponent<Player>();
+        Character = characterObj.GetComponent<Character>();
         canvasTrasform = GameObject.Find("Canvas").GetComponent<RectTransform>();
         comfimBox = ComfimBox.GetNew;
         staticManager = this;

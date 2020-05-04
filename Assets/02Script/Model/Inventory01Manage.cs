@@ -80,7 +80,7 @@ public partial class Inventory : MonoBehaviour
 
     public IEnumerator UsePlayerItem(ItemView _itemView, bool _useComfirmBox)
     {
-        Character character = StaticManager.Player.Character;
+        Character character = Model as Character;
         if (_useComfirmBox)
         {
             ComfimBox comfimBox = StaticManager.GetComfimBox;

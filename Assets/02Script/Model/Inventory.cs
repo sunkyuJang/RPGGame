@@ -5,6 +5,7 @@ using GLip;
 
 public partial class Inventory : MonoBehaviour
 {
+    Model Model { set; get; }
     public RectTransform Transform { private set; get; }
     public Rect Area { private set; get; }
     public bool isPlayer { private set; get; }
@@ -20,12 +21,13 @@ public partial class Inventory : MonoBehaviour
         gameObject.SetActive(false);
     }
     public bool HasItemCounters { get { return ItemCounters.Count > 0; } }
-    public static Inventory GetNew(int length, bool isPlayer) 
+    public static Inventory GetNew(int length, Model model) 
     { 
-        Inventory inventory = Create.GetNew<Inventory>();
+        Inventory inventory = Create.GetNewInCanvas<Inventory>();
         inventory.SetConstructor();
         inventory.length = length;
-        inventory.isPlayer = isPlayer;
+        inventory.Model = model;
+        inventory.isPlayer = model is Character ? true : false;
         inventory.AwakeView();
         return inventory;
     }

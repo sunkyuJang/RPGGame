@@ -34,17 +34,6 @@ public class QuestManager : MonoBehaviour
         //add last line
         QuestTableList.Add(new QuestTable(name, startIndex, QuestList.Count - 1));
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public static bool CanClearQuest(Inventory inventory, string npcName, int index)
     {

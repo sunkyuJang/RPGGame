@@ -22,7 +22,7 @@ public class EquipmentView : MonoBehaviour
     Text ATK{ set; get; }
     Text DEF{ set; get; }
     Text SPD { set; get; }
-    public void HideObject() { gameObject.SetActive(false); StaticManager.Player.IntoNomalUI(); }
+    public void HideObject() { gameObject.SetActive(false); Character.IntoNomalUI(); }
 
     public IEnumerator OnTouched(int index)
     {
@@ -49,9 +49,8 @@ public class EquipmentView : MonoBehaviour
                     newIncrease += n.Substring(1);
                     increase.Add(newIncrease);
                 }
-                Character character = StaticManager.Player.Character;
-                StartCoroutine(character.IncreaseEffect(equipmentItem.Effects, increase, null));
-                character.Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, equipmentItem.Index, 1));
+                StartCoroutine(Character.IncreaseEffect(equipmentItem.Effects, increase, null));
+                Character.Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, equipmentItem.Index, 1));
                 EquipmentItems.RemoveAt(index);
                 if(equipmentItem.Type == "Weapon") { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
                 else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
@@ -87,7 +86,7 @@ public class EquipmentView : MonoBehaviour
     }
     public static EquipmentView GetNew(Character character)
     {
-        EquipmentView NewEquipmentView = Create.GetNew<EquipmentView>();
+        EquipmentView NewEquipmentView = Create.GetNewInCanvas<EquipmentView>();
         NewEquipmentView.SetConstructor(character);
         NewEquipmentView.LoadCharacterState();
         return NewEquipmentView;

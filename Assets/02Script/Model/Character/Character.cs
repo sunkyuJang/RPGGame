@@ -5,22 +5,24 @@ using GLip;
 
 public partial class Character : Model
 {
-    private StateViewer StateViewer { set; get; }
+    Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     bool IsinField { set; get; } = true;
-
+    public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal, Dead }
+    public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
         isPlayer = true;
+        Controller = Controller.GetNew(this);
         base.Awake();
     }
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        StateViewer = StateViewer.GetNew();
+        StateViewer.GetNew(this);
         QuickSlot = QuickSlot.GetNew();
         EquipmentView = EquipmentView.GetNew(this);
 
@@ -36,17 +38,37 @@ public partial class Character : Model
         Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.keyItemList, 0, 1));
         Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 0, 1));
         Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 1, 1));
-        SetStateViewer();
     }
 
     private void FixedUpdate()
     {
-        FixedUpdatePartialMove();
+        FixedUpdateInAction();
     }
 
-    public void SetStateViewer()
+    public void DoAnimator(AnimatorState action)
     {
-        StateViewer.DrawState(StateViewer.state.hp, HP, nowHP);
-        StateViewer.DrawState(StateViewer.state.mp, MP, nowMP);
+        if (NowAnimatorState != action)
+        {
+            ResetAnimatorState();
+            switch (action)
+            {
+                case AnimatorState.Idle: Animator.SetBool("IsIdle", true); break;
+                case AnimatorState.Running: Animator.SetBool("IsRunning", true); break;
+                case AnimatorState.Battle: Animator.SetBool("IsBattle", true); break;
+                case AnimatorState.GetHit: Animator.SetBool("IsGetHit", true); break;
+                case AnimatorState.Attak_Nomal: Animator.SetBool("IsAttak_Nomal", true); break;
+            }
+            NowAnimatorState = action;
+        }
     }
+    public void ResetAnimatorState()
+    {
+        Animator.SetBool("IsRunning", false);
+        Animator.SetBool("IsIdle", false);
+        Animator.SetBool("IsBattle", false);
+        Animator.SetBool("IsGetHit", false);
+        Animator.SetBool("IsAttak_Nomal", false);
+    }
+    public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.TurnOn(false); }
+    public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.TurnOn(true); }
 }
