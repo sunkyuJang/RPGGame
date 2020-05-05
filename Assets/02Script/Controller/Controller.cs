@@ -58,6 +58,7 @@ public partial class Controller : MonoBehaviour
     public static Controller GetNew(Character character)
     {
         Controller controller = Create.GetNewInCanvas<Controller>();
+        controller.transform.SetAsFirstSibling();
         controller.Character = character;
         return controller;
     }

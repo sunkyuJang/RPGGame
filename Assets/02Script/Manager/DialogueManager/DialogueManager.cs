@@ -104,30 +104,33 @@ public class DialogueManager : MonoBehaviour
     }
     public void SkipDialogue()
     {
-        dialogue = model.dialogue;
-        if (isShowLinerunning)
+        if (DialogueManagerChild.activeSelf)
         {
-            StaticManager.coroutineStart(StopShowLine());
-        }
-        else
-        {
-            if (!dialogue[model.lastDialog].Stop)
+            dialogue = model.dialogue;
+            if (isShowLinerunning)
             {
-                StartShowLine(ShowLine(++model.lastDialog));
+                StaticManager.coroutineStart(StopShowLine());
             }
             else
             {
-                if (model is Npc)
+                if (!dialogue[model.lastDialog].Stop)
                 {
-                    Npc npc = model as Npc;
-                    string nextStep = npc.dialogue[npc.lastDialog].NextStep;
-                    if (GetNowStep(nextStep) == nextStepState.select)
+                    StartShowLine(ShowLine(++model.lastDialog));
+                }
+                else
+                {
+                    if (model is Npc)
                     {
-                        SelectDialogue(nextStep);
-                    }
-                    else
-                    {
-                        EndDialogue(npc, nextStep);
+                        Npc npc = model as Npc;
+                        string nextStep = npc.dialogue[npc.lastDialog].NextStep;
+                        if (GetNowStep(nextStep) == nextStepState.select)
+                        {
+                            SelectDialogue(nextStep);
+                        }
+                        else
+                        {
+                            EndDialogue(npc, nextStep);
+                        }
                     }
                 }
             }

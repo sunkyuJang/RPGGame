@@ -24,8 +24,13 @@ public partial class Character : Model
         {
             try
             {
-                nearest = nearest == null ? collider.GetComponent<Model>()
-                    : collider.transform.position.z < nearest.transform.position.z ? collider.GetComponent<Model>() : nearest;
+                if (collider.Equals(gameObject.GetComponent<Collider>())) 
+                    continue;
+                else
+                {
+                    nearest = nearest == null ? collider.GetComponent<Model>()
+                        : collider.transform.position.z < nearest.transform.position.z ? collider.GetComponent<Model>() : nearest;
+                }
             }
             catch { };
 
@@ -54,12 +59,17 @@ public partial class Character : Model
     public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead }
     ActionState BeforeState { set; get; }
     ActionState NowState { set; get; }
-    public void SetActionState(ActionState actionState) { NowState = actionState; }
+    public void SetActionState(ActionState actionState) 
+    { 
+        NowState = actionState;
+        FixedUpdateInAction();
+    }
     void FixedUpdateInAction()
     {
         if(NowState != BeforeState)
         {
             BeforeState = NowState;
+            StopAllCoroutines();
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -98,25 +108,26 @@ public partial class Character : Model
         {
             if(TargetModel is Npc)
             {
-                NowState = ActionState.Talk;
+                SetActionState(ActionState.Talk);
             }
             else if(TargetModel is Monster)
             {
-                NowState = ActionState.Attack;
+                SetActionState(ActionState.Attack);
             }
-            yield return null;
+            yield break;
         }
 
         NowState = ActionState.Idle;
-        yield return null;
+        yield break;
     }
     IEnumerator DoTalk()
     {
         Npc npc = TargetModel as Npc; 
         if(npc.dialogue == null) DialogueManager.GetScript(npc);
+        IntoDialogueUi();
         DialogueManager.ShowDialogue(npc);
         NowState = ActionState.Idle;
-        return null;
+        yield break;
     }
     IEnumerator DoTrade()
     {
@@ -130,7 +141,7 @@ public partial class Character : Model
                 Inventory.gameObject.SetActive(false);
                 TargetModel.Inventory.gameObject.SetActive(false);
                 NowState = ActionState.Idle;
-                yield return null;
+                yield break;
             }
             yield return new WaitForFixedUpdate();
         }
@@ -148,7 +159,7 @@ public partial class Character : Model
                 yield return new WaitForFixedUpdate();
         }
         NowState = ActionState.Idle;
-        yield return null;
+        yield break;
     }
     public void GetHit(int damege)
     {
@@ -158,12 +169,12 @@ public partial class Character : Model
     IEnumerator DoGetHit() 
     {
         DoAnimator(AnimatorState.GetHit);
-        return null;
+        yield break;
     }    
     
     IEnumerator DoDead() 
     {
         DoAnimator(AnimatorState.Dead);
-        return null;
+        yield break;
     }
 }

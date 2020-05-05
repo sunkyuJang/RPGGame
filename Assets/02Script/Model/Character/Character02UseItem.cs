@@ -41,23 +41,15 @@ public partial class Character : Model
         }
         else
         {
-            ItemManager.Item item = ItemManager.GetItem(itemIndexer);
-            if(itemIndexer.Kinds == ItemManager.Kinds.keyItemList)
+            ItemManager.UsefulItemData usefulItem = ItemManager.GetItem(itemIndexer) as ItemManager.UsefulItemData;
+            alreadyUse = new UsingItem(itemIndexer, ATK, SPD, isSuper, usefulItem.GetDuring);
+            alreadyUse.process = IncreaseEffect(usefulItem.GetEffects, usefulItem.GetIncrease, alreadyUse);
+            alreadyUse.coroutine = StartCoroutine(alreadyUse.process);
+            usingItems.Add(alreadyUse);
+            if (usefulItem is ItemManager.EquipmentItem) 
             {
-                StaticManager.ShowAlert("사용할 수 없는 아이템 입니다", Color.red);
-            }
-            else
-            {
-                ItemManager.UsefulItemData usefulItem = item as ItemManager.UsefulItemData;
-                alreadyUse = new UsingItem(itemIndexer, ATK, SPD, isSuper, usefulItem.GetDuring);
-                alreadyUse.process = IncreaseEffect(usefulItem.GetEffects, usefulItem.GetIncrease, alreadyUse);
-                alreadyUse.coroutine = StartCoroutine(alreadyUse.process);
-                usingItems.Add(alreadyUse);
-                if (usefulItem is ItemManager.EquipmentItem) 
-                {
-                    EquipmentView.SetEquipmetItem(usefulItem as ItemManager.EquipmentItem);
-                    EquipmentView.LoadCharacterState();
-                }
+                EquipmentView.SetEquipmetItem(usefulItem as ItemManager.EquipmentItem);
+                EquipmentView.LoadCharacterState();
             }
         }
     }
