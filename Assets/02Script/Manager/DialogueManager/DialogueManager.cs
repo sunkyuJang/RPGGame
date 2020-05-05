@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GLip;
+using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -42,11 +43,28 @@ public class DialogueManager : MonoBehaviour
 
         Transform childTransform = Instantiate(Resources.Load<GameObject>("Managers/DialogueManager"), transform).GetComponent<Transform>();
         DialogueManagerChild = childTransform.gameObject;
+        childTransform.Find("Dialog").GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SkipDialogue());
+        
         nameText = childTransform.GetChild(0).GetComponent<Text>();
         scriptText = childTransform.GetChild(1).GetComponent<Text>();
         selectorObj = childTransform.GetChild(2).gameObject;
         selecterTransform = selectorObj.GetComponent<Transform>();
+        for(int i = 0; i < 3; i++)
+        {
+            EventTrigger.Entry entry = selecterTransform.GetChild(i).GetComponent<EventTrigger>().triggers[0];
+            switch (i)
+            {
+                case 0: entry.callback.AddListener((data) => SelectedNum1()); break;
+                case 1: entry.callback.AddListener((data) => SelectedNum2()); break;
+                case 2: entry.callback.AddListener((data) => SelectedNum3()); break;
+            }
+        }
         DialogueManagerChild.SetActive(false);
+    }
+
+    private void Start()
+    {
+        transform.SetAsLastSibling();
     }
     public static void GetScript(Npc _model)
     {
