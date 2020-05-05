@@ -7,7 +7,7 @@ public class StaticManager : MonoBehaviour
 {
     public GameObject characterObj;
     public static Character Character { private set; get; }
-    protected static RectTransform canvasTrasform;
+    protected static Transform canvasTrasform;
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
     private static ComfimBox comfimBox;
@@ -18,7 +18,7 @@ public class StaticManager : MonoBehaviour
     void Awake()
     {
         Character = characterObj.GetComponent<Character>();
-        canvasTrasform = GameObject.Find("Canvas").GetComponent<RectTransform>();
+        canvasTrasform = transform.parent;
         comfimBox = ComfimBox.GetNew;
         staticManager = this;
     }

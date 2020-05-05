@@ -15,7 +15,7 @@ public partial class Character : Model
     {
         SetInfo("temp",100, 100, 10, 10, 10);
         isPlayer = true;
-        Controller = Controller.GetNew(this);
+        NowState = ActionState.Idle;
         base.Awake();
     }
     // Start is called before the first frame update
@@ -25,6 +25,7 @@ public partial class Character : Model
         StateViewer.GetNew(this);
         QuickSlot = QuickSlot.GetNew();
         EquipmentView = EquipmentView.GetNew(this);
+        Controller = Controller.GetNew(this);
 
         nowHP = 10;
         Inventory.gold = 1000;

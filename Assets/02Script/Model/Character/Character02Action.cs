@@ -5,6 +5,12 @@ using GLip;
 
 public partial class Character : Model
 {
+    Vector3 Rotation { set; get; }
+    public void Move(bool isPlayerMove, float joypadRadian)
+    {
+        NowState = isPlayerMove ? ActionState.Running : ActionState.Idle;
+        if (isPlayerMove) Rotation = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
+    }
     Model TargetModel { set; get; }
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
@@ -41,7 +47,6 @@ public partial class Character : Model
                 }
             }
         }
-
         return false;
     }
     float SigthLength { get { return 5f; } }
@@ -55,7 +60,6 @@ public partial class Character : Model
         if(NowState != BeforeState)
         {
             BeforeState = NowState;
-            
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -72,6 +76,7 @@ public partial class Character : Model
     IEnumerator DoIdle()
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
+        Rigidbody.velocity = Vector3.zero;
         yield return null;
     }
     IEnumerator DoRunning() 
