@@ -190,16 +190,14 @@ public class Monster : Model
     IEnumerator DoAttack()
     {
         DoAnimator(State.attack);
-        Character.GetHit(ATK);
+        while (!NowAnimatorInfo.IsName("Attack01"))
+            yield return new WaitForFixedUpdate();
+        
+        //Character.GetHit(ATK);
         while (BeForeState == State.attack)
         {
             yield return new WaitForFixedUpdate();
             transform.LookAt(Character.transform.position);
-
-            while (!NowAnimatorInfo.IsName("Attack01"))
-            {
-                yield return new WaitForFixedUpdate();
-            }
 
             if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
@@ -228,10 +226,8 @@ public class Monster : Model
     public void GetHit(int Damege)
     {
         nowHP -= Damege - DEF;
-        if(nowHP <= 0)
-        {
-            NowState = State.dead;
-        }
+        print(nowHP);
+        NowState = nowHP <= 0 ? State.dead : State.getHit;
     }
 
     void DoAnimator(State state)

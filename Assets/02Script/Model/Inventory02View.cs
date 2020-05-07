@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using System.IO;
 
 public partial class Inventory : MonoBehaviour
 {
@@ -43,6 +44,11 @@ public partial class Inventory : MonoBehaviour
                 i--;
             }
         }
+    }
+    public void HideInventory()
+    {
+        gameObject.SetActive(false);
+        if (Model is Character) (Model as Character).IntoNomalUI();
     }
 
     public void SwapingItem(int[] indexs)

@@ -15,7 +15,6 @@ public partial class Character : Model
     {
         SetInfo("temp",100, 100, 10, 10, 10);
         isPlayer = true;
-        NowState = ActionState.Idle;
         base.Awake();
     }
     // Start is called before the first frame update
@@ -70,6 +69,6 @@ public partial class Character : Model
         Animator.SetBool("IsGetHit", false);
         Animator.SetBool("IsAttak_Nomal", false);
     }
-    public void IntoDialogueUi() { Controller.gameObject.SetActive(false); QuickSlot.TurnOn(false); }
-    public void IntoNomalUI() { Controller.gameObject.SetActive(true); QuickSlot.TurnOn(true); }
+    public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.TurnOn(false); }
+    public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.TurnOn(true); }
 }

@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using System.Runtime.InteropServices;
+using TMPro;
+using System.Diagnostics.PerformanceData;
 
 public partial class Character : Model
 {
     Vector3 Rotation { set; get; }
+    bool IsPlayerMove { set; get; }
     public void Move(bool isPlayerMove, float joypadRadian)
     {
-        NowState = isPlayerMove ? ActionState.Running : ActionState.Idle;
         if (isPlayerMove) Rotation = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
+        if (IsPlayerMove != isPlayerMove)
+        {
+            IsPlayerMove = isPlayerMove;
+            NowState = isPlayerMove ? ActionState.Running : ActionState.Idle;
+        }
     }
+    float SigthLength { get { return 5f; } }
+    float SigthDegLimit { get { return 30f; } }
     Model TargetModel { set; get; }
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
@@ -20,6 +30,7 @@ public partial class Character : Model
     Model GetNearestModel(Collider[] colliders)
     {
         Model nearest = null;
+        float beforeDist = SigthLength;
         foreach (Collider collider in colliders)
         {
             try
@@ -28,8 +39,12 @@ public partial class Character : Model
                     continue;
                 else
                 {
-                    nearest = nearest == null ? collider.GetComponent<Model>()
-                        : collider.transform.position.z < nearest.transform.position.z ? collider.GetComponent<Model>() : nearest;
+                    float Dist = Vector3.Distance(transform.position, collider.transform.position);
+                    if(Dist < beforeDist)
+                    {
+                        nearest = collider.GetComponent<Model>();
+                        beforeDist = Dist;
+                    }
                 }
             }
             catch { };
@@ -54,22 +69,27 @@ public partial class Character : Model
         }
         return false;
     }
-    float SigthLength { get { return 5f; } }
-    float SigthDegLimit { get { return 30f; } }
     public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead }
     ActionState BeforeState { set; get; }
     ActionState NowState { set; get; }
-    public void SetActionState(ActionState actionState) 
+    public void SetActionState(ActionState actionState)
     { 
-        NowState = actionState;
-        FixedUpdateInAction();
+        if (actionState == ActionState.Action)
+        {
+            if (BeforeState == ActionState.Idle)
+            {
+                NowState = ActionState.Action;
+            }
+        }
     }
+
     void FixedUpdateInAction()
     {
-        if(NowState != BeforeState)
+        //switch
+        if (NowState != BeforeState)        
         {
             BeforeState = NowState;
-            StopAllCoroutines();
+            
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -77,7 +97,7 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                case ActionState.Attack: StartCoroutine(DoAttack()); break;
+                case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
@@ -87,7 +107,7 @@ public partial class Character : Model
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
         Rigidbody.velocity = Vector3.zero;
-        yield return null;
+        yield break;
     }
     IEnumerator DoRunning() 
     {
@@ -101,23 +121,29 @@ public partial class Character : Model
     }
     IEnumerator DoAction() 
     {
-        SurroundingObj = GetSurroundingObj();
-        TargetModel = GetNearestModel(SurroundingObj);
-
-        if (IsSameObjWithFrontObj(TargetModel.gameObject))
+        if (BeforeState == ActionState.Action)
         {
-            if(TargetModel is Npc)
+            SurroundingObj = GetSurroundingObj();
+            TargetModel = GetNearestModel(SurroundingObj);
+            try
             {
-                SetActionState(ActionState.Talk);
+                if (IsSameObjWithFrontObj(TargetModel.gameObject))
+                {
+                    if (TargetModel is Npc)
+                    {
+                        NowState = ActionState.Talk;
+                    }
+                    else if (TargetModel is Monster)
+                    {
+                        NowState = ActionState.Attack;
+                    }
+                    yield break;
+                }
+                NowState = ActionState.Idle;
+                yield break;
             }
-            else if(TargetModel is Monster)
-            {
-                SetActionState(ActionState.Attack);
-            }
-            yield break;
+            catch { }
         }
-
-        NowState = ActionState.Idle;
         yield break;
     }
     IEnumerator DoTalk()
@@ -146,20 +172,29 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
         }
     }
+
+    bool IsAnimatorJustBeginning { get { return NowAnimatorInfo.normalizedTime <= 0.5f; } }
     IEnumerator DoAttack()
     {
         DoAnimator(AnimatorState.Attak_Nomal);
-        (TargetModel as Monster).GetHit(ATK);
-        while(BeforeState == ActionState.Attack)
+        while (!NowAnimatorInfo.IsName("NomalAttack"))
+            yield return new WaitForFixedUpdate();
+
+        if (IsAnimatorJustBeginning)
         {
+            (TargetModel as Monster).GetHit(ATK);
+
             while (!NowAnimatorInfo.IsName("NomalAttack"))
                 yield return new WaitForFixedUpdate();
 
-            while(NowAnimatorInfo.normalizedTime <= 0.80f)
+            while (NowAnimatorInfo.normalizedTime <= 0.99f)
                 yield return new WaitForFixedUpdate();
+
+            NowState = ActionState.Idle;
+            yield break;
         }
+
         NowState = ActionState.Idle;
-        yield break;
     }
     public void GetHit(int damege)
     {
