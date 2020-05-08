@@ -26,7 +26,7 @@ public class Monster : Model
     protected Rect RoamingArea { set; get; }
     protected enum State { roaming, following, battle, attack, getHit, dead, idle}
     protected State NowState { set; get; }
-    protected State BeForeState { set; get; }
+    protected State BeforeState { set; get; }
 
     public const float sightRadius = 5f;
     public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
@@ -39,7 +39,7 @@ public class Monster : Model
     {
         base.Awake();
         NowState = State.roaming;
-        BeForeState = State.idle;
+        BeforeState = State.idle;
         HPViewer = MonsterHPBarViewer.GetNew(this, GameObject.Find("Canvas").GetComponent<Transform>());
         HPBarPositionGuide = transform.Find("HPBarPositionGuide");
     }
@@ -65,9 +65,9 @@ public class Monster : Model
 
     protected void FixedUpdate()
     {
-        if (NowState != BeForeState)
+        if (NowState != BeforeState)
         {
-            BeForeState = NowState;
+            BeforeState = NowState;
             switch (NowState)
             {
                 case State.idle: StartCoroutine(DoIdle()); break;
@@ -75,6 +75,7 @@ public class Monster : Model
                 case State.roaming: StartCoroutine(DoRoaming()); break;
                 case State.following: StartCoroutine(DoFollowing()); break;
                 case State.attack: StartCoroutine(DoAttack()); break;
+                case State.getHit: StartCoroutine(DoGetHit()); break;
             }
         }
         Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
@@ -85,7 +86,7 @@ public class Monster : Model
         DoAnimator(State.idle);
         float pauseTime = 0f;
         float pauseTimeLimit = 3f;
-        while(BeForeState == State.idle)
+        while(BeforeState == State.idle)
         {
             if (pauseTime < pauseTimeLimit)
             {
@@ -113,7 +114,7 @@ public class Monster : Model
         transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
         Rigidbody.velocity = transform.forward * SPD;
 
-        while (BeForeState == State.roaming)
+        while (BeforeState == State.roaming)
         {
             if (roamingDistance < roamingDistanceLimit)
             {
@@ -143,7 +144,7 @@ public class Monster : Model
     IEnumerator DoBattle()
     {
         DoAnimator(State.battle);
-        while(BeForeState == State.battle)
+        while(BeforeState == State.battle)
         {
             transform.LookAt(Character.transform.position);
             yield return new WaitForFixedUpdate();
@@ -164,7 +165,7 @@ public class Monster : Model
     IEnumerator DoFollowing()
     {
         DoAnimator(State.following);
-        while (BeForeState == State.following) 
+        while (BeforeState == State.following) 
         {
             transform.LookAt(Character.transform.position);
             Rigidbody.velocity = transform.forward * SPD;
@@ -187,9 +188,6 @@ public class Monster : Model
         }
     }
 
-    bool IsJustStartAttacking { set; get; } = true;
-
-
     IEnumerator DoAttack()
     {
         DoAnimator(State.attack);
@@ -197,7 +195,7 @@ public class Monster : Model
             yield return new WaitForFixedUpdate();
         
         Character.GetHit(ATK);
-        while (BeForeState == State.attack)
+        while (BeforeState == State.attack)
         {
             yield return new WaitForFixedUpdate();
             transform.LookAt(Character.transform.position);
@@ -221,16 +219,46 @@ public class Monster : Model
         attackDelayTimer = 0f;
         canAttack = true;
     }
-    void DoDead()
+    public void GetHit(int damege)
     {
-        Destroy(gameObject);
+        damege -= DEF;
+        nowHP -= damege > 0 ? damege : 0;
+        NowState = State.getHit;
     }
 
-    public void GetHit(int Damege)
+    bool isAreadyGetHitting { set; get; } = true;
+    IEnumerator DoGetHit()
     {
-        nowHP -= Damege - DEF;
-        //print(nowHP);
-        NowState = nowHP <= 0 ? State.dead : State.getHit;
+        DoAnimator(State.getHit);
+        while (!NowAnimatorInfo.IsName("GetHit"))
+            yield return new WaitForEndOfFrame();
+
+        if (nowHP > 0)
+        {
+            if (isAreadyGetHitting && NowAnimatorInfo.IsName("GetHit"))
+            {
+                isAreadyGetHitting = false;
+
+                while (NowAnimatorInfo.normalizedTime <= 0.9f)
+                    yield return new WaitForFixedUpdate();
+
+                isAreadyGetHitting = true;
+                NowState = BeforeState == State.attack ? NowState : State.idle;
+            }
+        }
+        else
+        {
+            print(nowHP);
+            DoAnimator(State.dead);
+            while (!NowAnimatorInfo.IsName("Dead"))
+                yield return new WaitForEndOfFrame();
+
+            float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+            yield return new WaitForSeconds(waitTIme);
+            Destroy(HPViewer.gameObject);
+            Destroy(gameObject);
+        }
+        yield break;
     }
 
     void DoAnimator(State state)
@@ -243,6 +271,7 @@ public class Monster : Model
             case State.battle: Animator.SetBool("BattleIdle", true); break;
             case State.attack: Animator.SetBool("Attack", true); break;
             case State.getHit: Animator.SetBool("GetHit", true); break;
+            case State.dead: Animator.SetBool("Dead", true); break;
         }
     }
     void ResetAnimatorState()
@@ -252,6 +281,7 @@ public class Monster : Model
         Animator.SetBool("BattleIdle", false);
         Animator.SetBool("Attack", false);
         Animator.SetBool("GetHit", false);
+        Animator.SetBool("Dead", false);
     }
 
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }

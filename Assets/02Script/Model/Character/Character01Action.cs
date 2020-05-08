@@ -207,8 +207,8 @@ public partial class Character : Model
         if (IsJustStartAttacking && NowAnimatorInfo.IsName("NomalAttack") && attackTime >= 0f)
         {
             IsJustStartAttacking = false;
+            (TargetModel as Monster).GetHit(ATK);
             //float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-            //(TargetModel as Monster).GetHit(ATK);
             //StartCoroutine(DoingAttack());
 
             yield return new WaitForSeconds(attackTime);
@@ -219,7 +219,7 @@ public partial class Character : Model
             IsJustStartAttacking = true;
             NowState = ActionState.Idle;
             //print(attackTime);
-            //print(Counting++);
+            print(Counting++);
             yield break;
         }
         NowState = ActionState.Idle;
@@ -227,7 +227,8 @@ public partial class Character : Model
 
     public void GetHit(int damege)
     {
-        nowHP -= damege - DEF;
+        damege -= DEF;
+        nowHP -= damege <= 0 ? 0 : damege;
         //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
         NowState = nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
     }
@@ -247,7 +248,7 @@ public partial class Character : Model
                 yield return new WaitForFixedUpdate();
 
             isAreadyGetHitting = true;
-            NowState = ActionState.Idle; //NowState == ActionState.Attack ? NowState : ActionState.Idle;
+            NowState = BeforeState == ActionState.Attack ? NowState : ActionState.Idle;
         }
         yield break;
     }    

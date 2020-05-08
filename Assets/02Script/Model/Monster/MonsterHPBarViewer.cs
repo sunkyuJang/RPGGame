@@ -24,7 +24,6 @@ public class MonsterHPBarViewer : MonoBehaviour
         HPBar.type = Image.Type.Filled;
         HPBar.fillMethod = Image.FillMethod.Horizontal;
         HPBar.fillOrigin = (int)Image.OriginHorizontal.Left;
-
     }
 
     public static MonsterHPBarViewer GetNew(Monster monster, Transform parent)
@@ -42,6 +41,6 @@ public class MonsterHPBarViewer : MonoBehaviour
             float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
             RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
         }
-        HPBar.fillAmount = Monster.nowHP / Monster.HP;
+        HPBar.fillAmount = (float)Monster.nowHP / (float)Monster.HP;
     }
 }
