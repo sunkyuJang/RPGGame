@@ -5,6 +5,7 @@ using GLip;
 using System.Runtime.InteropServices;
 using TMPro;
 using System.Diagnostics.PerformanceData;
+using System.Threading;
 
 public partial class Character : Model
 {
@@ -99,10 +100,24 @@ public partial class Character : Model
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
-                case ActionState.Dead: StartCoroutine(DoDead()); break;
+                //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(AutoAttack());
+        }
     }
+
+    IEnumerator AutoAttack()
+    {
+        while (!Input.GetKeyDown(KeyCode.K)){
+            SetActionState(ActionState.Action);
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
     IEnumerator DoIdle()
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
@@ -173,43 +188,74 @@ public partial class Character : Model
         }
     }
 
-    bool IsAnimatorJustBeginning { get { return NowAnimatorInfo.normalizedTime <= 0.5f; } }
+    bool IsJustStartAttacking { set; get; } = true;
+    int Counting { set; get; }
+    IEnumerator DoingAttack()
+    {
+        IsJustStartAttacking = false;
+        yield return new WaitForSeconds(NowAnimatorInfo.length);
+        IsJustStartAttacking = true;
+    }
     IEnumerator DoAttack()
     {
         DoAnimator(AnimatorState.Attak_Nomal);
         while (!NowAnimatorInfo.IsName("NomalAttack"))
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
+        
+        float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
 
-        if (IsAnimatorJustBeginning)
+        if (IsJustStartAttacking && NowAnimatorInfo.IsName("NomalAttack") && attackTime >= 0f)
         {
-            (TargetModel as Monster).GetHit(ATK);
+            IsJustStartAttacking = false;
+            //float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+            //(TargetModel as Monster).GetHit(ATK);
+            //StartCoroutine(DoingAttack());
 
-            while (!NowAnimatorInfo.IsName("NomalAttack"))
-                yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(attackTime);
+            /*
+                        while (!IsJustStartAttacking)
+                            yield return new WaitForFixedUpdate();*/
 
-            while (NowAnimatorInfo.normalizedTime <= 0.99f)
-                yield return new WaitForFixedUpdate();
-
+            IsJustStartAttacking = true;
             NowState = ActionState.Idle;
+            //print(attackTime);
+            //print(Counting++);
             yield break;
         }
-
         NowState = ActionState.Idle;
     }
+
     public void GetHit(int damege)
     {
         nowHP -= damege - DEF;
+        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
         NowState = nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
     }
+
+    bool isAreadyGetHitting { set; get; } = true;
     IEnumerator DoGetHit() 
     {
         DoAnimator(AnimatorState.GetHit);
+        while (!NowAnimatorInfo.IsName("GetHit"))
+            yield return new WaitForEndOfFrame();
+
+        if (isAreadyGetHitting && NowAnimatorInfo.IsName("GetHit"))
+        {
+            isAreadyGetHitting = false;
+
+            while (NowAnimatorInfo.normalizedTime <= 0.9f)
+                yield return new WaitForFixedUpdate();
+
+            isAreadyGetHitting = true;
+            NowState = ActionState.Idle; //NowState == ActionState.Attack ? NowState : ActionState.Idle;
+        }
         yield break;
     }    
     
     IEnumerator DoDead() 
     {
         DoAnimator(AnimatorState.Dead);
+        NowState = ActionState.Idle;
         yield break;
     }
 }
