@@ -230,7 +230,7 @@ public partial class Character : Model
         damege -= DEF;
         nowHP -= damege <= 0 ? 0 : damege;
         //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
-        NowState = nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
+        NowState = ActionState.GetHit;//nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
     }
 
     bool isAreadyGetHitting { set; get; } = true;
