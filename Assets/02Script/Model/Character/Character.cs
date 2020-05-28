@@ -56,7 +56,7 @@ public partial class Character : Model
                 case AnimatorState.Running: Animator.SetBool("IsRunning", true); break;
                 case AnimatorState.Battle: Animator.SetBool("IsBattle", true); break;
                 case AnimatorState.GetHit: Animator.SetBool("IsGetHit", true); break;
-                case AnimatorState.Attak_Nomal: Animator.SetBool("IsAttak_Nomal", true); break;
+                case AnimatorState.Attak_Nomal: Animator.SetBool("IsAttack", true); break;
             }
             NowAnimatorState = action;
         }
@@ -67,7 +67,7 @@ public partial class Character : Model
         Animator.SetBool("IsIdle", false);
         Animator.SetBool("IsBattle", false);
         Animator.SetBool("IsGetHit", false);
-        Animator.SetBool("IsAttak_Nomal", false);
+        Animator.SetBool("IsAttack", false);
     }
     public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.TurnOn(false); }
     public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.TurnOn(true); }

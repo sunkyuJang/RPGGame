@@ -1531,7 +1531,7 @@ ModelImporter:
     - name: UpperLeg.L
       parentName: Pelvis
       position: {x: -0.0018000003, y: 0.0011999996, z: 0.0006000006}
-      rotation: {x: 0.70635104, y: -0.032060355, z: 0.70640844, w: -0.032056402}
+      rotation: {x: 0.70635104, y: -0.03206035, z: 0.70640844, w: -0.0320564}
       scale: {x: 1.0000001, y: 1.0000002, z: 1.0000166}
     - name: LowerLeg.L
       parentName: UpperLeg.L

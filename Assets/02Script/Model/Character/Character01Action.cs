@@ -198,7 +198,7 @@ public partial class Character : Model
     }
     IEnumerator DoAttack()
     {
-        DoAnimator(AnimatorState.Attak_Nomal);
+        ActivateSkill(true, 0, 1);
         while (!NowAnimatorInfo.IsName("NomalAttack"))
             yield return new WaitForEndOfFrame();
         
