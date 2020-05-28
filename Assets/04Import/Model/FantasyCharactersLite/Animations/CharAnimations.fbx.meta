@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: b40ab5da05f93df42b3865c15327682b
 ModelImporter:
-  serializedVersion: 26
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -362,7 +362,7 @@ ModelImporter:
     second: //RootNode
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -1131,7 +1131,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human:
@@ -1532,7 +1531,7 @@ ModelImporter:
     - name: UpperLeg.L
       parentName: Pelvis
       position: {x: -0.0018000003, y: 0.0011999996, z: 0.0006000006}
-      rotation: {x: 0.70635104, y: -0.032060355, z: 0.70640844, w: -0.032056402}
+      rotation: {x: 0.70635104, y: -0.03206035, z: 0.70640844, w: -0.0320564}
       scale: {x: 1.0000001, y: 1.0000002, z: 1.0000166}
     - name: LowerLeg.L
       parentName: UpperLeg.L
@@ -1592,8 +1591,10 @@ ModelImporter:
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

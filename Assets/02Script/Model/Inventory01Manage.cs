@@ -80,14 +80,16 @@ public partial class Inventory : MonoBehaviour
 
     public IEnumerator UsePlayerItem(ItemView _itemView, bool _useComfirmBox)
     {
-        Character character = StaticManager.Player.Character;
-        if (_useComfirmBox)
+        Character character = Model as Character;
+        ItemManager.Kinds kind = _itemView.ItemCounter.Indexer.Kinds;
+        if (_useComfirmBox && kind != ItemManager.Kinds.keyItemList)
         {
             ComfimBox comfimBox = StaticManager.GetComfimBox;
             if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.activeItemList)
                 comfimBox.ShowComfirmBox("이 아이템을 사용하시겠습니까?");
             else if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.EquipmentItemList)
                 comfimBox.ShowComfirmBox("이 아이템을 장착하시겠습니까?");
+
 
             while (comfimBox.NowState == ComfimBox.State.Waiting)
             {
@@ -101,7 +103,14 @@ public partial class Inventory : MonoBehaviour
         }
         else
         {
-            character.UseItem(GetitemUsingProcess(_itemView));
+            if (kind == ItemManager.Kinds.keyItemList)
+            {
+                StaticManager.ShowAlert("사용할 수 없는 아이템 입니다", Color.red);
+            }
+            else
+            {
+                character.UseItem(GetitemUsingProcess(_itemView));
+            }
         }
     }
     private ItemManager.ItemIndexer GetitemUsingProcess(ItemView _itemView)

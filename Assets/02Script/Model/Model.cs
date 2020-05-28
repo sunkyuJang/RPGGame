@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Model : MonoBehaviour
 {
-    public List<DialogueSheet.Param> dialogue { set; get; }
-    public List<DialogueSheet.Param> selecter { set; get; }
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
@@ -37,18 +35,12 @@ public class Model : MonoBehaviour
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-
-        //Rigidbody = transform.Find("CollsionObj").GetComponent<Rigidbody>();
     }
 
     protected void Start()
     {
-        Inventory = Inventory.GetNew(InventoryLength, isPlayer);
-        DialogueManager.GetScript(this);
+        Inventory = Inventory.GetNew(InventoryLength, this);
     }
-    public void GetTalk() 
-    {
-        DialogueManager .ShowDialogue(this);
-    }
+
     public void ShowInventory() { Inventory.ShowInventory(); }
 }

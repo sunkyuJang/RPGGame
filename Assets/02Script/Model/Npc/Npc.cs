@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Npc : Model
 {
+    public List<DialogueSheet.Param> dialogue { set; get; } = null;
+    public List<DialogueSheet.Param> selecter { set; get; } = null;
     protected new void Awake()
     {
         isPlayer = false;

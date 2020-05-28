@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using System.IO;
 
 public partial class Inventory : MonoBehaviour
 {
@@ -44,10 +45,10 @@ public partial class Inventory : MonoBehaviour
             }
         }
     }
-
     public void HideInventory()
     {
-        StaticManager.Player.HideInventoryView();
+        gameObject.SetActive(false);
+        if (Model is Character) (Model as Character).IntoNomalUI();
     }
 
     public void SwapingItem(int[] indexs)
@@ -73,10 +74,10 @@ public partial class Inventory : MonoBehaviour
         }
         else
         {
-            Player player = StaticManager.Player;
+            Character character= StaticManager.Character;
             if (isPlayer)
             {
-                QuickSlot playerQuickSlot = player.Character.QuickSlot;
+                QuickSlot playerQuickSlot = character.QuickSlot;
                 if (playerQuickSlot.gameObject.activeSelf)
                 {
                     int slotNum = playerQuickSlot.IsIn(viewPosition);
@@ -95,7 +96,7 @@ public partial class Inventory : MonoBehaviour
             }
             else
             {
-                Inventory playerInventory = player.Inventory;
+                Inventory playerInventory = character.Inventory;
                 if (playerInventory.Area.Contains(viewPosition))
                 {
                     if (playerInventory.CanTrade(_itemView.ItemCounter))
