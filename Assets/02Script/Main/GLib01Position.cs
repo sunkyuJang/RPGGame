@@ -19,6 +19,7 @@ namespace GLip
         }
         public static List<Collider> GetNearByObj(Vector3 startPosition, float castRad)
         {
+            foreach (Collider collider in Physics.OverlapSphere(startPosition, castRad, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore)) Debug.Log(collider.name);
             return Physics.OverlapSphere(startPosition, castRad, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore).ToList<Collider>();
         }
         public static List<Collider> SelectColliderInFOV(List<Collider> colliders, string targetTag, Transform centerTransform, float castFOVRad)
@@ -30,6 +31,7 @@ namespace GLip
                 {
                     Vector3 directionFromCenterToCollider = centerTransform.position - nowCollider.transform.position;
                     float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
+                    Debug.Log(angleFromCenterToCollider);
                     if(angleFromCenterToCollider <= castFOVRad)
                     {
                         newList.Add(nowCollider);

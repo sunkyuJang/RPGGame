@@ -43,7 +43,7 @@ MonoBehaviour:
         \uAC15\uD558\uAC8C \uD0C0\uACA9\uD55C\uB2E4."
       CanMove: 0
       InfluencedBy: Physic
-      Damage_Percentage: 50
+      Damage_Percentage: 0
       HitCount: 1
       During: 1
       ActivateTime_sec: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
         \uB0A0\uB9B0\uB2E4."
       CanMove: 0
       InfluencedBy: Magic
-      Damage_Percentage: 50
+      Damage_Percentage: 0
       HitCount: 1
       During: 1
       ActivateTime_sec: 0
@@ -87,7 +87,7 @@ MonoBehaviour:
         \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
       CanMove: 0
       InfluencedBy: Magic
-      Damage_Percentage: 100
+      Damage_Percentage: 0
       HitCount: 3
       During: 1
       ActivateTime_sec: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
       Description: "\uC804\uBC29\uC5D0 \uC9C0\uC9C4 \uBB3C\uACB0\uC744 \uC77C\uC73C\uD0A8\uB2E4"
       CanMove: 0
       InfluencedBy: Physic
-      Damage_Percentage: 100
+      Damage_Percentage: 0
       HitCount: 5
       During: 2
       ActivateTime_sec: 0

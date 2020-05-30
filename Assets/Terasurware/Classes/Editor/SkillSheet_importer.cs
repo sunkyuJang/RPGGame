@@ -56,7 +56,7 @@ public class SkillSheet_importer : AssetPostprocessor {
 					cell = row.GetCell(3); p.Description = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(4); p.CanMove = (cell == null ? false : cell.BooleanCellValue);
 					cell = row.GetCell(5); p.InfluencedBy = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(6); p.Damage_Percentage = (float)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(6); p.Damage_Percentage = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(7); p.HitCount = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(8); p.During = (float)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(9); p.ActivateTime_sec = (float)(cell == null ? 0 : cell.NumericCellValue);

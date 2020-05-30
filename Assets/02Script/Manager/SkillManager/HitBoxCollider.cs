@@ -3,45 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.LowLevel;
 using UnityEngine.UIElements;
+using GLip;
+using Unity.Collections;
+using UnityEditor;
+using System.Runtime.Remoting.Messaging;
 
 public class HitBoxCollider : MonoBehaviour
 {
     public List<Collider> colliders { private set; get; } = new List<Collider>();
-    float Speed { set; get; }
-    bool isSingleTarget;
-    Vector3 centerPosition;
+    Vector3 centerForward;
+    float speed;
     private void FixedUpdate()
     {
-        if (isSingleTarget)
-            if (colliders.Count >= 1)
-            {
-                foreach (Collider collider in colliders)
-                {
-
-                }
-            }
-
-        transform.position += transform.forward * (Speed * Time.fixedDeltaTime);
+        transform.position += centerForward * (speed * Time.fixedDeltaTime);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Monster") colliders.Add(other);
     }
-    private void OnTriggerExit(Collider other)
-    {
-        colliders.Remove(other);
-    }
 
-    public void SetStartPosition(Vector3 centerPosition, Vector3 startPosition, float speed, bool isSingleTarget)
-    {
-        this.centerPosition = centerPosition;
-        transform.position = startPosition;
-        Speed = speed;
-        this.isSingleTarget = isSingleTarget;   
-    } 
-    
     public void MoveHitBox()
     {
 
     }
+    public static HitBoxCollider StartHitBox(GameObject gameObject, Transform center, float speed)
+    {
+        HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
+        Debug.Log("isIn");
+        hitBoxCollider.transform.forward = center.forward;
+        hitBoxCollider.speed = speed;
+        return hitBoxCollider;
+    }
+    public Collider GetColsedCollider(Vector3 center) 
+    {
+        Collider beforeCollider = null;
+        foreach(Collider nowCollider in colliders)
+        {
+            beforeCollider = beforeCollider == null ? nowCollider
+                            : GPosition.IsAClosedThanBFromCenter(center, beforeCollider.transform.position, nowCollider.transform.position)
+                            ? beforeCollider : nowCollider;
+        }
+        return beforeCollider;
+    }
+    public bool IsEnteredTrigger { get { return colliders.Count > 0; } }
 }

@@ -6,14 +6,16 @@ using GLip;
 using System.Linq;
 using System;
 using UnityScript.Steps;
+using System.Runtime.Remoting.Messaging;
 
 public class SkillManager : MonoBehaviour
 {
     public SkillSheet skillSheet;
+    public static SkillManager StaticSkillManager;
     public enum SkillsType { Physic, Magic }
-    public List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
-    public List<Skill> MagicSkills { private set; get; } = new List<Skill>();
-    public List<Skill> RunningSkills { private set; get; }
+    public static List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
+    public static List<Skill> MagicSkills { private set; get; } = new List<Skill>();
+    public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
     const float FOVDeg = Mathf.PI / 4;
     public class Skill
     {
@@ -21,63 +23,98 @@ public class SkillManager : MonoBehaviour
         public Sprite Icon { private set; get; }
         public GameObject HitBoxObj{ private set; get; }
         public HitBoxCollider HitBoxCollider { private set; get; }
-        public bool IsRunning { private set; get; }
         public Skill(SkillSheet.Param sheet)
         {
             data = sheet;
             string folderPath = "Character/Animation/Skills/" + sheet.InfluencedBy + "/" + sheet.Name_Eng + "/" + sheet.Name_Eng;
             Icon = Resources.Load<Sprite>(folderPath + "Icon");
             HitBoxObj = Resources.Load<GameObject>(folderPath + "HitBox");
-            HitBoxCollider = HitBoxObj.GetComponent<HitBoxCollider>();
             if (Icon == null) print("null in " + data.Name + "//" + folderPath);
         }
 
         public IEnumerator ActivateSkill(Character chracter)
         {
-            IsRunning = true;
-            
-            chracter.ActivateSkill(data.InfluencedBy == "Physic" ? true : false, data.SkillTier, data.Index);
+            float endFrom = data.EndFrom + 1f;
+            var NearbyCharacter = GPosition.GetSelectedColliderInFOV(chracter.transform, endFrom, FOVDeg, "Monster");
+            print(NearbyCharacter.Count);
 
-            var NearbyCharacter = GPosition.GetSelectedColliderInFOV(chracter.transform, data.EndFrom, FOVDeg, "Monster");
-            //Physics.OverlapSphere(chracter.transform.position, data.EndFrom, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore).ToList<Collider>();
-            /*GPosition.GetNearByObj(chracter.transform.position, data.EndFrom);
-            NearbyCharacter = GPosition.SelectColliderInFOV(NearbyCharacter, "Monster", chracter.transform, FOVDeg);*/
-
-
-            /*if (reachedObj.Count > 0)
-            {
-                double rad = Math.PI / 16;
-                switch (data.StartRange_Rad)
-                {
-                    case "Straigth": rad *= 2; break;
-                    case "Wide": rad *= 4; break;
-                    case "Foward": rad *= 8; break;
-                    case "Back": rad *= -8; break;
-                    case "AllAround": rad *= 16; break;
-                }
-            }*/
             if (NearbyCharacter.Count > 0) {
+                RunningSkills.Add(this);
+
                 //Activate Hit
-                while (!chracter.isHitTriggerActivate) yield return new WaitForEndOfFrame();
+                while (!chracter.isHitTriggerActivate) 
+                    yield return new WaitForEndOfFrame();
                 chracter.HitTrigger(0);
 
-                bool isStartAttack = false;
-                float hitTime = data.During / data.HitCount;
+
+                float during = data.During == 0f ? 0.5f : data.During;
+                float speed = endFrom / during;
+                float hitTime = during / data.HitCount;
                 for (int i = 0; i < data.HitCount; i++)
                 {
-                    HitBoxCollider.StartMove(chracter.transform.position, )
-                    float during = 0;
-                    while (during < hitTime) yield return during += Time.fixedDeltaTime;
+                    HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, chracter.transform, speed);
+                    print("isin Scrup");
 
+                    float aliveTime= 0;
+                    while (aliveTime < hitTime)
+                    {
+                        aliveTime += Time.fixedDeltaTime;
+                        yield return new WaitForFixedUpdate();
 
+                        if (hitBoxScrip.IsEnteredTrigger)
+                        {
+                            Collider targetCollider = hitBoxScrip.GetColsedCollider(chracter.transform.position);
+                            if (targetCollider == null) { print("somting worng in skillManager ActivateSkill"); }
+                            
+                            int damage = (data.InfluencedBy == "Physic" ? chracter.ATK + chracter.HP : chracter.ATK + (chracter.MP * 10)) + (data.Damage_Percentage + 100);
+                            
+                            if (data.IsSingleTarget)
+                            {
+                                Monster targetMonster = targetCollider.GetComponent<Monster>();
+                                targetMonster.GetHit(damage);
+                                Destroy(hitBoxScrip.gameObject);
+                            }
+                            else
+                            {
+                                foreach(Collider collider in hitBoxScrip.colliders)
+                                {
+                                    collider.GetComponent<Monster>().GetHit(damage);
+                                    hitBoxScrip.colliders.Remove(collider);
+                                }
+                            }
+                        }
+                    }
+
+                    Destroy(hitBoxScrip.gameObject);
                 }
+                RunningSkills.Remove(this); 
             }
-            IsRunning = false;
         }
     }
-
+    public static Skill GetSkill(bool isPhysic, int skillTier, int index) 
+    {
+        var list = isPhysic ? PhysicSkills : MagicSkills;
+        foreach(Skill skill in list)
+        {
+            if(skill.data.Index == index) { return skill; }
+        }
+        return null;
+    }
+    public static bool IsDeActivateSkill (Skill skill) 
+    { 
+        foreach(Skill nowSkill in RunningSkills)
+            if (skill.data.Index == nowSkill.data.Index) 
+                return false;
+        return true;
+    }
+    public static void ActivateSkiil(Skill skill, Character character)
+    {
+        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
+        RunningSkills.Add(skill);
+    }
     private void Awake()
     {
+        StaticSkillManager = this;
         var sheet = skillSheet.sheets[0].list;
         for (int i = 0; i < sheet.Count; i++)
         {

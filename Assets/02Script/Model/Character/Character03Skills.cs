@@ -5,14 +5,19 @@ using UnityEngine;
 public partial class Character : Model
 {
     public bool isHitTriggerActivate { private set; get; }
-    public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; print("isIn"); }
+    public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    public void ActivateSkill(bool isPhysic, int tier, int index )
+    public void ActivateSkill(SkillManager.Skill skill)
     {
-        Animator.SetInteger("SkillTier", tier);
-        Animator.SetInteger("SkillIndex", index);
-        Animator.SetBool(isPhysic ? "IsPhysic" : "IsMagic", true);
-        DoAnimator(AnimatorState.Attak_Nomal);
+        print(SkillManager.IsDeActivateSkill(skill));
+        if (SkillManager.IsDeActivateSkill(skill))
+        {
+            Animator.SetInteger("SkillTier", skill.data.SkillTier);
+            Animator.SetInteger("SkillIndex", skill.data.Index);
+            Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
+            DoAnimator(AnimatorState.Attak);
+            SkillManager.ActivateSkiil(skill, this);
+        }
     }
     public void DeActivateSkill()
     {

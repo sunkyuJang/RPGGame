@@ -23,7 +23,7 @@ public class SkillSheet : ScriptableObject
 		public string Description;
 		public bool CanMove;
 		public string InfluencedBy;
-		public float Damage_Percentage;
+		public int Damage_Percentage;
 		public int HitCount;
 		public float During;
 		public float ActivateTime_sec;

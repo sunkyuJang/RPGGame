@@ -297,6 +297,7 @@ public class Monster : Model
                     Character = collider.GetComponent<Character>();
                     Vector3 CharacterDirection = Character.transform.position - transform.position;
                     float fowardToCharacterRad = Vector3.Angle(transform.forward, CharacterDirection) * Mathf.Deg2Rad;
+                    print(Vector3.Angle(transform.forward, CharacterDirection));
                     if(fowardToCharacterRad <= SigthLimitRad)
                     {
                         RaycastHit hit = new RaycastHit();

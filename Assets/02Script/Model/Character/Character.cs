@@ -9,7 +9,7 @@ public partial class Character : Model
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     bool IsinField { set; get; } = true;
-    public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal, Dead }
+    public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     new void Awake()
     {
@@ -56,7 +56,7 @@ public partial class Character : Model
                 case AnimatorState.Running: Animator.SetBool("IsRunning", true); break;
                 case AnimatorState.Battle: Animator.SetBool("IsBattle", true); break;
                 case AnimatorState.GetHit: Animator.SetBool("IsGetHit", true); break;
-                case AnimatorState.Attak_Nomal: Animator.SetBool("IsAttack", true); break;
+                case AnimatorState.Attak: Animator.SetBool("IsAttack", true); break;
             }
             NowAnimatorState = action;
         }

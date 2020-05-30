@@ -98,7 +98,7 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                case ActionState.Attack: StartCoroutine(DoAttack()); break; 
+                //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
@@ -150,7 +150,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        NowState = ActionState.Attack;
+                        ActivateSkill(SkillManager.GetSkill(true, 0, 1));
                     }
                     yield break;
                 }
@@ -198,16 +198,17 @@ public partial class Character : Model
     }
     IEnumerator DoAttack()
     {
-        ActivateSkill(true, 0, 1);
-        while (!NowAnimatorInfo.IsName("NomalAttack"))
+        DoAnimator(AnimatorState.Attak);
+        while (!NowAnimatorInfo.IsName("SkillsStateMachine"))
             yield return new WaitForEndOfFrame();
-        
+
+        print("isOver");
         float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
 
-        if (IsJustStartAttacking && NowAnimatorInfo.IsName("NomalAttack") && attackTime >= 0f)
+        if (IsJustStartAttacking && NowAnimatorInfo.IsName("SkillsStateMachine") && attackTime >= 0f)
         {
             IsJustStartAttacking = false;
-            (TargetModel as Monster).GetHit(ATK);
+            //(TargetModel as Monster).GetHit(ATK);
             //float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
             //StartCoroutine(DoingAttack());
 
@@ -219,7 +220,6 @@ public partial class Character : Model
             IsJustStartAttacking = true;
             NowState = ActionState.Idle;
             //print(attackTime);
-            print(Counting++);
             yield break;
         }
         NowState = ActionState.Idle;
