@@ -72,16 +72,14 @@ public partial class Character : Model
     }
     public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead }
     ActionState BeforeState { set; get; }
-    ActionState NowState { set; get; }
+    public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
-    { 
-        if (actionState == ActionState.Action)
+    {
+        if (BeforeState == ActionState.Idle)
         {
-            if (BeforeState == ActionState.Idle)
-            {
-                NowState = ActionState.Action;
-            }
+            NowState = ActionState.Action;
         }
+        print(NowState);
     }
 
     void FixedUpdateInAction()
@@ -98,8 +96,8 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
@@ -122,7 +120,7 @@ public partial class Character : Model
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
         Rigidbody.velocity = Vector3.zero;
-        yield break;
+        yield return new WaitForEndOfFrame();
     }
     IEnumerator DoRunning() 
     {
@@ -190,12 +188,6 @@ public partial class Character : Model
 
     bool IsJustStartAttacking { set; get; } = true;
     int Counting { set; get; }
-    IEnumerator DoingAttack()
-    {
-        IsJustStartAttacking = false;
-        yield return new WaitForSeconds(NowAnimatorInfo.length);
-        IsJustStartAttacking = true;
-    }
     IEnumerator DoAttack()
     {
         DoAnimator(AnimatorState.Attak);
@@ -229,8 +221,8 @@ public partial class Character : Model
     {
         damege -= DEF;
         nowHP -= damege <= 0 ? 0 : damege;
-        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
         NowState = ActionState.GetHit;//nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
+        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
     }
 
     bool isAreadyGetHitting { set; get; } = true;

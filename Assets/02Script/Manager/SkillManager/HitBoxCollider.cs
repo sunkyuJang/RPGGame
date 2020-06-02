@@ -11,11 +11,10 @@ using System.Runtime.Remoting.Messaging;
 public class HitBoxCollider : MonoBehaviour
 {
     public List<Collider> colliders { private set; get; } = new List<Collider>();
-    Vector3 centerForward;
     float speed;
     private void FixedUpdate()
     {
-        transform.position += centerForward * (speed * Time.fixedDeltaTime);
+        transform.position += transform.forward * (speed * Time.fixedDeltaTime);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +28,7 @@ public class HitBoxCollider : MonoBehaviour
     public static HitBoxCollider StartHitBox(GameObject gameObject, Transform center, float speed)
     {
         HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
-        Debug.Log("isIn");
+        hitBoxCollider.transform.position += center.position;
         hitBoxCollider.transform.forward = center.forward;
         hitBoxCollider.speed = speed;
         return hitBoxCollider;

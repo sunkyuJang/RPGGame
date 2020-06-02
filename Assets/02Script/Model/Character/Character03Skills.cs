@@ -4,27 +4,40 @@ using UnityEngine;
 
 public partial class Character : Model
 {
+    public bool canUsingAnotherSkill = true;
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
+    int Activacount = 0;
     public void ActivateSkill(SkillManager.Skill skill)
     {
-        print(SkillManager.IsDeActivateSkill(skill));
-        if (SkillManager.IsDeActivateSkill(skill))
+        if (SkillManager.IsDeActivateSkill(skill) && canUsingAnotherSkill)
         {
+            print(Activacount);
+            NowState = ActionState.Attack;
             Animator.SetInteger("SkillTier", skill.data.SkillTier);
             Animator.SetInteger("SkillIndex", skill.data.Index);
             Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
             DoAnimator(AnimatorState.Attak);
             SkillManager.ActivateSkiil(skill, this);
+            StartCoroutine(DeActivateSkill(skill));
         }
+        else  
+            NowState = ActionState.Idle;
     }
-    public void DeActivateSkill()
+    public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
+        canUsingAnotherSkill = false;
+
+        while (!NowAnimatorInfo.IsName(skill.data.Name_Eng))
+            yield return new WaitForFixedUpdate();
+
         Animator.SetInteger("SkillTier", 0);
         Animator.SetInteger("SkillIndex", 0);
         Animator.SetBool("IsPhysic" , false);
         Animator.SetBool("IsMagic" , false);
-        SetActionState(ActionState.Attack);
+        NowState = ActionState.Idle;
+        canUsingAnotherSkill = true;
+        HitTrigger(0);
     }
 }

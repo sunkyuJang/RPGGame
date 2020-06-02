@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using UnityScript.Steps;
 using System.Runtime.Remoting.Messaging;
+using UnityEditorInternal;
 
 public class SkillManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class SkillManager : MonoBehaviour
     public static List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
     public static List<Skill> MagicSkills { private set; get; } = new List<Skill>();
     public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
-    const float FOVDeg = Mathf.PI / 4;
+    const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;
     public class Skill
     {
         public SkillSheet.Param data { private set; get; }
@@ -32,20 +33,17 @@ public class SkillManager : MonoBehaviour
             if (Icon == null) print("null in " + data.Name + "//" + folderPath);
         }
 
+        int count = 0;
         public IEnumerator ActivateSkill(Character chracter)
         {
             float endFrom = data.EndFrom + 1f;
             var NearbyCharacter = GPosition.GetSelectedColliderInFOV(chracter.transform, endFrom, FOVDeg, "Monster");
-            print(NearbyCharacter.Count);
 
-            if (NearbyCharacter.Count > 0) {
-                RunningSkills.Add(this);
+            if (NearbyCharacter.Count > 0 && chracter.NowState == Character.ActionState.Attack) {
 
                 //Activate Hit
-                while (!chracter.isHitTriggerActivate) 
+                while (!chracter.isHitTriggerActivate)
                     yield return new WaitForEndOfFrame();
-                chracter.HitTrigger(0);
-
 
                 float during = data.During == 0f ? 0.5f : data.During;
                 float speed = endFrom / during;
@@ -53,7 +51,6 @@ public class SkillManager : MonoBehaviour
                 for (int i = 0; i < data.HitCount; i++)
                 {
                     HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, chracter.transform, speed);
-                    print("isin Scrup");
 
                     float aliveTime= 0;
                     while (aliveTime < hitTime)
@@ -64,15 +61,18 @@ public class SkillManager : MonoBehaviour
                         if (hitBoxScrip.IsEnteredTrigger)
                         {
                             Collider targetCollider = hitBoxScrip.GetColsedCollider(chracter.transform.position);
-                            if (targetCollider == null) { print("somting worng in skillManager ActivateSkill"); }
                             
-                            int damage = (data.InfluencedBy == "Physic" ? chracter.ATK + chracter.HP : chracter.ATK + (chracter.MP * 10)) + (data.Damage_Percentage + 100);
+                            if (targetCollider == null) { print("somting wrong in skillManager ActivateSkill"); }
+                            
+                            int damage = (data.InfluencedBy == "Physic" ? chracter.ATK + chracter.HP : chracter.ATK + (chracter.MP * 10)) / (data.Damage_Percentage + 10);
                             
                             if (data.IsSingleTarget)
                             {
                                 Monster targetMonster = targetCollider.GetComponent<Monster>();
                                 targetMonster.GetHit(damage);
                                 Destroy(hitBoxScrip.gameObject);
+                                hitBoxScrip.colliders.Remove(targetCollider);
+                                break;
                             }
                             else
                             {
@@ -84,10 +84,10 @@ public class SkillManager : MonoBehaviour
                             }
                         }
                     }
-
-                    Destroy(hitBoxScrip.gameObject);
                 }
-                RunningSkills.Remove(this); 
+                while (chracter.NowAnimatorInfo.IsName(data.Name_Eng))
+                    yield return new WaitForFixedUpdate();
+                DeActivateSkill(this, chracter);
             }
         }
     }
@@ -109,8 +109,12 @@ public class SkillManager : MonoBehaviour
     }
     public static void ActivateSkiil(Skill skill, Character character)
     {
-        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
-        RunningSkills.Add(skill);
+            StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
+            RunningSkills.Add(skill);
+    }
+    public static void DeActivateSkill(Skill skill, Character character) 
+    { 
+        RunningSkills.Remove(skill);
     }
     private void Awake()
     {

@@ -222,6 +222,7 @@ public class Monster : Model
     public void GetHit(int damege)
     {
         damege -= DEF;
+        print(nowHP + "//" + damege);
         nowHP -= damege > 0 ? damege : 0;
         NowState = State.getHit;
     }
@@ -235,12 +236,9 @@ public class Monster : Model
 
         if (nowHP > 0)
         {
-            if (isAreadyGetHitting && NowAnimatorInfo.IsName("GetHit"))
+            if (isAreadyGetHitting)
             {
                 isAreadyGetHitting = false;
-
-                while (NowAnimatorInfo.normalizedTime <= 0.9f)
-                    yield return new WaitForFixedUpdate();
 
                 isAreadyGetHitting = true;
                 NowState = BeforeState == State.attack ? NowState : State.idle;
@@ -248,7 +246,6 @@ public class Monster : Model
         }
         else
         {
-            print(nowHP);
             DoAnimator(State.dead);
             while (!NowAnimatorInfo.IsName("Dead"))
                 yield return new WaitForEndOfFrame();
@@ -297,7 +294,6 @@ public class Monster : Model
                     Character = collider.GetComponent<Character>();
                     Vector3 CharacterDirection = Character.transform.position - transform.position;
                     float fowardToCharacterRad = Vector3.Angle(transform.forward, CharacterDirection) * Mathf.Deg2Rad;
-                    print(Vector3.Angle(transform.forward, CharacterDirection));
                     if(fowardToCharacterRad <= SigthLimitRad)
                     {
                         RaycastHit hit = new RaycastHit();
