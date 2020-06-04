@@ -6,9 +6,10 @@ using GLip;
 
 public class QuickSlot : MonoBehaviour
 {
+    Character Character { set; get; }
     private new Transform transform;
     private Rect area;
-    private List<MonoBehaviour> lists = new List<MonoBehaviour>();
+    private List<Transform> lists = new List<Transform>();
     private List<Rect> childArea = new List<Rect>();
     private List<Transform> child = new List<Transform>();
     public bool IsActive { set; get; }
@@ -34,16 +35,21 @@ public class QuickSlot : MonoBehaviour
 
     private void DoAction(int _num)
     {
-        MonoBehaviour nowSlot = lists[_num];
-        if(nowSlot is ItemView)
+        Transform nowSlot = lists[_num];
+        ItemView itemView = nowSlot.GetComponent<ItemView>();
+        SkillManager.Skill.SkillViewer skillViewer = nowSlot.GetComponent<SkillManager.Skill.SkillViewer>();
+        if (itemView != null)
         {
-            ItemView itemView = nowSlot as ItemView;
             itemView.UseItem(false);
             if(itemView.ItemCounter.Count <= 0) 
             {
                 Inventory inventory = itemView.Inventory;
-                SetSlot(inventory.GetHeadItemView(itemView), _num);
+                SetSlot(inventory.GetHeadItemView(itemView).transform, _num);
             }
+        }
+        else if(skillViewer != null)
+        {
+            Character.ActivateSkill(skillViewer.Skill);
         }
     }
 
@@ -61,12 +67,14 @@ public class QuickSlot : MonoBehaviour
         }
         return -1;
     }
-    public void SetSlot(MonoBehaviour _monoBehaviour, int _num) 
+    public void SetSlot(Transform targetTrasform, int _num) 
     {
         lists.RemoveAt(_num);
-        lists.Insert(_num, _monoBehaviour);
+        lists.Insert(_num, targetTrasform);
+
         child[_num].GetComponent<Image>().sprite
-            = _monoBehaviour == null ? null : _monoBehaviour.gameObject.transform.GetChild(0).GetComponent<Image>().sprite;
+            = targetTrasform.GetComponent<ItemView>() != null ? targetTrasform.GetChild(0).GetComponent<Image>().sprite
+            : targetTrasform.GetComponent<Image>().sprite;
     }
 
     public void TurnOn(bool isOn)
@@ -77,9 +85,10 @@ public class QuickSlot : MonoBehaviour
         }
     }
 
-    public static QuickSlot GetNew()
+    public static QuickSlot GetNew(Character character)
     {
         QuickSlot quickSlot = Create.GetNewInCanvas<QuickSlot>();
+        quickSlot.Character = character;
         quickSlot.gameObject.SetActive(false);
         return quickSlot;
     }

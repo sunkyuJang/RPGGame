@@ -85,7 +85,7 @@ public partial class Inventory : MonoBehaviour
                     {
                         if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.activeItemList)
                         {
-                            playerQuickSlot.SetSlot(GetHeadItemView(_itemView), slotNum);
+                            playerQuickSlot.SetSlot(GetHeadItemView(_itemView).transform, slotNum);
                         }
                         else
                         {

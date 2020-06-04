@@ -22,7 +22,7 @@ public partial class Character : Model
     {
         base.Start();
         StateViewer.GetNew(this);
-        QuickSlot = QuickSlot.GetNew();
+        QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         Controller = Controller.GetNew(this);
 

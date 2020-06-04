@@ -8,32 +8,51 @@ using System;
 using UnityScript.Steps;
 using System.Runtime.Remoting.Messaging;
 using UnityEditorInternal;
+using UnityEngine.EventSystems;
+using UnityEditor;
+using System.Runtime.CompilerServices;
 
 public class SkillManager : MonoBehaviour
 {
+    public GameObject CharacterObj;
+    public GameObject SkillViewerObj;
     public SkillSheet skillSheet;
+
+    private Character character;
     public static SkillManager StaticSkillManager;
     public enum SkillsType { Physic, Magic }
     public static List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
     public static List<Skill> MagicSkills { private set; get; } = new List<Skill>();
     public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
     const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;
+
+    public string ClickedSkillName { private set; get; }
     public class Skill
     {
         public SkillSheet.Param data { private set; get; }
         public Sprite Icon { private set; get; }
         public GameObject HitBoxObj{ private set; get; }
         public HitBoxCollider HitBoxCollider { private set; get; }
-        public Skill(SkillSheet.Param sheet)
+        public Transform ViewerTransform { private set; get; }
+        public class SkillViewer : MonoBehaviour
+        { 
+            public Skill Skill { set; get; }
+        }
+        public Skill(SkillSheet.Param sheet, SkillManager skillManager , Transform viewerTransform)
         {
             data = sheet;
             string folderPath = "Character/Animation/Skills/" + sheet.InfluencedBy + "/" + sheet.Name_Eng + "/" + sheet.Name_Eng;
             Icon = Resources.Load<Sprite>(folderPath + "Icon");
             HitBoxObj = Resources.Load<GameObject>(folderPath + "HitBox");
-            if (Icon == null) print("null in " + data.Name + "//" + folderPath);
+
+            ViewerTransform = viewerTransform.Find(data.Name_Eng);
+            ViewerTransform.gameObject.AddComponent<SkillViewer>();
+            ViewerTransform.GetComponent<SkillViewer>().Skill = this;
+            ViewerTransform.GetComponent<Image>().sprite = Icon;
+            List<EventTrigger.Entry> entry = ViewerTransform.GetComponent<EventTrigger>().triggers;
+            entry[0].callback.AddListener((data) => { skillManager.SelectedIcon(ViewerTransform, this); });
         }
 
-        int count = 0;
         public IEnumerator ActivateSkill(Character chracter)
         {
             float endFrom = data.EndFrom + 1f;
@@ -118,18 +137,70 @@ public class SkillManager : MonoBehaviour
     }
     private void Awake()
     {
+        CreatViewer();
+        character = CharacterObj.GetComponent<Character>();
         StaticSkillManager = this;
         var sheet = skillSheet.sheets[0].list;
         for (int i = 0; i < sheet.Count; i++)
         {
             if(sheet[i].Index != 0)
             {
-                var nowList = sheet[i].InfluencedBy == "Physic" ? PhysicSkills : MagicSkills;
-                nowList.Add(new Skill(sheet[i]));
+                Skill skill = new Skill(sheet[i], this, SkillViewerObj.transform.GetChild(0).GetChild(0));
+                var nowList = skill.data.InfluencedBy == "Physic" ? PhysicSkills : MagicSkills;
+                nowList.Add(skill);
             }
             else break;
         }
+
+        SkillViewerObj.SetActive(false);
     }
 
+    public void CreatViewer()
+    {
+        SkillViewerObj = Instantiate(SkillViewerObj, transform.parent);
+        SkillViewerObj.transform.Find("CloseButton").GetComponent<Button>().onClick.AddListener(HideSkillViewer);
+    }
 
+    public void ShowSkillViewer() => SkillViewerObj.SetActive(true);
+    public void HideSkillViewer()
+    {
+        SkillViewerObj.SetActive(false);
+        character.IntoNomalUI();
+    }
+    public void SelectedIcon(Transform viewer, Skill skill)
+    {
+        bool isTouch;
+        int touchId = 0;
+        bool isMouse;
+        if (GPosition.IsContainInput(viewer.GetComponent<RectTransform>(), out isTouch ,out touchId, out isMouse))
+        {
+            StartCoroutine(TraceInput(viewer, isTouch, touchId, isMouse));
+        }
+        else
+        {
+            print("somting Wrong in SkillManager_SelectedIcon");
+        }
+    }
+
+    IEnumerator TraceInput(Transform viewer, bool isTouch, int touchId, bool isMouse)
+    {
+        Transform copy = Instantiate(viewer, transform.root);
+        while(GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
+        {
+            copy.position = isTouch ? (Vector3)Input.touches[touchId].position : Input.mousePosition;
+            yield return new WaitForEndOfFrame();
+        }
+
+        if (character.QuickSlot.gameObject.activeSelf)
+        {
+            QuickSlot quickSlot = character.QuickSlot;
+            int num = quickSlot.IsIn((Vector2)copy.position);
+            if(num >= 0)
+            {
+                quickSlot.SetSlot(viewer, num);
+            }
+        }
+
+        Destroy(copy.gameObject);
+    }
 }
