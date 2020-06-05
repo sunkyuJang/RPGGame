@@ -16,13 +16,19 @@ public class SkillManager : MonoBehaviour
 {
     public GameObject CharacterObj;
     public GameObject SkillViewerObj;
-    public SkillSheet skillSheet;
+    public GameObject DescriptionBoxObj;
 
     private Character character;
+    
+    public Text SkillCount;
+    public SkillSheet skillSheet;
+
     public static SkillManager StaticSkillManager;
     public enum SkillsType { Physic, Magic }
     public static List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
     public static List<Skill> MagicSkills { private set; get; } = new List<Skill>();
+    public List<Skill> LearnedSkills { private set; get; } = new List<Skill>();
+    public string SkillPoint { get { return (character.level - LearnedSkills.Count).ToString(); } }
     public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
     const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;
 
@@ -49,6 +55,7 @@ public class SkillManager : MonoBehaviour
             ViewerTransform.gameObject.AddComponent<SkillViewer>();
             ViewerTransform.GetComponent<SkillViewer>().Skill = this;
             ViewerTransform.GetComponent<Image>().sprite = Icon;
+            ViewerTransform.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
             List<EventTrigger.Entry> entry = ViewerTransform.GetComponent<EventTrigger>().triggers;
             entry[0].callback.AddListener((data) => { skillManager.SelectedIcon(ViewerTransform, this); });
         }
@@ -89,20 +96,21 @@ public class SkillManager : MonoBehaviour
                             {
                                 Monster targetMonster = targetCollider.GetComponent<Monster>();
                                 targetMonster.GetHit(damage);
-                                Destroy(hitBoxScrip.gameObject);
-                                hitBoxScrip.colliders.Remove(targetCollider);
                                 break;
                             }
                             else
                             {
-                                foreach(Collider collider in hitBoxScrip.colliders)
+                                var colliders = hitBoxScrip.colliders;
+                                for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
                                 {
-                                    collider.GetComponent<Monster>().GetHit(damage);
-                                    hitBoxScrip.colliders.Remove(collider);
+                                    colliders[colliderCount].GetComponent<Monster>().GetHit(damage);
+                                    colliders.RemoveAt(colliderCount);
                                 }
                             }
                         }
                     }
+
+                    Destroy(hitBoxScrip.gameObject);
                 }
                 while (chracter.NowAnimatorInfo.IsName(data.Name_Eng))
                     yield return new WaitForFixedUpdate();
@@ -110,7 +118,7 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
-    public static Skill GetSkill(bool isPhysic, int skillTier, int index) 
+    public static Skill GetSkill(bool isPhysic, int index) 
     {
         var list = isPhysic ? PhysicSkills : MagicSkills;
         foreach(Skill skill in list)
@@ -138,6 +146,8 @@ public class SkillManager : MonoBehaviour
     private void Awake()
     {
         CreatViewer();
+        DescriptionBoxObj = SkillViewerObj.transform.Find("DescriptionBox").gameObject;
+        DescriptionBoxObj.SetActive(false);
         character = CharacterObj.GetComponent<Character>();
         StaticSkillManager = this;
         var sheet = skillSheet.sheets[0].list;
@@ -152,19 +162,28 @@ public class SkillManager : MonoBehaviour
             else break;
         }
 
+        LearnedSkills.Add(GetSkill(true, 1));
         SkillViewerObj.SetActive(false);
+    }
+
+    private void Start()
+    {
+        SkillCount.text = SkillPoint;
+        foreach(Skill skill in LearnedSkills) { skill.ViewerTransform.GetComponent<Image>().color = Color.white; }
     }
 
     public void CreatViewer()
     {
         SkillViewerObj = Instantiate(SkillViewerObj, transform.parent);
         SkillViewerObj.transform.Find("CloseButton").GetComponent<Button>().onClick.AddListener(HideSkillViewer);
+        SkillCount = SkillViewerObj.transform.Find("SkillPointText").GetChild(0).GetComponent<Text>();
     }
 
     public void ShowSkillViewer() => SkillViewerObj.SetActive(true);
     public void HideSkillViewer()
     {
         SkillViewerObj.SetActive(false);
+        DescriptionBoxObj.SetActive(false);
         character.IntoNomalUI();
     }
     public void SelectedIcon(Transform viewer, Skill skill)
@@ -191,7 +210,13 @@ public class SkillManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        if (character.QuickSlot.gameObject.activeSelf)
+        if(GMath.GetRect(viewer.GetComponent<RectTransform>()).Contains(copy.transform.position))
+        {
+            DescriptionBoxObj.SetActive(true);
+            DescriptionBoxObj.transform.GetChild(0).GetComponent<Image>().sprite = viewer.GetComponent<Skill.SkillViewer>().Skill.Icon;
+            DescriptionBoxObj.transform.GetChild(1).GetComponent<Text>().text = viewer.GetComponent<Skill.SkillViewer>().Skill.data.Description;
+        }
+        else if (character.QuickSlot.gameObject.activeSelf)
         {
             QuickSlot quickSlot = character.QuickSlot;
             int num = quickSlot.IsIn((Vector2)copy.position);

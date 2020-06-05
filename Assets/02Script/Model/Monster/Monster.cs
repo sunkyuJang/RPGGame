@@ -222,7 +222,6 @@ public class Monster : Model
     public void GetHit(int damege)
     {
         damege -= DEF;
-        print(nowHP + "//" + damege);
         nowHP -= damege > 0 ? damege : 0;
         NowState = State.getHit;
     }

@@ -8,12 +8,15 @@ public partial class Character : Model
     Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
+
+    public int level { private set; get; }
     bool IsinField { set; get; } = true;
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
+        level = 4;
         isPlayer = true;
         base.Awake();
     }

@@ -8,12 +8,10 @@ public partial class Character : Model
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    int Activacount = 0;
     public void ActivateSkill(SkillManager.Skill skill)
     {
         if (SkillManager.IsDeActivateSkill(skill) && canUsingAnotherSkill)
         {
-            print(Activacount);
             NowState = ActionState.Attack;
             Animator.SetInteger("SkillTier", skill.data.SkillTier);
             Animator.SetInteger("SkillIndex", skill.data.Index);

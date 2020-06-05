@@ -79,7 +79,6 @@ public partial class Character : Model
         {
             NowState = ActionState.Action;
         }
-        print(NowState);
     }
 
     void FixedUpdateInAction()
@@ -148,7 +147,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        ActivateSkill(SkillManager.GetSkill(true, 0, 1));
+                        ActivateSkill(SkillManager.GetSkill(true, 1));
                     }
                     yield break;
                 }
