@@ -24,13 +24,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 1
       During: 0
-      ActivateTime_sec: 29
       IsSingleTarget: 1
       StartFrom: Character
-      StartRange_Rad: Straigth
       EndFrom: 1
-      EndRad: 0
-      AttackType: Line
+      AttackType: Jump
+      IsDetectCollision: 1
+      FXStartPoint: Enemy
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -46,13 +45,12 @@ MonoBehaviour:
       Damage_Percentage: 50
       HitCount: 1
       During: 1
-      ActivateTime_sec: 0
       IsSingleTarget: 1
       StartFrom: Character
-      StartRange_Rad: Straigth
       EndFrom: 3
-      EndRad: 0
-      AttackType: Line
+      AttackType: Jump
+      IsDetectCollision: 1
+      FXStartPoint: Ground
       Cooldown: 5
       ParentIndex: 1
       SkillTier: 1
@@ -68,13 +66,12 @@ MonoBehaviour:
       Damage_Percentage: 50
       HitCount: 1
       During: 1
-      ActivateTime_sec: 0
       IsSingleTarget: 1
       StartFrom: Character
-      StartRange_Rad: Straigth
       EndFrom: 5
-      EndRad: 0
       AttackType: Line
+      IsDetectCollision: 1
+      FXStartPoint: Enemy
       Cooldown: 5
       ParentIndex: 1
       SkillTier: 1
@@ -90,13 +87,12 @@ MonoBehaviour:
       Damage_Percentage: 100
       HitCount: 3
       During: 1
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: Enemy
-      StartRange_Rad: AllAround
       EndFrom: 5
-      EndRad: 2Pi
-      AttackType: Point
+      AttackType: Jump
+      IsDetectCollision: 1
+      FXStartPoint: Enemy
       Cooldown: 10
       ParentIndex: 3
       SkillTier: 2
@@ -111,13 +107,12 @@ MonoBehaviour:
       Damage_Percentage: 100
       HitCount: 5
       During: 2
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: Character
-      StartRange_Rad: Wide
       EndFrom: 5
-      EndRad: 0
-      AttackType: Wave
+      AttackType: Jump
+      IsDetectCollision: 0
+      FXStartPoint: Ground
       Cooldown: 10
       ParentIndex: 2
       SkillTier: 2
@@ -132,13 +127,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -153,13 +147,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -174,13 +167,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -195,13 +187,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -216,13 +207,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -237,13 +227,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -258,13 +247,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -279,13 +267,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -300,13 +287,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -321,13 +307,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -342,13 +327,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -363,13 +347,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -384,13 +367,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -405,13 +387,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -426,13 +407,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -447,13 +427,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -468,13 +447,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -489,13 +467,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -510,13 +487,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -531,13 +507,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -552,13 +527,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -573,13 +547,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -594,13 +567,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -615,13 +587,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -636,13 +607,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -657,13 +627,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -678,13 +647,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -699,13 +667,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -720,13 +687,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0
@@ -741,13 +707,12 @@ MonoBehaviour:
       Damage_Percentage: 0
       HitCount: 0
       During: 0
-      ActivateTime_sec: 0
       IsSingleTarget: 0
       StartFrom: 
-      StartRange_Rad: 
       EndFrom: 0
-      EndRad: 
       AttackType: 
+      IsDetectCollision: 0
+      FXStartPoint: 
       Cooldown: 0
       ParentIndex: 0
       SkillTier: 0

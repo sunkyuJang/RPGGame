@@ -9,7 +9,9 @@ public partial class Controller : MonoBehaviour
     public GameObject pauseKeyObj;
     public GameObject InventoryKeyObj;
     public GameObject EquipmentKeyObj;
+    public GameObject skillTreeKeyObj;
 
+    private SkillManager skillManager { set; get; }
     private Character Character { set; get; }
     private Joypad joypad;
     private CameraController cameraController;
@@ -19,6 +21,7 @@ public partial class Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        skillManager = transform.parent.Find("Managers").GetComponent<SkillManager>();
         joypad = joypadObj.GetComponent<Joypad>();
         cameraController = Camera.main.GetComponent<CameraController>();
     } 
@@ -43,6 +46,11 @@ public partial class Controller : MonoBehaviour
         SetAllActive(false);
         Character.EquipmentView.gameObject.SetActive(true);
     }
+    public void PressSkillTreeKey()
+    {
+        SetAllActive(false);
+        skillManager.ShowSkillViewer();
+    }
     public void PresscameraController() { cameraController.SetCenterTouch(); }
     public void DragcameraController() { cameraController.SetCamera(Character.Transform.position); }
     public void SetAllActive(bool active)
@@ -52,6 +60,7 @@ public partial class Controller : MonoBehaviour
         InventoryKeyObj.SetActive(active);
         pauseKeyObj.SetActive(active);
         EquipmentKeyObj.SetActive(active);
+        skillTreeKeyObj.SetActive(active);
     }
     public float GetJoypadRadian { get { return joypad.radian + cameraController.Radian; } }
 

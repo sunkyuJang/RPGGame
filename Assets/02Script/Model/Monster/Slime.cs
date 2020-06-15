@@ -6,7 +6,7 @@ public class Slime : Monster
 {
     new private void Awake()
     {
-        SetInfo("허접한 슬라임", 100, 0, 15, 1, 5);
+        SetInfo("허접한 슬라임", 100, 0, 15, 100, 5);
         MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(8, 8)));
         base.Awake();
     }

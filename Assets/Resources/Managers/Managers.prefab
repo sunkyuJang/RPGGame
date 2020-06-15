@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 322215185748847836}
   - component: {fileID: 322215185748847838}
   - component: {fileID: 2482731235928755482}
+  - component: {fileID: -8734940949252729593}
   m_Layer: 5
   m_Name: Managers
   m_TagString: Untagged
@@ -106,3 +107,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterObj: {fileID: 0}
+--- !u!114 &-8734940949252729593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322215185748847835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a241e4dc6cf98a43983fe081667f9e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillViewerObj: {fileID: 4978791585471080672, guid: 784a72700bdbf6147a8775a6b19ef9a2,
+    type: 3}
+  skillSheet: {fileID: 11400000, guid: becc2c9b516f5c640ba279163008b63e, type: 2}

@@ -8,12 +8,15 @@ public partial class Character : Model
     Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
+
+    public int level { private set; get; }
     bool IsinField { set; get; } = true;
-    public enum AnimatorState { Idle, Running, Battle, GetHit, Attak_Nomal, Dead }
+    public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
+        level = 4;
         isPlayer = true;
         base.Awake();
     }
@@ -22,7 +25,7 @@ public partial class Character : Model
     {
         base.Start();
         StateViewer.GetNew(this);
-        QuickSlot = QuickSlot.GetNew();
+        QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         Controller = Controller.GetNew(this);
 
@@ -56,7 +59,7 @@ public partial class Character : Model
                 case AnimatorState.Running: Animator.SetBool("IsRunning", true); break;
                 case AnimatorState.Battle: Animator.SetBool("IsBattle", true); break;
                 case AnimatorState.GetHit: Animator.SetBool("IsGetHit", true); break;
-                case AnimatorState.Attak_Nomal: Animator.SetBool("IsAttack", true); break;
+                case AnimatorState.Attak: Animator.SetBool("IsAttack", true); break;
             }
             NowAnimatorState = action;
         }

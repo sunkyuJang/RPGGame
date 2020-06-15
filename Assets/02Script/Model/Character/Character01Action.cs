@@ -72,15 +72,12 @@ public partial class Character : Model
     }
     public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead }
     ActionState BeforeState { set; get; }
-    ActionState NowState { set; get; }
+    public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
-    { 
-        if (actionState == ActionState.Action)
+    {
+        if (BeforeState == ActionState.Idle)
         {
-            if (BeforeState == ActionState.Idle)
-            {
-                NowState = ActionState.Action;
-            }
+            NowState = ActionState.Action;
         }
     }
 
@@ -98,8 +95,8 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                case ActionState.Attack: StartCoroutine(DoAttack()); break; 
-                case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                //case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
@@ -122,7 +119,7 @@ public partial class Character : Model
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
         Rigidbody.velocity = Vector3.zero;
-        yield break;
+        yield return new WaitForEndOfFrame();
     }
     IEnumerator DoRunning() 
     {
@@ -150,7 +147,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        NowState = ActionState.Attack;
+                        ActivateSkill(SkillManager.GetSkill(true, 1));
                     }
                     yield break;
                 }
@@ -190,36 +187,23 @@ public partial class Character : Model
 
     bool IsJustStartAttacking { set; get; } = true;
     int Counting { set; get; }
-    IEnumerator DoingAttack()
-    {
-        IsJustStartAttacking = false;
-        yield return new WaitForSeconds(NowAnimatorInfo.length);
-        IsJustStartAttacking = true;
-    }
     IEnumerator DoAttack()
     {
-        ActivateSkill(true, 0, 1);
-        while (!NowAnimatorInfo.IsName("NomalAttack"))
+        DoAnimator(AnimatorState.Attak);
+        while (!NowAnimatorInfo.IsName("SkillsStateMachine"))
             yield return new WaitForEndOfFrame();
-        
+
+        print("isOver");
         float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
 
-        if (IsJustStartAttacking && NowAnimatorInfo.IsName("NomalAttack") && attackTime >= 0f)
+        if (IsJustStartAttacking && NowAnimatorInfo.IsName("SkillsStateMachine") && attackTime >= 0f)
         {
             IsJustStartAttacking = false;
-            (TargetModel as Monster).GetHit(ATK);
-            //float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-            //StartCoroutine(DoingAttack());
 
             yield return new WaitForSeconds(attackTime);
-            /*
-                        while (!IsJustStartAttacking)
-                            yield return new WaitForFixedUpdate();*/
 
             IsJustStartAttacking = true;
             NowState = ActionState.Idle;
-            //print(attackTime);
-            print(Counting++);
             yield break;
         }
         NowState = ActionState.Idle;
@@ -229,8 +213,10 @@ public partial class Character : Model
     {
         damege -= DEF;
         nowHP -= damege <= 0 ? 0 : damege;
+        NowState = ActionState.GetHit;
+        StartCoroutine(DoGetHit());
+        //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
         //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
-        NowState = ActionState.GetHit;//nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
     }
 
     bool isAreadyGetHitting { set; get; } = true;

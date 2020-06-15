@@ -1,25 +1,56 @@
-﻿using System.Collections;
+﻿using GLip;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public partial class Character : Model
 {
+    public bool canUsingAnotherSkill = true;
     public bool isHitTriggerActivate { private set; get; }
-    public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; print("isIn"); }
+    public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    public void ActivateSkill(bool isPhysic, int tier, int index )
+    int skillCount = 0;
+    public void ActivateSkill(SkillManager.Skill skill)
     {
-        Animator.SetInteger("SkillTier", tier);
-        Animator.SetInteger("SkillIndex", index);
-        Animator.SetBool(isPhysic ? "IsPhysic" : "IsMagic", true);
-        DoAnimator(AnimatorState.Attak_Nomal);
+        if (IsinField)
+        {
+            if (SkillManager.IsDeActivateSkill(skill) && canUsingAnotherSkill)
+            {
+                if (skill.IsThereMonsterAround(this.transform))
+                {
+                    print(skillCount++);
+                    NowState = ActionState.Attack;
+                    Animator.SetInteger("SkillTier", skill.data.SkillTier);
+                    Animator.SetInteger("SkillIndex", skill.data.Index);
+                    Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
+                    DoAnimator(AnimatorState.Attak);
+                    SkillManager.ActivateSkiil(skill, this);
+                    StartCoroutine(DeActivateSkill(skill));
+                    return;
+                }
+            }
+        }
+        
+        NowState = ActionState.Idle;
     }
-    public void DeActivateSkill()
+    public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
+        canUsingAnotherSkill = false;
+
+        while (!NowAnimatorInfo.IsName(skill.data.Name_Eng))
+            yield return new WaitForFixedUpdate();
+
+
         Animator.SetInteger("SkillTier", 0);
         Animator.SetInteger("SkillIndex", 0);
         Animator.SetBool("IsPhysic" , false);
         Animator.SetBool("IsMagic" , false);
-        SetActionState(ActionState.Attack);
+        NowState = ActionState.Idle;
+
+        while (NowAnimatorInfo.IsName(skill.data.Name_Eng))
+            yield return new WaitForFixedUpdate();
+
+        canUsingAnotherSkill = true;
+        HitTrigger(0);
     }
 }
