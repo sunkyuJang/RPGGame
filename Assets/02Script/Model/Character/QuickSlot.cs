@@ -37,7 +37,7 @@ public class QuickSlot : MonoBehaviour
     {
         Transform nowSlot = lists[_num];
         ItemView itemView = nowSlot.GetComponent<ItemView>();
-        SkillManager.Skill.SkillViewer skillViewer = nowSlot.GetComponent<SkillManager.Skill.SkillViewer>();
+        SkillManager.Skill skillViewer = nowSlot.GetComponent<SkillManager.Skill>();
         if (itemView != null)
         {
             itemView.UseItem(false);
@@ -49,7 +49,7 @@ public class QuickSlot : MonoBehaviour
         }
         else if(skillViewer != null)
         {
-            Character.ActivateSkill(skillViewer.Skill);
+            Character.ActivateSkill(skillViewer);
         }
     }
 

@@ -5,6 +5,7 @@ using GLip;
 using UnityEditor;
 using UnityEngine.UIElements;
 using JetBrains.Annotations;
+using System.Runtime.Serialization;
 
 public class Monster : Model
 {
@@ -34,6 +35,7 @@ public class Monster : Model
     
     float attackDelayTimer = 0f;
     bool canAttack = true;
+    public Transform FXStartPoint { private set; get; }
 
     new protected void Awake()
     {
@@ -42,6 +44,7 @@ public class Monster : Model
         BeforeState = State.idle;
         HPViewer = MonsterHPBarViewer.GetNew(this, GameObject.Find("Canvas").GetComponent<Transform>());
         HPBarPositionGuide = transform.Find("HPBarPositionGuide");
+        FXStartPoint = transform.Find("FXStartPoint");
     }
 
     protected void MonsterSetInfo(Rect roamingArea) 
@@ -75,7 +78,7 @@ public class Monster : Model
                 case State.roaming: StartCoroutine(DoRoaming()); break;
                 case State.following: StartCoroutine(DoFollowing()); break;
                 case State.attack: StartCoroutine(DoAttack()); break;
-                case State.getHit: StartCoroutine(DoGetHit()); break;
+                //case State.getHit: StartCoroutine(DoGetHit()); break;
             }
         }
         Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
@@ -219,33 +222,37 @@ public class Monster : Model
         attackDelayTimer = 0f;
         canAttack = true;
     }
-    public void GetHit(int damege)
+    public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
     {
         damege -= DEF;
-        nowHP -= damege > 0 ? damege : 0;
+        nowHP -= (int)(damege > 0 ? damege : 0);
         NowState = State.getHit;
+        StartCoroutine(DoGetHit());
+        if (HitFX != null)
+            StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
     }
+    IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
+    {
+        Transform FXtransform = Instantiate(HitFX).transform;
+        FXtransform.position = isFXStartFromGround ? transform.position : FXStartPoint.position;
+        FXtransform.forward = transform.forward;
 
-    bool isAreadyGetHitting { set; get; } = true;
+        ParticleSystem particle = FXtransform.GetComponent<ParticleSystem>();
+        while (particle.IsAlive())
+            yield return new WaitForFixedUpdate();
+
+        Destroy(FXtransform.gameObject);
+    }
     IEnumerator DoGetHit()
     {
         DoAnimator(State.getHit);
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
 
-        if (nowHP > 0)
-        {
-            if (isAreadyGetHitting)
-            {
-                isAreadyGetHitting = false;
-
-                isAreadyGetHitting = true;
-                NowState = BeforeState == State.attack ? NowState : State.idle;
-            }
-        }
-        else
+        if(nowHP <= 0)
         {
             DoAnimator(State.dead);
+            Rigidbody.velocity = Vector3.zero;
             while (!NowAnimatorInfo.IsName("Dead"))
                 yield return new WaitForEndOfFrame();
 
@@ -254,6 +261,8 @@ public class Monster : Model
             Destroy(HPViewer.gameObject);
             Destroy(gameObject);
         }
+
+        NowState = State.battle;
         yield break;
     }
 
@@ -322,5 +331,5 @@ public class Monster : Model
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
         Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.red);
         Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[1]), Color.red);
-      }
+    }
 }

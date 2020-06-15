@@ -95,7 +95,7 @@ public class EquipmentView : MonoBehaviour
     {
         Character = character;
 
-        WeaponTrans = Character.Transform.Find("CharArmature/Root/Pelvis/Spine/Chest/Shoulder.L/UpperArm.L/LowerArm.L/Hand.L/HoldWeapon");
+        WeaponTrans = Character.Transform.Find("CharArmature/Root/Pelvis/Spine/Chest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/HoldWeapon");
 
         Transform = gameObject.GetComponent<RectTransform>();
         Transform WeaponTransform = Transform.Find("Weapon");

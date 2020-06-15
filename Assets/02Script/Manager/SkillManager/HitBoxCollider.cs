@@ -7,14 +7,26 @@ using GLip;
 using Unity.Collections;
 using UnityEditor;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.CompilerServices;
 
 public class HitBoxCollider : MonoBehaviour
 {
     public List<Collider> colliders { private set; get; } = new List<Collider>();
     float speed;
+
+    Transform HitBoxFXTransform { set; get; }
+    Transform HitFXTransform { set; get; }
+    SkillManager.Skill skill { set; get; }
+
+    bool isAlive { set; get; } = true;
     private void FixedUpdate()
     {
-        transform.position += transform.forward * (speed * Time.fixedDeltaTime);
+        if (isAlive)
+        {
+            transform.position += transform.forward * (speed * Time.fixedDeltaTime);
+            if (HitBoxFXTransform != null)
+                HitBoxFXTransform.position += transform.forward * (speed * Time.fixedDeltaTime);
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -25,12 +37,21 @@ public class HitBoxCollider : MonoBehaviour
     {
 
     }
-    public static HitBoxCollider StartHitBox(GameObject gameObject, Transform center, float speed)
+    public static HitBoxCollider StartHitBox(GameObject gameObject, Vector3 center, Vector3 direction, float speed, SkillManager.Skill skill)
     {
         HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
-        hitBoxCollider.transform.position += center.position;
-        hitBoxCollider.transform.forward = center.forward;
+        hitBoxCollider.transform.position += new Vector3(center.x, 0, center.z);
+        hitBoxCollider.transform.forward = direction;
         hitBoxCollider.speed = speed;
+        hitBoxCollider.skill = skill;
+
+        if (skill.HitBoxFX != null)
+        {
+            hitBoxCollider.HitBoxFXTransform = skill.data.AttackType == "Line" ? 
+                Instantiate(skill.HitBoxFX).GetComponent<Transform>() : skill.HitBoxFX.GetComponent<Transform>();
+            hitBoxCollider.HitBoxFXTransform.position = new Vector3(hitBoxCollider.transform.position.x, hitBoxCollider.HitBoxFXTransform.position.y, hitBoxCollider.transform.position.z);
+        }
+
         return hitBoxCollider;
     }
     public Collider GetColsedCollider(Vector3 center) 
@@ -45,4 +66,26 @@ public class HitBoxCollider : MonoBehaviour
         return beforeCollider;
     }
     public bool IsEnteredTrigger { get { return colliders.Count > 0; } }
+
+    public void DestroyObj()
+    {
+        isAlive = false;
+        if (HitBoxFXTransform != null)
+        {
+            if (skill.data.AttackType == "Jump")
+                HitBoxFXTransform = Instantiate(HitBoxFXTransform).GetComponent<Transform>();
+
+            StartCoroutine(DeleteParticleObj(HitBoxFXTransform.GetComponent<ParticleSystem>()));
+        }
+    }
+
+    IEnumerator DeleteParticleObj(ParticleSystem ps)
+    {
+        if(ps.main.loop) ps.Stop();
+        while (ps.IsAlive())
+            yield return new WaitForFixedUpdate();
+
+        Destroy(ps.gameObject);
+        Destroy(gameObject);
+    }
 }

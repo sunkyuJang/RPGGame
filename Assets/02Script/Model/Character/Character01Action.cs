@@ -95,7 +95,7 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                //case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
@@ -199,18 +199,11 @@ public partial class Character : Model
         if (IsJustStartAttacking && NowAnimatorInfo.IsName("SkillsStateMachine") && attackTime >= 0f)
         {
             IsJustStartAttacking = false;
-            //(TargetModel as Monster).GetHit(ATK);
-            //float attackTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-            //StartCoroutine(DoingAttack());
 
             yield return new WaitForSeconds(attackTime);
-            /*
-                        while (!IsJustStartAttacking)
-                            yield return new WaitForFixedUpdate();*/
 
             IsJustStartAttacking = true;
             NowState = ActionState.Idle;
-            //print(attackTime);
             yield break;
         }
         NowState = ActionState.Idle;
@@ -220,7 +213,9 @@ public partial class Character : Model
     {
         damege -= DEF;
         nowHP -= damege <= 0 ? 0 : damege;
-        NowState = ActionState.GetHit;//nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
+        NowState = ActionState.GetHit;
+        StartCoroutine(DoGetHit());
+        //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
         //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
     }
 

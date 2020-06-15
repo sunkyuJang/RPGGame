@@ -460,12 +460,12 @@ AnimatorStateMachine:
   - {fileID: -4818923380158200736}
   - {fileID: -8543431981180661388}
   m_StateMachineTransitions:
-  - first: {fileID: 8190373011515184586}
-    second:
-    - {fileID: -7898246406169863625}
   - first: {fileID: 8990066501840833981}
     second:
     - {fileID: -1547727926700066239}
+  - first: {fileID: 8190373011515184586}
+    second:
+    - {fileID: -7898246406169863625}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 190, y: 90, z: 0}
@@ -1037,10 +1037,10 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.25000003
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
-  m_HasExitTime: 1
+  m_ExitTime: 0
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1318,7 +1318,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "\uAC15\uD0C0"
+  m_Name: LowSmash
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
