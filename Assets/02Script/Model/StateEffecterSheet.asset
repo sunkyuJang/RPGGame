@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eee06d132101a74ebea364c8cccd011, type: 3}
+  m_Name: StateEffecterSheet
+  m_EditorClassIdentifier: 
+  sheets:
+  - name: Sheet1
+    list:
+    - Index: 0
+      RequestType: Item
+      RequestIndex: 0
+      nowHp: 10
+      nowMp: 0
+      HP: 0
+      MP: 0
+      ATK_point: 0
+      DEF_point: 0
+      SPD_point: 0
+      ATK_percent: 0
+      DEF_percent: 0
+      SPD_percent: 0
+      Super: 0
+      During: 0
+    - Index: 1
+      RequestType: Item
+      RequestIndex: 1
+      nowHp: -50
+      nowMp: -50
+      HP: 0
+      MP: 0
+      ATK_point: 0
+      DEF_point: 0
+      SPD_point: 0
+      ATK_percent: 100
+      DEF_percent: 100
+      SPD_percent: 100
+      Super: 0
+      During: 5

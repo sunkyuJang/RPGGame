@@ -120,7 +120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9022108535267468420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2438235, y: 0, z: 1.6701792}
+  m_LocalPosition: {x: 0.1253604, y: 0, z: 4.703383}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5215170647257653516}
@@ -212,7 +212,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -265,7 +265,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1068,7 +1068,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -4930,6 +4930,18 @@ PrefabInstance:
       propertyPath: startDelay.scalar
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 19825476, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: scalingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19825476, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19825476, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 19840342, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
       propertyPath: prewarm
       value: 0
@@ -4938,6 +4950,18 @@ PrefabInstance:
       propertyPath: startDelay.scalar
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 19840342, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: scalingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19840342, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19840342, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 19847702, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
       propertyPath: prewarm
       value: 0
@@ -4945,6 +4969,18 @@ PrefabInstance:
     - target: {fileID: 19847702, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
       propertyPath: startDelay.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19847702, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: scalingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19847702, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19847702, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: lengthInSec
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 19854112, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
@@ -4969,6 +5005,28 @@ PrefabInstance:
     - target: {fileID: 19854112, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
       propertyPath: startDelay.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19854112, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: scalingMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 19854112, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19854112, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
+      propertyPath: lengthInSec
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 198914625896240100, guid: 44b2fcc235ca79b4aa173e904446a1b3,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198914625896240100, guid: 44b2fcc235ca79b4aa173e904446a1b3,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b2fcc235ca79b4aa173e904446a1b3, type: 3}
@@ -5057,6 +5115,22 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 19832454, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19832454, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19832454, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19832454, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: simulationSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
       value: 3
@@ -5080,6 +5154,22 @@ PrefabInstance:
     - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19835114, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: simulationSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19857636, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
       propertyPath: InitialModule.startSizeY.minMaxState
@@ -5105,6 +5195,22 @@ PrefabInstance:
       propertyPath: InitialModule.startSize.scalar
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 19857636, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19857636, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19857636, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19857636, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: simulationSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
       propertyPath: InitialModule.startSize.minScalar
       value: 5
@@ -5112,6 +5218,32 @@ PrefabInstance:
     - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
       propertyPath: InitialModule.startSize.scalar
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: lengthInSec
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19880582, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}
+      propertyPath: simulationSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 198355217765241410, guid: faeeb00ec54cf834ca95fc3908a4f7bb,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198355217765241410, guid: faeeb00ec54cf834ca95fc3908a4f7bb,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faeeb00ec54cf834ca95fc3908a4f7bb, type: 3}

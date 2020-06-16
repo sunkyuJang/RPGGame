@@ -77,14 +77,19 @@ public class HitBoxCollider : MonoBehaviour
 
             StartCoroutine(DeleteParticleObj(HitBoxFXTransform.GetComponent<ParticleSystem>()));
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator DeleteParticleObj(ParticleSystem ps)
     {
         if(ps.main.loop) ps.Stop();
         while (ps.IsAlive())
+        {
             yield return new WaitForFixedUpdate();
-
+        }
         Destroy(ps.gameObject);
         Destroy(gameObject);
     }

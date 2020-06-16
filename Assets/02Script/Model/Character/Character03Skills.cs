@@ -18,7 +18,6 @@ public partial class Character : Model
             {
                 if (skill.IsThereMonsterAround(this.transform))
                 {
-                    print(skillCount++);
                     NowState = ActionState.Attack;
                     Animator.SetInteger("SkillTier", skill.data.SkillTier);
                     Animator.SetInteger("SkillIndex", skill.data.Index);
