@@ -22,7 +22,7 @@ public partial class Character : Model
     }
     float SigthLength { get { return 5f; } }
     float SigthDegLimit { get { return 30f; } }
-    Model TargetModel { set; get; }
+    public Model TargetModel { private set; get; }
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
     { 
@@ -169,8 +169,9 @@ public partial class Character : Model
     }
     IEnumerator DoTrade()
     {
-        ShowInventory();
-        TargetModel.ShowInventory();
+        Inventory.ShowInventoryForTrade(TargetModel.Inventory);
+        TargetModel.Inventory.ShowInventoryForTrade(Inventory);
+
         while(BeforeState == ActionState.Trade)
         {
             if(!Inventory.gameObject.activeSelf || !TargetModel.Inventory.gameObject.activeSelf)

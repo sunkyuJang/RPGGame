@@ -3,62 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using JetBrains.Annotations;
+using GLip;
+using UnityEditor;
+using System.Runtime.Remoting.Messaging;
+
 public partial class ItemManager : MonoBehaviour
 {
-    public enum Kinds { Null, activeItemList, EquipmentItemList, keyItemList }
-    public class Item
-    {
-        public string Name { private set; get; }
-        public string Description { private set; get; }
-        public int Limit { private set; get; }
-        public Sprite Image { private set; get; }
-        public int Index { private set; get; }
-        public Item(string url, double imagetIndex, string name, string description, int limit, int index)
-        {
-            Name = name;
-            Description = description;
-            Limit = limit;
-            Image = Resources.Load<Sprite>("image/" + url + "/" + imagetIndex.ToString());
-            Index = index;
-        }
-    }
-    public class ItemIndexer
-    {
-        public Kinds Kinds { private set; get; }
-        public int ItemIndex { private set; get; }
-        public ItemIndexer(Kinds _kinds, int _itemIndex)
-        {
-            Kinds = _kinds;
-            ItemIndex = _itemIndex;
-        }
-        public ItemIndexer(ItemIndexer indexer)
-        {
-            Kinds = indexer.Kinds;
-            ItemIndex = indexer.ItemIndex;
-        }
-        public bool IsSame(ItemIndexer _target) { return (Kinds == _target.Kinds) && (ItemIndex == _target.ItemIndex); }
-    }
-    public class ItemCounter : ItemIndexer
-    {
-        public ItemIndexer Indexer { get { return this as ItemIndexer; } }
-        public int Count { set; get; }
-        public ItemCounter(ItemIndexer indexer, int _count) : base(indexer) => Count = _count;
-        public ItemCounter(Kinds kinds, int index, int count) : base(kinds, index) => Count = count;
-    }
-    public static Item GetItem (ItemIndexer _indexer)
-    {
-        switch (_indexer.Kinds)
-        {
-            case Kinds.activeItemList : return ActiveItems[_indexer.ItemIndex];
-            case Kinds.keyItemList : return KeyItems[_indexer.ItemIndex];
-            case Kinds.EquipmentItemList: return Equipments[_indexer.ItemIndex];
-        }
-        return null;
-    }
+    public ItemSheet sheet;
+    public static List<ItemSheet.Param> Data { set; get; }
+    public static GameObject ItemViewObj { set; get; }
+
     private void Awake()
     {
-        SetActiveList();
-        SetEquipment();
-        SetKeyItems();
+        Data = sheet.sheets[0].list;
+        ItemViewObj = Resources.Load<GameObject>("ItemView");
+    }
+
+    public static ItemSheet.Param GetitemData(int index) => Data[index];
+    public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
+    {
+        ItemView itemView = Instantiate(ItemViewObj, inventory.transform).GetComponent<ItemView>();
+        itemView.ItemCounter = itemCount;
+        itemView.inventory = inventory;
+        List<EventTrigger.Entry> entry = itemView.GetComponent<EventTrigger>().triggers;
+        entry[0].callback.AddListener((data) => { itemView.SelectedIcon(); });
+        itemCount.View = itemView;
+        return itemView;
+    }
+    public class ItemCounter
+    {
+        public ItemSheet.Param Data { private set; get; }
+        public int count { private set; get; }
+        public ItemCounter(ItemSheet.Param data) => Data = data;
+        public ItemView View { set; get; }
+        public bool AddCount(int addCount, out int overNum) 
+        {
+            count += addCount;
+            if(count > Data.Limit)
+            {
+                overNum = count - Data.Limit;
+                count = Data.Limit;
+                return true;
+            }
+            overNum = 0;
+            return false;
+        }
+        public int RemoveCountWithOverFlow(int removeCount)
+        {
+            return (count -= removeCount) * -1;
+        }
     }
 }

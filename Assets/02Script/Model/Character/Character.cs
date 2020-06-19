@@ -31,16 +31,14 @@ public partial class Character : Model
 
         nowHP = 10;
         Inventory.gold = 1000;
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 3));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 2));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 1, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 10));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 3));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 25));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 2, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.keyItemList, 0, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 0, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 1, 1));
+
+        Inventory.AddItem(0, 5);
+        Inventory.AddItem(0, 3);
+        Inventory.AddItem(0, 10);
+        Inventory.AddItem(1, 8);
+        Inventory.AddItem(0, 1);
+        Inventory.AddItem(1, 10);
+
     }
 
     private void FixedUpdate()

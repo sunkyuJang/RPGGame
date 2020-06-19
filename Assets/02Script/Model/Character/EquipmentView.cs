@@ -7,7 +7,7 @@ using GLip;
 public class EquipmentView : MonoBehaviour
 {
     Character Character { set; get; }
-    List<ItemManager.EquipmentItem> EquipmentItems { set; get; } = new List<ItemManager.EquipmentItem>();
+    ItemView[] EquipmentItems { set; get; } = new ItemView[2];
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }
@@ -34,55 +34,35 @@ public class EquipmentView : MonoBehaviour
             while (comfimBox.NowState == ComfimBox.State.Waiting) { yield return new WaitForFixedUpdate(); }
             if (comfimBox.NowState == ComfimBox.State.Yes)
             {
-                List<string> increase = new List<string>();
-                ItemManager.EquipmentItem equipmentItem = EquipmentItems[index];
-                foreach (string n in equipmentItem.GetIncrease)
-                {
-                    string newIncrease = "";
-                    switch (n[0])
-                    {
-                        case '-': newIncrease += "+"; break;
-                        case '+': newIncrease += "-"; break;
-                        case '/': newIncrease += "*"; break;
-                        case '*': newIncrease += "/"; break;
-                    }
-                    newIncrease += n.Substring(1);
-                    increase.Add(newIncrease);
-                }
-                StartCoroutine(Character.IncreaseEffect(equipmentItem.Effects, increase, null));
-                Character.Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, equipmentItem.Index, 1));
-                EquipmentItems.RemoveAt(index);
-                if(equipmentItem.Type == "Weapon") { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
+                var equipmentItem = EquipmentItems[index];
+                StateEffecterManager.EffectToModel(equipmentItem.transform, Character as Model, true);
+                Character.Inventory.AddItem(equipmentItem.ItemCounter);
+                EquipmentItems[index] = null;
+                if(index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
                 else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
                 LoadCharacterState();
             }
         }
     }
 
-    public void TouchedInWeapon() { StartCoroutine(OnTouched(FindIndex("Weapon"))); }
-    public void TouchedInArmor() { StartCoroutine(OnTouched(FindIndex("Armor"))); }
-    int FindIndex(string type)
-    {
-        for(int i = 0; i < EquipmentItems.Count; i++)
-        {
-            if(EquipmentItems[i].Type == type) { return i; }
-        }
-        return -1;
-    }
+    public void TouchedInWeapon() { StartCoroutine(OnTouched(0)); }
+    public void TouchedInArmor() { StartCoroutine(OnTouched(1)); }
 
-    public void SetEquipmetItem(ItemManager.EquipmentItem equipmentItem)
+    public void SetEquipmetItem(ItemView equipmentItem)
     {
-        if(equipmentItem.Type == "Weapon")
+        ItemSheet.Param data = equipmentItem.ItemCounter.Data;
+        if (data.ItemType == "Weapon")
         {
-            WeaponImage.sprite = equipmentItem.Image;
+            WeaponImage.sprite = equipmentItem.Icon.sprite;
             Instantiate(Resources.Load<GameObject>("Character/Weapon/Dagger"), WeaponTrans);
+            EquipmentItems[0] = equipmentItem;
         }
         else
         {
-            ArmorImage.sprite = equipmentItem.Image;
+            ArmorImage.sprite = equipmentItem.Icon.sprite;
             ArmorTrans = Instantiate(Resources.Load<GameObject>("Character/Armor/WarriorMale"), Character.transform).transform;
+            EquipmentItems[1] = equipmentItem;
         }
-        EquipmentItems.Add(equipmentItem);
     }
     public static EquipmentView GetNew(Character character)
     {

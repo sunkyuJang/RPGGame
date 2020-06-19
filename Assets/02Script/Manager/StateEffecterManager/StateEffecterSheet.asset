@@ -45,3 +45,33 @@ MonoBehaviour:
       SPD_percent: 100
       Super: 0
       During: 5
+    - Index: 2
+      RequestType: Item
+      RequestIndex: 3
+      nowHp: 0
+      nowMp: 0
+      HP: 0
+      MP: 0
+      ATK_point: 10
+      DEF_point: 0
+      SPD_point: 0
+      ATK_percent: 0
+      DEF_percent: 0
+      SPD_percent: 0
+      Super: 0
+      During: 0
+    - Index: 3
+      RequestType: Item
+      RequestIndex: 4
+      nowHp: 0
+      nowMp: 0
+      HP: 10
+      MP: 10
+      ATK_point: 0
+      DEF_point: 10
+      SPD_point: 5
+      ATK_percent: 0
+      DEF_percent: 0
+      SPD_percent: 0
+      Super: 0
+      During: 0

@@ -4,18 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using GLip;
 using System.IO;
+using JetBrains.Annotations;
 
 public partial class Inventory : MonoBehaviour
 {
     public Text GoldText { set; get; }
     public double gold { set; get; } = 0;
 
-    void AwakeView()
-    {
-        GoldText = transform.GetChild(0).GetChild(1).GetComponent<Text>();
-        if (!isPlayer) Transform.localPosition = new Vector3(Transform.localPosition.x * -1, Transform.localPosition.y, Transform.localPosition.z);
-        Area = GMath.GetRect(Transform);
-    }
 
     public void ShowInventory()
     {
@@ -26,15 +21,14 @@ public partial class Inventory : MonoBehaviour
         float interval = 10;
         for (int i = 0; i < itemViews.Count; i++)
         {
-            ItemView itemView = itemViews[i];
+            var itemView = itemViews[i];
             if (itemView.ItemCounter != null)
             {
-                itemView.index = i;
-                itemView.Transform.localPosition = nextPosition;
-                nextPosition += new Vector2(interval + itemView.Transform.rect.width, 0);
+                itemView.transform.localPosition = nextPosition;
+                nextPosition += new Vector2(interval + itemView.Area.width, 0);
                 if ((i + 1) % 4 == 0 && i != 0)
                 {
-                    nextPosition = new Vector2(startPosition.x, nextPosition.y - (interval + itemView.Transform.rect.height));
+                    nextPosition = new Vector2(startPosition.x, nextPosition.y - (interval + itemView.Area.height));
                 }
             }
             else
@@ -51,7 +45,7 @@ public partial class Inventory : MonoBehaviour
         if (Model is Character) (Model as Character).IntoNomalUI();
     }
 
-    public void SwapingItem(int[] indexs)
+    /*public void SwapingItem(int[] indexs)
     {
         ItemView viewFir = itemViews[indexs[0]];
         ItemView viewSec = itemViews[indexs[1]];
@@ -62,11 +56,102 @@ public partial class Inventory : MonoBehaviour
         viewSec.SetItemCounterInfo(temp);
 
         ShowInventory();
+    }*/
+
+    public void ItemDrop(ItemView itemView, Vector2 dropPosition)
+    {
+        Collider2D[] objects = Physics2D.OverlapBoxAll(dropPosition, itemView.GetComponent<RectTransform>().sizeDelta * 2, 0f);
+        if (isPlayer)
+        {
+            if (Area.Contains(dropPosition))
+            {
+                if (itemView.IsContainInputPosition(dropPosition))
+                {
+                    //usingItem
+                    StartCoroutine(UseItem(itemView, true));
+                }
+                else
+                {
+                    //swapItem
+
+                }
+            }
+            else
+            {
+                var Character = Model as Character;
+
+                var slotNum = Character.QuickSlot.IsIn(dropPosition);
+                if (slotNum >= 0)
+                {
+                    //registQuickSlot
+                    Character.QuickSlot.SetSlot(itemView.transform, slotNum);
+                }
+                else
+                {
+                    //sellItem
+                    StartCoroutine(TradeItem(itemView, TargetInventory, false));
+                }
+            }
+        }
+        else
+        {
+            //Buy item
+            StartCoroutine(TradeItem(itemView, TargetInventory, true));
+        }
     }
 
-    public void itemDrop(ItemView _itemView)
-    {
-        Vector2 viewPosition = _itemView.Transform.position;
+/*        List<T> GetOrderList<T>(Collider2D[] colliders)
+        {
+            List<T> orderList = new List<T>();
+            foreach (Collider2D collider in colliders)
+            {
+                T nowT = collider.GetComponent<T>();
+                if (nowT != null)
+                {
+                    orderList.Add(nowT);
+                    if(!(nowT is ItemManager.ItemView))
+                    {
+                        break;
+                    }
+                }
+            }
+            return orderList;
+        }*/
+
+        IEnumerator TradeItem(ItemView itemView, Inventory targetInventory, bool isBuying)
+        {
+            StaticManager.ShowComfirmBox("아이템을 " + (isBuying ? "구매" : "판매") + " 하시겠습니까?");
+
+            while (StaticManager.GetComfimBox.NowState == ComfimBox.State.Waiting)
+                yield return new WaitForFixedUpdate();
+
+            if(StaticManager.GetComfimBox.NowState == ComfimBox.State.Yes)
+            {
+                if (isBuying)
+                {
+                    var cost = itemView.ItemCounter.Data.Buy;
+                    var nowGold = gold - cost;
+                    if (nowGold >= 0)
+                    {
+                        AddItem(itemView.ItemCounter);
+                        gold = nowGold;
+                        try
+                        {
+                            targetInventory.RemoveItem(itemView.ItemCounter);
+                        }
+                        catch { print("SomethingWrongInInventory02"); }
+                    }
+                    else { StaticManager.ShowAlert("잔액이 모자릅니다.", Color.red); }
+                }
+                else
+                {
+                    gold += itemView.ItemCounter.count * itemView.ItemCounter.Data.Sell;
+                    table.RemoveItemCounter(itemView.ItemCounter);
+                    itemViews.Remove(itemView);
+                }
+            }
+        }
+        /*Vector2 viewPosition = _itemView.Transform.position;
         if (Area.Contains(viewPosition))
         {
             if(!isPlayer) _itemView.SetPositionInInventory(true);
@@ -108,6 +193,6 @@ public partial class Inventory : MonoBehaviour
                 }
             }
             _itemView.SetPositionInInventory(true);
-        }
-    }
+        }*/
 }
+

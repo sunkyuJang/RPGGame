@@ -33,18 +33,18 @@ public class QuickSlot : MonoBehaviour
     public void PressSlot4() { DoAction(3); }
     public void PressSlot5() { DoAction(4); }
 
-    private void DoAction(int _num)
+    private void DoAction(int num)
     {
-        Transform nowSlot = lists[_num];
+        Transform nowSlot = lists[num];
         ItemView itemView = nowSlot.GetComponent<ItemView>();
         SkillManager.Skill skillViewer = nowSlot.GetComponent<SkillManager.Skill>();
         if (itemView != null)
         {
-            itemView.UseItem(false);
-            if(itemView.ItemCounter.Count <= 0) 
+            itemView.UseThis();
+            if(itemView.ItemCounter.count <= 0) 
             {
-                Inventory inventory = itemView.Inventory;
-                SetSlot(inventory.GetHeadItemView(itemView).transform, _num);
+                Inventory inventory = itemView.inventory;
+                SetSlot(inventory.table.GetLastPositionItemCounter(itemView.ItemCounter.Data).View.transform, num);
             }
         }
         else if(skillViewer != null)

@@ -6,121 +6,103 @@ using GLip;
 
 public class ItemView : MonoBehaviour
 {
-    public Inventory Inventory { private set; get; }
-    public ItemManager.ItemCounter ItemCounter { private set; get; }
-    public RectTransform Transform { private set; get; }
-    private Vector3 startPosition;
-    public int index { set; get; }
+    public ItemManager.ItemCounter ItemCounter { set; get; }
+    public Inventory inventory { set; get; }
+    public Rect Area { private set; get; }
+    public Image Icon { set; get; }
+    public Text Name { set; get; }
+    public bool IsContainInputPosition(Vector2 position) { return Area.Contains(position); }
 
-    bool isDraging = false;
-    List<Collider2D> otherColiders = new List<Collider2D>();
+    ItemViewDiscritionBox discritionBox { set; get; }
 
-    private RectTransform scriptTransform;
-    private Text scriptText;
-
-    public static ItemView GetNew(Inventory _inventory, ItemManager.ItemCounter _ItemCounter, int _index)
+    private void Awake()
     {
-        ItemView view = Create.GetNew<ItemView>(_inventory.Transform);
-        view.Inventory = _inventory;
-        view.Transform = view.gameObject.GetComponent<RectTransform>();
-        view.SetItemCounterInfo(_ItemCounter);
-        view.index = _index;
-        return view;
-    }
-    public void SetItemCounterInfo(ItemManager.ItemCounter _counter)
-    {
-        ItemCounter = _counter;
-        ItemManager.Item item = ItemManager.GetItem(ItemCounter.Indexer);
-        transform.GetChild(0).GetComponent<Image>().sprite = item.Image;
-        transform.GetChild(1).GetComponent<Text>().text = item.Name + "x" + ItemCounter.Count;
+        Area = GMath.GetRect(GetComponent<RectTransform>());
+        Icon = GetComponentInChildren<Image>();
+        Name = GetComponentInChildren<Text>();
 
-        scriptTransform = transform.GetChild(2).gameObject.GetComponent<RectTransform>();
-        scriptText = scriptTransform.GetChild(0).GetComponent<Text>();
-        scriptTransform.gameObject.SetActive(false);
+        Icon = Resources.Load<Image>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        discritionBox = new ItemViewDiscritionBox(transform.Find("DiscriptionBox"), this);
+        SetDiscriptionBox();
     }
-    public void OnEntered() { 
-        transform.SetAsLastSibling(); 
-        scriptTransform.gameObject.SetActive(true); 
-        scriptText.text = ItemManager.GetItem(ItemCounter.Indexer).Description;
-        if (!Inventory.Area.Contains(scriptTransform.position)) { scriptTransform.localPosition = new Vector2(scriptTransform.localPosition.x * -1, scriptTransform.localPosition.y); }
-    }
-    public void OnOut() { scriptTransform.gameObject.SetActive(false); }
-    public void Pressed() { 
-        startPosition = transform.position; transform.parent.SetAsLastSibling(); 
-        scriptTransform.gameObject.SetActive(false);
-        if (!Inventory.isPlayer)
+
+    public void RefreshText() => Name.text = ItemCounter.Data.Name + " X" + ItemCounter.count;
+    public void SetDiscriptionBox() => discritionBox.SetDiscription();
+    public void ShowDiscriptionBox() => discritionBox.ShowDiscription();
+    public void HideDiscriptionBox() => discritionBox.HideDiscriprtion();
+    public void UseThis() => inventory.UseItem(this, false);
+    public void SelectedIcon()
+    {
+        bool isTouch = false;
+        int touchID = 0;
+        bool isMouse = false;
+        if (GPosition.IsContainInput(transform.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
         {
-            ItemManager.Item item = ItemManager.GetItem(ItemCounter.Indexer);
-            if (item is ItemManager.ActiveItem)
+            StartCoroutine(TraceInput(isTouch, touchID, isMouse));
+        }
+    }
+
+    IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    {
+        Transform copy = Instantiate(gameObject).GetComponent<Transform>();
+        gameObject.SetActive(false);
+
+        bool isInputInOfIcon = true;
+
+        while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
+        {
+            if (isInputInOfIcon) // showing discription.
             {
-                ItemManager.ActiveItem nowItem = item as ItemManager.ActiveItem;
-                Inventory.GoldText.text = (nowItem.Buy * ItemCounter.Count).ToString();
-            }
-        }
-    }
-    public void OnDrag() { transform.position = TouchManager.GetTouch(Transform); isDraging = true; }
-    public void PressUp() 
-    {
-        if (isDraging)
-        {
-            Inventory.itemDrop(this);
-            isDraging = false;
-        }
-        else
-        {
-            if (Inventory.isPlayer)
-            {
-                UseItem(true);
-            }
-        }
-    }
-    public void UseItem(bool _needComfirm)
-    {
-        StaticManager.coroutineStart(Inventory.UsePlayerItem(this, _needComfirm));
-    }
-
-    public void SetPositionInInventory(bool _isStartPosition)
-    {
-        if (otherColiders.Count <= 0 || _isStartPosition)
-        {
-            transform.position = startPosition;
-        }
-        else
-        {
-            float dist = Screen.width;
-            int closer = otherColiders.Count + 1;
-            for (int i = 0; i < otherColiders.Count; i++)
-            {
-                float nowDist = Vector2.Distance(otherColiders[i].transform.position, transform.position);
-                if (nowDist < dist) { dist = nowDist; closer = otherColiders[i].GetComponent<ItemView>().index; }
-            }
-            Inventory.SwapingItem(new int[] { index, closer });
-        }
-    }
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        if (isDraging)
-        {
-            if (otherColiders.Count == 0) { otherColiders.Add(collision); }
-            else
-            {
-                bool found = false;
-                for (int i = 0; i < otherColiders.Count; i++)
+                if (GPosition.IsContainInput(Area, out isTouch, out touchID, out isMouse))
                 {
-                    if (otherColiders[i].Equals(collision)) { found = true; break; }
+                    ShowDiscriptionBox();
                 }
-                if (!found) { otherColiders.Add(collision); }
+                else
+                {
+                    isInputInOfIcon = false;
+                    HideDiscriptionBox();
+                }
             }
-        }
-    }
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (isDraging)
-        {
-            for (int i = 0; i < otherColiders.Count; i++)
+            else // follow
             {
-                if (otherColiders[i].Equals(collision)) { otherColiders.RemoveAt(i); break; }
+                copy.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
+                yield return new WaitForFixedUpdate();
             }
         }
+
+        HideDiscriptionBox();
+        inventory.ItemDrop(this, copy.position);
+        Destroy(copy);
+    }
+
+    class ItemViewDiscritionBox
+    {
+        ItemView View { set; get; }
+        Transform Transform { set; get; }
+        Image Icon { set; get; }
+        Text NameText { set; get; }
+        Text DiscriptionText { set; get; }
+
+        public ItemViewDiscritionBox(Transform transform, ItemView view)
+        {
+            View = view;
+            Transform = transform;
+            Icon = transform.GetComponentInChildren<Image>();
+            NameText = transform.Find("NameTextBox").GetComponent<Text>();
+            DiscriptionText = transform.Find("DiscriptionTextBox").GetComponent<Text>();
+        }
+
+        public void SetDiscription()
+        {
+            Icon.sprite = View.Icon.sprite;
+            NameText.text = View.Name.text;
+            DiscriptionText.text = View.ItemCounter.Data.Description;
+            if (!View.inventory.isPlayer)
+                Transform.position = GPosition.ReverceLeft(Transform.position);
+            Transform.gameObject.SetActive(false);
+        }
+
+        public void ShowDiscription() => Transform.gameObject.SetActive(true);
+        public void HideDiscriprtion() => Transform.gameObject.SetActive(false);
     }
 }

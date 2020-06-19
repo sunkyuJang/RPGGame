@@ -4,6 +4,9 @@ using UnityEngine;
 
 public partial class Model : MonoBehaviour
 {
+    public static StateEffecterSheet sheet;
+
+    List<StateEffecterSheet.Param> runningEffect { set; get; } = new List<StateEffecterSheet.Param>();
     public void SetEffecterToModel(StateEffecterSheet.Param data)
     {
         StartCoroutine(ProcessEffect(data));
@@ -23,6 +26,7 @@ public partial class Model : MonoBehaviour
 
         if(data.During > 0)
         {
+
             float time = 0;
             while(time >= data.During)
             {
