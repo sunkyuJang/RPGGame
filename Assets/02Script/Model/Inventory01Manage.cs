@@ -12,8 +12,10 @@ public partial class Inventory : MonoBehaviour
 
         ItemManager.ItemCounter lastCounter = sameKind == null ? newCounter : sameKind;
 
-        int overNum = 0;
-        if(lastCounter.AddCount(sameKind == null ? 0 : addCounter, out overNum))
+        int overNum = lastCounter.GetExcessCount(addCounter);
+        if(lastCounter.View == null) { AddViewAndTableList(lastCounter); }
+
+        if (overNum > 0)
         {
             int carry = overNum / lastCounter.Data.Limit;
             int lest = overNum % lastCounter.Data.Limit;
@@ -21,22 +23,19 @@ public partial class Inventory : MonoBehaviour
             for(int i = 0; i < carry; i++)
             {
                 newCounter = new ItemManager.ItemCounter(newCounter.Data);
-                newCounter.AddCount(count, out overNum);
+                newCounter.GetExcessCount(count);
                 AddViewAndTableList(newCounter);
-                
-                //Repeat for lest
-                if(lest > 0 && i == carry - 1) 
-                { 
-                    count = lest;
-                    lest = 0;
-                    i--; 
-                }
+            }
+
+            if(lest > 0)
+            {
+                newCounter = new ItemManager.ItemCounter(newCounter.Data);
+                newCounter.GetExcessCount(lest);
+                AddViewAndTableList(newCounter);
             }
         }
-        else
-        {
-            AddViewAndTableList(lastCounter);
-        }
+
+        RefreashInventoryView();
     }
     public void AddItem(ItemManager.ItemCounter counter) => AddItem(counter.Data.Index, counter.count);
 
@@ -55,10 +54,15 @@ public partial class Inventory : MonoBehaviour
             {
                 var nowCounter = kindList[kindList.Count - 1];
                 removeCount = nowCounter.RemoveCountWithOverFlow(removeCount);
-                
-                if(removeCount > 0)
+
+                if (removeCount <= 0)
+                {
                     table.RemoveItemCounter(nowCounter);
+                    nowCounter.View.ItemCounter = null;
+                }
+                removeCount *= -1;
             }
+            RefreashInventoryView();
             return true;
         }
         return false;
@@ -67,8 +71,6 @@ public partial class Inventory : MonoBehaviour
 
     public IEnumerator UseItem(ItemView itemView, bool useComfirmBox)
     {
-        Character character = Model as Character;
-
         ItemSheet.Param.ItemTypeEnum nowType = itemView.ItemCounter.Data.GetItemType;
         if (nowType == ItemSheet.Param.ItemTypeEnum.Key)
         {
@@ -85,9 +87,10 @@ public partial class Inventory : MonoBehaviour
                 while (comfirmBox.NowState == ComfimBox.State.Waiting)
                     yield return new WaitForFixedUpdate();
 
-                if (comfirmBox.isYes)
+                if (comfirmBox.NowState == ComfimBox.State.Yes)
                 {
                     StateEffecterManager.EffectToModel(itemView.transform, Model, false);
+                    RemoveItem(itemView.ItemCounter.Data.Index, 1);
                 }
             }
             else
@@ -96,38 +99,4 @@ public partial class Inventory : MonoBehaviour
             }
         }
     }
-
-/*    private ItemManager.ItemIndexer GetitemUsingProcess(ItemView _itemView)
-    {
-        ItemManager.ItemCounter lastCount = GetSameItemTable(_itemView.ItemCounter.Indexer).GetLastCounter;
-        if (lastCount.Indexer.Kinds != ItemManager.Kinds.keyItemList)
-        {
-            RemoveItem(lastCount);
-            ShowInventory();
-        }
-        return lastCount.Indexer;
-    }
-
-    private void RefreshItemViewer(ItemManager.ItemCounter _itemCounter)
-    {
-        ItemView nowView = itemViews[FindItemViewIndex(_itemCounter)];
-
-        if(nowView != null)
-        {
-            if (nowView.ItemCounter.Count <= 0)
-            {
-                itemViews.RemoveAt(FindItemViewIndex(nowView.ItemCounter));
-                Destroy(nowView.gameObject);
-            }
-            else
-            {
-                nowView.SetItemCounterInfo(nowView.ItemCounter);
-            }
-        }
-    }
-    private int FindItemViewIndex(ItemManager.ItemCounter _itemCounter)
-    {
-        for (int i = 0; i < itemViews.Count; i++) { if (_itemCounter.Equals(itemViews[i].ItemCounter)) return i; }
-        return -1;
-    }*/
 }

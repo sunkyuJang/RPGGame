@@ -8,15 +8,29 @@ using JetBrains.Annotations;
 
 public partial class Inventory : MonoBehaviour
 {
+    public Vector3 goldTextPosition;
     public Text GoldText { set; get; }
     public double gold { set; get; } = 0;
-
-
+    public void SetGold(double gold) { this.gold = gold; GoldText.text = this.gold.ToString(); }
+    Vector2 viewStartPoint { get { return new Vector2(-160f, 210f); } }
+    void SetViewPosition()
+    {
+        Transform goldTransform = transform.GetChild(0);
+        goldTextPosition = goldTransform.localPosition;
+        GoldText = goldTransform.GetChild(1).GetComponent<Text>();
+        if (!isPlayer) transform.localPosition = new Vector3(transform.localPosition.x * -1, transform.localPosition.y, transform.localPosition.z);
+        Area = GMath.GetRect(rectTransform);
+    }
     public void ShowInventory()
     {
         gameObject.SetActive(true);
+        RefreashInventoryView();
+    }
+
+    void RefreashInventoryView()
+    {
         GoldText.text = gold.ToString();
-        Vector2 startPosition = new Vector2(-160f, 210f);
+        Vector2 startPosition = viewStartPoint;
         Vector2 nextPosition = startPosition;
         float interval = 10;
         for (int i = 0; i < itemViews.Count; i++)
@@ -33,34 +47,21 @@ public partial class Inventory : MonoBehaviour
             }
             else
             {
-                Destroy(itemView);
+                Destroy(itemView.gameObject);
                 itemViews.RemoveAt(i);
                 i--;
             }
         }
     }
+
     public void HideInventory()
     {
         gameObject.SetActive(false);
         if (Model is Character) (Model as Character).IntoNomalUI();
     }
 
-    /*public void SwapingItem(int[] indexs)
-    {
-        ItemView viewFir = itemViews[indexs[0]];
-        ItemView viewSec = itemViews[indexs[1]];
-
-        ItemManager.ItemCounter temp = viewFir.ItemCounter;
-
-        viewFir.SetItemCounterInfo(viewSec.ItemCounter);
-        viewSec.SetItemCounterInfo(temp);
-
-        ShowInventory();
-    }*/
-
     public void ItemDrop(ItemView itemView, Vector2 dropPosition)
     {
-        Collider2D[] objects = Physics2D.OverlapBoxAll(dropPosition, itemView.GetComponent<RectTransform>().sizeDelta * 2, 0f);
         if (isPlayer)
         {
             if (Area.Contains(dropPosition))
@@ -72,8 +73,8 @@ public partial class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    //swapItem
-
+                    //SwapItem
+                    SwapItem(itemView, dropPosition);
                 }
             }
             else
@@ -86,10 +87,13 @@ public partial class Inventory : MonoBehaviour
                     //registQuickSlot
                     Character.QuickSlot.SetSlot(itemView.transform, slotNum);
                 }
-                else
+                else if(TargetInventory != null)
                 {
-                    //sellItem
-                    StartCoroutine(TradeItem(itemView, TargetInventory, false));
+                    if (TargetInventory.Area.Contains(dropPosition))
+                    {
+                        //sellItem
+                        StartCoroutine(TradeItem(itemView, TargetInventory, false));
+                    }
                 }
             }
         }
@@ -99,100 +103,104 @@ public partial class Inventory : MonoBehaviour
             StartCoroutine(TradeItem(itemView, TargetInventory, true));
         }
     }
+    void SwapItem(ItemView itemView, Vector2 dropPosition)
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(dropPosition, itemView.GetComponent<BoxCollider2D>().size, 0f);
 
-/*        List<T> GetOrderList<T>(Collider2D[] colliders)
+        dropPosition -= new Vector2(transform.position.x, transform.position.y);
+        var itemViewCollider = itemView.gameObject.GetComponent<BoxCollider2D>(); 
+        Collider2D targetCollider = null;
+        if(colliders.Length > 0)
         {
-            List<T> orderList = new List<T>();
+            float closeDist = 1000f;
             foreach (Collider2D collider in colliders)
             {
-                T nowT = collider.GetComponent<T>();
-                if (nowT != null)
+                if (itemViewCollider != collider.transform)
                 {
-                    orderList.Add(nowT);
-                    if(!(nowT is ItemManager.ItemView))
+                    var nowDist = Vector2.Distance(collider.transform.position, dropPosition);
+                    if (nowDist < closeDist)
                     {
-                        break;
+                        closeDist = nowDist;
+                        targetCollider = collider;
                     }
                 }
             }
-            return orderList;
-        }*/
 
-        IEnumerator TradeItem(ItemView itemView, Inventory targetInventory, bool isBuying)
-        {
-            StaticManager.ShowComfirmBox("아이템을 " + (isBuying ? "구매" : "판매") + " 하시겠습니까?");
-
-            while (StaticManager.GetComfimBox.NowState == ComfimBox.State.Waiting)
-                yield return new WaitForFixedUpdate();
-
-            if(StaticManager.GetComfimBox.NowState == ComfimBox.State.Yes)
+            var targetView = targetCollider.transform.GetComponent<ItemView>();
+            if (targetView.ItemCounter.Data.Index == itemView.ItemCounter.Data.Index)
             {
-                if (isBuying)
+                if (targetView.ItemCounter.count < targetView.ItemCounter.Data.Limit)
                 {
-                    var cost = itemView.ItemCounter.Data.Buy;
-                    var nowGold = gold - cost;
-                    if (nowGold >= 0)
+                    var excessCount = targetView.ItemCounter.GetExcessCount(itemView.ItemCounter.count);
+
+                    if (excessCount <= 0)
                     {
-                        AddItem(itemView.ItemCounter);
-                        gold = nowGold;
-                        try
-                        {
-                            targetInventory.RemoveItem(itemView.ItemCounter);
-                        }
-                        catch { print("SomethingWrongInInventory02"); }
+                        table.RemoveItemCounter(itemView.ItemCounter);
+                        itemView.ItemCounter = null;
+                        RefreashInventoryView();
+                        print(table.GetSameKind(targetView.ItemCounter.Data).Count);
                     }
-                    else { StaticManager.ShowAlert("잔액이 모자릅니다.", Color.red); }
-                }
-                else
-                {
-                    gold += itemView.ItemCounter.count * itemView.ItemCounter.Data.Sell;
-                    table.RemoveItemCounter(itemView.ItemCounter);
-                    itemViews.Remove(itemView);
-                }
-            }
-        }
-        /*Vector2 viewPosition = _itemView.Transform.position;
-        if (Area.Contains(viewPosition))
-        {
-            if(!isPlayer) _itemView.SetPositionInInventory(true);
-            else { _itemView.SetPositionInInventory(false); }
-        }
-        else
-        {
-            Character character= StaticManager.Character;
-            if (isPlayer)
-            {
-                QuickSlot playerQuickSlot = character.QuickSlot;
-                if (playerQuickSlot.gameObject.activeSelf)
-                {
-                    int slotNum = playerQuickSlot.IsIn(viewPosition);
-                    if (slotNum >= 0)
-                    {
-                        if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.activeItemList)
-                        {
-                            playerQuickSlot.SetSlot(GetHeadItemView(_itemView).transform, slotNum);
-                        }
-                        else
-                        {
-                            StaticManager.ShowAlert("해당 아이템은 퀵슬롯에 등록할 수 없습니다.", Color.red);
-                        }
-                    }
+                    else
+                        itemView.ItemCounter.RemoveCountWithOverFlow(itemView.ItemCounter.Data.Limit - excessCount);
                 }
             }
             else
             {
-                Inventory playerInventory = character.Inventory;
-                if (playerInventory.Area.Contains(viewPosition))
+                var tempCounter = itemView.ItemCounter;
+                itemView.SwapItemCounter(targetView.ItemCounter);
+                targetView.SwapItemCounter(tempCounter);
+
+                for (int i = 0, max = 2; i < max; i++)
                 {
-                    if (playerInventory.CanTrade(_itemView.ItemCounter))
+                    int indexCount = 0;
+                    foreach (ItemView nowView in itemViews)
                     {
-                        itemViews.RemoveAt(_itemView.index);
-                        Destroy(_itemView.gameObject);
-                        return;
+                        if (nowView == itemView) { break; }
+                        else if (nowView.ItemCounter.Data.Index == itemView.ItemCounter.Data.Index)
+                            indexCount++;
                     }
+                    table.RemoveItemCounter(itemView.ItemCounter);
+                    table.InsertItemCounter(itemView.ItemCounter, indexCount);
+                    if (i == 0) itemView = targetView;
                 }
             }
-            _itemView.SetPositionInInventory(true);
-        }*/
+        }
+    }
+
+    IEnumerator TradeItem(ItemView itemView, Inventory targetInventory, bool isBuying)
+    {
+        StaticManager.ShowComfirmBox("아이템을 " + (isBuying ? "구매" : "판매") + " 하시겠습니까?");
+
+        while (StaticManager.GetComfimBox.NowState == ComfimBox.State.Waiting)
+            yield return new WaitForFixedUpdate();
+
+        if(StaticManager.GetComfimBox.NowState == ComfimBox.State.Yes)
+        {
+            if (isBuying) // !isPlayer
+            {
+                var cost = itemView.ItemCounter.Data.Buy * itemView.ItemCounter.count;
+                var nowGold = targetInventory.gold - cost;
+                if (nowGold >= 0)
+                {
+                    targetInventory.AddItem(itemView.ItemCounter);
+                    targetInventory.SetGold(nowGold);
+                    try
+                    {
+                        RemoveItem(itemView.ItemCounter);
+                    }
+                    catch { print("SomethingWrongInInventory02"); }
+                }
+                else 
+                {
+                    StaticManager.ShowAlert("잔액이 모자릅니다.", Color.red); 
+                }
+            }
+            else
+            {
+                gold += itemView.ItemCounter.count * itemView.ItemCounter.Data.Sell;
+                RemoveItem(itemView.ItemCounter);
+            }
+        }
+    }
 }
 

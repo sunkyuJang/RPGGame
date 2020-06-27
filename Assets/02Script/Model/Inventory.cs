@@ -32,12 +32,6 @@ public partial class Inventory : MonoBehaviour
         inventory.gameObject.SetActive(false);
         return inventory;
     }
-    void SetViewPosition()
-    {
-        GoldText = transform.GetChild(0).GetChild(1).GetComponent<Text>();
-        if (!isPlayer) transform.localPosition = new Vector3(transform.localPosition.x * -1, transform.localPosition.y, transform.localPosition.z);
-        Area = GMath.GetRect(rectTransform);
-    }
 
     public void ShowInventoryForTrade(Inventory targetInventory)
     {
@@ -89,13 +83,17 @@ public partial class Inventory : MonoBehaviour
             list.Add(counter);
             return list;
         }
-        public void InsertItemCounter(ItemManager.ItemCounter nowCounter, int insertNum) => GetSameKind(nowCounter.Data).Insert(insertNum, nowCounter);
+        public void InsertItemCounter(ItemManager.ItemCounter nowCounter, int insertNum)
+        {
+            var kind = GetSameKind(nowCounter.Data);
+            if (kind == null) AddItemCounter(nowCounter); 
+            else kind.Insert(insertNum, nowCounter); 
+        }
         public void RemoveItemCounter(ItemManager.ItemCounter nowCounter) 
         {
             var kind = GetSameKind(nowCounter.Data);
-            GetSameKind(nowCounter.Data).Remove(nowCounter);
+            kind.Remove(nowCounter);
             if (kind.Count == 0) { itemCounters.Remove(kind); }
         }
-
     }
 }

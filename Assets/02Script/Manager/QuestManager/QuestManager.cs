@@ -76,8 +76,8 @@ public class QuestManager : MonoBehaviour
         for (int i = 0; i < splitKinds.Length -1; i++)
         {
             var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(int.Parse(splitKinds[i])));
-            int overNum = 0;
-            counter.AddCount(int.Parse(splitCounts[i]), out overNum); 
+            counter.GetExcessCount(int.Parse(splitCounts[i]));
+            itemList.Add(counter);
         }
         return itemList;
     }
@@ -97,17 +97,20 @@ public class QuestManager : MonoBehaviour
         public bool ComfareQuest(string _name, int _index) { return Name.Equals(_name) && (NowQuestIndex == _index); }
         public bool ComfareItemList(Inventory inventory) 
         {
-            List<bool> IsClear = new List<bool>();
+            int clearCount = 0;
             foreach(ItemManager.ItemCounter requireItem in RequireList)
             {
-                if(inventory.table.GetSameKindTotalCount(requireItem.Data) >= requireItem.count)
+                if (inventory.table.GetSameKindTotalCount(requireItem.Data) >= requireItem.count)
                 {
-                    IsClear.Add(true);
+                    clearCount++;
                 }
-                return false;
+                else
+                {
+                    return false;
+                }
             }
 
-            if(IsClear.Count == RequireList.Count)
+            if(clearCount == RequireList.Count)
             {
                 foreach(ItemManager.ItemCounter requireItem in RequireList) { inventory.RemoveItem(requireItem); }
                 foreach(ItemManager.ItemCounter rewardItem in RewardList) { inventory.AddItem(rewardItem); }

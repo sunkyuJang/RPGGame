@@ -124,6 +124,22 @@ namespace GLip
             }
             return false;
         }
+        public static bool IsContainInput(Rect rect, bool isTouch, int touchId, bool isMouse)
+        {
+            isTouch = false;
+            touchId = 0;
+            isMouse = false;
+
+            if (IsContainTouch(rect, out touchId))
+            {
+                return true;
+            }
+            else if (IsContainMousePosition(rect))
+            {
+                return true;
+            }
+            return false;
+        }
 
         public static bool IsHoldPressedInput(bool isTouched, int touchID, bool isMouse)
         {

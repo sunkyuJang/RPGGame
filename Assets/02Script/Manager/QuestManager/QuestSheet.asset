@@ -17,7 +17,7 @@ MonoBehaviour:
     list:
     - name: "\uAE38\uBC84\uD2B8"
       index: 0
-      needItem: key, 0;
+      needItem: 2;
       needCount: 1;
-      rewardItem: active, 0;
+      rewardItem: 0;
       rewardCount: 5;

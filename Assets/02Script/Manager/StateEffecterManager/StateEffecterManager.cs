@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StateEffecterManager : MonoBehaviour
 {
-    public static StateEffecterSheet sheet;
+    public StateEffecterSheet sheet;
     public static List<StateEffecterSheet.Param> data { set; get; }
     public static List<Transform> nowRunningList { set; get; } = new List<Transform>();
 

@@ -8,6 +8,7 @@ TagManager:
   - Character
   - TAZOFX
   - Monster
+  - ItemView
   layers:
   - Default
   - TransparentFX

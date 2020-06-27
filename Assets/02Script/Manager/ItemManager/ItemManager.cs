@@ -24,11 +24,8 @@ public partial class ItemManager : MonoBehaviour
     public static ItemSheet.Param GetitemData(int index) => Data[index];
     public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
     {
-        ItemView itemView = Instantiate(ItemViewObj, inventory.transform).GetComponent<ItemView>();
-        itemView.ItemCounter = itemCount;
-        itemView.inventory = inventory;
-        List<EventTrigger.Entry> entry = itemView.GetComponent<EventTrigger>().triggers;
-        entry[0].callback.AddListener((data) => { itemView.SelectedIcon(); });
+        ItemView itemView = Instantiate(ItemViewObj).GetComponent<ItemView>();
+        itemView.SetItemCounter(itemCount, inventory);
         itemCount.View = itemView;
         return itemView;
     }
@@ -38,21 +35,38 @@ public partial class ItemManager : MonoBehaviour
         public int count { private set; get; }
         public ItemCounter(ItemSheet.Param data) => Data = data;
         public ItemView View { set; get; }
-        public bool AddCount(int addCount, out int overNum) 
+        public int GetExcessCount(int addCount) 
         {
-            count += addCount;
-            if(count > Data.Limit)
+            var nowCount = count + addCount;
+
+            if (nowCount > Data.Limit)
             {
-                overNum = count - Data.Limit;
                 count = Data.Limit;
-                return true;
+                nowCount -= Data.Limit;
             }
-            overNum = 0;
-            return false;
+            else
+            {
+                count = nowCount;
+                nowCount = 0;
+            }
+
+            ViewRefreash();
+            return nowCount;
         }
         public int RemoveCountWithOverFlow(int removeCount)
         {
-            return (count -= removeCount) * -1;
+            count -= removeCount;
+
+            ViewRefreash();
+            return count;
+        }
+
+        void ViewRefreash()
+        {
+            if(View != null)
+            {
+                View.RefreshText();
+            }
         }
     }
 }

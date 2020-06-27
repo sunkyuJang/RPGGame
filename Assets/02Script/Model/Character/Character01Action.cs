@@ -75,10 +75,15 @@ public partial class Character : Model
     public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
     {
-        if (BeforeState == ActionState.Idle)
+        /*if (BeforeState == ActionState.Idle)
         {
             NowState = ActionState.Action;
         }
+        else
+        {
+            NowState = actionState;
+        }*/
+        NowState = actionState;
     }
 
     void FixedUpdateInAction()

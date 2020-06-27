@@ -8,25 +8,41 @@ public class ItemView : MonoBehaviour
 {
     public ItemManager.ItemCounter ItemCounter { set; get; }
     public Inventory inventory { set; get; }
-    public Rect Area { private set; get; }
+    public Rect Area { get { return GMath.GetRect(transform.GetComponent<RectTransform>()); } }
     public Image Icon { set; get; }
     public Text Name { set; get; }
+    public Text Count { set; get; }
     public bool IsContainInputPosition(Vector2 position) { return Area.Contains(position); }
 
     ItemViewDiscritionBox discritionBox { set; get; }
 
     private void Awake()
     {
-        Area = GMath.GetRect(GetComponent<RectTransform>());
-        Icon = GetComponentInChildren<Image>();
-        Name = GetComponentInChildren<Text>();
-
-        Icon = Resources.Load<Image>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        Icon = transform.Find("ShowImage").GetComponent<Image>();
+        Name = transform.Find("Name").GetComponent<Text>();
+        Count = transform.Find("Count").GetComponent<Text>();
+    }
+    public void SetItemCounter(ItemManager.ItemCounter counter, Inventory parentInventory)
+    {
+        inventory = parentInventory;
+        ItemCounter = counter;
+        Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        RefreshText();
         discritionBox = new ItemViewDiscritionBox(transform.Find("DiscriptionBox"), this);
+
+        SetDiscriptionBox();
+
+        transform.SetParent(parentInventory.transform);
+    }
+    public void SwapItemCounter(ItemManager.ItemCounter counter)
+    {
+        ItemCounter = counter;
+        Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        RefreshText();
+
         SetDiscriptionBox();
     }
-
-    public void RefreshText() => Name.text = ItemCounter.Data.Name + " X" + ItemCounter.count;
+    public void RefreshText() { Name.text = ItemCounter.Data.Name; Count.text = ItemCounter.count.ToString(); }
     public void SetDiscriptionBox() => discritionBox.SetDiscription();
     public void ShowDiscriptionBox() => discritionBox.ShowDiscription();
     public void HideDiscriptionBox() => discritionBox.HideDiscriprtion();
@@ -39,40 +55,37 @@ public class ItemView : MonoBehaviour
         if (GPosition.IsContainInput(transform.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
         {
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
+            if (!inventory.isPlayer) { inventory.SetGold(ItemCounter.Data.Buy * ItemCounter.count); }
         }
     }
 
     IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
-        Transform copy = Instantiate(gameObject).GetComponent<Transform>();
-        gameObject.SetActive(false);
-
-        bool isInputInOfIcon = true;
+        Color readyColor = new Color(0, 0, 0, 0.7f);
+        Transform copy = Instantiate(gameObject, transform.root).GetComponent<Transform>();
+        copy.position = transform.position;
+        Icon.color -= readyColor;
 
         while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
         {
-            if (isInputInOfIcon) // showing discription.
+            if(GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
             {
-                if (GPosition.IsContainInput(Area, out isTouch, out touchID, out isMouse))
-                {
-                    ShowDiscriptionBox();
-                }
-                else
-                {
-                    isInputInOfIcon = false;
-                    HideDiscriptionBox();
-                }
+                ShowDiscriptionBox();
             }
-            else // follow
+            else
             {
-                copy.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
-                yield return new WaitForFixedUpdate();
+                HideDiscriptionBox();
             }
+
+            copy.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
+            yield return new WaitForFixedUpdate();
         }
 
+        var copyPosition = copy.position;
+        Destroy(copy.gameObject);
+        Icon.color += readyColor;
         HideDiscriptionBox();
-        inventory.ItemDrop(this, copy.position);
-        Destroy(copy);
+        inventory.ItemDrop(this, copyPosition);
     }
 
     class ItemViewDiscritionBox
@@ -87,7 +100,7 @@ public class ItemView : MonoBehaviour
         {
             View = view;
             Transform = transform;
-            Icon = transform.GetComponentInChildren<Image>();
+            Icon = transform.Find("ShowImage").GetComponent<Image>();
             NameText = transform.Find("NameTextBox").GetComponent<Text>();
             DiscriptionText = transform.Find("DiscriptionTextBox").GetComponent<Text>();
         }

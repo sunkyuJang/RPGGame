@@ -17,7 +17,7 @@ MonoBehaviour:
     list:
     - Index: 0
       Name: "\uC791\uC740 HP\uD3EC\uC158"
-      Name_eng: HPPotion_Small
+      Name_eng: HPPotionSmall
       ItemType: Active
       Description: "\uC804\uCCB4 HP\uC758 10%\uB97C \uD68C\uBCF5\uD55C\uB2E4."
       Limit: 10

@@ -20,15 +20,18 @@ public partial class Model : MonoBehaviour
         DEF += data.DEF_point;
         SPD += data.SPD_point;
 
-        ATK += (int)(ATK * (data.ATK_percent / ATK));
-        DEF += (int)(ATK * (data.DEF_percent / DEF));
-        SPD += (int)(SPD * (data.SPD_percent / SPD));
+        var increasePercentATK = (int)(ATK * (data.ATK_percent / 100));
+        var increasePercentDEF = (int)(ATK * (data.DEF_percent / 100));
+        var increasePercentSPD = (int)(SPD * (data.SPD_percent / 100));
 
-        if(data.During > 0)
+        ATK += increasePercentATK;
+        DEF += increasePercentDEF;
+        SPD += increasePercentSPD;
+
+        if (data.During > 0)
         {
-
             float time = 0;
-            while(time >= data.During)
+            while (time <= data.During)
             {
                 time += Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
@@ -37,10 +40,10 @@ public partial class Model : MonoBehaviour
             ATK -= data.ATK_point;
             DEF -= data.DEF_point;
             SPD -= data.SPD_point;
-                
-            ATK -= (int)(ATK * (data.ATK_percent / ATK));
-            DEF -= (int)(ATK * (data.DEF_percent / DEF));
-            SPD -= (int)(SPD * (data.SPD_percent / SPD));
+
+            ATK -= increasePercentATK;
+            DEF -= increasePercentDEF;
+            SPD -= increasePercentSPD;
         }
     }
 }

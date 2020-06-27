@@ -8,6 +8,7 @@ public partial class Character : Model
     Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
+    public StateViewer StateViewer { private set; get; }
 
     public int level { private set; get; }
     bool IsinField { set; get; } = true;
@@ -24,9 +25,9 @@ public partial class Character : Model
     new void Start()
     {
         base.Start();
-        StateViewer.GetNew(this);
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
+        StateViewer = StateViewer.GetNew(this);
         Controller = Controller.GetNew(this);
 
         nowHP = 10;
@@ -38,7 +39,8 @@ public partial class Character : Model
         Inventory.AddItem(1, 8);
         Inventory.AddItem(0, 1);
         Inventory.AddItem(1, 10);
-
+        Inventory.AddItem(2, 1);
+        Inventory.AddItem(2, 1);
     }
 
     private void FixedUpdate()

@@ -10,7 +10,6 @@ using NPOI.SS.UserModel;
 public class QuestSheet_importer : AssetPostprocessor {
 	private static readonly string filePath = "Assets/02Script/Manager/QuestManager/QuestSheet.xlsx";
 	private static readonly string exportPath = "Assets/02Script/Manager/QuestManager/QuestSheet.asset";
-	public static string GetExportPath { get { return exportPath; } }
 	private static readonly string[] sheetNames = { "Sheet1", };
 	
 	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
