@@ -13,7 +13,9 @@ public class Slime : Monster
     // Start is called before the first frame update
     new void Start()
     {
-        
+        base.Start();
+        Inventory.AddItemForMonster(0, 1, 0.8f);
+        Inventory.AddItemForMonster(2, 1, 1f);
     }
 
     // Update is called once per frame

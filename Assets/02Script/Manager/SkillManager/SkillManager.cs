@@ -13,148 +13,29 @@ using UnityEditor;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
 
-public class SkillManager : MonoBehaviour
+public partial class SkillManager : MonoBehaviour
 {
     public GameObject CharacterObj;
     public GameObject SkillViewerObj;
-    public GameObject DescriptionBoxObj;
 
-    private Character character;
+    DiscriptionBox discriptionBox { set; get; }
+
+    public Character character { private set; get; }
     
     public Text SkillCount;
     public SkillSheet skillSheet;
-    int skillPoint;
+    public int skillPoint;
 
     public static SkillManager StaticSkillManager;
     public enum SkillsType { Physic, Magic }
-    public static List<Skill> PhysicSkills { private set; get; } = new List<Skill>();
-    public static List<Skill> MagicSkills { private set; get; } = new List<Skill>();
+
+    public static List<Skill> skillList { private set; get; } = new List<Skill>();
     public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
     const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;
 
     public string ClickedSkillName { private set; get; }
-    public class Skill : MonoBehaviour
-    {
-        public SkillSheet.Param data { private set; get; }
-        public Sprite Icon { private set; get; }
-        public GameObject HitBoxObj { private set; get; }
-        public HitBoxCollider HitBoxCollider { private set; get; }
-        public bool isLearned { private set; get; }
-        public void IsLearn(bool isLearn)
-        {
-            isLearned = isLearn;
-            transform.GetComponent<Image>().color = Color.white;
-        }
-        public GameObject HitBoxFX { private set; get; }
-        public GameObject HitFX { private set; get; }
-        public void SetSkillData(SkillSheet.Param sheet, SkillManager skillManager , Transform viewerTransform)
-        {
-            data = sheet;
-            string folderPath = "Character/Animation/Skills/" + sheet.InfluencedBy + "/" + sheet.Name_Eng + "/" + sheet.Name_Eng;
-            Icon = Resources.Load<Sprite>(folderPath + "Icon");
-            HitBoxObj = Resources.Load<GameObject>(folderPath + "HitBox");
-
-            HitBoxFX = Resources.Load<GameObject>(folderPath + "HitBoxFX");
-            HitFX = Resources.Load<GameObject>(folderPath + "HitFX");
-
-            viewerTransform.GetComponent<Image>().sprite = Icon;
-            viewerTransform.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-            List<EventTrigger.Entry> entry = viewerTransform.GetComponent<EventTrigger>().triggers;
-            entry[0].callback.AddListener((data) => { skillManager.SelectedIcon(viewerTransform); });
-        }
-
-        public IEnumerator ActivateSkill(Character chracter)
-        {
-            float endFrom = data.EndFrom + 1f;
-
-            //Activate Hit
-            while (!chracter.isHitTriggerActivate)
-                yield return new WaitForEndOfFrame();
-
-            float during = data.During == 0f ? 0.5f : data.During;
-            float speed = endFrom / during;
-            float hitTime = during / data.HitCount;
-            float originalDamage = (data.InfluencedBy == "Physic" ? chracter.ATK + chracter.HP : chracter.ATK + (chracter.MP * 10));
-            float damage = originalDamage + (originalDamage * (0.01f * data.Damage_Percentage));
-            bool isFXStartFromGround = data.FXStartPoint == "Ground" ? true : false;
-
-            Vector3 startPosition = chracter.transform.position;
-            
-            for (int i = 0; i < data.HitCount; i++)
-            {
-                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, chracter.transform.forward, speed, this);
-
-                float aliveTime= 0;
-                while (aliveTime < hitTime)
-                {
-                    aliveTime += Time.fixedDeltaTime;
-                    yield return new WaitForFixedUpdate();
-
-                    if (data.IsDetectCollision)
-                    {
-                        if (hitBoxScrip.IsEnteredTrigger)
-                        {
-                            Collider targetCollider = hitBoxScrip.GetColsedCollider(chracter.transform.position);
-
-                            if (targetCollider == null) { print("somting wrong in skillManager ActivateSkill"); }
-
-                            if (data.IsSingleTarget)
-                            {
-                                SetDamageToTarget(targetCollider, damage, HitFX, isFXStartFromGround);
-                                break;
-                            }
-                            else
-                            {
-                                var colliders = hitBoxScrip.colliders;
-                                for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
-                                {
-
-                                    SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
-                                    colliders.RemoveAt(colliderCount);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (!data.IsDetectCollision)
-                {
-                    startPosition = hitBoxScrip.transform.position;
-
-                    var colliders = hitBoxScrip.colliders;
-                    if(colliders.Count > 0)
-                    for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
-                    {
-                        SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
-                        colliders.RemoveAt(colliderCount);
-                    }
-                }
-                hitBoxScrip.DestroyObj();
-            }
-            while (chracter.NowAnimatorInfo.IsName(data.Name_Eng))
-                yield return new WaitForFixedUpdate();
-            DeActivateSkill(this);
-        }
-
-        public bool IsThereMonsterAround(Transform characterTransform)
-        {
-            return GPosition.GetSelectedColliderInFOV(characterTransform.transform, data.EndFrom + 1, FOVDeg, "Monster").Count > 0;
-        }
-
-        void SetDamageToTarget(Collider target, float damage, GameObject hitFX, bool isFXStartFromGround) 
-        { 
-            if (target != null) target.GetComponent<Monster>().GetHit(damage, hitFX, isFXStartFromGround); 
-        }
-    }
-    public static Skill GetSkill(bool isPhysic, int index) 
-    {
-        var list = isPhysic ? PhysicSkills : MagicSkills;
-        foreach(Skill skill in list)
-        {
-            if(skill.data.Index == index) { return skill; }
-        }
-        return null;
-    }
+    
+    public static Skill GetSkill(int index) { return skillList[index]; }
     public static bool IsDeActivateSkill (Skill skill) 
     { 
         foreach(Skill nowSkill in RunningSkills)
@@ -164,8 +45,8 @@ public class SkillManager : MonoBehaviour
     }
     public static void ActivateSkiil(Skill skill, Character character)
     {
-            StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
-            RunningSkills.Add(skill);
+        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
+        RunningSkills.Add(skill);
     }
     public static void DeActivateSkill(Skill skill) 
     { 
@@ -174,8 +55,7 @@ public class SkillManager : MonoBehaviour
     private void Awake()
     {
         CreatViewer();
-        DescriptionBoxObj = SkillViewerObj.transform.Find("DescriptionBox").gameObject;
-        DescriptionBoxObj.SetActive(false);
+        discriptionBox = DiscriptionBox.AddDiscriptionScript(SkillViewerObj.transform.Find("DescriptionBox"));
         character = CharacterObj.GetComponent<Character>();
         StaticSkillManager = this;
         var sheet = skillSheet.sheets[0].list;
@@ -183,14 +63,13 @@ public class SkillManager : MonoBehaviour
 
         for (int i = 0; i < sheet.Count; i++)
         {
-            if(sheet[i].Index != 0)
+            if(sheet[i].Name != "")
             {
                 GameObject nowObj = skillViewerTransform.Find(sheet[i].Name_Eng).gameObject;
                 Skill skill = nowObj.AddComponent<Skill>();
                 skill.SetSkillData(sheet[i], this, nowObj.transform);
 
-                var nowList = skill.data.InfluencedBy == "Physic" ? PhysicSkills : MagicSkills;
-                nowList.Add(skill);
+                skillList.Add(skill);
             }
             else break;
         }
@@ -200,7 +79,7 @@ public class SkillManager : MonoBehaviour
     private void Start()
     {
         skillPoint = character.level;
-        LearnSkill(GetSkill(true, 1), true);
+        LearnSkill(GetSkill(0), true);
     }
 
     public void CreatViewer()
@@ -215,7 +94,6 @@ public class SkillManager : MonoBehaviour
         if (isLearn) skillPoint--;
         else skillPoint++;
         RefreshSkillCount();
-
     }
     void RefreshSkillCount()
     {
@@ -226,47 +104,54 @@ public class SkillManager : MonoBehaviour
     public void HideSkillViewer()
     {
         SkillViewerObj.SetActive(false);
-        DescriptionBoxObj.SetActive(false);
+        discriptionBox.gameObject.SetActive(false);
         character.IntoNomalUI();
     }
-    public void SelectedIcon(Transform viewer)
+    
+    class DiscriptionBox : MonoBehaviour
     {
-        bool isTouch;
-        int touchId = 0;
-        bool isMouse;
-        if (GPosition.IsContainInput(viewer.GetComponent<RectTransform>(), out isTouch ,out touchId, out isMouse))
+        public Image icon { private set; get; }
+        public Text text { private set; get; }
+        public Button button { private set; get; }
+        Skill skill { set; get; }
+        public static DiscriptionBox AddDiscriptionScript(Transform transform)
         {
-            StartCoroutine(TraceInput(viewer, isTouch, touchId, isMouse));
+            var discription = transform.gameObject.AddComponent<DiscriptionBox>();
+            discription.gameObject.SetActive(false);
+            return discription;
         }
-        else
-            print("somting Wrong in SkillManager_SelectedIcon");
-    }
-
-    IEnumerator TraceInput(Transform viewer, bool isTouch, int touchId, bool isMouse)
-    {
-        Transform copy = Instantiate(viewer, transform.root);
-        while(GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
+        void Awake()
         {
-            copy.position = isTouch ? (Vector3)Input.touches[touchId].position : Input.mousePosition;
-            yield return new WaitForEndOfFrame();
+            icon = transform.Find("Icon").GetComponent<Image>();
+            text = transform.Find("DescriptionText").GetComponent<Text>();
+            button = transform.Find("Button").GetComponent<Button>();
+            button.onClick.AddListener(ClickLearnButton);
         }
-
-        if(GMath.GetRect(viewer.GetComponent<RectTransform>()).Contains(copy.transform.position))
+        public void ShowDiscription(Skill data)
         {
-            DescriptionBoxObj.SetActive(true);
-            DescriptionBoxObj.transform.GetChild(0).GetComponent<Image>().sprite = viewer.GetComponent<Skill>().Icon;
-            DescriptionBoxObj.transform.GetChild(1).GetComponent<Text>().text = viewer.GetComponent<Skill>().data.Description;
+            skill = data;
+            icon.sprite = data.Icon;
+            text.text = data.data.Description;
+            gameObject.SetActive(true);
+            if (!data.isLearned) { button.gameObject.SetActive(true); }
+            else { button.gameObject.SetActive(false); }
         }
-        else if (character.QuickSlot.gameObject.activeSelf)
+        public void ClickLearnButton() 
         {
-            QuickSlot quickSlot = character.QuickSlot;
-            int num = quickSlot.IsIn((Vector2)copy.position);
-            if(num >= 0)
+            if (StaticSkillManager.skillPoint > 0)
             {
-                quickSlot.SetSlot(viewer, num);
+                if (SkillManager.GetSkill(skill.data.ParentIndex).isLearned)
+                {
+                    StaticSkillManager.LearnSkill(skill, true);
+                    button.gameObject.SetActive(false);
+                }
+                else
+                {
+                    StaticManager.ShowAlert("선행 스킬이 습득되지 않았습니다.", Color.red);
+                }
             }
+            else
+                StaticManager.ShowAlert("스킬포인트가 부족합니다", Color.red);
         }
-
-        Destroy(copy.gameObject);
     }
 }

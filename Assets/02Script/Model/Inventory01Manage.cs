@@ -37,6 +37,14 @@ public partial class Inventory : MonoBehaviour
 
         RefreashInventoryView();
     }
+
+    public void AddItemForMonster(int itemIndex, int addCounter, float probablility) 
+    {
+        var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probablility);
+        var view = ItemManager.GetNewItemView(counter, this);
+
+        itemViews.Add(view);
+    }
     public void AddItem(ItemManager.ItemCounter counter) => AddItem(counter.Data.Index, counter.count);
 
     void AddViewAndTableList(ItemManager.ItemCounter newCounter)
@@ -90,12 +98,14 @@ public partial class Inventory : MonoBehaviour
                 if (comfirmBox.NowState == ComfimBox.State.Yes)
                 {
                     StateEffecterManager.EffectToModel(itemView.transform, Model, false);
+                    if(nowType == ItemSheet.Param.ItemTypeEnum.Equipment) { (Model as Character).EquipmentView.SetEquipmetItem(itemView); }
                     RemoveItem(itemView.ItemCounter.Data.Index, 1);
                 }
             }
             else
             {
                 StateEffecterManager.EffectToModel(itemView.transform, Model, false);
+                RemoveItem(itemView.ItemCounter.Data.Index, 1);
             }
         }
     }

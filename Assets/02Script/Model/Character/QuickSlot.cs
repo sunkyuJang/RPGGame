@@ -12,12 +12,14 @@ public class QuickSlot : MonoBehaviour
     private List<Transform> lists = new List<Transform>();
     private List<Rect> childArea = new List<Rect>();
     private List<Transform> child = new List<Transform>();
+    Sprite recoverIcon { set; get; }
     public bool IsActive { set; get; }
 
     private void Awake()
     {
         transform = gameObject.transform;
         area = GMath.GetRect(gameObject.GetComponent<RectTransform>());
+        recoverIcon = transform.GetChild(0).GetComponent<Image>().sprite;
         for (int i = 0; i < 5; i++)
         {
             Transform nowChild = transform.GetChild(i);
@@ -36,20 +38,36 @@ public class QuickSlot : MonoBehaviour
     private void DoAction(int num)
     {
         Transform nowSlot = lists[num];
-        ItemView itemView = nowSlot.GetComponent<ItemView>();
-        SkillManager.Skill skillViewer = nowSlot.GetComponent<SkillManager.Skill>();
-        if (itemView != null)
+
+        if (nowSlot != null)
         {
-            itemView.UseThis();
-            if(itemView.ItemCounter.count <= 0) 
+            ItemView itemView = nowSlot.GetComponent<ItemView>();
+            SkillManager.Skill skillViewer = nowSlot.GetComponent<SkillManager.Skill>();
+
+            if (itemView != null)
             {
+                ItemSheet.Param data = itemView.ItemCounter.Data;
                 Inventory inventory = itemView.inventory;
-                SetSlot(inventory.table.GetLastPositionItemCounter(itemView.ItemCounter.Data).View.transform, num);
+                itemView.UseThis();
+
+                if (itemView.ItemCounter == null)
+                {
+                    var kind = inventory.table.GetSameKind(data);
+                    if (kind == null)
+                    {
+                        child[num].GetComponent<Image>().sprite = recoverIcon;
+                        lists[num] = null;
+                    }
+                    else
+                    {
+                        lists[num] = kind[kind.Count - 1].View.transform;
+                    }
+                }
             }
-        }
-        else if(skillViewer != null)
-        {
-            Character.ActivateSkill(skillViewer);
+            else if (skillViewer != null)
+            {
+                Character.ActivateSkill(skillViewer);
+            }
         }
     }
 
@@ -89,7 +107,7 @@ public class QuickSlot : MonoBehaviour
     {
         QuickSlot quickSlot = Create.GetNewInCanvas<QuickSlot>();
         quickSlot.Character = character;
-        quickSlot.gameObject.SetActive(false);
+        //quickSlot.gameObject.SetActive(false);
         return quickSlot;
     }
 }

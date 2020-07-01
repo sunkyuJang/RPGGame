@@ -33,7 +33,10 @@ public partial class ItemManager : MonoBehaviour
     {
         public ItemSheet.Param Data { private set; get; }
         public int count { private set; get; }
+        public float Probablilty { private set; get; }
         public ItemCounter(ItemSheet.Param data) => Data = data;
+        ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
+        public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
         public ItemView View { set; get; }
         public int GetExcessCount(int addCount) 
         {
@@ -67,6 +70,11 @@ public partial class ItemManager : MonoBehaviour
             {
                 View.RefreshText();
             }
+        }
+
+        public ItemCounter CopyThis()
+        {
+            return new ItemCounter(Data, count);
         }
     }
 }

@@ -152,7 +152,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        ActivateSkill(SkillManager.GetSkill(true, 1));
+                        ActivateSkill(SkillManager.GetSkill(0));
                     }
                     yield break;
                 }

@@ -7,7 +7,7 @@ using GLip;
 public class EquipmentView : MonoBehaviour
 {
     Character Character { set; get; }
-    ItemView[] EquipmentItems { set; get; } = new ItemView[2];
+    ItemManager.ItemCounter[] EquipmentItems { set; get; } = new ItemManager.ItemCounter[2];
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }
@@ -35,8 +35,10 @@ public class EquipmentView : MonoBehaviour
             if (comfimBox.NowState == ComfimBox.State.Yes)
             {
                 var equipmentItem = EquipmentItems[index];
-                StateEffecterManager.EffectToModel(equipmentItem.transform, Character as Model, true);
-                Character.Inventory.AddItem(equipmentItem.ItemCounter);
+                var View = ItemManager.GetNewItemView(equipmentItem, Character.Inventory);
+                StateEffecterManager.EffectToModel(View.transform, Character as Model, true);
+                Character.Inventory.AddItem(equipmentItem);
+                Destroy(View.gameObject);
                 EquipmentItems[index] = null;
                 if(index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
                 else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
@@ -51,18 +53,19 @@ public class EquipmentView : MonoBehaviour
     public void SetEquipmetItem(ItemView equipmentItem)
     {
         ItemSheet.Param data = equipmentItem.ItemCounter.Data;
-        if (data.ItemType == "Weapon")
+        if (data.ItemType == "EquipmentWeapon")
         {
             WeaponImage.sprite = equipmentItem.Icon.sprite;
             Instantiate(Resources.Load<GameObject>("Character/Weapon/Dagger"), WeaponTrans);
-            EquipmentItems[0] = equipmentItem;
+            EquipmentItems[0] = equipmentItem.ItemCounter.CopyThis();
         }
         else
         {
             ArmorImage.sprite = equipmentItem.Icon.sprite;
             ArmorTrans = Instantiate(Resources.Load<GameObject>("Character/Armor/WarriorMale"), Character.transform).transform;
-            EquipmentItems[1] = equipmentItem;
+            EquipmentItems[1] = equipmentItem.ItemCounter.CopyThis();
         }
+        LoadCharacterState();
     }
     public static EquipmentView GetNew(Character character)
     {

@@ -9,23 +9,29 @@ public partial class Character : Model
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    int skillCount = 0;
     public void ActivateSkill(SkillManager.Skill skill)
     {
         if (IsinField)
         {
             if (SkillManager.IsDeActivateSkill(skill) && canUsingAnotherSkill)
             {
-                if (skill.IsThereMonsterAround(this.transform))
+                if (!skill.isCoolDownNow)
                 {
-                    NowState = ActionState.Attack;
-                    Animator.SetInteger("SkillTier", skill.data.SkillTier);
-                    Animator.SetInteger("SkillIndex", skill.data.Index);
-                    Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
-                    DoAnimator(AnimatorState.Attak);
-                    SkillManager.ActivateSkiil(skill, this);
-                    StartCoroutine(DeActivateSkill(skill));
-                    return;
+                    if (skill.IsThereMonsterAround(this.transform))
+                    {
+                        NowState = ActionState.Attack;
+                        Animator.SetInteger("SkillTier", skill.data.SkillTier);
+                        Animator.SetInteger("SkillIndex", skill.data.Index);
+                        Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
+                        DoAnimator(AnimatorState.Attak);
+                        SkillManager.ActivateSkiil(skill, this);
+                        StartCoroutine(DeActivateSkill(skill));
+                        return;
+                    }
+                }
+                else
+                {
+                    StaticManager.ShowAlert("쿨타임이 남았습니다", Color.red);
                 }
             }
         }

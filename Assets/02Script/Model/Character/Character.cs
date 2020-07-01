@@ -41,6 +41,7 @@ public partial class Character : Model
         Inventory.AddItem(1, 10);
         Inventory.AddItem(2, 1);
         Inventory.AddItem(2, 1);
+        Inventory.AddItem(3, 1);
     }
 
     private void FixedUpdate()

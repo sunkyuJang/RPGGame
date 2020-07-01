@@ -21,22 +21,21 @@ public class SkillSheet : ScriptableObject
 		public string Name;
 		public string Name_Eng;
 		public string Description;
-		public bool CanMove;
+		public int ParentIndex;
 		public string InfluencedBy;
 		public int Damage_Percentage;
 		public int HitCount;
-		public float During;
+		public float Duration;
 		public bool IsSingleTarget;
+		public string TargetTo;
 		public string StartFrom;
-		public float EndFrom;
+		public float Length;
 		public string AttackType;
 		public bool IsDetectCollision;
 		public string FXStartPoint;
 		public int Cooldown;
-		public int ParentIndex;
 		public int SkillTier;
-		public int BuffIndex;
-		public int DebuffIndex;
+		public int StateEffecterIndex;
 	}
 }
 

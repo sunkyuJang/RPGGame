@@ -12,7 +12,7 @@ public partial class Inventory : MonoBehaviour
     public Rect Area { private set; get; }
     public bool isPlayer { private set; get; }
 
-    private List<ItemView> itemViews = new List<ItemView>();
+    public List<ItemView> itemViews { private set; get; } = new List<ItemView>();
     public bool HasItem { get { return itemViews.Count > 0; } }
     public int length { set; get; }
 

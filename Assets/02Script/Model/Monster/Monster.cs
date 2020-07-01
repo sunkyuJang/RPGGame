@@ -222,10 +222,11 @@ public class Monster : Model
         attackDelayTimer = 0f;
         canAttack = true;
     }
-    public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
+    public void GetHit(Character from, float damege, GameObject HitFX, bool isFXStartFromGround)
     {
         damege -= DEF;
-        nowHP -= (int)(damege > 0 ? damege : 0);
+        damege = (int)(damege > 0 ? damege : 0);
+        StaticManager.ShowAlert(((int)damege).ToString(), Color.red, Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)));
         NowState = State.getHit;
         StartCoroutine(DoGetHit());
         if (HitFX != null)
@@ -260,10 +261,26 @@ public class Monster : Model
             yield return new WaitForSeconds(waitTIme);
             Destroy(HPViewer.gameObject);
             Destroy(gameObject);
+            DropItem();
         }
 
         NowState = State.battle;
         yield break;
+    }
+
+    void DropItem()
+    {
+        var probablility = Random.Range(0, 100) * 0.01f;
+        print(probablility);
+        foreach(ItemView kind in Inventory.itemViews)
+        {
+            if (probablility <= kind.ItemCounter.Probablilty)
+            {
+                Character.Inventory.AddItem(kind.ItemCounter);
+                StaticManager.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
+            }
+        }
+
     }
 
     void DoAnimator(State state)
