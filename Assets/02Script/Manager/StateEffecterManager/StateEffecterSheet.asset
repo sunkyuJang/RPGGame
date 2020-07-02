@@ -75,3 +75,33 @@ MonoBehaviour:
       SPD_percent: 0
       Super: 0
       During: 0
+    - Index: 4
+      RequestType: Skill
+      RequestIndex: 5
+      nowHp: 0
+      nowMp: 0
+      HP: 0
+      MP: 0
+      ATK_point: 0
+      DEF_point: 0
+      SPD_point: 0
+      ATK_percent: 0
+      DEF_percent: 50
+      SPD_percent: 0
+      Super: 0
+      During: 10
+    - Index: 5
+      RequestType: Skill
+      RequestIndex: 6
+      nowHp: 0
+      nowMp: 0
+      HP: 0
+      MP: 0
+      ATK_point: 0
+      DEF_point: 0
+      SPD_point: 0
+      ATK_percent: -10
+      DEF_percent: -10
+      SPD_percent: -10
+      Super: 0
+      During: 10

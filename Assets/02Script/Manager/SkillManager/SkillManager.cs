@@ -27,31 +27,10 @@ public partial class SkillManager : MonoBehaviour
     public int skillPoint;
 
     public static SkillManager StaticSkillManager;
-    public enum SkillsType { Physic, Magic }
-
     public static List<Skill> skillList { private set; get; } = new List<Skill>();
-    public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
-    const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;
-
-    public string ClickedSkillName { private set; get; }
-    
+    const float FOVDeg = Mathf.PI / 4 + Mathf.Rad2Deg;    
     public static Skill GetSkill(int index) { return skillList[index]; }
-    public static bool IsDeActivateSkill (Skill skill) 
-    { 
-        foreach(Skill nowSkill in RunningSkills)
-            if (skill.data.Index == nowSkill.data.Index) 
-                return false;
-        return true;
-    }
-    public static void ActivateSkiil(Skill skill, Character character)
-    {
-        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
-        RunningSkills.Add(skill);
-    }
-    public static void DeActivateSkill(Skill skill) 
-    { 
-        RunningSkills.Remove(skill);
-    }
+
     private void Awake()
     {
         CreatViewer();
@@ -82,6 +61,10 @@ public partial class SkillManager : MonoBehaviour
         LearnSkill(GetSkill(0), true);
     }
 
+    public static void ActivateSkiil(Skill skill, Character character)
+    {
+        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
+    }
     public void CreatViewer()
     {
         SkillViewerObj = Instantiate(SkillViewerObj, transform.parent);
@@ -140,7 +123,7 @@ public partial class SkillManager : MonoBehaviour
         {
             if (StaticSkillManager.skillPoint > 0)
             {
-                if (SkillManager.GetSkill(skill.data.ParentIndex).isLearned)
+                if (GetSkill(skill.data.ParentIndex).isLearned)
                 {
                     StaticSkillManager.LearnSkill(skill, true);
                     button.gameObject.SetActive(false);
@@ -155,3 +138,21 @@ public partial class SkillManager : MonoBehaviour
         }
     }
 }
+
+    //public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
+/*    public static bool IsDeActivateSkill (Skill skill) 
+    { 
+        foreach(Skill nowSkill in RunningSkills)
+            if (skill.data.Index == nowSkill.data.Index) 
+                return false;
+        return true;
+    }
+*//*    public static void ActivateSkiil(Skill skill, Character character)
+    {
+        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
+        RunningSkills.Add(skill);
+    }
+    public static void DeActivateSkill(Skill skill) 
+    { 
+        RunningSkills.Remove(skill);
+    }*/

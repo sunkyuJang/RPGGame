@@ -8,8 +8,8 @@ using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
 public class StateEffecterSheet_importer : AssetPostprocessor {
-	private static readonly string filePath = "Assets/02Script/Model/StateEffecterSheet.xlsx";
-	private static readonly string exportPath = "Assets/02Script/Model/StateEffecterSheet.asset";
+	private static readonly string filePath = "Assets/02Script/Manager/StateEffecterManager/StateEffecterSheet.xlsx";
+	private static readonly string exportPath = "Assets/02Script/Manager/StateEffecterManager/StateEffecterSheet.asset";
 	private static readonly string[] sheetNames = { "Sheet1", };
 	
 	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)

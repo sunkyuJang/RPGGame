@@ -46,7 +46,7 @@ public class ItemView : MonoBehaviour
     public void SetDiscriptionBox() => discritionBox.SetDiscription();
     public void ShowDiscriptionBox() => discritionBox.ShowDiscription();
     public void HideDiscriptionBox() => discritionBox.HideDiscriprtion();
-    public void UseThis() => StartCoroutine(inventory.UseItem(this, false));
+    public void UseThis() => StaticManager.coroutineStart(inventory.UseItem(this, false));
     public void SelectedIcon()
     {
         bool isTouch = false;

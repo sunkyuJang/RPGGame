@@ -36,7 +36,7 @@ public class EquipmentView : MonoBehaviour
             {
                 var equipmentItem = EquipmentItems[index];
                 var View = ItemManager.GetNewItemView(equipmentItem, Character.Inventory);
-                StateEffecterManager.EffectToModel(View.transform, Character as Model, true);
+                StateEffecterManager.EffectToModelByItem(Character as Model, View.ItemCounter, true);
                 Character.Inventory.AddItem(equipmentItem);
                 Destroy(View.gameObject);
                 EquipmentItems[index] = null;

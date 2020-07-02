@@ -222,7 +222,7 @@ public class Monster : Model
         attackDelayTimer = 0f;
         canAttack = true;
     }
-    public void GetHit(Character from, float damege, GameObject HitFX, bool isFXStartFromGround)
+    public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
     {
         damege -= DEF;
         damege = (int)(damege > 0 ? damege : 0);

@@ -12,13 +12,9 @@ public class StateEffecterManager : MonoBehaviour
 
     private void Awake() => data = sheet.sheets[0].list;
 
-    public static void EffectToModel(Transform transform, Model targetModel, bool isDeEffect)
+    static void EffectToModel(int index, int requestIndex, bool isItem, bool isDeEffect, Model targetModel)
     {
-        int index = 0;
-        int requestIndex = 0;
-        bool isItem = false;
-
-        ItemManager.ItemCounter nowItem = transform.GetComponent<ItemView>().ItemCounter;
+        /*ItemManager.ItemCounter nowItem = transform.GetComponent<ItemView>().ItemCounter;
         SkillManager.Skill nowSkill = transform.GetComponent<SkillManager.Skill>();
 
         if (nowItem != null)
@@ -30,8 +26,11 @@ public class StateEffecterManager : MonoBehaviour
         else if(nowSkill != null)
         {
             index = nowSkill.data.Index;
+            isItem = false;
+            requestIndex = nowSkill.data.StateEffecterIndex;
             //it need Effecter index;
-        }
+        }*/
+
         if (CompareIndexer(index, requestIndex, isItem))
         {
             int coroutineIndex = 0;
@@ -40,9 +39,32 @@ public class StateEffecterManager : MonoBehaviour
                 CoroutinForEffecter.StopRunningCoroutine(targetModel, coroutineIndex);
             }
 
-            targetModel.listForStateEffecter.Add(new CoroutinForEffecter(targetModel, data[requestIndex], isDeEffect));
+            var coroutineEffecter = new CoroutinForEffecter(targetModel, data[requestIndex], isDeEffect);
+            if(coroutineEffecter.data.During > 0) { targetModel.listForStateEffecter.Add(coroutineEffecter); }
         }
         else { Debug.Log("Somthing Worng in stateEffecter "); }
+    }
+
+    public static void EffectToModelBySkill(SkillManager.Skill skill, Model target, float damage, GameObject hitFX, bool isFXStartFromGround)
+    {
+        var isNpc = target is Npc;
+        
+        if(!isNpc)
+        {
+            if (skill.data.Damage_Percentage != 0 || skill.data.TargetTo == "Monster") {
+                target.GetHit(damage, hitFX, isFXStartFromGround);
+            }
+
+            if(skill.data.StateEffecterIndex != 0)
+            {
+                EffectToModel(skill.data.Index, skill.data.StateEffecterIndex, false, false, target);
+            }
+        }
+    }
+
+    public static void EffectToModelByItem(Model targetModel, ItemManager.ItemCounter counter, bool isDeEffect)
+    {
+        EffectToModel(counter.Data.Index, counter.Data.EffecterIndex, true, isDeEffect, targetModel);
     }
     static bool CompareIndexer(double index, double requestIndex, bool isItem)
     {

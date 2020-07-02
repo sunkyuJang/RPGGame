@@ -25,11 +25,10 @@ MonoBehaviour:
       HitCount: 1
       Duration: 0
       IsSingleTarget: 1
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Character
       Length: 1
-      AttackType: Jump
-      IsDetectCollision: 1
+      AttackType: Stamp
       FXStartPoint: Enemy
       Cooldown: 0
       SkillTier: 0
@@ -45,11 +44,10 @@ MonoBehaviour:
       HitCount: 1
       Duration: 1
       IsSingleTarget: 1
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Character
       Length: 3
-      AttackType: Jump
-      IsDetectCollision: 1
+      AttackType: Stamp
       FXStartPoint: Ground
       Cooldown: 5
       SkillTier: 1
@@ -65,11 +63,10 @@ MonoBehaviour:
       HitCount: 1
       Duration: 1
       IsSingleTarget: 1
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Character
       Length: 5
       AttackType: Line
-      IsDetectCollision: 1
       FXStartPoint: Enemy
       Cooldown: 5
       SkillTier: 1
@@ -85,11 +82,10 @@ MonoBehaviour:
       HitCount: 3
       Duration: 1
       IsSingleTarget: 0
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Enemy
       Length: 10
-      AttackType: Jump
-      IsDetectCollision: 1
+      AttackType: Stamp
       FXStartPoint: Enemy
       Cooldown: 10
       SkillTier: 2
@@ -102,13 +98,12 @@ MonoBehaviour:
       InfluencedBy: Physic
       Damage_Percentage: 100
       HitCount: 5
-      Duration: 2
+      Duration: 3
       IsSingleTarget: 0
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Character
-      Length: 10
+      Length: 15
       AttackType: Jump
-      IsDetectCollision: 0
       FXStartPoint: Ground
       Cooldown: 10
       SkillTier: 2
@@ -116,19 +111,18 @@ MonoBehaviour:
     - Index: 5
       Name: "\uAC00\uD638"
       Name_Eng: BoostMorale
-      Description: "\uC790\uC2E0 \uC8FC\uBCC0\uC758 \uC801\uB4E4\uC5D0\uAC8C \uD53C\uD574\uB97C
-        \uC8FC\uACE0, \uC790\uC2E0\uC740 10\uCD08\uAC04 \uBC29\uC5B4\uB97C 50% \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
+      Description: "\uC790\uC2E0\uC740 10\uCD08\uAC04 \uACF5\uACA9\uACFC \uBC29\uC5B4\uB97C
+        50% \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
       ParentIndex: 1
       InfluencedBy: Physic
-      Damage_Percentage: 10
+      Damage_Percentage: 0
       HitCount: 1
-      Duration: 0
+      Duration: 1
       IsSingleTarget: 0
-      TargetTo: Friend
+      TargetTo: Character
       StartFrom: Character
       Length: 10
-      AttackType: Jump
-      IsDetectCollision: 0
+      AttackType: Stamp
       FXStartPoint: Ground
       Cooldown: 15
       SkillTier: 2
@@ -143,13 +137,12 @@ MonoBehaviour:
       InfluencedBy: Magic
       Damage_Percentage: 0
       HitCount: 1
-      Duration: 0
+      Duration: 1
       IsSingleTarget: 0
-      TargetTo: Enemy
+      TargetTo: Monster
       StartFrom: Enemy
       Length: 10
-      AttackType: Jump
-      IsDetectCollision: 0
+      AttackType: Stamp
       FXStartPoint: Ground
       Cooldown: 15
       SkillTier: 2
@@ -168,7 +161,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -187,7 +179,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -206,7 +197,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -225,7 +215,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -244,7 +233,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -263,7 +251,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -282,7 +269,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -301,7 +287,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -320,7 +305,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -339,7 +323,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -358,7 +341,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -377,7 +359,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -396,7 +377,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -415,7 +395,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -434,7 +413,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -453,7 +431,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -472,7 +449,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -491,7 +467,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -510,7 +485,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -529,7 +503,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -548,7 +521,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -567,7 +539,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -586,7 +557,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -605,7 +575,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -624,7 +593,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -643,7 +611,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -662,7 +629,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0
@@ -681,7 +647,6 @@ MonoBehaviour:
       StartFrom: 
       Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
       SkillTier: 0

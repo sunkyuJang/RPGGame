@@ -64,11 +64,10 @@ public class SkillSheet_importer : AssetPostprocessor {
 					cell = row.GetCell(11); p.StartFrom = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(12); p.Length = (float)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(13); p.AttackType = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(14); p.IsDetectCollision = (cell == null ? false : cell.BooleanCellValue);
-					cell = row.GetCell(15); p.FXStartPoint = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(16); p.Cooldown = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(17); p.SkillTier = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(18); p.StateEffecterIndex = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(14); p.FXStartPoint = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(15); p.Cooldown = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(16); p.SkillTier = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(17); p.StateEffecterIndex = (int)(cell == null ? 0 : cell.NumericCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

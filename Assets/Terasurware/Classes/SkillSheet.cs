@@ -31,7 +31,6 @@ public class SkillSheet : ScriptableObject
 		public string StartFrom;
 		public float Length;
 		public string AttackType;
-		public bool IsDetectCollision;
 		public string FXStartPoint;
 		public int Cooldown;
 		public int SkillTier;

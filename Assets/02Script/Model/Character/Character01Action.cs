@@ -215,10 +215,10 @@ public partial class Character : Model
         NowState = ActionState.Idle;
     }
 
-    public void GetHit(int damege)
+    public void GetHit(float damage)
     {
-        damege -= DEF;
-        nowHP -= damege <= 0 ? 0 : damege;
+        damage -= DEF;
+        nowHP -= (int)(damage <= 0 ? 0 : damage);
         NowState = ActionState.GetHit;
         StartCoroutine(DoGetHit());
         //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;

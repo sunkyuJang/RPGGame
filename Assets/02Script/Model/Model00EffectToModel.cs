@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 
 public partial class Model : MonoBehaviour
@@ -41,11 +42,11 @@ public partial class Model : MonoBehaviour
             ATK -= coroutinForEffecter.increasePercentageATK;
             DEF -= coroutinForEffecter.increasePercentageDEF;
             SPD -= coroutinForEffecter.increasePercentageSPD;
+
+            RemoveCoroutine(data);
         }
 
         if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
-        RemoveCoroutine(data);
-        print(listForStateEffecter.Count);
     }
 
     public IEnumerator GetProcessDeincreaseEffect(StateEffecterSheet.Param data, StateEffecterManager.CoroutinForEffecter coroutinForEffecter)
@@ -110,5 +111,11 @@ public partial class Model : MonoBehaviour
         {
             StateEffecterManager.CoroutinForEffecter.RemoveCoroutine(this, index);
         }
+    }
+
+    public void GetHit(float damage, GameObject HitFX, bool isFXStartFromGround)
+    {
+        if (this is Monster) { (this as Monster).GetHit(damage, HitFX, isFXStartFromGround); }
+        else if (this is Character) { (this as Character).GetHit(damage); }
     }
 }

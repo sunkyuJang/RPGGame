@@ -21,7 +21,7 @@ public partial class SkillManager : MonoBehaviour
         public Sprite Icon { private set; get; }
         public GameObject HitBoxObj { private set; get; }
         public HitBoxCollider HitBoxCollider { private set; get; }
-        public bool isLearned { private set; get; }
+        public bool isLearned { private set; get; } = true;
         public void IsLearn(bool isLearn)
         {
             isLearned = isLearn;
@@ -40,33 +40,31 @@ public partial class SkillManager : MonoBehaviour
             HitBoxFX = Resources.Load<GameObject>(folderPath + "HitBoxFX");
             HitFX = Resources.Load<GameObject>(folderPath + "HitFX");
 
+            if(HitBoxFX == null){ print(data.Name); }
             viewerTransform.GetComponent<Image>().sprite = Icon;
             viewerTransform.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
             List<EventTrigger.Entry> entry = viewerTransform.GetComponent<EventTrigger>().triggers;
             entry[0].callback.AddListener((data) => { skillManager.SelectedIcon(this); });
         }
 
-        public IEnumerator ActivateSkill(Character chracter)
+        /*public IEnumerator ActivateSkill(Character character)
         {
             if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
-            float endFrom = data.Duration + 1f;
 
             //Activate Hit
-            while (!chracter.isHitTriggerActivate)
+            while (!character.isHitTriggerActivate)
                 yield return new WaitForEndOfFrame();
 
-            float during = data.Duration == 0f ? 0.5f : data.Duration;
-            float speed = endFrom / during;
-            float hitTime = during / data.HitCount;
-            float originalDamage = (data.InfluencedBy == "Physic" ? chracter.ATK + chracter.HP : chracter.ATK + (chracter.MP * 10));
+            float duration = data.Duration == 0f ? 0.1f : data.Duration;
+            float hitTime = duration / data.HitCount;
+            float originalDamage = (data.InfluencedBy == "Physic" ? character.ATK + character.HP : character.ATK + (character.MP * 10));
             float damage = originalDamage + (originalDamage * (0.01f * data.Damage_Percentage));
             bool isFXStartFromGround = data.FXStartPoint == "Ground" ? true : false;
 
-            Vector3 startPosition = chracter.transform.position;
-
+            var startPosition = character.transform.position; 
             for (int i = 0; i < data.HitCount; i++)
             {
-                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, chracter.transform.forward, speed, this);
+                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, character.transform.forward, this);
 
                 float aliveTime = 0;
                 while (aliveTime < hitTime)
@@ -78,7 +76,7 @@ public partial class SkillManager : MonoBehaviour
                     {
                         if (hitBoxScrip.IsEnteredTrigger)
                         {
-                            Collider targetCollider = hitBoxScrip.GetColsedCollider(chracter.transform.position);
+                            Collider targetCollider = hitBoxScrip.GetColsedCollider(character.transform.position);
 
                             if (targetCollider == null) { print("somting wrong in skillManager ActivateSkill"); }
 
@@ -115,10 +113,86 @@ public partial class SkillManager : MonoBehaviour
                 }
                 hitBoxScrip.DestroyObj();
             }
-            while (chracter.NowAnimatorInfo.IsName(data.Name_Eng))
+            while (character.NowAnimatorInfo.IsName(data.Name_Eng))
                 yield return new WaitForFixedUpdate();
+        }*/
+        public IEnumerator ActivateSkill(Character character)
+        {
+            if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
 
-            DeActivateSkill(this);
+            //Activate Hit
+            while (!character.isHitTriggerActivate)
+                yield return new WaitForEndOfFrame();
+
+            float duration = data.Duration == 0f ? 0.1f : data.Duration;
+            float hitTime = duration / data.HitCount;
+            float originalDamage = (data.InfluencedBy == "Physic" ? character.ATK + character.HP : character.ATK + (character.MP * 10));
+            float damage = originalDamage + (originalDamage * (0.01f * data.Damage_Percentage));
+            bool isFXStartFromGround = data.FXStartPoint == "Ground" ? true : false;
+
+            var startPosition = character.transform.position; 
+            for (int i = 0; i < data.HitCount; i++)
+            {
+                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, character.transform.forward, this);
+                var isLoop = true;
+                float aliveTime = 0;
+                while (aliveTime < hitTime && isLoop)
+                {
+                    aliveTime += Time.fixedDeltaTime;
+                    yield return new WaitForFixedUpdate();
+
+                    switch (data.AttackType)
+                    {
+                        case "Line" :
+                        case "Stamp":
+                            if (hitBoxScrip.IsEnteredTrigger)
+                            {
+                                Collider targetCollider = hitBoxScrip.GetColsedCollider(character.transform.position, data.TargetTo);
+                                if (targetCollider != null)
+                                {
+                                    if (data.IsSingleTarget)
+                                    {
+                                        SetDamageToTarget(targetCollider, damage, HitFX, isFXStartFromGround);
+                                    }
+                                    else
+                                    {
+                                        var colliders = hitBoxScrip.colliders;
+                                        for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
+                                        {
+                                            if (colliders[colliderCount].CompareTag(data.TargetTo))
+                                            {
+                                                SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
+                                                colliders.RemoveAt(colliderCount--);
+                                            }
+                                        }
+                                    }
+
+                                    isLoop = false;
+                                }
+                            }
+                            break;
+                        
+                        case "Jump": 
+                            if(aliveTime >= hitTime)
+                            {
+                                startPosition = hitBoxScrip.transform.position;
+
+                                var colliders = hitBoxScrip.colliders;
+                                if (colliders.Count > 0)
+                                    for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
+                                    {
+                                        SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
+                                        colliders.RemoveAt(colliderCount);
+                                    }
+                            }
+                            break;
+                    }
+                }
+
+                hitBoxScrip.DestroyObj();
+            }
+            while (character.NowAnimatorInfo.IsName(data.Name_Eng))
+                yield return new WaitForFixedUpdate();
         }
 
         IEnumerator CountCoolDown()
@@ -140,7 +214,8 @@ public partial class SkillManager : MonoBehaviour
 
         void SetDamageToTarget(Collider target, float damage, GameObject hitFX, bool isFXStartFromGround)
         {
-            if (target != null) target.GetComponent<Monster>().GetHit(StaticSkillManager.character, damage, hitFX, isFXStartFromGround);
+            if (target != null) 
+                StateEffecterManager.EffectToModelBySkill(this, target.GetComponent<Model>(), damage, hitFX, isFXStartFromGround);
         }
     }
 
