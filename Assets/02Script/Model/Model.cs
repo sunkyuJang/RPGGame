@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Model : MonoBehaviour
+public partial class Model : MonoBehaviour
 {
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }

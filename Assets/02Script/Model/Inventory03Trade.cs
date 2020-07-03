@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public partial class Inventory : MonoBehaviour
 {
-    public bool CanTrade(ItemManager.ItemCounter _itemCounter)
+    /*public bool CanTrade(ItemManager.ItemCounter _itemCounter)
     {
         ItemManager.Item item = ItemManager.GetItem(_itemCounter.Indexer);
         if (item is ItemManager.ActiveItem)
@@ -25,5 +25,5 @@ public partial class Inventory : MonoBehaviour
             }
         }
         return false;
-    }
+    }*/
 }

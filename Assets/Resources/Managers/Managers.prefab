@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 322215185748847838}
   - component: {fileID: 2482731235928755482}
   - component: {fileID: -8734940949252729593}
+  - component: {fileID: 3310164098621874773}
   m_Layer: 5
   m_Name: Managers
   m_TagString: Untagged
@@ -66,9 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d94bb8d7965fcd449b8c81310796eaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeItemSheet: {fileID: 11400000, guid: 7c83807b3cca1d646a0e8b6dcf5bf03a, type: 2}
-  equipmentItemSheet: {fileID: 11400000, guid: 89ef332ade6eb794688f87f238929cb2, type: 2}
-  keyItemSheet: {fileID: 11400000, guid: 64660c817c479de4b96c01e6b630934b, type: 2}
+  sheet: {fileID: 11400000, guid: df5cc03788eac5c47b076c5188e59d96, type: 2}
 --- !u!114 &322215185748847836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a241e4dc6cf98a43983fe081667f9e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterObj: {fileID: 0}
   SkillViewerObj: {fileID: 4978791585471080672, guid: 784a72700bdbf6147a8775a6b19ef9a2,
     type: 3}
+  DescriptionBoxObj: {fileID: 0}
+  SkillCount: {fileID: 0}
   skillSheet: {fileID: 11400000, guid: becc2c9b516f5c640ba279163008b63e, type: 2}
+--- !u!114 &3310164098621874773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322215185748847835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f1ecf00328e1446893ce64736f5897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sheet: {fileID: 11400000, guid: 5691b6b33cab4cb46b35a249ce0ba795, type: 2}

@@ -75,15 +75,9 @@ public class QuestManager : MonoBehaviour
         string[] splitCounts = itemCount.Split(';');
         for (int i = 0; i < splitKinds.Length -1; i++)
         {
-            ItemManager.Kinds kinds = ItemManager.Kinds.Null;
-            string[] temp = splitKinds[i].Split(',');
-            switch (temp[0])
-            {
-                case "key": kinds = ItemManager.Kinds.keyItemList; break;
-                case "active": kinds = ItemManager.Kinds.activeItemList; break;
-            }
-            ItemManager.ItemIndexer indexer = new ItemManager.ItemIndexer(kinds, int.Parse(temp[1]));
-            itemList.Add(new ItemManager.ItemCounter(indexer, int.Parse(splitCounts[i])));
+            var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(int.Parse(splitKinds[i])));
+            counter.GetExcessCount(int.Parse(splitCounts[i]));
+            itemList.Add(counter);
         }
         return itemList;
     }
@@ -103,20 +97,20 @@ public class QuestManager : MonoBehaviour
         public bool ComfareQuest(string _name, int _index) { return Name.Equals(_name) && (NowQuestIndex == _index); }
         public bool ComfareItemList(Inventory inventory) 
         {
-            List<bool> IsClear = new List<bool>();
+            int clearCount = 0;
             foreach(ItemManager.ItemCounter requireItem in RequireList)
             {
-                foreach(ItemManager.ItemCounter inventoryItem in inventory.ItemCounters)
+                if (inventory.table.GetSameKindTotalCount(requireItem.Data) >= requireItem.count)
                 {
-                    if(requireItem.Indexer.IsSame(inventoryItem.Indexer))
-                    {
-                        if (requireItem.Count <= inventoryItem.Count) { IsClear.Add(true); }
-                        else return false;
-                    }
+                    clearCount++;
+                }
+                else
+                {
+                    return false;
                 }
             }
 
-            if(IsClear.Count == RequireList.Count)
+            if(clearCount == RequireList.Count)
             {
                 foreach(ItemManager.ItemCounter requireItem in RequireList) { inventory.RemoveItem(requireItem); }
                 foreach(ItemManager.ItemCounter rewardItem in RewardList) { inventory.AddItem(rewardItem); }

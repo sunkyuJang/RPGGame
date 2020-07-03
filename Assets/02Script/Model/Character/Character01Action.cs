@@ -22,7 +22,7 @@ public partial class Character : Model
     }
     float SigthLength { get { return 5f; } }
     float SigthDegLimit { get { return 30f; } }
-    Model TargetModel { set; get; }
+    public Model TargetModel { private set; get; }
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
     { 
@@ -75,10 +75,15 @@ public partial class Character : Model
     public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
     {
-        if (BeforeState == ActionState.Idle)
+        /*if (BeforeState == ActionState.Idle)
         {
             NowState = ActionState.Action;
         }
+        else
+        {
+            NowState = actionState;
+        }*/
+        NowState = actionState;
     }
 
     void FixedUpdateInAction()
@@ -147,7 +152,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        ActivateSkill(SkillManager.GetSkill(true, 1));
+                        ActivateSkill(SkillManager.GetSkill(0));
                     }
                     yield break;
                 }
@@ -169,8 +174,9 @@ public partial class Character : Model
     }
     IEnumerator DoTrade()
     {
-        ShowInventory();
-        TargetModel.ShowInventory();
+        Inventory.ShowInventoryForTrade(TargetModel.Inventory);
+        TargetModel.Inventory.ShowInventoryForTrade(Inventory);
+
         while(BeforeState == ActionState.Trade)
         {
             if(!Inventory.gameObject.activeSelf || !TargetModel.Inventory.gameObject.activeSelf)
@@ -209,10 +215,10 @@ public partial class Character : Model
         NowState = ActionState.Idle;
     }
 
-    public void GetHit(int damege)
+    public void GetHit(float damage)
     {
-        damege -= DEF;
-        nowHP -= damege <= 0 ? 0 : damege;
+        damage -= DEF;
+        nowHP -= (int)(damage <= 0 ? 0 : damage);
         NowState = ActionState.GetHit;
         StartCoroutine(DoGetHit());
         //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;

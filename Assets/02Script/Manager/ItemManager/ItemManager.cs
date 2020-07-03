@@ -3,62 +3,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using JetBrains.Annotations;
+using GLip;
+using UnityEditor;
+using System.Runtime.Remoting.Messaging;
+
 public partial class ItemManager : MonoBehaviour
 {
-    public enum Kinds { Null, activeItemList, EquipmentItemList, keyItemList }
-    public class Item
-    {
-        public string Name { private set; get; }
-        public string Description { private set; get; }
-        public int Limit { private set; get; }
-        public Sprite Image { private set; get; }
-        public int Index { private set; get; }
-        public Item(string url, double imagetIndex, string name, string description, int limit, int index)
-        {
-            Name = name;
-            Description = description;
-            Limit = limit;
-            Image = Resources.Load<Sprite>("image/" + url + "/" + imagetIndex.ToString());
-            Index = index;
-        }
-    }
-    public class ItemIndexer
-    {
-        public Kinds Kinds { private set; get; }
-        public int ItemIndex { private set; get; }
-        public ItemIndexer(Kinds _kinds, int _itemIndex)
-        {
-            Kinds = _kinds;
-            ItemIndex = _itemIndex;
-        }
-        public ItemIndexer(ItemIndexer indexer)
-        {
-            Kinds = indexer.Kinds;
-            ItemIndex = indexer.ItemIndex;
-        }
-        public bool IsSame(ItemIndexer _target) { return (Kinds == _target.Kinds) && (ItemIndex == _target.ItemIndex); }
-    }
-    public class ItemCounter : ItemIndexer
-    {
-        public ItemIndexer Indexer { get { return this as ItemIndexer; } }
-        public int Count { set; get; }
-        public ItemCounter(ItemIndexer indexer, int _count) : base(indexer) => Count = _count;
-        public ItemCounter(Kinds kinds, int index, int count) : base(kinds, index) => Count = count;
-    }
-    public static Item GetItem (ItemIndexer _indexer)
-    {
-        switch (_indexer.Kinds)
-        {
-            case Kinds.activeItemList : return ActiveItems[_indexer.ItemIndex];
-            case Kinds.keyItemList : return KeyItems[_indexer.ItemIndex];
-            case Kinds.EquipmentItemList: return Equipments[_indexer.ItemIndex];
-        }
-        return null;
-    }
+    public ItemSheet sheet;
+    public static List<ItemSheet.Param> Data { set; get; }
+    public static GameObject ItemViewObj { set; get; }
+
     private void Awake()
     {
-        SetActiveList();
-        SetEquipment();
-        SetKeyItems();
+        Data = sheet.sheets[0].list;
+        ItemViewObj = Resources.Load<GameObject>("ItemView");
+    }
+
+    public static ItemSheet.Param GetitemData(int index) => Data[index];
+    public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
+    {
+        ItemView itemView = Instantiate(ItemViewObj).GetComponent<ItemView>();
+        itemView.SetItemCounter(itemCount, inventory);
+        itemCount.View = itemView;
+        return itemView;
+    }
+    public class ItemCounter
+    {
+        public ItemSheet.Param Data { private set; get; }
+        public int count { private set; get; }
+        public float Probablilty { private set; get; }
+        public ItemCounter(ItemSheet.Param data) => Data = data;
+        ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
+        public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
+        public ItemView View { set; get; }
+        public int GetExcessCount(int addCount) 
+        {
+            var nowCount = count + addCount;
+
+            if (nowCount > Data.Limit)
+            {
+                count = Data.Limit;
+                nowCount -= Data.Limit;
+            }
+            else
+            {
+                count = nowCount;
+                nowCount = 0;
+            }
+
+            ViewRefreash();
+            return nowCount;
+        }
+        public int RemoveCountWithOverFlow(int removeCount)
+        {
+            count -= removeCount;
+
+            ViewRefreash();
+            return count;
+        }
+
+        void ViewRefreash()
+        {
+            if(View != null)
+            {
+                View.RefreshText();
+            }
+        }
+
+        public ItemCounter CopyThis()
+        {
+            return new ItemCounter(Data, count);
+        }
     }
 }

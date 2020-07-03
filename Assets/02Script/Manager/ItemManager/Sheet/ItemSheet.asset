@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4df6266119c59a4796997c307bb3a63, type: 3}
+  m_Name: ItemSheet
+  m_EditorClassIdentifier: 
+  sheets:
+  - name: Sheet1
+    list:
+    - Index: 0
+      Name: "\uC791\uC740 HP\uD3EC\uC158"
+      Name_eng: HPPotionSmall
+      ItemType: Active
+      Description: "\uC804\uCCB4 HP\uC758 10%\uB97C \uD68C\uBCF5\uD55C\uB2E4."
+      Limit: 10
+      Buy: 100
+      Sell: 50
+      EffecterIndex: 0
+    - Index: 1
+      Name: "\uAD11\uAE30\uD3EC\uC158"
+      Name_eng: InsanityDrug
+      ItemType: Active
+      Description: "\uC804\uCCB4 HP,MP\uC758 \uC808\uBC18\uC744 \uC783\uACE0, 5\uCD08\uAC04
+        ATK,DEF,SPD\uB97C 2\uBC30 \uC99D\uAC00\uD55C\uB2E4."
+      Limit: 10
+      Buy: 200
+      Sell: 50
+      EffecterIndex: 1
+    - Index: 2
+      Name: "\uC624\uB798\uB41C \uB3D9\uC804"
+      Name_eng: OldCoin
+      ItemType: Key
+      Description: "\uC2AC\uB77C\uC784\uC774 \uAC00\uC9C0\uACE0 \uC788\uB358 \uC624\uB798\uB41C
+        \uB3D9\uC804."
+      Limit: 5
+      Buy: 0
+      Sell: 0
+      EffecterIndex: -1
+    - Index: 3
+      Name: "\uB300\uAC70"
+      Name_eng: Dagger
+      ItemType: EquipmentWeapon
+      Description: "\uD574\uACE8 \uBAA8\uC591\uC774 \uC2E0\uACBD\uC4F0\uC774\uB294
+        \uAC80\uC774\uB2E4. \uC544\uC800\uC528\uAC00 \uB370\uC2A4\uBA54\uD0C8\uC5D0
+        \uC2EC\uCDE8\uC5D0 \uC788\uB294 \uAC83\uC740 \uC544\uB2D0\uAE4C?"
+      Limit: 1
+      Buy: 0
+      Sell: 0
+      EffecterIndex: 2
+    - Index: 4
+      Name: "\uAC00\uC8FD\uC637"
+      Name_eng: Leather
+      ItemType: EquipmentArmor
+      Description: "\uAC00\uC8FD\uC73C\uB85C \uB41C \uAC11\uC637\uC774\uB77C\uACE0
+        \uD55C\uB2E4. \uC544\uBB34\uB9AC \uBD10\uB3C4 \uCC9C\uC778\uAC70 \uAC19\uC740\uB370
+        \uAE30\uBD84 \uD0D3\uC778\uAC00 \uBCF4\uB2E4."
+      Limit: 1
+      Buy: 0
+      Sell: 0
+      EffecterIndex: 3

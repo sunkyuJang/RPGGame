@@ -1,149 +1,112 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public partial class Inventory : MonoBehaviour
 {
-    public void AddItem(ItemManager.ItemCounter _addItem)
+    public void AddItem(int itemIndex, int addCounter)
     {
-        ItemCounterTable nowTableData = GetSameItemTable(_addItem.Indexer);
+        ItemManager.ItemCounter newCounter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex));
+        ItemManager.ItemCounter sameKind = table.GetLastPositionItemCounter(newCounter.Data);
 
-        ItemManager.ItemCounter lastCounter = nowTableData != null ? nowTableData.GetLastCounter : _addItem;
-        int itemLimit = ItemManager.GetItem(_addItem.Indexer).Limit;
+        ItemManager.ItemCounter lastCounter = sameKind == null ? newCounter : sameKind;
 
-        lastCounter.Count += nowTableData != null ? _addItem.Count : 0;
-        int carry = lastCounter.Count / itemLimit;
-        int lest = lastCounter.Count % itemLimit;
+        int overNum = lastCounter.GetExcessCount(addCounter);
+        if(lastCounter.View == null) { AddViewAndTableList(lastCounter); }
 
-        if(carry > 0)
+        if (overNum > 0)
         {
-            lastCounter.Count = itemLimit;
-            if (nowTableData == null) { inventoryInsert(lastCounter); }
-            for(int i = 1; i < carry; i++)
+            int carry = overNum / lastCounter.Data.Limit;
+            int lest = overNum % lastCounter.Data.Limit;
+            int count = newCounter.Data.Limit;
+            for(int i = 0; i < carry; i++)
             {
-                inventoryInsert(new ItemManager.ItemCounter(_addItem.Indexer, itemLimit));
+                newCounter = new ItemManager.ItemCounter(newCounter.Data);
+                newCounter.GetExcessCount(count);
+                AddViewAndTableList(newCounter);
+            }
+
+            if(lest > 0)
+            {
+                newCounter = new ItemManager.ItemCounter(newCounter.Data);
+                newCounter.GetExcessCount(lest);
+                AddViewAndTableList(newCounter);
             }
         }
 
-        if (lest > 0)
-        {
-            _addItem.Count = lest;
-            if (carry > 0 || nowTableData == null)inventoryInsert(_addItem);
-            RefreshItemViewer(lastCounter);
-        }
-    }
-    void inventoryInsert(ItemManager.ItemCounter _newItem) 
-    {
-        ItemCounterTable nowTable = GetSameItemTable(_newItem.Indexer);
-        if (nowTable == null) 
-        { 
-            itemTable.Add(new ItemCounterTable()); 
-            nowTable = itemTable[itemTable.Count - 1]; 
-        }
-        nowTable.lists.Add(_newItem);
-        ItemCounters.Add(_newItem);
-        itemViews.Add(ItemView.GetNew(this, _newItem, itemViews.Count - 1));
+        RefreashInventoryView();
     }
 
-    ItemCounterTable GetSameItemTable(ItemManager.ItemIndexer _tarIndexer)
+    public void AddItemForMonster(int itemIndex, int addCounter, float probablility) 
     {
-        for(int i = 0; i < itemTable.Count; i++)
-        {
-            if (itemTable[i].GetIndexer.IsSame(_tarIndexer)) { return itemTable[i]; }
-        }
-        return null;
+        var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probablility);
+        var view = ItemManager.GetNewItemView(counter, this);
+
+        itemViews.Add(view);
+    }
+    public void AddItem(ItemManager.ItemCounter counter) => AddItem(counter.Data.Index, counter.count);
+
+    void AddViewAndTableList(ItemManager.ItemCounter newCounter)
+    {
+        table.AddItemCounter(newCounter);
+        itemViews.Add(ItemManager.GetNewItemView(newCounter, this));
     }
 
-    public ItemView GetHeadItemView(ItemView _nowVIew)
+    public bool RemoveItem(int itemIndex, int removeCount)
     {
-        foreach(ItemView view in itemViews)
+        List<ItemManager.ItemCounter> kindList;
+        if(table.GetSameKindTotalCount(ItemManager.GetitemData(itemIndex), out kindList) >= removeCount)
         {
-            if (view.ItemCounter.IsSame(_nowVIew.ItemCounter)) { return view; }
-        }
-        return null;
-    }
-
-    public void RemoveItem(ItemManager.ItemCounter _itemCounter)
-    {
-        ItemCounterTable table = GetSameItemTable(_itemCounter.Indexer);
-        ItemManager.ItemCounter lastCounter = table.GetLastCounter;
-        lastCounter.Count--;
-            
-        RefreshItemViewer(lastCounter);
-        if(lastCounter.Count <= 0)
-        {
-            ItemCounters.Remove(lastCounter);
-            table.lists.Remove(lastCounter);
-            if(table.lists.Count == 0) { itemTable.Remove(table); }
-        }
-    }
-
-    public IEnumerator UsePlayerItem(ItemView _itemView, bool _useComfirmBox)
-    {
-        Character character = Model as Character;
-        ItemManager.Kinds kind = _itemView.ItemCounter.Indexer.Kinds;
-        if (_useComfirmBox && kind != ItemManager.Kinds.keyItemList)
-        {
-            ComfimBox comfimBox = StaticManager.GetComfimBox;
-            if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.activeItemList)
-                comfimBox.ShowComfirmBox("이 아이템을 사용하시겠습니까?");
-            else if (_itemView.ItemCounter.Indexer.Kinds == ItemManager.Kinds.EquipmentItemList)
-                comfimBox.ShowComfirmBox("이 아이템을 장착하시겠습니까?");
-
-
-            while (comfimBox.NowState == ComfimBox.State.Waiting)
+            while(removeCount > 0)
             {
-                yield return new WaitForFixedUpdate();
-            }
+                var nowCounter = kindList[kindList.Count - 1];
+                removeCount = nowCounter.RemoveCountWithOverFlow(removeCount);
 
-            if (comfimBox.NowState == ComfimBox.State.Yes)
-            {
-                character.UseItem(GetitemUsingProcess(_itemView));
+                if (removeCount <= 0)
+                {
+                    table.RemoveItemCounter(nowCounter);
+                    nowCounter.View.ItemCounter = null;
+                }
+                removeCount *= -1;
             }
+            RefreashInventoryView();
+            return true;
+        }
+        return false;
+    }
+    public bool RemoveItem(ItemManager.ItemCounter counter) => RemoveItem(counter.Data.Index, counter.count);
+
+    public IEnumerator UseItem(ItemView itemView, bool useComfirmBox)
+    {
+        ItemSheet.Param.ItemTypeEnum nowType = itemView.ItemCounter.Data.GetItemType;
+        if (nowType == ItemSheet.Param.ItemTypeEnum.Key)
+        {
+            StaticManager.ShowAlert("인위적으로 사용할 수 없는 아이템 입니다.", Color.red);
         }
         else
         {
-            if (kind == ItemManager.Kinds.keyItemList)
+            if (useComfirmBox)
             {
-                StaticManager.ShowAlert("사용할 수 없는 아이템 입니다", Color.red);
+                string word = nowType == ItemSheet.Param.ItemTypeEnum.Active ? "사용" : "장착";
+                StaticManager.ShowComfirmBox("이 아이템을 " + word + "하시겠습니까?");
+
+                var comfirmBox = StaticManager.GetComfimBox;
+                while (comfirmBox.NowState == ComfimBox.State.Waiting)
+                    yield return new WaitForFixedUpdate();
+
+                if (comfirmBox.NowState == ComfimBox.State.Yes)
+                {
+                    StateEffecterManager.EffectToModelByItem(Model, itemView.ItemCounter, false);
+                    if(nowType == ItemSheet.Param.ItemTypeEnum.Equipment) { (Model as Character).EquipmentView.SetEquipmetItem(itemView); }
+                    RemoveItem(itemView.ItemCounter.Data.Index, 1);
+                }
             }
             else
             {
-                character.UseItem(GetitemUsingProcess(_itemView));
+                StateEffecterManager.EffectToModelByItem(Model, itemView.ItemCounter, false);
+                RemoveItem(itemView.ItemCounter.Data.Index, 1);
             }
         }
-    }
-    private ItemManager.ItemIndexer GetitemUsingProcess(ItemView _itemView)
-    {
-        ItemManager.ItemCounter lastCount = GetSameItemTable(_itemView.ItemCounter.Indexer).GetLastCounter;
-        if (lastCount.Indexer.Kinds != ItemManager.Kinds.keyItemList)
-        {
-            RemoveItem(lastCount);
-            ShowInventory();
-        }
-        return lastCount.Indexer;
-    }
-
-    private void RefreshItemViewer(ItemManager.ItemCounter _itemCounter)
-    {
-        ItemView nowView = itemViews[FindItemViewIndex(_itemCounter)];
-
-        if(nowView != null)
-        {
-            if (nowView.ItemCounter.Count <= 0)
-            {
-                itemViews.RemoveAt(FindItemViewIndex(nowView.ItemCounter));
-                Destroy(nowView.gameObject);
-            }
-            else
-            {
-                nowView.SetItemCounterInfo(nowView.ItemCounter);
-            }
-        }
-    }
-    private int FindItemViewIndex(ItemManager.ItemCounter _itemCounter)
-    {
-        for (int i = 0; i < itemViews.Count; i++) { if (_itemCounter.Equals(itemViews[i].ItemCounter)) return i; }
-        return -1;
     }
 }

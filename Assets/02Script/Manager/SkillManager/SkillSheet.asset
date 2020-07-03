@@ -15,706 +15,639 @@ MonoBehaviour:
   sheets:
   - name: "\uC2DC\uD2B81"
     list:
-    - Index: 1
+    - Index: 0
       Name: "\uAE30\uBCF8\uACF5\uACA9"
       Name_Eng: NomalAttack
-      Description: non
-      CanMove: 0
+      Description: "\uC804\uBC29\uC758 \uC801\uC744 \uD0C0\uACA9\uD55C\uB2E4."
+      ParentIndex: 0
       InfluencedBy: Physic
       Damage_Percentage: 0
       HitCount: 1
-      During: 0
+      Duration: 0
       IsSingleTarget: 1
+      TargetTo: Monster
       StartFrom: Character
-      EndFrom: 1
-      AttackType: Jump
-      IsDetectCollision: 1
+      Length: 1
+      AttackType: Stamp
       FXStartPoint: Enemy
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
-    - Index: 2
+      StateEffecterIndex: 0
+    - Index: 1
       Name: "\uAC15\uD0C0"
       Name_Eng: LowSmash
-      Description: "\uC804\uBC29\uC758 \uB2E4\uC218\uC758 \uC801\uC744 \uD5A5\uD574
-        \uAC15\uD558\uAC8C \uD0C0\uACA9\uD55C\uB2E4."
-      CanMove: 0
+      Description: "\uC804\uBC29\uC758 \uC801\uC744 \uD5A5\uD574 \uAC15\uD558\uAC8C
+        \uD0C0\uACA9\uD55C\uB2E4."
+      ParentIndex: 0
       InfluencedBy: Physic
       Damage_Percentage: 50
       HitCount: 1
-      During: 1
+      Duration: 1
       IsSingleTarget: 1
+      TargetTo: Monster
       StartFrom: Character
-      EndFrom: 3
-      AttackType: Jump
-      IsDetectCollision: 1
+      Length: 3
+      AttackType: Stamp
       FXStartPoint: Ground
       Cooldown: 5
-      ParentIndex: 1
       SkillTier: 1
-      BuffIndex: 0
-      DebuffIndex: 0
-    - Index: 3
+      StateEffecterIndex: 0
+    - Index: 2
       Name: "\uD30C\uC774\uC5B4\uBCFC"
       Name_Eng: FireBall
       Description: "\uC804\uBC29\uC758 \uC801\uC5D0\uAC8C \uD654\uC5FC\uAD6C\uB97C
         \uB0A0\uB9B0\uB2E4."
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: Magic
       Damage_Percentage: 50
       HitCount: 1
-      During: 1
+      Duration: 1
       IsSingleTarget: 1
+      TargetTo: Monster
       StartFrom: Character
-      EndFrom: 5
+      Length: 5
       AttackType: Line
-      IsDetectCollision: 1
       FXStartPoint: Enemy
       Cooldown: 5
-      ParentIndex: 1
       SkillTier: 1
-      BuffIndex: 0
-      DebuffIndex: 1
-    - Index: 4
+      StateEffecterIndex: 0
+    - Index: 3
       Name: "\uCE74\uC624\uC2A4\uBD04"
       Name_Eng: ChaosBoom
       Description: "\uC804\uBC29\uC5D0 \uD3ED\uBC1C\uD558\uB294 \uAD6C\uCCB4\uB97C
         \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
-      CanMove: 0
+      ParentIndex: 2
       InfluencedBy: Magic
       Damage_Percentage: 100
       HitCount: 3
-      During: 1
+      Duration: 1
       IsSingleTarget: 0
+      TargetTo: Monster
       StartFrom: Enemy
-      EndFrom: 5
-      AttackType: Jump
-      IsDetectCollision: 1
+      Length: 10
+      AttackType: Stamp
       FXStartPoint: Enemy
       Cooldown: 10
-      ParentIndex: 3
       SkillTier: 2
-      BuffIndex: 0
-      DebuffIndex: 0
-    - Index: 5
+      StateEffecterIndex: 0
+    - Index: 4
       Name: "\uC5B4\uC2A4\uD018\uC774\uD06C"
       Name_Eng: EarthQuake
       Description: "\uC804\uBC29\uC5D0 \uC9C0\uC9C4 \uBB3C\uACB0\uC744 \uC77C\uC73C\uD0A8\uB2E4"
-      CanMove: 0
+      ParentIndex: 1
       InfluencedBy: Physic
       Damage_Percentage: 100
       HitCount: 5
-      During: 2
+      Duration: 3
       IsSingleTarget: 0
+      TargetTo: Monster
       StartFrom: Character
-      EndFrom: 5
+      Length: 15
       AttackType: Jump
-      IsDetectCollision: 0
       FXStartPoint: Ground
       Cooldown: 10
-      ParentIndex: 2
       SkillTier: 2
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
+    - Index: 5
+      Name: "\uAC00\uD638"
+      Name_Eng: BoostMorale
+      Description: "\uC790\uC2E0\uC740 10\uCD08\uAC04 \uACF5\uACA9\uACFC \uBC29\uC5B4\uB97C
+        50% \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
+      ParentIndex: 1
+      InfluencedBy: Physic
+      Damage_Percentage: 0
+      HitCount: 1
+      Duration: 1
+      IsSingleTarget: 0
+      TargetTo: Character
+      StartFrom: Character
+      Length: 10
+      AttackType: Stamp
+      FXStartPoint: Ground
+      Cooldown: 15
+      SkillTier: 2
+      StateEffecterIndex: 4
+    - Index: 6
+      Name: "\uC800\uC8FC"
+      Name_Eng: Curse
+      Description: "\uB300\uC0C1\uC774 \uB418\uB294 \uC801\uACFC \uADF8 \uC8FC\uBCC0\uC758
+        \uC801\uC5D0\uAC8C 10\uCD08\uAC04 \uACF5\uACA9\uACFC \uBC29\uC5B4, \uC18D\uB3C4\uC758
+        10%\uB97C \uD558\uB77D\uC2DC\uD0A8\uB2E4."
+      ParentIndex: 2
+      InfluencedBy: Magic
+      Damage_Percentage: 0
+      HitCount: 1
+      Duration: 1
+      IsSingleTarget: 0
+      TargetTo: Monster
+      StartFrom: Enemy
+      Length: 10
+      AttackType: Stamp
+      FXStartPoint: Ground
+      Cooldown: 15
+      SkillTier: 2
+      StateEffecterIndex: 5
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0
     - Index: 0
       Name: 
       Name_Eng: 
       Description: 
-      CanMove: 0
+      ParentIndex: 0
       InfluencedBy: 
       Damage_Percentage: 0
       HitCount: 0
-      During: 0
+      Duration: 0
       IsSingleTarget: 0
+      TargetTo: 
       StartFrom: 
-      EndFrom: 0
+      Length: 0
       AttackType: 
-      IsDetectCollision: 0
       FXStartPoint: 
       Cooldown: 0
-      ParentIndex: 0
       SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
-    - Index: 0
-      Name: 
-      Name_Eng: 
-      Description: 
-      CanMove: 0
-      InfluencedBy: 
-      Damage_Percentage: 0
-      HitCount: 0
-      During: 0
-      IsSingleTarget: 0
-      StartFrom: 
-      EndFrom: 0
-      AttackType: 
-      IsDetectCollision: 0
-      FXStartPoint: 
-      Cooldown: 0
-      ParentIndex: 0
-      SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
-    - Index: 0
-      Name: 
-      Name_Eng: 
-      Description: 
-      CanMove: 0
-      InfluencedBy: 
-      Damage_Percentage: 0
-      HitCount: 0
-      During: 0
-      IsSingleTarget: 0
-      StartFrom: 
-      EndFrom: 0
-      AttackType: 
-      IsDetectCollision: 0
-      FXStartPoint: 
-      Cooldown: 0
-      ParentIndex: 0
-      SkillTier: 0
-      BuffIndex: 0
-      DebuffIndex: 0
+      StateEffecterIndex: 0

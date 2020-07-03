@@ -8,6 +8,7 @@ public partial class Character : Model
     Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
+    public StateViewer StateViewer { private set; get; }
 
     public int level { private set; get; }
     bool IsinField { set; get; } = true;
@@ -24,23 +25,23 @@ public partial class Character : Model
     new void Start()
     {
         base.Start();
-        StateViewer.GetNew(this);
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
+        StateViewer = StateViewer.GetNew(this);
         Controller = Controller.GetNew(this);
 
         nowHP = 10;
         Inventory.gold = 1000;
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 3));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 2));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 1, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 10));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 3));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 0, 25));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.activeItemList, 2, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.keyItemList, 0, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 0, 1));
-        Inventory.AddItem(new ItemManager.ItemCounter(ItemManager.Kinds.EquipmentItemList, 1, 1));
+
+        Inventory.AddItem(0, 5);
+        Inventory.AddItem(0, 3);
+        Inventory.AddItem(0, 10);
+        Inventory.AddItem(1, 8);
+        Inventory.AddItem(0, 1);
+        Inventory.AddItem(1, 10);
+        Inventory.AddItem(2, 1);
+        Inventory.AddItem(2, 1);
+        Inventory.AddItem(3, 1);
     }
 
     private void FixedUpdate()
