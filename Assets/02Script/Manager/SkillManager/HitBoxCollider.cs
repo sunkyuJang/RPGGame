@@ -71,7 +71,8 @@ public class HitBoxCollider : MonoBehaviour
         isAlive = false;
         if (HitBoxFXTransform != null)
         {
-            if (skill.data.AttackType == "Stamp")
+            if (skill.data.AttackType == "Stamp" ||
+                skill.data.AttackType == "Jump")
                 HitBoxFXTransform = Instantiate(HitBoxFXTransform).GetComponent<Transform>();
 
             StartCoroutine(DeleteParticleObj(HitBoxFXTransform.GetComponent<ParticleSystem>()));
@@ -86,9 +87,7 @@ public class HitBoxCollider : MonoBehaviour
     {
         if(ps.main.loop) ps.Stop();
         while (ps.IsAlive())
-        {
             yield return new WaitForFixedUpdate();
-        }
         Destroy(ps.gameObject);
         Destroy(gameObject);
     }

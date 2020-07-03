@@ -47,75 +47,6 @@ public partial class SkillManager : MonoBehaviour
             entry[0].callback.AddListener((data) => { skillManager.SelectedIcon(this); });
         }
 
-        /*public IEnumerator ActivateSkill(Character character)
-        {
-            if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
-
-            //Activate Hit
-            while (!character.isHitTriggerActivate)
-                yield return new WaitForEndOfFrame();
-
-            float duration = data.Duration == 0f ? 0.1f : data.Duration;
-            float hitTime = duration / data.HitCount;
-            float originalDamage = (data.InfluencedBy == "Physic" ? character.ATK + character.HP : character.ATK + (character.MP * 10));
-            float damage = originalDamage + (originalDamage * (0.01f * data.Damage_Percentage));
-            bool isFXStartFromGround = data.FXStartPoint == "Ground" ? true : false;
-
-            var startPosition = character.transform.position; 
-            for (int i = 0; i < data.HitCount; i++)
-            {
-                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, character.transform.forward, this);
-
-                float aliveTime = 0;
-                while (aliveTime < hitTime)
-                {
-                    aliveTime += Time.fixedDeltaTime;
-                    yield return new WaitForFixedUpdate();
-
-                    if (data.IsDetectCollision)
-                    {
-                        if (hitBoxScrip.IsEnteredTrigger)
-                        {
-                            Collider targetCollider = hitBoxScrip.GetColsedCollider(character.transform.position);
-
-                            if (targetCollider == null) { print("somting wrong in skillManager ActivateSkill"); }
-
-                            if (data.IsSingleTarget)
-                            {
-                                SetDamageToTarget(targetCollider, damage, HitFX, isFXStartFromGround);
-                                break;
-                            }
-                            else
-                            {
-                                var colliders = hitBoxScrip.colliders;
-                                for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
-                                {
-
-                                    SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
-                                    colliders.RemoveAt(colliderCount);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (!data.IsDetectCollision)
-                {
-                    startPosition = hitBoxScrip.transform.position;
-
-                    var colliders = hitBoxScrip.colliders;
-                    if (colliders.Count > 0)
-                        for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
-                        {
-                            SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
-                            colliders.RemoveAt(colliderCount);
-                        }
-                }
-                hitBoxScrip.DestroyObj();
-            }
-            while (character.NowAnimatorInfo.IsName(data.Name_Eng))
-                yield return new WaitForFixedUpdate();
-        }*/
         public IEnumerator ActivateSkill(Character character)
         {
             if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
@@ -182,7 +113,6 @@ public partial class SkillManager : MonoBehaviour
                                     for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
                                     {
                                         SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
-                                        colliders.RemoveAt(colliderCount);
                                     }
                             }
                             break;
@@ -265,3 +195,73 @@ public partial class SkillManager : MonoBehaviour
         Destroy(copy.gameObject);
     }
 }
+
+        /*public IEnumerator ActivateSkill(Character character)
+        {
+            if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
+
+            //Activate Hit
+            while (!character.isHitTriggerActivate)
+                yield return new WaitForEndOfFrame();
+
+            float duration = data.Duration == 0f ? 0.1f : data.Duration;
+            float hitTime = duration / data.HitCount;
+            float originalDamage = (data.InfluencedBy == "Physic" ? character.ATK + character.HP : character.ATK + (character.MP * 10));
+            float damage = originalDamage + (originalDamage * (0.01f * data.Damage_Percentage));
+            bool isFXStartFromGround = data.FXStartPoint == "Ground" ? true : false;
+
+            var startPosition = character.transform.position; 
+            for (int i = 0; i < data.HitCount; i++)
+            {
+                HitBoxCollider hitBoxScrip = HitBoxCollider.StartHitBox(HitBoxObj, startPosition, character.transform.forward, this);
+
+                float aliveTime = 0;
+                while (aliveTime < hitTime)
+                {
+                    aliveTime += Time.fixedDeltaTime;
+                    yield return new WaitForFixedUpdate();
+
+                    if (data.IsDetectCollision)
+                    {
+                        if (hitBoxScrip.IsEnteredTrigger)
+                        {
+                            Collider targetCollider = hitBoxScrip.GetColsedCollider(character.transform.position);
+
+                            if (targetCollider == null) { print("somting wrong in skillManager ActivateSkill"); }
+
+                            if (data.IsSingleTarget)
+                            {
+                                SetDamageToTarget(targetCollider, damage, HitFX, isFXStartFromGround);
+                                break;
+                            }
+                            else
+                            {
+                                var colliders = hitBoxScrip.colliders;
+                                for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
+                                {
+
+                                    SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
+                                    colliders.RemoveAt(colliderCount);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!data.IsDetectCollision)
+                {
+                    startPosition = hitBoxScrip.transform.position;
+
+                    var colliders = hitBoxScrip.colliders;
+                    if (colliders.Count > 0)
+                        for (int colliderCount = 0; colliderCount < colliders.Count; colliderCount++)
+                        {
+                            SetDamageToTarget(colliders[colliderCount], damage, HitFX, isFXStartFromGround);
+                            colliders.RemoveAt(colliderCount);
+                        }
+                }
+                hitBoxScrip.DestroyObj();
+            }
+            while (character.NowAnimatorInfo.IsName(data.Name_Eng))
+                yield return new WaitForFixedUpdate();
+        }*/
