@@ -38,12 +38,22 @@ public partial class Character : Model
     public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
         canUsingAnotherSkill = false;
-        
-        while(!isHitTriggerActivate)
-            yield return new WaitForFixedUpdate();
 
-        while (!NowAnimatorInfo.IsName(skill.data.Name_Eng))
+/*        while (!isHitTriggerActivate || NowState == ActionState.Attack)
+        {
+            print("isHitTriggerActivate Stuck");
             yield return new WaitForFixedUpdate();
+        }*/
+        while (!NowAnimatorInfo.IsName(skill.data.Name_Eng))
+        {
+            yield return new WaitForFixedUpdate();
+            if (NowState == ActionState.Idle)
+            {
+                canUsingAnotherSkill = true;
+                yield break;
+            }
+            print("nowAnimation Stuck");            
+        }
 
         Animator.SetInteger("SkillTier", 0);
         Animator.SetInteger("SkillIndex", 0);
@@ -52,7 +62,10 @@ public partial class Character : Model
         NowState = ActionState.Idle;
 
         while (NowAnimatorInfo.IsName(skill.data.Name_Eng))
+        {
+            print("now animation is running Stuck");
             yield return new WaitForFixedUpdate();
+        }
 
         canUsingAnotherSkill = true;
         HitTrigger(0);

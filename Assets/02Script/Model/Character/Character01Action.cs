@@ -105,6 +105,7 @@ public partial class Character : Model
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
+        print(NowState);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -219,7 +220,7 @@ public partial class Character : Model
     {
         damage -= DEF;
         nowHP -= (int)(damage <= 0 ? 0 : damage);
-        NowState = ActionState.GetHit;
+        NowState = NowState == ActionState.Attack ? NowState : ActionState.GetHit;
         StartCoroutine(DoGetHit());
         //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
         //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
@@ -240,7 +241,7 @@ public partial class Character : Model
                 yield return new WaitForFixedUpdate();
 
             isAreadyGetHitting = true;
-            NowState = BeforeState == ActionState.Attack ? NowState : ActionState.Idle;
+            NowState = NowState == ActionState.Attack ? NowState : ActionState.Idle;
         }
         yield break;
     }    
