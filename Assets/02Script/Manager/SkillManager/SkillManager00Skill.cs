@@ -40,7 +40,6 @@ public partial class SkillManager : MonoBehaviour
             HitBoxFX = Resources.Load<GameObject>(folderPath + "HitBoxFX");
             HitFX = Resources.Load<GameObject>(folderPath + "HitFX");
 
-            if(HitBoxFX == null){ print(data.Name); }
             viewerTransform.GetComponent<Image>().sprite = Icon;
             viewerTransform.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
             List<EventTrigger.Entry> entry = viewerTransform.GetComponent<EventTrigger>().triggers;

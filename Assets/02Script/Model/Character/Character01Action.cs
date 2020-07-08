@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using TMPro;
 using System.Diagnostics.PerformanceData;
 using System.Threading;
+using System.Linq.Expressions;
 
 public partial class Character : Model
 {
@@ -13,11 +14,21 @@ public partial class Character : Model
     bool IsPlayerMove { set; get; }
     public void Move(bool isPlayerMove, float joypadRadian)
     {
-        if (isPlayerMove) Rotation = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
-        if (IsPlayerMove != isPlayerMove)
+        if (IsPlayerMove != isPlayerMove || isPlayerMove)
         {
             IsPlayerMove = isPlayerMove;
+            if (isPlayerMove)
+            {
+                Rotation = new Vector3(0, joypadRadian * Mathf.Rad2Deg, 0);
+                IsPlayerMove = isPlayerMove;
+            }
+            else
+            {
+                Rigidbody.velocity = Vector3.zero;
+            }
+
             NowState = isPlayerMove ? ActionState.Running : ActionState.Idle;
+            print(true);
         }
     }
     float SigthLength { get { return 5f; } }
@@ -75,14 +86,6 @@ public partial class Character : Model
     public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
     {
-        /*if (BeforeState == ActionState.Idle)
-        {
-            NowState = ActionState.Action;
-        }
-        else
-        {
-            NowState = actionState;
-        }*/
         NowState = actionState;
     }
 
@@ -93,6 +96,7 @@ public partial class Character : Model
         {
             BeforeState = NowState;
             
+            print(NowState);
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -105,7 +109,6 @@ public partial class Character : Model
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
-        print(NowState);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -125,7 +128,8 @@ public partial class Character : Model
     {
         DoAnimator(IsinField ? AnimatorState.Battle : AnimatorState.Idle);
         Rigidbody.velocity = Vector3.zero;
-        yield return new WaitForEndOfFrame();
+
+        yield return new WaitForFixedUpdate();
     }
     IEnumerator DoRunning() 
     {
@@ -153,6 +157,7 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
+                        print(true);
                         ActivateSkill(SkillManager.GetSkill(0));
                     }
                     yield break;
@@ -192,7 +197,47 @@ public partial class Character : Model
         }
     }
 
-    bool IsJustStartAttacking { set; get; } = true;
+    public void GetHit(float damage)
+    {
+        damage -= DEF;
+        nowHP -= (int)(damage <= 0 ? 0 : damage);
+
+        if(canAttacking) 
+            StartCoroutine(DoGetHit());
+
+        //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
+        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
+    }
+
+    bool isAreadyGetHitting { set; get; } = false;
+    IEnumerator DoGetHit() 
+    {
+        if (!isAreadyGetHitting)
+        {
+            isAreadyGetHitting = true;
+
+            NowState = ActionState.GetHit;
+            DoAnimator(AnimatorState.GetHit);
+
+            while (!NowAnimatorInfo.IsName("GetHit"))
+                yield return new WaitForFixedUpdate();
+
+            DoAnimator(NowState == ActionState.Running ? AnimatorState.Running : AnimatorState.Battle);
+            NowState = NowState == ActionState.Running ? ActionState.Running : ActionState.Idle;
+            isAreadyGetHitting = false;
+            print(true);
+        }
+    }    
+    
+    IEnumerator DoDead() 
+    {
+        DoAnimator(AnimatorState.Dead);
+        NowState = ActionState.Idle;
+        yield break;
+    }
+}
+
+/*    bool IsJustStartAttacking { set; get; } = true;
     int Counting { set; get; }
     IEnumerator DoAttack()
     {
@@ -214,42 +259,4 @@ public partial class Character : Model
             yield break;
         }
         NowState = ActionState.Idle;
-    }
-
-    public void GetHit(float damage)
-    {
-        damage -= DEF;
-        nowHP -= (int)(damage <= 0 ? 0 : damage);
-        NowState = NowState == ActionState.Attack ? NowState : ActionState.GetHit;
-        StartCoroutine(DoGetHit());
-        //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
-        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
-    }
-
-    bool isAreadyGetHitting { set; get; } = true;
-    IEnumerator DoGetHit() 
-    {
-        DoAnimator(AnimatorState.GetHit);
-        while (!NowAnimatorInfo.IsName("GetHit"))
-            yield return new WaitForEndOfFrame();
-
-        if (isAreadyGetHitting && NowAnimatorInfo.IsName("GetHit"))
-        {
-            isAreadyGetHitting = false;
-
-            while (NowAnimatorInfo.normalizedTime <= 0.9f)
-                yield return new WaitForFixedUpdate();
-
-            isAreadyGetHitting = true;
-            NowState = NowState == ActionState.Attack ? NowState : ActionState.Idle;
-        }
-        yield break;
-    }    
-    
-    IEnumerator DoDead() 
-    {
-        DoAnimator(AnimatorState.Dead);
-        NowState = ActionState.Idle;
-        yield break;
-    }
-}
+    }*/

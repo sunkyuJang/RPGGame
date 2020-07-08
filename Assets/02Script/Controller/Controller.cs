@@ -16,7 +16,7 @@ public partial class Controller : MonoBehaviour
     private Joypad joypad;
     private CameraController cameraController;
 
-    private bool isJoypadPressed = false;
+    public bool isJoypadPressed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +29,11 @@ public partial class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isJoypadPressed) { joypad.Pressed(); }
-        Character.Move(isJoypadPressed, GetJoypadRadian);
+        if (joypad.isPressed) { joypad.Pressed(); }
+        Character.Move(joypad.isPressed, GetJoypadRadian);
         cameraController.Follow(Character.Transform.position);
     }
-    public void joypadPressed() { isJoypadPressed = true; }
-    public void JoypadUp() { isJoypadPressed = false; }
+    public void joypadPressed() { joypad.isPressed = true; }
     public void PressActionKey() { Character.SetActionState(Character.ActionState.Action); }
     public void PressInventoryKey()
     {

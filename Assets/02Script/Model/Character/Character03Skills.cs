@@ -5,7 +5,7 @@ using UnityEngine;
 
 public partial class Character : Model
 {
-    public bool canUsingAnotherSkill = true;
+    public bool canAttacking = true;
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
@@ -13,7 +13,7 @@ public partial class Character : Model
     {
         if (IsinField)
         {
-            if (canUsingAnotherSkill)
+            if (canAttacking)
             {
                 if (!skill.isCoolDownNow)
                 {
@@ -32,34 +32,18 @@ public partial class Character : Model
                     StaticManager.ShowAlert("쿨타임이 남았습니다", Color.red);
             }
         }
-        
-        NowState = ActionState.Idle;
     }
     public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
-        canUsingAnotherSkill = false;
+        canAttacking = false;
 
-/*        while (!isHitTriggerActivate || NowState == ActionState.Attack)
+        while (!isHitTriggerActivate)
         {
             print("isHitTriggerActivate Stuck");
             yield return new WaitForFixedUpdate();
-        }*/
-        while (!NowAnimatorInfo.IsName(skill.data.Name_Eng))
-        {
-            yield return new WaitForFixedUpdate();
-            if (NowState == ActionState.Idle)
-            {
-                canUsingAnotherSkill = true;
-                yield break;
-            }
-            print("nowAnimation Stuck");            
         }
 
-        Animator.SetInteger("SkillTier", 0);
-        Animator.SetInteger("SkillIndex", 0);
-        Animator.SetBool("IsPhysic" , false);
-        Animator.SetBool("IsMagic" , false);
-        NowState = ActionState.Idle;
+        DoAnimator(AnimatorState.Battle);
 
         while (NowAnimatorInfo.IsName(skill.data.Name_Eng))
         {
@@ -67,8 +51,14 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
         }
 
-        canUsingAnotherSkill = true;
+        Animator.SetInteger("SkillTier", 0);
+        Animator.SetInteger("SkillIndex", 0);
+        Animator.SetBool("IsPhysic" , false);
+        Animator.SetBool("IsMagic" , false);
+        NowState = ActionState.Idle;
         HitTrigger(0);
+        
+        canAttacking = true;
     }
 
     void SetSkillAnimator(SkillManager.Skill skill)

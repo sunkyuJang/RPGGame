@@ -25,9 +25,9 @@ public class Monster : Model
         } 
     }
     protected Rect RoamingArea { set; get; }
-    protected enum State { roaming, following, battle, attack, getHit, dead, idle}
-    protected State NowState { set; get; }
-    protected State BeforeState { set; get; }
+    protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill }
+    protected ActionState NowState { set; get; }
+    protected ActionState BeforeState { set; get; }
 
     public const float sightRadius = 5f;
     public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
@@ -40,8 +40,8 @@ public class Monster : Model
     new protected void Awake()
     {
         base.Awake();
-        NowState = State.roaming;
-        BeforeState = State.idle;
+        NowState = ActionState.roaming;
+        BeforeState = ActionState.idle;
         HPViewer = MonsterHPBarViewer.GetNew(this, GameObject.Find("Canvas").GetComponent<Transform>());
         HPBarPositionGuide = transform.Find("HPBarPositionGuide");
         FXStartPoint = transform.Find("FXStartPoint");
@@ -73,23 +73,23 @@ public class Monster : Model
             BeforeState = NowState;
             switch (NowState)
             {
-                case State.idle: StartCoroutine(DoIdle()); break;
-                case State.battle: StartCoroutine(DoBattle()); break;
-                case State.roaming: StartCoroutine(DoRoaming()); break;
-                case State.following: StartCoroutine(DoFollowing()); break;
-                case State.attack: StartCoroutine(DoAttack()); break;
-                //case State.getHit: StartCoroutine(DoGetHit()); break;
+                case ActionState.idle: StartCoroutine(DoIdle()); break;
+                case ActionState.battle: StartCoroutine(DoBattle()); break;
+                case ActionState.roaming: StartCoroutine(DoRoaming()); break;
+                case ActionState.following: StartCoroutine(DoFollowing()); break;
+                case ActionState.attack: StartCoroutine(DoAttack()); break;
+                    //case State.getHit: StartCoroutine(DoGetHit()); break;
             }
         }
         Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
     }
 
-    IEnumerator DoIdle()
+    protected IEnumerator DoIdle()
     {
-        DoAnimator(State.idle);
+        DoAnimator(ActionState.idle);
         float pauseTime = 0f;
         float pauseTimeLimit = 3f;
-        while(BeforeState == State.idle)
+        while(BeforeState == ActionState.idle)
         {
             if (pauseTime < pauseTimeLimit)
             {
@@ -98,26 +98,26 @@ public class Monster : Model
 
                 if (IsDetectedCharacter)
                 {
-                    NowState = State.following;
+                    NowState = ActionState.following;
                     yield break;
                 }
             }
             else
             {
-                NowState = State.roaming;
+                NowState = ActionState.roaming;
                 yield break;
             }
         }
     }
-    IEnumerator DoRoaming()
+    protected IEnumerator DoRoaming()
     {
-        DoAnimator(State.following);
+        DoAnimator(ActionState.following);
         float roamingDistance = 0f;
         float roamingDistanceLimit = 5f;
         transform.eulerAngles = new Vector3(0f, Random.Range(-180f, 180f), 0f);
         Rigidbody.velocity = transform.forward * SPD;
 
-        while (BeforeState == State.roaming)
+        while (BeforeState == ActionState.roaming)
         {
             if (roamingDistance < roamingDistanceLimit)
             {
@@ -126,7 +126,7 @@ public class Monster : Model
             else
             {
                 Rigidbody.velocity = Vector3.zero;
-                NowState = State.idle;
+                NowState = ActionState.idle;
                 yield break;
             }
 
@@ -139,36 +139,36 @@ public class Monster : Model
             }
             else if (IsDetectedCharacter)
             {
-                NowState = State.following;
+                NowState = ActionState.following;
                 yield break;
             }
         }
     }
-    IEnumerator DoBattle()
+    protected IEnumerator DoBattle()
     {
-        DoAnimator(State.battle);
-        while(BeforeState == State.battle)
+        DoAnimator(ActionState.battle);
+        while(BeforeState == ActionState.battle)
         {
             transform.LookAt(Character.transform.position);
             yield return new WaitForFixedUpdate();
 
             if (!IsCloseEnoughWithChracter)
             {
-                NowState = State.following;
+                NowState = ActionState.following;
                 break;
             }
             
             if (canAttack)
             {
-                NowState = State.attack;
+                NowState = ActionState.attack;
                 break;
             }
         }
     }
-    IEnumerator DoFollowing()
+    protected IEnumerator DoFollowing()
     {
-        DoAnimator(State.following);
-        while (BeforeState == State.following) 
+        DoAnimator(ActionState.following);
+        while (BeforeState == ActionState.following) 
         {
             transform.LookAt(Character.transform.position);
             Rigidbody.velocity = transform.forward * SPD;
@@ -176,36 +176,36 @@ public class Monster : Model
 
             if (IsOutRoamingArea)
             {
-                NowState = State.roaming;
+                NowState = ActionState.roaming;
                 break;
             }
             
             if(IsCloseEnoughWithChracter)
             {
-                DoAnimator(State.battle);
+                DoAnimator(ActionState.battle);
                 Rigidbody.velocity = Vector3.zero;
-                NowState = State.attack;
+                NowState = ActionState.attack;
                 break;
             }
             Debug.DrawRay(transform.position, Character.transform.position - transform.position);
         }
     }
 
-    IEnumerator DoAttack()
+    protected IEnumerator DoAttack()
     {
-        DoAnimator(State.attack);
+        DoAnimator(ActionState.attack);
         while (!NowAnimatorInfo.IsName("Attack01"))
             yield return new WaitForFixedUpdate();
         
         Character.GetHit(ATK);
-        while (BeforeState == State.attack)
+        while (BeforeState == ActionState.attack)
         {
             yield return new WaitForFixedUpdate();
             transform.LookAt(Character.transform.position);
 
             if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
-                NowState = State.battle;
+                NowState = ActionState.battle;
                 StartCoroutine(StartAttackDelayTimer(1.5f));
                 break;
             }
@@ -222,17 +222,17 @@ public class Monster : Model
         attackDelayTimer = 0f;
         canAttack = true;
     }
-    public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
+    new public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
     {
         damege -= DEF;
         damege = (int)(damege > 0 ? damege : 0);
         StaticManager.ShowAlert(((int)damege).ToString(), Color.red, Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)));
-        NowState = State.getHit;
+        NowState = NowState == ActionState.attack ? NowState : ActionState.getHit;
         StartCoroutine(DoGetHit());
         if (HitFX != null)
             StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
     }
-    IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
+    protected IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
     {
         Transform FXtransform = Instantiate(HitFX).transform;
         FXtransform.position = isFXStartFromGround ? transform.position : FXStartPoint.position;
@@ -244,15 +244,15 @@ public class Monster : Model
 
         Destroy(FXtransform.gameObject);
     }
-    IEnumerator DoGetHit()
+    protected IEnumerator DoGetHit()
     {
-        DoAnimator(State.getHit);
+        DoAnimator(ActionState.getHit);
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
 
         if(nowHP <= 0)
         {
-            DoAnimator(State.dead);
+            DoAnimator(ActionState.dead);
             Rigidbody.velocity = Vector3.zero;
             while (!NowAnimatorInfo.IsName("Dead"))
                 yield return new WaitForEndOfFrame();
@@ -264,7 +264,7 @@ public class Monster : Model
             DropItem();
         }
 
-        NowState = State.battle;
+        NowState = ActionState.battle;
         yield break;
     }
 
@@ -283,17 +283,17 @@ public class Monster : Model
 
     }
 
-    void DoAnimator(State state)
+    void DoAnimator(ActionState state)
     {
         ResetAnimatorState();
         switch (state)
         {
-            case State.idle: Animator.SetBool("NomalIdle", true); break;
-            case State.following: Animator.SetBool("Walking", true); break;
-            case State.battle: Animator.SetBool("BattleIdle", true); break;
-            case State.attack: Animator.SetBool("Attack", true); break;
-            case State.getHit: Animator.SetBool("GetHit", true); break;
-            case State.dead: Animator.SetBool("Dead", true); break;
+            case ActionState.idle: Animator.SetBool("NomalIdle", true); break;
+            case ActionState.following: Animator.SetBool("Walking", true); break;
+            case ActionState.battle: Animator.SetBool("BattleIdle", true); break;
+            case ActionState.attack: Animator.SetBool("Attack", true); break;
+            case ActionState.getHit: Animator.SetBool("GetHit", true); break;
+            case ActionState.dead: Animator.SetBool("Dead", true); break;
         }
     }
     void ResetAnimatorState()
