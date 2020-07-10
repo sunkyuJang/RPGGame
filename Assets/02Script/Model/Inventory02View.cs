@@ -192,7 +192,7 @@ public partial class Inventory : MonoBehaviour
                 }
                 else 
                 {
-                    StaticManager.ShowAlert("잔액이 모자릅니다.", Color.red); 
+                    (targetInventory.Model as Character).ShowAlert("잔액이 모자릅니다.", Color.red); 
                 }
             }
             else

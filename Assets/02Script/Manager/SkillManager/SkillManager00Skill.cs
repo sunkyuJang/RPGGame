@@ -21,7 +21,7 @@ public partial class SkillManager : MonoBehaviour
         public Sprite Icon { private set; get; }
         public GameObject HitBoxObj { private set; get; }
         public HitBoxCollider HitBoxCollider { private set; get; }
-        public bool isLearned { private set; get; } = true;
+        public bool isLearned { private set; get; }
         public void IsLearn(bool isLearn)
         {
             isLearned = isLearn;
@@ -187,7 +187,7 @@ public partial class SkillManager : MonoBehaviour
             }
             else
             {
-                StaticManager.ShowAlert("아직 배우지 않은 스킬입니다", Color.red);
+                character.ShowAlert("아직 배우지 않은 스킬입니다", Color.red);
             }
         }
 

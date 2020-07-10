@@ -157,7 +157,6 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        print(true);
                         ActivateSkill(SkillManager.GetSkill(0));
                     }
                     yield break;
@@ -204,9 +203,6 @@ public partial class Character : Model
 
         if(canAttacking) 
             StartCoroutine(DoGetHit());
-
-        //nowHP > 0 ? ActionState.GetHit : ActionState.Dead;
-        //DoAnimator(nowHP > 0 ? AnimatorState.GetHit : AnimatorState.Dead);
     }
 
     bool isAreadyGetHitting { set; get; } = false;

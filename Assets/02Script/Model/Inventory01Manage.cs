@@ -80,9 +80,10 @@ public partial class Inventory : MonoBehaviour
     public IEnumerator UseItem(ItemView itemView, bool useComfirmBox)
     {
         ItemSheet.Param.ItemTypeEnum nowType = itemView.ItemCounter.Data.GetItemType;
+        var character = Model as Character;
         if (nowType == ItemSheet.Param.ItemTypeEnum.Key)
         {
-            StaticManager.ShowAlert("인위적으로 사용할 수 없는 아이템 입니다.", Color.red);
+            character.ShowAlert("인위적으로 사용할 수 없는 아이템 입니다.", Color.red);
         }
         else
         {

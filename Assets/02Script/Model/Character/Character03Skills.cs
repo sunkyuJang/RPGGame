@@ -26,10 +26,10 @@ public partial class Character : Model
                         return;
                     }
                     else
-                        StaticManager.ShowAlert("주변에 대상이 없습니다.", Color.red);
+                        ShowAlert("주변에 대상이 없습니다.", Color.red);
                 }
                 else
-                    StaticManager.ShowAlert("쿨타임이 남았습니다", Color.red);
+                    ShowAlert("쿨타임이 남았습니다", Color.red);
             }
         }
     }

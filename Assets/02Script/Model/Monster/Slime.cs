@@ -27,9 +27,23 @@ public class Slime : Monster
     new private void FixedUpdate()
     {
         base.FixedUpdate();
+        //SelectedNextAction();
     }
     new private void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+    }
+
+    new void SelectedNextAction()
+    {
+        if(BeforeState != NowState)
+        {
+            BeforeState = NowState;
+            switch (BeforeState)
+            {
+                case ActionState.idle: StartCoroutine(DoIdle()); break;
+                case ActionState.roaming: StartCoroutine(DoRoaming()); break;
+            }
+        }
     }
 }

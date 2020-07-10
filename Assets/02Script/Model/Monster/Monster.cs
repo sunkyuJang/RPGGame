@@ -12,28 +12,29 @@ public class Monster : Model
     Character Character { set; get; }
     MonsterHPBarViewer HPViewer { set; get; }
     public Transform HPBarPositionGuide { private set; get; }
-    bool CanShowingHPBar 
-    { 
-        get 
+    bool CanShowingHPBar
+    {
+        get
         {
             Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
-            if(HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
+            if (HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
             {
                 return true;
             }
             return false;
-        } 
+        }
     }
+
     protected Rect RoamingArea { set; get; }
     protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill }
+    protected bool isAttacking { set; get; }
     protected ActionState NowState { set; get; }
     protected ActionState BeforeState { set; get; }
 
     public const float sightRadius = 5f;
-    public const float SigthLimitRad = 30f * Mathf.Deg2Rad ;
+    public const float SigthLimitRad = 30f * Mathf.Deg2Rad;
     float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
-    
-    float attackDelayTimer = 0f;
+
     bool canAttack = true;
     public Transform FXStartPoint { private set; get; }
 
@@ -47,7 +48,7 @@ public class Monster : Model
         FXStartPoint = transform.Find("FXStartPoint");
     }
 
-    protected void MonsterSetInfo(Rect roamingArea) 
+    protected void MonsterSetInfo(Rect roamingArea)
     {
         RoamingArea = roamingArea;
     }
@@ -60,7 +61,7 @@ public class Monster : Model
     // Update is called once per frame
     protected void Update()
     {
-        if(CanShowingHPBar != HPViewer.gameObject.activeSelf)
+        if (CanShowingHPBar != HPViewer.gameObject.activeSelf)
         {
             HPViewer.gameObject.SetActive(CanShowingHPBar);
         }
@@ -84,12 +85,29 @@ public class Monster : Model
         Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
     }
 
+    protected void SelectedNextAction()
+    {
+        if (NowState != BeforeState)
+        {
+            BeforeState = NowState;
+            switch (NowState)
+            {
+                case ActionState.idle: StartCoroutine(DoIdle()); break;
+                case ActionState.battle: StartCoroutine(DoBattle()); break;
+                case ActionState.roaming: StartCoroutine(DoRoaming()); break;
+                case ActionState.following: StartCoroutine(DoFollowing()); break;
+                case ActionState.attack: StartCoroutine(DoAttack()); break;
+                    //case State.getHit: StartCoroutine(DoGetHit()); break;
+            }
+        }
+    }
+
     protected IEnumerator DoIdle()
     {
         DoAnimator(ActionState.idle);
         float pauseTime = 0f;
         float pauseTimeLimit = 3f;
-        while(BeforeState == ActionState.idle)
+        while (BeforeState == ActionState.idle)
         {
             if (pauseTime < pauseTimeLimit)
             {
@@ -109,6 +127,7 @@ public class Monster : Model
             }
         }
     }
+
     protected IEnumerator DoRoaming()
     {
         DoAnimator(ActionState.following);
@@ -144,10 +163,11 @@ public class Monster : Model
             }
         }
     }
+
     protected IEnumerator DoBattle()
     {
         DoAnimator(ActionState.battle);
-        while(BeforeState == ActionState.battle)
+        while (BeforeState == ActionState.battle)
         {
             transform.LookAt(Character.transform.position);
             yield return new WaitForFixedUpdate();
@@ -157,18 +177,16 @@ public class Monster : Model
                 NowState = ActionState.following;
                 break;
             }
-            
-            if (canAttack)
-            {
+
+            if(canAttack)
                 NowState = ActionState.attack;
-                break;
-            }
         }
     }
+
     protected IEnumerator DoFollowing()
     {
         DoAnimator(ActionState.following);
-        while (BeforeState == ActionState.following) 
+        while (BeforeState == ActionState.following)
         {
             transform.LookAt(Character.transform.position);
             Rigidbody.velocity = transform.forward * SPD;
@@ -179,8 +197,8 @@ public class Monster : Model
                 NowState = ActionState.roaming;
                 break;
             }
-            
-            if(IsCloseEnoughWithChracter)
+
+            if (IsCloseEnoughWithChracter)
             {
                 DoAnimator(ActionState.battle);
                 Rigidbody.velocity = Vector3.zero;
@@ -193,10 +211,11 @@ public class Monster : Model
 
     protected IEnumerator DoAttack()
     {
+        canAttack = false;
         DoAnimator(ActionState.attack);
-        while (!NowAnimatorInfo.IsName("Attack01"))
+        while (!NowAnimatorInfo.IsName("NomalAttack"))
             yield return new WaitForFixedUpdate();
-        
+
         Character.GetHit(ATK);
         while (BeforeState == ActionState.attack)
         {
@@ -206,32 +225,40 @@ public class Monster : Model
             if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
                 NowState = ActionState.battle;
-                StartCoroutine(StartAttackDelayTimer(1.5f));
+                StartCoroutine(StartAttackDelayTimer(2f));
                 break;
             }
         }
     }
+
     IEnumerator StartAttackDelayTimer(float limit)
     {
-        canAttack = false;
-        while (attackDelayTimer <= limit) 
+        float attackDelayTimer = 0f;
+
+        while (attackDelayTimer <= limit)
         {
             attackDelayTimer += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-        attackDelayTimer = 0f;
-        canAttack = true;
+          canAttack = true;
     }
+
     new public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
     {
         damege -= DEF;
         damege = (int)(damege > 0 ? damege : 0);
-        StaticManager.ShowAlert(((int)damege).ToString(), Color.red, Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)));
-        NowState = NowState == ActionState.attack ? NowState : ActionState.getHit;
-        StartCoroutine(DoGetHit());
-        if (HitFX != null)
+        //StaticManager.ShowAlert(((int)damege).ToString(), Color.red, Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)));
+        //NowState = NowState == ActionState.attack ? NowState : ActionState.getHit;
+        if (!IsActionStateAre(ActionState.attack))
+        {
+            NowState = ActionState.getHit;
+            StartCoroutine(DoGetHit());
+        }
+        
+        if(HitFX != null)
             StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
     }
+
     protected IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
     {
         Transform FXtransform = Instantiate(HitFX).transform;
@@ -244,9 +271,11 @@ public class Monster : Model
 
         Destroy(FXtransform.gameObject);
     }
+
     protected IEnumerator DoGetHit()
     {
         DoAnimator(ActionState.getHit);
+
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
 
@@ -254,6 +283,7 @@ public class Monster : Model
         {
             DoAnimator(ActionState.dead);
             Rigidbody.velocity = Vector3.zero;
+            
             while (!NowAnimatorInfo.IsName("Dead"))
                 yield return new WaitForEndOfFrame();
 
@@ -262,6 +292,12 @@ public class Monster : Model
             Destroy(HPViewer.gameObject);
             Destroy(gameObject);
             DropItem();
+        }
+        else
+        {
+            DoAnimator(ActionState.battle);
+            while (NowAnimatorInfo.normalizedTime <= 0.9f)
+                yield return new WaitForFixedUpdate();
         }
 
         NowState = ActionState.battle;
@@ -277,11 +313,12 @@ public class Monster : Model
             if (probablility <= kind.ItemCounter.Probablilty)
             {
                 Character.Inventory.AddItem(kind.ItemCounter);
-                StaticManager.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
+                Character.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
             }
         }
-
     }
+
+    bool IsActionStateAre(ActionState actionState) { return BeforeState == actionState; }
 
     void DoAnimator(ActionState state)
     {
@@ -296,6 +333,7 @@ public class Monster : Model
             case ActionState.dead: Animator.SetBool("Dead", true); break;
         }
     }
+
     void ResetAnimatorState()
     {
         Animator.SetBool("NomalIdle", false);

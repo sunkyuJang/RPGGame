@@ -35,6 +35,7 @@ public partial class Model : MonoBehaviour
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
+        AwakeInAlert();
     }
 
     protected void Start()

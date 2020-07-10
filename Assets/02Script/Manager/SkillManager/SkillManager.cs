@@ -34,8 +34,8 @@ public partial class SkillManager : MonoBehaviour
     private void Awake()
     {
         CreatViewer();
-        discriptionBox = DiscriptionBox.AddDiscriptionScript(SkillViewerObj.transform.Find("DescriptionBox"));
         character = CharacterObj.GetComponent<Character>();
+        discriptionBox = DiscriptionBox.AddDiscriptionScript(SkillViewerObj.transform.Find("DescriptionBox"), character);
         StaticSkillManager = this;
         var sheet = skillSheet.sheets[0].list;
         Transform skillViewerTransform = SkillViewerObj.transform.GetChild(0).GetChild(0);
@@ -96,10 +96,12 @@ public partial class SkillManager : MonoBehaviour
         public Image icon { private set; get; }
         public Text text { private set; get; }
         public Button button { private set; get; }
+        public Character character { private set; get; }
         Skill skill { set; get; }
-        public static DiscriptionBox AddDiscriptionScript(Transform transform)
+        public static DiscriptionBox AddDiscriptionScript(Transform transform, Character character)
         {
             var discription = transform.gameObject.AddComponent<DiscriptionBox>();
+            discription.character = character;
             discription.gameObject.SetActive(false);
             return discription;
         }
@@ -130,11 +132,11 @@ public partial class SkillManager : MonoBehaviour
                 }
                 else
                 {
-                    StaticManager.ShowAlert("선행 스킬이 습득되지 않았습니다.", Color.red);
+                    character.ShowAlert("선행 스킬이 습득되지 않았습니다.", Color.red);
                 }
             }
             else
-                StaticManager.ShowAlert("스킬포인트가 부족합니다", Color.red);
+                character.ShowAlert("스킬포인트가 부족합니다", Color.red);
         }
     }
 }

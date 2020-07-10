@@ -7,7 +7,7 @@ public class StaticManager : MonoBehaviour
 {
     public GameObject characterObj;
     public static Character Character { private set; get; }
-    protected static Transform canvasTrasform;
+    public static Transform canvasTrasform { private set; get; }
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
     private static ComfimBox comfimBox;
