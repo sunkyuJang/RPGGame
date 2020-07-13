@@ -8,8 +8,9 @@ public partial class Character : Model
     public bool canAttacking = true;
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
-    public SkillManager.Skill ReservedSkill { set; get; }
-    IEnumerator ActivateSkill(SkillManager.Skill skill)
+
+    int count = 0;
+    void ActivateSkill(SkillManager.Skill skill)
     {
         if (IsinField)
         {
@@ -19,9 +20,6 @@ public partial class Character : Model
                 {
                     if (skill.IsThereMonsterAround(this.transform))
                     {
-                        NowState = ActionState.Attack;
-                        BeforeState = NowState;
-                        SetSkillAnimator(skill);
                         SkillManager.ActivateSkiil(skill, this);
                         StartCoroutine(DeActivateSkill(skill));
                         return;
@@ -38,28 +36,37 @@ public partial class Character : Model
     public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
         canAttacking = false;
+        canGetHit = false;
 
-        while (!isHitTriggerActivate && BeforeState == ActionState.Attack)
+        SetSkillAnimator(skill);
+        yield return new WaitForFixedUpdate();
+
+        while (!isHitTriggerActivate)
         {
             print("isHitTriggerActivate Stuck");
             yield return new WaitForFixedUpdate();
         }
 
-        DoAnimator(AnimatorState.Battle);
-
-        while (NowAnimatorInfo.IsName(skill.data.Name_Eng))
-        {
-            print("now animation is running Stuck");
-            yield return new WaitForFixedUpdate();
-        }
+        var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+        print(lestTime);
 
         Animator.SetInteger("SkillTier", 0);
         Animator.SetInteger("SkillIndex", 0);
-        Animator.SetBool("IsPhysic" , false);
-        Animator.SetBool("IsMagic" , false);
+        Animator.SetBool("IsPhysic", false);
+        Animator.SetBool("IsMagic", false);
+        Animator.SetBool("IsAttack", false);
+
         NowState = ActionState.Idle;
+        canGetHit = true;
         HitTrigger(0);
-        
+
+        float nowTime = -0.5f;
+        while (nowTime < lestTime)
+        {
+            nowTime += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
         canAttacking = true;
     }
 

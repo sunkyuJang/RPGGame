@@ -18,7 +18,7 @@ namespace GLip
         }
         public static List<Collider> GetNearByObj(Vector3 startPosition, float castRad)
         {
-            return Physics.OverlapSphere(startPosition, castRad, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore).ToList<Collider>();
+            return Physics.OverlapSphere(startPosition, castRad).ToList<Collider>();
         }
         public static List<Collider> SelectColliderInFOV(List<Collider> colliders, string targetTag, Transform centerTransform, float castFOVRad)
         {

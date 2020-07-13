@@ -36,7 +36,7 @@ public partial class Character : Model
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
     { 
-        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore); 
+        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor); 
     }
     Model GetNearestModel(Collider[] colliders)
     {
@@ -85,8 +85,13 @@ public partial class Character : Model
     public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
     {
-        NowState = actionState;
+        if (BeforeState != actionState)
+        {
+            NowState = actionState;
+        }
     }
+    public SkillManager.Skill ReservedSkill { set; get; }
+
 
     void FixedUpdateInAction()
     {
@@ -104,7 +109,7 @@ public partial class Character : Model
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
-                //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
+                case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
@@ -156,7 +161,8 @@ public partial class Character : Model
                     }
                     else if (TargetModel is Monster)
                     {
-                        ActivateSkill(SkillManager.GetSkill(0));
+                        NowState = ActionState.Attack;
+                        ReservedSkill = SkillManager.GetSkill(0);
                     }
                     yield break;
                 }
@@ -195,25 +201,29 @@ public partial class Character : Model
         }
     }
 
+    IEnumerator DoAttack()
+    {
+        ActivateSkill(ReservedSkill);
+        yield break;
+    }
+
+    bool canGetHit { set; get; } = true;
     public void GetHit()
     {
-        if (!IsActionStateAre(ActionState.Attack) && !isAlreadyGetHitting)
+        if (canGetHit)
             NowState = ActionState.GetHit;
     }
 
-    bool isAlreadyGetHitting { set; get; } = false;
     IEnumerator DoGetHit() 
     {
-        isAlreadyGetHitting = true;
+        canGetHit = false;
 
-        NowState = ActionState.GetHit;
         DoAnimator(AnimatorState.GetHit);
-
-        while (!NowAnimatorInfo.IsName("GetHit") && BeforeState == ActionState.GetHit)
+        while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForFixedUpdate();
 
         NowState = ActionState.Idle;
-        isAlreadyGetHitting = false;
+        canGetHit = true;
     }    
     
     bool isAlreadyDead { set; get; }

@@ -29,6 +29,7 @@ public partial class Character : Model
         EquipmentView = EquipmentView.GetNew(this);
         StateViewer = StateViewer.GetNew(this);
         Controller = Controller.GetNew(this);
+        DoAnimator(AnimatorState.Battle);
 
         nowHP = 10;
         Inventory.gold = 1000;
