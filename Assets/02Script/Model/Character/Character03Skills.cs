@@ -8,8 +8,8 @@ public partial class Character : Model
     public bool canAttacking = true;
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
-
-    public void ActivateSkill(SkillManager.Skill skill)
+    public SkillManager.Skill ReservedSkill { set; get; }
+    IEnumerator ActivateSkill(SkillManager.Skill skill)
     {
         if (IsinField)
         {
@@ -20,6 +20,7 @@ public partial class Character : Model
                     if (skill.IsThereMonsterAround(this.transform))
                     {
                         NowState = ActionState.Attack;
+                        BeforeState = NowState;
                         SetSkillAnimator(skill);
                         SkillManager.ActivateSkiil(skill, this);
                         StartCoroutine(DeActivateSkill(skill));
@@ -33,11 +34,12 @@ public partial class Character : Model
             }
         }
     }
+
     public IEnumerator DeActivateSkill(SkillManager.Skill skill)
     {
         canAttacking = false;
 
-        while (!isHitTriggerActivate)
+        while (!isHitTriggerActivate && BeforeState == ActionState.Attack)
         {
             print("isHitTriggerActivate Stuck");
             yield return new WaitForFixedUpdate();

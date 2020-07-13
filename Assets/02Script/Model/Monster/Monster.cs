@@ -69,19 +69,7 @@ public class Monster : Model
 
     protected void FixedUpdate()
     {
-        if (NowState != BeforeState)
-        {
-            BeforeState = NowState;
-            switch (NowState)
-            {
-                case ActionState.idle: StartCoroutine(DoIdle()); break;
-                case ActionState.battle: StartCoroutine(DoBattle()); break;
-                case ActionState.roaming: StartCoroutine(DoRoaming()); break;
-                case ActionState.following: StartCoroutine(DoFollowing()); break;
-                case ActionState.attack: StartCoroutine(DoAttack()); break;
-                    //case State.getHit: StartCoroutine(DoGetHit()); break;
-            }
-        }
+        SelectedNextAction();
         Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
     }
 
@@ -97,7 +85,8 @@ public class Monster : Model
                 case ActionState.roaming: StartCoroutine(DoRoaming()); break;
                 case ActionState.following: StartCoroutine(DoFollowing()); break;
                 case ActionState.attack: StartCoroutine(DoAttack()); break;
-                    //case State.getHit: StartCoroutine(DoGetHit()); break;
+                case ActionState.getHit: StartCoroutine(DoGetHit()); break;
+                case ActionState.dead: StartCoroutine(DoDead()); break;
             }
         }
     }
@@ -173,10 +162,7 @@ public class Monster : Model
             yield return new WaitForFixedUpdate();
 
             if (!IsCloseEnoughWithChracter)
-            {
                 NowState = ActionState.following;
-                break;
-            }
 
             if(canAttack)
                 NowState = ActionState.attack;
@@ -200,23 +186,23 @@ public class Monster : Model
 
             if (IsCloseEnoughWithChracter)
             {
-                DoAnimator(ActionState.battle);
                 Rigidbody.velocity = Vector3.zero;
-                NowState = ActionState.attack;
+                NowState = ActionState.battle;
                 break;
             }
-            Debug.DrawRay(transform.position, Character.transform.position - transform.position);
         }
     }
 
     protected IEnumerator DoAttack()
     {
         canAttack = false;
+        canGetHit = false;
         DoAnimator(ActionState.attack);
         while (!NowAnimatorInfo.IsName("NomalAttack"))
             yield return new WaitForFixedUpdate();
 
-        Character.GetHit(ATK);
+        StateEffecterManager.EffectToModelBySkill(Character, ATK, null, false);
+
         while (BeforeState == ActionState.attack)
         {
             yield return new WaitForFixedUpdate();
@@ -225,6 +211,7 @@ public class Monster : Model
             if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
                 NowState = ActionState.battle;
+                canGetHit = true;
                 StartCoroutine(StartAttackDelayTimer(2f));
                 break;
             }
@@ -240,20 +227,15 @@ public class Monster : Model
             attackDelayTimer += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-          canAttack = true;
+        canAttack = true;
     }
 
-    new public void GetHit(float damege, GameObject HitFX, bool isFXStartFromGround)
+    public void GetHit(GameObject HitFX, bool isFXStartFromGround)
     {
-        damege -= DEF;
-        damege = (int)(damege > 0 ? damege : 0);
-        //StaticManager.ShowAlert(((int)damege).ToString(), Color.red, Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)));
-        //NowState = NowState == ActionState.attack ? NowState : ActionState.getHit;
-        if (!IsActionStateAre(ActionState.attack))
-        {
+        if (nowHP <= 0f && !IsAlreadyDead)
+            NowState = ActionState.dead;
+        else if (!IsActionStateAre(ActionState.attack) && canGetHit)
             NowState = ActionState.getHit;
-            StartCoroutine(DoGetHit());
-        }
         
         if(HitFX != null)
             StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
@@ -272,36 +254,40 @@ public class Monster : Model
         Destroy(FXtransform.gameObject);
     }
 
+    protected bool canGetHit { set; get; } = true;
     protected IEnumerator DoGetHit()
     {
+        canGetHit = false;
         DoAnimator(ActionState.getHit);
 
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
-
-        if(nowHP <= 0)
-        {
-            DoAnimator(ActionState.dead);
-            Rigidbody.velocity = Vector3.zero;
-            
-            while (!NowAnimatorInfo.IsName("Dead"))
-                yield return new WaitForEndOfFrame();
-
-            float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-            yield return new WaitForSeconds(waitTIme);
-            Destroy(HPViewer.gameObject);
-            Destroy(gameObject);
-            DropItem();
-        }
-        else
-        {
-            DoAnimator(ActionState.battle);
-            while (NowAnimatorInfo.normalizedTime <= 0.9f)
-                yield return new WaitForFixedUpdate();
-        }
-
+        
         NowState = ActionState.battle;
+        canGetHit = true;
         yield break;
+    }
+
+    bool IsAlreadyDead { set; get; }
+    IEnumerator DoDead()
+    {
+        IsAlreadyDead = true;
+        DoAnimator(ActionState.getHit);
+
+        while (!NowAnimatorInfo.IsName("GetHit"))
+            yield return new WaitForEndOfFrame();
+        
+        DoAnimator(ActionState.dead);
+        Rigidbody.velocity = Vector3.zero;
+
+        while (!NowAnimatorInfo.IsName("Dead"))
+            yield return new WaitForEndOfFrame();
+
+        float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+        yield return new WaitForSeconds(waitTIme);
+        Destroy(HPViewer.gameObject);
+        Destroy(gameObject);
+        DropItem();
     }
 
     void DropItem()

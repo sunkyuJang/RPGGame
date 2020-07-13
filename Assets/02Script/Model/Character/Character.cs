@@ -13,7 +13,7 @@ public partial class Character : Model
     public int level { private set; get; }
     bool IsinField { set; get; } = true;
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
-    public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
+    public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Battle;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);

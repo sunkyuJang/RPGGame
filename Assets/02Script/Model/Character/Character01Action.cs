@@ -28,7 +28,6 @@ public partial class Character : Model
             }
 
             NowState = isPlayerMove ? ActionState.Running : ActionState.Idle;
-            print(true);
         }
     }
     float SigthLength { get { return 5f; } }
@@ -104,7 +103,7 @@ public partial class Character : Model
                 case ActionState.Action: StartCoroutine(DoAction()); break;
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
-                //case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 //case ActionState.Attack: StartCoroutine(DoAttack()); break; 
                 //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
@@ -196,41 +195,37 @@ public partial class Character : Model
         }
     }
 
-    public void GetHit(float damage)
+    public void GetHit()
     {
-        damage -= DEF;
-        nowHP -= (int)(damage <= 0 ? 0 : damage);
-
-        if(canAttacking) 
-            StartCoroutine(DoGetHit());
+        if (!IsActionStateAre(ActionState.Attack) && !isAlreadyGetHitting)
+            NowState = ActionState.GetHit;
     }
 
-    bool isAreadyGetHitting { set; get; } = false;
+    bool isAlreadyGetHitting { set; get; } = false;
     IEnumerator DoGetHit() 
     {
-        if (!isAreadyGetHitting)
-        {
-            isAreadyGetHitting = true;
+        isAlreadyGetHitting = true;
 
-            NowState = ActionState.GetHit;
-            DoAnimator(AnimatorState.GetHit);
+        NowState = ActionState.GetHit;
+        DoAnimator(AnimatorState.GetHit);
 
-            while (!NowAnimatorInfo.IsName("GetHit"))
-                yield return new WaitForFixedUpdate();
+        while (!NowAnimatorInfo.IsName("GetHit") && BeforeState == ActionState.GetHit)
+            yield return new WaitForFixedUpdate();
 
-            DoAnimator(NowState == ActionState.Running ? AnimatorState.Running : AnimatorState.Battle);
-            NowState = NowState == ActionState.Running ? ActionState.Running : ActionState.Idle;
-            isAreadyGetHitting = false;
-            print(true);
-        }
+        NowState = ActionState.Idle;
+        isAlreadyGetHitting = false;
     }    
     
+    bool isAlreadyDead { set; get; }
     IEnumerator DoDead() 
     {
+        isAlreadyDead = true;
         DoAnimator(AnimatorState.Dead);
         NowState = ActionState.Idle;
         yield break;
     }
+
+    bool IsActionStateAre(ActionState actionState) { return BeforeState == actionState; }
 }
 
 /*    bool IsJustStartAttacking { set; get; } = true;

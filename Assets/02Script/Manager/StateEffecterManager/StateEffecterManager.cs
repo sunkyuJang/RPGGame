@@ -60,6 +60,16 @@ public class StateEffecterManager : MonoBehaviour
                 EffectToModel(skill.data.Index, skill.data.StateEffecterIndex, false, false, target);
             }
         }
+    }    
+
+    public static void EffectToModelBySkill(Model target, float damage, GameObject hitFX, bool isFXStartFromGround)
+    {
+        var isNpc = target is Npc;
+        
+        if(!isNpc)
+        {
+            target.GetHit(damage, null, false);
+        }
     }
 
     public static void EffectToModelByItem(Model targetModel, ItemManager.ItemCounter counter, bool isDeEffect)

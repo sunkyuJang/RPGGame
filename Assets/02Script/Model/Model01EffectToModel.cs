@@ -115,7 +115,12 @@ public partial class Model : MonoBehaviour
 
     public void GetHit(float damage, GameObject HitFX, bool isFXStartFromGround)
     {
-        if (this is Monster) { (this as Monster).GetHit(damage, HitFX, isFXStartFromGround); }
-        else if (this is Character) { (this as Character).GetHit(damage); }
+        damage -= DEF;
+        damage = damage > 0 ? damage : 0;
+        nowHP -= (int)damage;
+
+        ShowAlert(((int)damage).ToString(), Color.red);
+        if (this is Monster) { (this as Monster).GetHit(HitFX, isFXStartFromGround); }
+        else if (this is Character) { (this as Character).GetHit(); }
     }
 }

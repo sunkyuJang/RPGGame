@@ -6,6 +6,7 @@ public partial class Model : MonoBehaviour
 {
     public GameObject AlertBox { private set; get; }
     public Vector3 AlertBoxStartPoint { get { return Camera.main.WorldToScreenPoint(transform.position + (Vector3.up * 2)); } }
+    List<Text> AlertBoxTexts { set; get; } = new List<Text>();
     void AwakeInAlert()
     {
         AlertBox = Resources.Load<GameObject>("AlretText");
@@ -15,11 +16,24 @@ public partial class Model : MonoBehaviour
         Text alertText = Instantiate(AlertBox, AlertBoxStartPoint, Quaternion.identity, StaticManager.canvasTrasform).GetComponent<Text>();
         alertText.text = text;
         alertText.color = color;
-        StartCoroutine(StartAlertTextMove(alertText));
+        AlertBoxTexts.Add(alertText);
+        StaticManager.coroutineStart(StartAlertTextMove(alertText));
     }
     IEnumerator StartAlertTextMove(Text text)
     {
-        var limitDist = text.transform.position.y + 200f;
+        var limitDist = text.transform.position.y + 50f;
+
+        if(AlertBoxTexts.Count > 1)
+        {
+            var beforeText = AlertBoxTexts[AlertBoxTexts.Count - 2];
+            text.gameObject.SetActive(false);
+
+            while (beforeText.transform.position.y < limitDist - 10)
+                yield return new WaitForFixedUpdate();
+            
+            text.gameObject.SetActive(true);
+        }
+
         var movePosition = (Vector3.up * 2);
         while (text.transform.position.y < limitDist)
         {
@@ -28,5 +42,9 @@ public partial class Model : MonoBehaviour
         }
 
         Destroy(text.gameObject);
+        yield return new WaitForFixedUpdate();
+        
+        if (AlertBoxTexts[AlertBoxTexts.Count - 1] == null)
+            AlertBoxTexts.Clear();
     }
 }
