@@ -28,7 +28,7 @@ public class MonsterHPBarViewer : MonoBehaviour
 
     public static MonsterHPBarViewer GetNew(Monster monster, Transform parent)
     {
-        MonsterHPBarViewer viewer = Instantiate(Resources.Load<GameObject>("Monster/Slime/MonsterHPBarViewer"), parent).GetComponent<MonsterHPBarViewer>();
+        MonsterHPBarViewer viewer = Instantiate(Resources.Load<GameObject>("Monster/MonsterHPBarViewer"), parent).GetComponent<MonsterHPBarViewer>();
         viewer.Monster = monster;
         return viewer;
     }

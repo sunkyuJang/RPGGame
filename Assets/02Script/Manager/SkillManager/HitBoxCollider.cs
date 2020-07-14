@@ -14,7 +14,7 @@ public class HitBoxCollider : MonoBehaviour
     public List<Collider> colliders { private set; get; } = new List<Collider>();
     float speed;
 
-    Transform HitBoxFXTransform { set; get; }
+    public Transform HitBoxFXTransform { set; get; }
     SkillManager.Skill skill { set; get; }
 
     bool isAlive { set; get; } = true;
@@ -24,7 +24,8 @@ public class HitBoxCollider : MonoBehaviour
         {
             transform.position += transform.forward * (speed * Time.fixedDeltaTime);
             if (HitBoxFXTransform != null)
-                HitBoxFXTransform.position += transform.forward * (speed * Time.fixedDeltaTime);
+                HitBoxFXTransform.position = transform.position;
+                    //HitBoxFXTransform.position += transform.forward * (speed * Time.fixedDeltaTime);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -49,6 +50,20 @@ public class HitBoxCollider : MonoBehaviour
 
         return hitBoxCollider;
     }
+
+    public static HitBoxCollider StartHitBox(GameObject gameObject, Vector3 center, GameObject HitBoxFx , bool isFXDrawingAlways)
+    {
+        HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
+        hitBoxCollider.transform.position = center;
+
+        hitBoxCollider.HitBoxFXTransform = isFXDrawingAlways
+            ? Instantiate(HitBoxFx).GetComponent<Transform>() : HitBoxFx.GetComponent<Transform>();
+
+        hitBoxCollider.HitBoxFXTransform.position = hitBoxCollider.transform.position;
+
+        return hitBoxCollider;
+    }
+
     public Collider GetColsedCollider(Vector3 center, string targetTo) 
     {
         Collider beforeCollider = null;

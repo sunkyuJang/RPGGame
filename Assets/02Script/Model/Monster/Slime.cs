@@ -26,23 +26,34 @@ public class Slime : Monster
 
     new private void FixedUpdate()
     {
-        base.FixedUpdate();
-        //SelectedNextAction();
+        SelectedNextAction();
     }
     new private void OnDrawGizmos()
     {
         base.OnDrawGizmos();
     }
 
-    new void SelectedNextAction()
+    protected override IEnumerator DoAttack()
     {
-        if(BeforeState != NowState)
+        canAttack = false;
+        canGetHit = false;
+        DoAnimator(ActionState.attack);
+        while (!NowAnimatorInfo.IsName("NomalAttack"))
+            yield return new WaitForFixedUpdate();
+
+        StateEffecterManager.EffectToModelBySkill(Character, ATK, null, false);
+
+        while (BeforeState == ActionState.attack)
         {
-            BeforeState = NowState;
-            switch (BeforeState)
+            yield return new WaitForFixedUpdate();
+            transform.LookAt(Character.transform.position);
+
+            if (NowAnimatorInfo.normalizedTime >= 0.9f)
             {
-                case ActionState.idle: StartCoroutine(DoIdle()); break;
-                case ActionState.roaming: StartCoroutine(DoRoaming()); break;
+                NowState = ActionState.battle;
+                canGetHit = true;
+                StartCoroutine(StartAttackDelayTimer(2f));
+                break;
             }
         }
     }

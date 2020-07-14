@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 
 public class Monster : Model
 {
-    Character Character { set; get; }
+    protected Character Character { set; get; }
     MonsterHPBarViewer HPViewer { set; get; }
     public Transform HPBarPositionGuide { private set; get; }
     bool CanShowingHPBar
@@ -31,11 +31,11 @@ public class Monster : Model
     protected ActionState NowState { set; get; }
     protected ActionState BeforeState { set; get; }
 
-    public const float sightRadius = 5f;
-    public const float SigthLimitRad = 30f * Mathf.Deg2Rad;
-    float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
-
-    bool canAttack = true;
+    protected float sightRadius = 5f;
+    protected float SigthLimitRad = 30f * Mathf.Deg2Rad;
+    protected float closeEnough = 2f;
+    protected float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
+    protected bool canAttack = true;
     public Transform FXStartPoint { private set; get; }
 
     new protected void Awake()
@@ -91,7 +91,7 @@ public class Monster : Model
         }
     }
 
-    protected IEnumerator DoIdle()
+    protected virtual IEnumerator DoIdle()
     {
         DoAnimator(ActionState.idle);
         float pauseTime = 0f;
@@ -117,7 +117,7 @@ public class Monster : Model
         }
     }
 
-    protected IEnumerator DoRoaming()
+    protected virtual IEnumerator DoRoaming()
     {
         DoAnimator(ActionState.following);
         float roamingDistance = 0f;
@@ -153,7 +153,7 @@ public class Monster : Model
         }
     }
 
-    protected IEnumerator DoBattle()
+    protected virtual IEnumerator DoBattle()
     {
         DoAnimator(ActionState.battle);
         while (BeforeState == ActionState.battle)
@@ -169,7 +169,7 @@ public class Monster : Model
         }
     }
 
-    protected IEnumerator DoFollowing()
+    protected virtual IEnumerator DoFollowing()
     {
         DoAnimator(ActionState.following);
         while (BeforeState == ActionState.following)
@@ -193,32 +193,9 @@ public class Monster : Model
         }
     }
 
-    protected IEnumerator DoAttack()
-    {
-        canAttack = false;
-        canGetHit = false;
-        DoAnimator(ActionState.attack);
-        while (!NowAnimatorInfo.IsName("NomalAttack"))
-            yield return new WaitForFixedUpdate();
+    protected virtual IEnumerator DoAttack() { yield break; }
 
-        StateEffecterManager.EffectToModelBySkill(Character, ATK, null, false);
-
-        while (BeforeState == ActionState.attack)
-        {
-            yield return new WaitForFixedUpdate();
-            transform.LookAt(Character.transform.position);
-
-            if (NowAnimatorInfo.normalizedTime >= 0.9f)
-            {
-                NowState = ActionState.battle;
-                canGetHit = true;
-                StartCoroutine(StartAttackDelayTimer(2f));
-                break;
-            }
-        }
-    }
-
-    IEnumerator StartAttackDelayTimer(float limit)
+    protected virtual IEnumerator StartAttackDelayTimer(float limit)
     {
         float attackDelayTimer = 0f;
 
@@ -241,7 +218,7 @@ public class Monster : Model
             StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
     }
 
-    protected IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
+    protected virtual IEnumerator ControllHitFX(GameObject HitFX, bool isFXStartFromGround)
     {
         Transform FXtransform = Instantiate(HitFX).transform;
         FXtransform.position = isFXStartFromGround ? transform.position : FXStartPoint.position;
@@ -255,7 +232,7 @@ public class Monster : Model
     }
 
     protected bool canGetHit { set; get; } = true;
-    protected IEnumerator DoGetHit()
+    protected virtual IEnumerator DoGetHit()
     {
         canGetHit = false;
         DoAnimator(ActionState.getHit);
@@ -269,7 +246,7 @@ public class Monster : Model
     }
 
     bool IsAlreadyDead { set; get; }
-    IEnumerator DoDead()
+    protected virtual IEnumerator DoDead()
     {
         IsAlreadyDead = true;
         DoAnimator(ActionState.getHit);
@@ -306,7 +283,7 @@ public class Monster : Model
 
     bool IsActionStateAre(ActionState actionState) { return BeforeState == actionState; }
 
-    void DoAnimator(ActionState state)
+    protected void DoAnimator(ActionState state)
     {
         ResetAnimatorState();
         switch (state)
@@ -361,7 +338,7 @@ public class Monster : Model
         } 
     }
     bool IsCloseEnoughWithChracter { get {
-            return Vector3.Distance(Character.transform.position, transform.position) <= 2f;
+            return Vector3.Distance(Character.transform.position, transform.position) <= closeEnough;
         } }
     protected void OnDrawGizmos()
     {

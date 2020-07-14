@@ -36,7 +36,7 @@ public partial class Character : Model
     Collider[] SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
     { 
-        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor); 
+        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore); 
     }
     Model GetNearestModel(Collider[] colliders)
     {
