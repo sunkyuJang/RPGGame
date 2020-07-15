@@ -126,4 +126,6 @@ public partial class Model : MonoBehaviour
             else if (this is Character) { (this as Character).GetHit(); }
         }
     }
+
+
 }

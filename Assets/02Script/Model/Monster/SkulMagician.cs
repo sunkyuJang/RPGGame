@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using System;
+
 public class SkulMagician : Monster
 {
     public GameObject HitBox;
     public GameObject HitBoxFX;
-     
+    
+    public float farEnogh = 2f;
     new private void Awake()
     {
         SetInfo("허름한 마법사", 100, 25, 0, 100, 5);
@@ -36,15 +39,50 @@ public class SkulMagician : Monster
         base.OnDrawGizmos();
     }
 
+    protected override IEnumerator DoBattle()
+    {
+        DoAnimator(ActionState.battle);
+        while (BeforeState == ActionState.battle)
+        {
+            transform.LookAt(Character.transform.position);
+            yield return new WaitForFixedUpdate();
+
+            if (!IsCloseEnoughWithChracter)
+            {
+                NowState = ActionState.following;
+            }
+            else
+            {
+                if (canAttack)
+                    NowState = ActionState.attack;
+                else 
+                {
+                    if (!NowAnimatorInfo.IsName("NomalAttack"))
+                    {
+                        if (!IsFarEnoughWithCharacter)
+                        {
+                            Rigidbody.velocity = transform.forward * (-SPD);
+                        }
+                        else
+                        {
+                            Rigidbody.velocity = Vector3.zero;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+
     protected override IEnumerator DoAttack()
     {
         canAttack = false;
         canGetHit = false;
+        Rigidbody.velocity = Vector3.zero;
+
         DoAnimator(ActionState.attack);
         while (!NowAnimatorInfo.IsName("NomalAttack"))
             yield return new WaitForFixedUpdate();
-
-        //StateEffecterManager.EffectToModelBySkill(Character, ATK, null, false);
 
         while (BeforeState == ActionState.attack)
         {
@@ -54,13 +92,6 @@ public class SkulMagician : Monster
             StartCoroutine(MoveFireBall());
             NowState = ActionState.battle;
             break;
-            /*if (NowAnimatorInfo.normalizedTime >= 0.9f)
-            {
-                NowState = ActionState.battle;
-                canGetHit = true;
-                StartCoroutine(StartAttackDelayTimer(2f));
-                break;
-            }*/
         }
     }
 
@@ -92,7 +123,7 @@ public class SkulMagician : Monster
                         hitBox.colliders.RemoveAt(i--);
                     else if (nowCollider.CompareTag("Character"))
                     {
-                        StateEffecterManager.EffectToModelBySkill(Character, MP * 10, null, false);
+                        StateEffecterManager.EffectToModelBySkill(Character, MP, null, false);
                         break;
                     }
                 }
@@ -104,5 +135,21 @@ public class SkulMagician : Monster
 
         yield return new WaitForSeconds(2f);
         canAttack = true;
+    }
+
+    protected virtual bool IsCloseEnoughWithChracter
+    {
+        get
+        {
+            return Vector3.Distance(Character.transform.position, transform.position) <= closeEnough;
+        }
+    }
+
+    protected bool IsFarEnoughWithCharacter
+    {
+        get
+        {
+            return Vector3.Distance(Character.transform.position, transform.position) >= farEnogh;
+        }
     }
 }

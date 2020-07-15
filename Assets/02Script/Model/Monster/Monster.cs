@@ -337,7 +337,7 @@ public class Monster : Model
             return false; 
         } 
     }
-    bool IsCloseEnoughWithChracter { get {
+    protected virtual bool IsCloseEnoughWithChracter { get {
             return Vector3.Distance(Character.transform.position, transform.position) <= closeEnough;
         } }
     protected void OnDrawGizmos()
