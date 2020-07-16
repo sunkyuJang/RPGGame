@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 public class DialogueSheet : ScriptableObject
 {	
@@ -18,10 +17,10 @@ public class DialogueSheet : ScriptableObject
 	public class Param
 	{
 		
-		public string Name;
-		public double Index;
-		public bool Stop;
-		public string NextStep;
+		public int Index;
+		public bool ShouldStopRead;
+		public string Type;
+		public int GoTo;
 		public string Script;
 	}
 }

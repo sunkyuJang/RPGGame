@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f2427e84ce514f478201917b93fe3db, type: 3}
+  m_Name: OlderDialogueSheet
+  m_EditorClassIdentifier: 
+  sheets:
+  - name: Sheet1
+    list:
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC774\uBD10, \uC5EC\uAE30 \uC774\uCABD\uC774\uC57C!"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB108 \uAC19\uC740 \uC560\uAC00 \uC65C \uC774\uB7F0 \uC0B0\uC18D\uC5D0
+        \uC788\uB294\uAC70\uC57C?"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uAE30\uC5B5\uC774 \uC5C6\uC5B4\uC694"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB208\uC744 \uB5A0\uBCF4\uB2C8 \uC5EC\uAE30\uC608\uC694."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uBB50 \uAE30\uC5B5\uC774 \uC5C6\uB2E4\uACE0?"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB208\uC744 \uB728\uB2C8 \uC5EC\uAE30\uB77C\uACE0?"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC774\uB7F4 \uC218\uAC00...."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "... \uACE8\uCE58 \uC544\uD508\uAC78."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC5EC\uAE30\uB294 \uB098\uD63C\uC790\uBC16\uC5D0 \uC5C6\uB294\uB370\uB2E4\uAC00
+        \uBC16\uC5D0\uB294 \uBAAC\uC2A4\uD130\uB4E4\uC774\u2026"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uCE58\uB8CC\uBD80\uD130 \uD558\uACE0 \uC774\uC57C\uAE30 \uD558\uC790."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uD3EC\uC158\uC744 \uC880 \uC904\uD14C\uB2C8\uAE4C \uC0AC\uC6A9\uD574\uBD10."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC544, \uAC11\uC791\uC2A4\uB7FD\uC9C0\uB9CC \uBD80\uD0C1\uD558\uB098
+        \uD574\uB3C4 \uB420\uAE4C?"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC544\uAE4C\uB3C4 \uB9D0\uD588\uC9C0\uB9CC, \uC694 \uC55E\uC5D0 \uBAAC\uC2A4\uD130\uB4E4\uC774
+        \uC880 \uB4DD\uC2E4 \uAC70\uB9AC\uAC70\uB4E0."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB098\uB294 \uAC00\uC9C4\uAC8C \uC774 \uBB3C\uC57D\uB4E4 \uBC16\uC5D0
+        \uC5C6\uC5B4\uC11C \uB9D0\uC774\uC9C0."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB124\uAC00 \uB300\uC2E0 \uCC98\uB9AC \uC880 \uD574\uC92C\uC73C\uBA74
+        \uD558\uB294\uB370 \uC5B4\uB54C?"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC88B\uC544\uC694."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC544, \uC9C0\uAE08\uC740 \uC880\u2026"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC624 \uB2E4\uD589\uC774\uAD6C\uB9CC! \uB355\uBD84\uC5D0 \uD55C\uC2DC\uB984
+        \uB193\uACA0\uC5B4."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC544 \uADF8\uB807\uAD6C\uB098. \uC5B4\uCA54 \uC218 \uC5C6\uC9C0."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uD639\uC2DC\uB77C\uB3C4 \uB9C8\uC74C\uC774 \uBC14\uB00C\uBA74 \uB2E4\uC2DC
+        \uC774\uC57C\uAE30 \uD574\uC918."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uADF8\uB7FC \uBAAC\uC2A4\uD130\uB97C \uC7A1\uC544\uC11C, \uB140\uC11D\uB4E4\uC774
+        \uAC00\uC9C0\uACE0 \uC788\uB294 \uBAA9\uAC78\uC774\uB97C \uAC00\uC838\uB2E4\uC918."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB09C \uC5EC\uAE30\uC11C \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC744\uD14C\uB2C8\uAE4C."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uAC71\uC815\uB9C8. \uBCF4\uC0C1\uC740 \uD655\uC2E4\uD788 \uD574\uC904\uD14C\uB2C8\uAE4C."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC624 \uAC00\uC838\uC654\uAD6C\uB098! \uC740\uADFC\uD788 \uC880 \uAC78\uB9B0\uAC70
+        \uAC19\uC9C0\uB9CC \uBB50 \uC0C1\uAD00\uC5C6\uACA0\uC9C0."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC790 \uC5EC\uAE30. \uCD94\uAC00\uC801\uC73C\uB85C \uC904\uD14C\uB2C8\uAE4C
+        \uAC00\uC838\uAC00."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uB2E4\uB978 \uC774\uC57C\uAE30\uB85C\u2026."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC5EC\uAE30\uC11C \uC870\uAE08\uB354 \uB098\uAC00\uAC00\uBA74 \uC5C4\uCCAD
+        \uB369\uCE58\uD070 \uB140\uC11D\uC774 \uC788\uC744\uAC70\uC57C."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC5EC\uAE30\uC5D0 \uC0AC\uB78C\uC774 \uC5C6\uC5B4\uC9C4 \uC774\uC720\uB3C4
+        \uADF8\uB140\uC11D \uB54C\uBB38\uC774\uAC70\uB4E0."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uAD1C\uCC2E\uB2E4\uBA74\u2026"
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uC544\uB2C8\uC57C. \uB108 \uAC19\uC740 \uC5B4\uB9B0 \uC544\uC774\uC5D0\uAC90
+        \uC880 \uBB34\uB9AC\uD55C \uBD80\uD0C1\uC774\uC9C0 \uC2E0\uACBD\uC4F0\uC9C0\uB9C8."
+    - Index: 0
+      ShouldStopRead: 0
+      Type: 
+      GoTo: 0
+      Script: "\uBD80\uB514 \uB108\uAC00 \uAE30\uC5B5\uC744 \uB418\uCC3E\uC558\uC73C\uBA74
+        \uC88B\uACA0\uC5B4"

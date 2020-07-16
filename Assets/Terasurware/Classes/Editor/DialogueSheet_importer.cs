@@ -10,7 +10,7 @@ using NPOI.SS.UserModel;
 public class DialogueSheet_importer : AssetPostprocessor {
 	private static readonly string filePath = "Assets/02Script/Manager/DialogueManager/DialogueSheet.xlsx";
 	private static readonly string exportPath = "Assets/02Script/Manager/DialogueManager/DialogueSheet.asset";
-	private static readonly string[] sheetNames = { "Sheet1", };
+	private static readonly string[] sheetNames = { "Sheet1","Sheet2", };
 	
 	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 	{
@@ -50,10 +50,10 @@ public class DialogueSheet_importer : AssetPostprocessor {
 						
 						DialogueSheet.Param p = new DialogueSheet.Param ();
 						
-					cell = row.GetCell(0); p.Name = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(1); p.Index = (cell == null ? 0.0 : cell.NumericCellValue);
-					cell = row.GetCell(2); p.Stop = (cell == null ? false : cell.BooleanCellValue);
-					cell = row.GetCell(3); p.NextStep = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(0); p.Index = (int)(cell == null ? 0 : cell.NumericCellValue);
+					cell = row.GetCell(1); p.ShouldStopRead = (cell == null ? false : cell.BooleanCellValue);
+					cell = row.GetCell(2); p.Type = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(3); p.GoTo = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(4); p.Script = (cell == null ? "" : cell.StringCellValue);
 						s.list.Add (p);
 					}

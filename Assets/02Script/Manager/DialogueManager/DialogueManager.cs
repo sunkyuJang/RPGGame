@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
     public Character Character { set; get; }
 
     private static Npc model;
-    
+
     public static DialogueManager dialogueManager;
     public static GameObject DialogueManagerChild;
     public DialogueSheet dialogueSheet;
@@ -20,7 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     private static Text nameText;
     private static Text scriptText;
-    
+
     private static GameObject selectorObj;
     private Transform selecterTransform;
 
@@ -38,18 +38,18 @@ public class DialogueManager : MonoBehaviour
 
         dialogue = dialogueSheet.sheets[0].list;
         transform = gameObject.GetComponent<RectTransform>();
-        
+
         dialogueManager = this;
 
         Transform childTransform = Instantiate(Resources.Load<GameObject>("Managers/DialogueManager"), transform).GetComponent<Transform>();
         DialogueManagerChild = childTransform.gameObject;
         childTransform.Find("Dialog").GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SkipDialogue());
-        
+
         nameText = childTransform.GetChild(0).GetComponent<Text>();
         scriptText = childTransform.GetChild(1).GetComponent<Text>();
         selectorObj = childTransform.GetChild(2).gameObject;
         selecterTransform = selectorObj.GetComponent<Transform>();
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             EventTrigger.Entry entry = selecterTransform.GetChild(i).GetComponent<EventTrigger>().triggers[0];
             switch (i)
@@ -70,22 +70,22 @@ public class DialogueManager : MonoBehaviour
     {
         _model.dialogue = new List<DialogueSheet.Param>();
         _model.selecter = new List<DialogueSheet.Param>();
-        for(int i = 0, nowIndex = 0; i < dialogue.Count; i++)
+        for (int i = 0, nowIndex = 0; i < dialogue.Count; i++)
         {
             DialogueSheet.Param nowDialogue = dialogue[i];
-            if(nowDialogue.Name == _model.CharacterName) 
+            if (nowDialogue.Name == _model.CharacterName)
             {
-                if (nowDialogue.Index == nowIndex) 
-                { 
+                if (nowDialogue.Index == nowIndex)
+                {
                     _model.dialogue.Add(nowDialogue);
                     nowIndex++;
                 }
-                else if(nowDialogue.NextStep.Equals("select"))
+                else if (nowDialogue.NextStep.Equals("select"))
                 {
                     _model.selecter.Add(dialogue[i]);
                 }
             }
-            else if(_model.dialogue.Count != 0 && dialogue[i].Name != _model.CharacterName) { break; }
+            else if (_model.dialogue.Count != 0 && dialogue[i].Name != _model.CharacterName) { break; }
         }
     }
     public static void ShowDialogue(Npc _model)
@@ -105,14 +105,14 @@ public class DialogueManager : MonoBehaviour
         scriptText.text = "";
         isShowLinerunning = true;
         nowScript = model.dialogue[i].Script;
-        for (int spelling = 0; spelling < nowScript.Length; spelling++) 
+        for (int spelling = 0; spelling < nowScript.Length; spelling++)
         {
             scriptText.text += nowScript[spelling];
             yield return new WaitForSeconds(0.1f);
         }
         isShowLinerunning = false;
     }
-    private IEnumerator StopShowLine() 
+    private IEnumerator StopShowLine()
     {
         StaticManager.CorutineStop(runningShowLine);
         yield return new WaitForEndOfFrame();
@@ -154,7 +154,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-    private void SelectDialogue(string nextStep) 
+    private void SelectDialogue(string nextStep)
     {
         if (nextStep == "select")
         {
@@ -172,20 +172,20 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
-        else if(nextStep.Substring(nextStep.Length - 2) == "in")
+        else if (nextStep.Substring(nextStep.Length - 2) == "in")
         {
             StartShowLine(ShowLine(++model.lastDialog));
         }
         else if (nextStep.Substring(nextStep.Length - 3) == "out")
         {
-            for(int i = model.lastDialog + 1; i < model.dialogue.Count; i++)
+            for (int i = model.lastDialog + 1; i < model.dialogue.Count; i++)
             {
-                if(model.dialogue[i].NextStep == "selectEnd") 
+                if (model.dialogue[i].NextStep == "selectEnd")
                 {
                     model.lastDialog = i;
                     string trxt = model.dialogue[model.lastDialog].Script;
                     StartShowLine(ShowLine(++model.lastDialog));
-                    break; 
+                    break;
                 }
             }
         }
@@ -198,7 +198,7 @@ public class DialogueManager : MonoBehaviour
             _npc.lastDialog = int.Parse(nextStep.Substring(5, nextStep.Length - 5));
             DoNextStep(3);
         }
-        else if(_npc.HasItems || nextStep == "quest")
+        else if (_npc.HasItems || nextStep == "quest")
         {
             nextStepStates.Clear();
             int lineNum = 0;
@@ -217,16 +217,16 @@ public class DialogueManager : MonoBehaviour
     public void SelectedNum3() { DoNextStep(3); }
 
     private void DoNextStep(int selectNum)
-    { 
-        if(model is Npc)
+    {
+        if (model is Npc)
         {
             Npc npc = model as Npc;
             string state = npc.dialogue[model.lastDialog].NextStep;
-            if(state == "select")
+            if (state == "select")
             {
-                for(int i = model.lastDialog; i < dialogue.Count || dialogue[i].NextStep == "selectEnd"; i++)
+                for (int i = model.lastDialog; i < dialogue.Count || dialogue[i].NextStep == "selectEnd"; i++)
                 {
-                    if(IsNextSelectScript(selectNum, i)) { npc.lastDialog = i; selectorObj.SetActive(false); StartShowLine(ShowLine(npc.lastDialog)); break; }
+                    if (IsNextSelectScript(selectNum, i)) { npc.lastDialog = i; selectorObj.SetActive(false); StartShowLine(ShowLine(npc.lastDialog)); break; }
                 }
             }
             else
@@ -255,7 +255,7 @@ public class DialogueManager : MonoBehaviour
             ChangeSelectorText("", i);
         }
     }
-    private bool IsNextSelectScript(int selectNum, int i) 
+    private bool IsNextSelectScript(int selectNum, int i)
     {
         string nowStep = model.dialogue[i].NextStep;
         string inPart = "select/" + selectNum + "in";
@@ -263,7 +263,7 @@ public class DialogueManager : MonoBehaviour
         return nowStep.Equals(inPart) || nowStep.Equals(outPart);
     }
 
-    private void DoQuestState(Npc npc, string _state) 
+    private void DoQuestState(Npc npc, string _state)
     {
         questState state = GetQuestState(_state);
         switch (state)
@@ -303,11 +303,11 @@ public class DialogueManager : MonoBehaviour
 
     private nextStepState GetNowStep(string _nextStep)
     {
-        if(_nextStep == "end") { return nextStepState.end; }
+        if (_nextStep == "end") { return nextStepState.end; }
         else
         {
             if (_nextStep.Substring(0, 4) == "call") { return nextStepState.call; }
-            else if(_nextStep.Substring(0,5) == "quest") { return nextStepState.quest; }
+            else if (_nextStep.Substring(0, 5) == "quest") { return nextStepState.quest; }
             else { return nextStepState.select; }
         }
     }

@@ -14,23 +14,6 @@ public class StateEffecterManager : MonoBehaviour
 
     static void EffectToModel(int index, int requestIndex, bool isItem, bool isDeEffect, Model targetModel)
     {
-        /*ItemManager.ItemCounter nowItem = transform.GetComponent<ItemView>().ItemCounter;
-        SkillManager.Skill nowSkill = transform.GetComponent<SkillManager.Skill>();
-
-        if (nowItem != null)
-        {
-            index = nowItem.Data.Index;
-            isItem = true;
-            requestIndex = nowItem.Data.EffecterIndex;
-        }
-        else if(nowSkill != null)
-        {
-            index = nowSkill.data.Index;
-            isItem = false;
-            requestIndex = nowSkill.data.StateEffecterIndex;
-            //it need Effecter index;
-        }*/
-
         if (CompareIndexer(index, requestIndex, isItem))
         {
             int coroutineIndex = 0;
