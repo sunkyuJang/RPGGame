@@ -13,6 +13,7 @@ public partial class Model : MonoBehaviour
     public bool isPlayer { protected set; get; }
     public int lastDialog { set; get; }
     public DialogueSheet DialogueSheet;
+    public bool HasDialogue { get { return DialogueSheet != null; } }
     //state
     public string CharacterName { protected set; get; }
     public int HP { protected set; get; }

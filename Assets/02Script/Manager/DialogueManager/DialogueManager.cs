@@ -8,7 +8,181 @@ using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
-    public Character Character { set; get; }
+    public Character character;
+    public static DialogueViewer DialogueViewer { set; get; }
+    public static DialogueSelecter DialogueSelecter { set; get; }
+    public static Model ScriptModel { set; get; }
+    public static List<DialogueSheet.Param> DialogueScript { set; get; } 
+    enum NextState { None, Select, Quest, ComfirmBox, End, Exit, Trade, Skip}
+    NextState GetNextState { get
+        {
+            switch (DialogueScript[ScriptModel.lastDialog].Type)
+            {
+                case "None": return NextState.None;
+                case "Select": return NextState.Select;
+                case "Quest": return NextState.Quest;
+                case "ComfirmBox": return NextState.ComfirmBox;
+                case "Skip": return NextState.Skip;
+            }
+            return NextState.End;
+        } }
+    
+    private void Awake()
+    {
+        DialogueViewer = Instantiate(Resources.Load<GameObject>("Managers/DialogueViewer")).GetComponent<DialogueViewer>();
+        DialogueViewer.transform.GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SetNextDialogue());
+        DialogueSelecter = DialogueViewer.dialogueSelecter;
+    }
+
+    public static void ShowDialogue(Model model)
+    {
+        if(model.HasDialogue)
+        {
+            ScriptModel = model;
+            DialogueScript = model.DialogueSheet.sheets[0].list;
+        }
+    }
+
+    bool canSkipNext { set; get; } = true;
+    void SetNextDialogue()
+    {
+        if (canSkipNext)
+        {
+            if (DialogueViewer.IsStillShowing)
+            {
+                DialogueViewer.StopRunningScript = true;
+            }
+            else
+            {
+                var nowScript = DialogueScript[ScriptModel.lastDialog];
+                DialogueViewer.ShowDiaogue(ScriptModel.name, nowScript.Script);
+
+                switch (GetNextState)
+                {
+                    case NextState.None: ScriptModel.lastDialog++; break;
+                    case NextState.Select: StartCoroutine(SelectScript()); break;
+                    case NextState.End: StartCoroutine(EndDialogue()); break;
+                    case NextState.Quest:
+                }
+            }
+        }
+    }
+
+    IEnumerator SelectScript()
+    {
+        canSkipNext = false;
+        var selector = DialogueViewer.dialogueSelecter;
+        List<DialogueSheet.Param> selectSub = new List<DialogueSheet.Param>();
+        var nowIndex = ScriptModel.lastDialog + 1;
+        int i = 0;
+        while(GetScriptByIndex(nowIndex).Type == "SelecterSub")
+        {
+            var nowScript = GetScriptByIndex(nowIndex);
+            selector.SetText(i, nowScript.Script);
+            selectSub.Add(nowScript);
+        }
+        selector.ShowSelecter(true);
+
+        while(selector.selectNum < 0)
+            yield return new WaitForFixedUpdate();
+
+        selector.ShowSelecter(false);
+        ScriptModel.lastDialog = selectSub[selector.GetSelectNum].GoTo;
+        canSkipNext = true;
+        SetNextDialogue();
+    }
+
+    IEnumerator EndDialogue()
+    {
+        canSkipNext = false;
+        var npc = ScriptModel as Npc;
+        List<NextState> states = new List<NextState>();
+
+        int count = 0;
+        states.Add(NextState.End);
+        DialogueSelecter.SetText(count++, "대화를 끝낸다.");
+        if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.SetText(count++, "거래를 한다"); }
+        if (npc.HasQuest) { states.Add(NextState.Quest); DialogueSelecter.SetText(count++, "퀘스트를 받는다"); }
+        
+        DialogueSelecter.ShowSelecter(true);
+        while (DialogueSelecter.selectNum < 0)
+            yield return new WaitForFixedUpdate();
+
+        canSkipNext = true;
+        switch (states[DialogueSelecter.GetSelectNum])
+        {
+            case NextState.End:
+                character.IntoNomalUI();
+                break;
+            case NextState.Trade:
+                character.SetActionState(Character.ActionState.Trade);
+                break;
+            case NextState.Quest:
+                int processingIndex = 0;
+                if(QuestManager.isAlreadyAccept(npc, out processingIndex))
+                {
+
+                }
+                npc.lastDialog++;
+                SetNextDialogue();
+                break;
+        }
+    }
+
+    IEnumerator CheckQuest(Npc npc)
+    {
+        int processingIndex = 0;
+        if (QuestManager.isAlreadyAccept(npc, out processingIndex))
+        {
+            
+        }
+        else
+        {
+            StartCoroutine(ComfirmQuest());
+        }
+    }
+    IEnumerator ComfirmQuest()
+    {
+        canSkipNext = false;
+        var npc = ScriptModel as Npc;
+        var lastQuest = QuestManager.GetLastQuest(npc);
+        string comfirmText = "퀘스트를 수락하시겠습니까? \r\n";
+
+        comfirmText += "요구사항: ";
+        foreach(ItemManager.ItemCounter counter in lastQuest.RequireList)
+        {
+            comfirmText += counter.Data.Name + "X" + counter.count + "\r\n"; 
+        }
+
+        comfirmText += "\r\n보상: ";
+        foreach (ItemManager.ItemCounter counter in lastQuest.RewardList)
+        {
+            comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
+        }
+
+        StaticManager.ShowComfirmBox(comfirmText);
+        var comfirmBox = StaticManager.GetComfimBox;
+
+        while (!comfirmBox.isPressed)
+            yield return new WaitForFixedUpdate();
+
+        canSkipNext = true;
+        switch (comfirmBox.NowState)
+        {
+            case ComfimBox.State.Yes:
+                QuestManager.AcceptQuest(lastQuest);
+                npc.lastDialog = GetScriptByIndex(npc.lastDialog).GoTo;
+                SetNextDialogue();
+                break;
+            case ComfimBox.State.No:
+                npc.lastDialog++;
+                SetNextDialogue();
+                break;
+        }
+    }
+    DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
+}
+/*    public Character Character { set; get; }
 
     private static Npc model;
 
@@ -36,7 +210,6 @@ public class DialogueManager : MonoBehaviour
     {
         Character = GameObject.Find("Character").GetComponent<Character>();
 
-        dialogue = dialogueSheet.sheets[0].list;
         transform = gameObject.GetComponent<RectTransform>();
 
         dialogueManager = this;
@@ -310,5 +483,4 @@ public class DialogueManager : MonoBehaviour
             else if (_nextStep.Substring(0, 5) == "quest") { return nextStepState.quest; }
             else { return nextStepState.select; }
         }
-    }
-}
+    }*/

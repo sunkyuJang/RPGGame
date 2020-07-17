@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -35,6 +36,36 @@ public class QuestManager : MonoBehaviour
         QuestTableList.Add(new QuestTable(name, startIndex, QuestList.Count - 1));
     }
 
+    public static QuestTable GetLastQuest(Npc npc)
+    {
+        QuestTable nowQuest = null;
+        if (npc.HasQuest)
+        {
+            return new QuestTable(npc, npc.lastQuestNum);
+        }
+
+        return nowQuest;
+    }
+    public static bool isAlreadyAccept(Npc npc, out int processingIndex)
+    {
+        if (ProcessingQuestList != null)
+        {
+            for (int i = 0; i < ProcessingQuestList.Count; i++)
+            {
+                var processingQuest = ProcessingQuestList[i];
+                if (processingQuest.ComfareQuest(npc, npc.lastQuestNum))
+                {
+                    processingIndex = i;
+                    return true;
+                }
+            }
+        }
+        processingIndex = 0;
+        return false;
+    }
+    public static void AcceptQuest(QuestTable quest) => ProcessingQuestList.Add(quest);
+    public static QuestTable GetRunningQuest(Npc npc, int processingIndex) { return processingIndex}
+    
     public static bool CanClearQuest(Inventory inventory, string npcName, int index)
     {
         QuestTable nowTable = null;
@@ -81,20 +112,23 @@ public class QuestManager : MonoBehaviour
         }
         return itemList;
     }
-    class QuestTable
+    public class QuestTable
     {
-        public string Name { private set; get; }
-        public int StartIndex { private set; get; }
-        public int EndIndex { private set; get; }
+        public Npc npc { private set; get; }
+        public int Index { private set; get; }
         public int NowQuestIndex { set; get; }
         public List<ItemManager.ItemCounter> RequireList { set; get; }
         public List<ItemManager.ItemCounter> RewardList { set; get; }
 
-        public QuestTable(string _name, int _startIndex, int _endIndex)
+        public QuestTable(Npc npc, int index)
         {
-            Name = _name; StartIndex = _startIndex; EndIndex = _endIndex; NowQuestIndex = 0; RequireList = new List<ItemManager.ItemCounter>();
+            this.npc = npc; 
+            Index = index;
+            var data = npc.questList.sheets[0].list;
+            RequireList = GetItemList(data[index].needItem, data[index].needCount);
+            RewardList = GetItemList(data[index].rewardItem, data[index].rewardCount);
         }
-        public bool ComfareQuest(string _name, int _index) { return Name.Equals(_name) && (NowQuestIndex == _index); }
+        public bool ComfareQuest(Npc npc, int _index) { return this.npc.Equals(npc) && (NowQuestIndex == _index); }
         public bool ComfareItemList(Inventory inventory) 
         {
             int clearCount = 0;
@@ -118,7 +152,6 @@ public class QuestManager : MonoBehaviour
             }
             return false;
         }
-        public int GetQuestIndex() { return NowQuestIndex + StartIndex; }
         public bool IsUnresistered() { return RequireList.Count == 0; }
     }
 }

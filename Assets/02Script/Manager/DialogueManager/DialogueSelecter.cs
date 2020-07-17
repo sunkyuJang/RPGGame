@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class DialogueSelecter : MonoBehaviour
 {
-    List<Text> Selecters = new List<Text>(); 
+    List<Text> Selecters = new List<Text>();
+    public int selectNum = -1;
     private void Awake()
     {
         for(int i = 0; i < transform.childCount; i++)
@@ -30,5 +31,19 @@ public class DialogueSelecter : MonoBehaviour
             else { text.text = ""; }
             text.gameObject.SetActive(shouldShowing);
         }
+    }
+    public int GetSelectNum 
+    { 
+        get
+        {
+            if(selectNum > -1)
+            {
+                var nowNum = selectNum;
+                selectNum = -1;
+                return nowNum;
+            }
+
+            return selectNum;
+        } 
     }
 }
