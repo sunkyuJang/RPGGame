@@ -974,6 +974,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14642c0856adbd478bdb03ce67a5ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DialogueSheet: {fileID: 11400000, guid: b1d213f916b674f4baa33b36a36c113c, type: 2}
+  questSheet: {fileID: 11400000, guid: 693bd153817456e429e3b3c1a5badd5c, type: 2}
 --- !u!136 &1239885819
 CapsuleCollider:
   m_ObjectHideFlags: 0

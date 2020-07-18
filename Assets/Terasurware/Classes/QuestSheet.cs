@@ -17,12 +17,13 @@ public class QuestSheet : ScriptableObject
 	public class Param
 	{
 		
-		public string name;
-		public int index;
-		public string needItem;
-		public string needCount;
-		public string rewardItem;
-		public string rewardCount;
+		public string Name;
+		public int Index;
+		public int DialogueIndex;
+		public string NeedItem;
+		public string NeedCount;
+		public string RewardItem;
+		public string RewardCount;
 	}
 }
 

@@ -106,7 +106,7 @@ public partial class Character : Model
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
                 case ActionState.Running: StartCoroutine(DoRunning()); break;
                 case ActionState.Action: StartCoroutine(DoAction()); break;
-                //case ActionState.Talk: StartCoroutine(DoTalk()); break;
+                case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 case ActionState.Attack: StartCoroutine(DoAttack()); break; 
@@ -173,15 +173,17 @@ public partial class Character : Model
         }
         yield break;
     }
-/*    IEnumerator DoTalk()
+    IEnumerator DoTalk()
     {
-        Npc npc = TargetModel as Npc; 
-        if(npc.dialogue == null) DialogueManager.GetScript(npc);
-        IntoDialogueUi();
-        DialogueManager.ShowDialogue(npc);
+        Npc npc = TargetModel as Npc;
+        if (npc.HasDialogue)
+        {
+            IntoDialogueUi();
+            DialogueManager.ShowDialogue(npc);
+        }
         NowState = ActionState.Idle;
         yield break;
-    }*/
+    }
     IEnumerator DoTrade()
     {
         Inventory.ShowInventoryForTrade(TargetModel.Inventory);

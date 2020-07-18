@@ -15,9 +15,10 @@ MonoBehaviour:
   sheets:
   - name: Sheet1
     list:
-    - name: "\uAE38\uBC84\uD2B8"
-      index: 0
-      needItem: 2;
-      needCount: 1;
-      rewardItem: 0;
-      rewardCount: 5;
+    - Name: "\uAE38\uBC84\uD2B8"
+      Index: 0
+      DialogueIndex: 14
+      NeedItem: 2;
+      NeedCount: 1;
+      RewardItem: 0;
+      RewardCount: 5;

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Npc : Model
 {
-    public int lastQuestNum { set; get; }
-    public QuestSheet questList;
+    public QuestSheet questSheet;
 
     protected new void Awake()
     {
@@ -23,10 +22,12 @@ public class Npc : Model
     { 
         get 
         {
-            if (questList != null)
-                if (lastQuestNum < questList.sheets[0].list.Count)
+            if (questSheet != null)
+            {
+                var questList = questSheet.sheets[0].list;
+                if (questList[questList.Count - 1].DialogueIndex >= lastDialog)
                     return true;
-            
+            }
             return false; 
         } 
     }
