@@ -13,7 +13,6 @@ public class QuestManager : MonoBehaviour
     private static List<QuestTable> ProcessingQuestList { set; get; }
     void Awake()
     {
-        QuestList = questSheet.sheets[0].list;
         QuestTableList = new List<QuestTable>();
         ProcessingQuestList = new List<QuestTable>();
     }
@@ -170,6 +169,7 @@ public class QuestManager : MonoBehaviour
             {
                 foreach(ItemManager.ItemCounter requireItem in RequireList) { inventory.RemoveItem(requireItem); }
                 foreach(ItemManager.ItemCounter rewardItem in RewardList) { inventory.AddItem(rewardItem); }
+                npc.ClearQuestCount++;
                 return true;
             }
             return false;

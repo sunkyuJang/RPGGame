@@ -5,7 +5,7 @@ using UnityEngine;
 public class Npc : Model
 {
     public QuestSheet questSheet;
-
+    public int ClearQuestCount = 0;
     protected new void Awake()
     {
         isPlayer = false;
@@ -25,7 +25,7 @@ public class Npc : Model
             if (questSheet != null)
             {
                 var questList = questSheet.sheets[0].list;
-                if (questList[questList.Count - 1].DialogueIndex >= lastDialog)
+                if (ClearQuestCount < questList.Count)
                     return true;
             }
             return false; 

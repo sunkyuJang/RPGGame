@@ -5,33 +5,43 @@ using UnityEngine.UI;
 
 public class DialogueSelecter : MonoBehaviour
 {
-    List<Text> Selecters = new List<Text>();
+    List<Text> Selectors = new List<Text>();
     public int selectNum = -1;
+    int num = 0;
     private void Awake()
     {
         for(int i = 0; i < transform.childCount; i++)
         {
-            Selecters.Add(transform.GetChild(0).GetComponent<Text>());
-            Selecters[0].gameObject.SetActive(false);
+            Selectors.Add(transform.GetChild(i).GetComponent<Text>());
+            Selectors[i].gameObject.SetActive(false);
         }
         gameObject.SetActive(false);
     }
 
-    public void SetText(int position, string text) => Selecters[position].text = text;
-    public void ShowSelecter(bool shouldShowing)
+    public void ShowSelectors(string text)
     {
-        gameObject.SetActive(shouldShowing);
-        foreach(Text text in Selecters)
-        {
-            if (shouldShowing)
-            {
-                if(text.text == "") 
-                    break;
-            }
-            else { text.text = ""; }
-            text.gameObject.SetActive(shouldShowing);
-        }
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
+
+        var selector = Selectors[num++];
+        selector.gameObject.SetActive(true);
+        selector.text = text;
     }
+    public void HideSelecter()
+    {
+        foreach(Text text in Selectors)
+        {
+            text.text = "";
+            text.gameObject.SetActive(false);
+        }
+        num = 0;
+        gameObject.SetActive(false);
+    }
+
+    public void SelectedFirst() => selectNum = 0;
+    public void SelectedSecond() => selectNum = 1;
+    public void SelectedThird() => selectNum = 2;
+
     public int GetSelectNum 
     { 
         get

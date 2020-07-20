@@ -18,7 +18,6 @@ public class DialogueSheet : ScriptableObject
 	{
 		
 		public int Index;
-		public bool ShouldStopRead;
 		public string Type;
 		public int GoTo;
 		public string Script;

@@ -74,6 +74,6 @@ public partial class Character : Model
         Animator.SetBool("IsGetHit", false);
         Animator.SetBool("IsAttack", false);
     }
-    public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.TurnOn(false); }
-    public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.TurnOn(true); }
+    public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.gameObject.SetActive(false); }
+    public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.gameObject.SetActive(true); }
 }

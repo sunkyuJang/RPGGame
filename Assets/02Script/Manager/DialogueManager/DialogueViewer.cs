@@ -19,7 +19,6 @@ public class DialogueViewer : MonoBehaviour
         DialogueText = transform.Find("Dialogue").GetComponent<Text>();
 
         dialogueSelecter = transform.Find("Selecter").GetComponent<DialogueSelecter>();
-        dialogueSelecter.ShowSelecter(false);
         gameObject.SetActive(false);
     }
 

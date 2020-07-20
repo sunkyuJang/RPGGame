@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4bfc88787c263a419567184d71875b2, type: 3}
+  m_Name: QuestSheet
+  m_EditorClassIdentifier: 
+  sheets:
+  - name: Sheet1
+    list:
+    - Name: "\uAE38\uBC84\uD2B8"
+      Index: 0
+      DialogueIndex: 15
+      NeedItem: 2;
+      NeedCount: 1;
+      RewardItem: 0;
+      RewardCount: 5;

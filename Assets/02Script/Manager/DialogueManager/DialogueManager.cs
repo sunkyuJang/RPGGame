@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GLip;
 using UnityEngine.UIElements;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -64,7 +66,7 @@ public class DialogueManager : MonoBehaviour
                     case NextState.End: StaticManager.coroutineStart(EndDialogue()); break;
                     case NextState.Skip: ScriptModel.lastDialog = nowScript.GoTo; break;
                     case NextState.Exit: IntoNomalUI(); break;
-                        //case NextState.Quest:
+                    case NextState.Quest: CheckQuest((ScriptModel as Npc)); break;
                 }
             }
         }
@@ -76,18 +78,17 @@ public class DialogueManager : MonoBehaviour
         List<DialogueSheet.Param> selectSub = new List<DialogueSheet.Param>();
         var nowIndex = ScriptModel.lastDialog + 1;
         int i = 0;
-        while(GetScriptByIndex(nowIndex).Type == "SelecterSub")
+        while(GetScriptByIndex(nowIndex).Type == "SelectSub")
         {
-            var nowScript = GetScriptByIndex(nowIndex);
-            selector.SetText(i, nowScript.Script);
+            var nowScript = GetScriptByIndex(nowIndex++);
+            selector.ShowSelectors(nowScript.Script);
             selectSub.Add(nowScript);
         }
-        selector.ShowSelecter(true);
 
         while(selector.selectNum < 0)
             yield return new WaitForFixedUpdate();
 
-        selector.ShowSelecter(false);
+        selector.HideSelecter();
         ScriptModel.lastDialog = selectSub[selector.GetSelectNum].GoTo;
         canSkipNext = true;
         SetNextDialogue();
@@ -101,14 +102,14 @@ public class DialogueManager : MonoBehaviour
 
         int count = 0;
         states.Add(NextState.End);
-        DialogueSelecter.SetText(count++, "대화를 끝낸다.");
-        if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.SetText(count++, "거래를 한다"); }
-        if (npc.HasQuest) { states.Add(NextState.Quest); DialogueSelecter.SetText(count++, "퀘스트를 받는다"); }
+        DialogueSelecter.ShowSelectors("대화를 끝낸다.");
+        if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.ShowSelectors("거래를 한다"); }
+        if (npc.HasQuest) { states.Add(NextState.Quest); DialogueSelecter.ShowSelectors("퀘스트를 받는다"); }
         
-        DialogueSelecter.ShowSelecter(true);
         while (DialogueSelecter.selectNum < 0)
             yield return new WaitForFixedUpdate();
 
+        DialogueSelecter.HideSelecter();
         canSkipNext = true;
         switch (states[DialogueSelecter.GetSelectNum])
         {
@@ -116,6 +117,7 @@ public class DialogueManager : MonoBehaviour
                 IntoNomalUI();
                 break;
             case NextState.Trade:
+                IntoNomalUI();
                 StaticManager.Character.SetActionState(Character.ActionState.Trade);
                 break;
             case NextState.Quest:
@@ -143,24 +145,37 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            StaticManager.coroutineStart(ComfirmQuest());
+            if (GetNextState == NextState.End)
+            {
+                npc.lastDialog++;
+                canSkipNext = true;
+                SetNextDialogue();
+            }
+            else if (GetNextState == NextState.Quest)
+            {
+                StaticManager.coroutineStart(ComfirmQuest(nowQuest));
+            }
         }
     }
 
-    static IEnumerator ComfirmQuest()
+    static IEnumerator ComfirmQuest(QuestManager.QuestTable quest)
     {
+        while (DialogueViewer.IsStillShowing)
+            yield return new WaitForFixedUpdate();
+
+        yield return new WaitForSeconds(0.5f);
+
         var npc = ScriptModel as Npc;
-        var lastQuest = QuestManager.GetQuest(npc);
-        string comfirmText = "퀘스트를 수락하시겠습니까? \r\n";
+        string comfirmText = "퀘스트를 수락하시겠습니까? \r\n\r\n";
 
         comfirmText += "요구사항: ";
-        foreach (ItemManager.ItemCounter counter in lastQuest.RequireList)
+        foreach (ItemManager.ItemCounter counter in quest.RequireList)
         {
             comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
         }
 
         comfirmText += "\r\n보상: ";
-        foreach (ItemManager.ItemCounter counter in lastQuest.RewardList)
+        foreach (ItemManager.ItemCounter counter in quest.RewardList)
         {
             comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
         }
@@ -168,27 +183,27 @@ public class DialogueManager : MonoBehaviour
         StaticManager.ShowComfirmBox(comfirmText);
         var comfirmBox = StaticManager.GetComfimBox;
 
-        while (!comfirmBox.isPressed)
+        while (comfirmBox.NowState == ComfimBox.State.Waiting)
             yield return new WaitForFixedUpdate();
 
         canSkipNext = true;
         switch (comfirmBox.NowState)
         {
             case ComfimBox.State.Yes:
-                QuestManager.AcceptQuest(lastQuest);
+                QuestManager.AcceptQuest(quest);
                 npc.lastDialog = GetScriptByIndex(npc.lastDialog).GoTo;
-                SetNextDialogue();
                 break;
             case ComfimBox.State.No:
                 npc.lastDialog++;
-                SetNextDialogue();
                 break;
         }
+
+        SetNextDialogue();
     }
 
     static void IntoNomalUI()
     {
-        DialogueSelecter.ShowSelecter(false);
+        DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
         StaticManager.Character.IntoNomalUI();
     }

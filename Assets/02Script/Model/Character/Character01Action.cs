@@ -100,7 +100,6 @@ public partial class Character : Model
         {
             BeforeState = NowState;
             
-            print(NowState);
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -186,6 +185,8 @@ public partial class Character : Model
     }
     IEnumerator DoTrade()
     {
+        Controller.SetAllActive(false);
+        QuickSlot.gameObject.SetActive(false);
         Inventory.ShowInventoryForTrade(TargetModel.Inventory);
         TargetModel.Inventory.ShowInventoryForTrade(Inventory);
 
@@ -193,6 +194,8 @@ public partial class Character : Model
         {
             if(!Inventory.gameObject.activeSelf || !TargetModel.Inventory.gameObject.activeSelf)
             {
+                Controller.SetAllActive(true);
+                QuickSlot.gameObject.SetActive(true);
                 IntoNomalUI();
                 Inventory.gameObject.SetActive(false);
                 TargetModel.Inventory.gameObject.SetActive(false);
