@@ -96,10 +96,20 @@ public partial class Character : Model
     void FixedUpdateInAction()
     {
         //switch
-        if (NowState != BeforeState)        
+        if (!IsRunningTimeLine)
+            DoNextAction();
+
+        /*        if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    StartCoroutine(AutoAttack());
+                }*/
+    }
+
+    void DoNextAction()
+    {
+        if (NowState != BeforeState)
         {
             BeforeState = NowState;
-            
             switch (BeforeState)
             {
                 case ActionState.Idle: StartCoroutine(DoIdle()); break;
@@ -108,14 +118,9 @@ public partial class Character : Model
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
-                case ActionState.Attack: StartCoroutine(DoAttack()); break; 
-                //case ActionState.Dead: StartCoroutine(DoDead()); break;
+                case ActionState.Attack: StartCoroutine(DoAttack()); break;
+                    //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartCoroutine(AutoAttack());
         }
     }
 
@@ -177,7 +182,7 @@ public partial class Character : Model
         Npc npc = TargetModel as Npc;
         if (npc.HasDialogue)
         {
-            IntoDialogueUi();
+            ShowGameUI(false);
             DialogueManager.ShowDialogue(npc);
         }
         NowState = ActionState.Idle;
@@ -196,7 +201,7 @@ public partial class Character : Model
             {
                 Controller.SetAllActive(true);
                 QuickSlot.gameObject.SetActive(true);
-                IntoNomalUI();
+                ShowGameUI(true);
                 Inventory.gameObject.SetActive(false);
                 TargetModel.Inventory.gameObject.SetActive(false);
                 NowState = ActionState.Idle;

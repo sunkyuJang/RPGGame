@@ -16,10 +16,13 @@ public class Monster : Model
     {
         get
         {
-            Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
-            if (HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
+            if (!IsRunningTimeLine)
             {
-                return true;
+                Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
+                if (HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -61,16 +64,20 @@ public class Monster : Model
     // Update is called once per frame
     protected void Update()
     {
-        if (CanShowingHPBar != HPViewer.gameObject.activeSelf)
+        /*if (CanShowingHPBar != HPViewer.gameObject.activeSelf)
         {
             HPViewer.gameObject.SetActive(CanShowingHPBar);
-        }
+        }*/
     }
 
     protected void FixedUpdate()
     {
-        SelectedNextAction();
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
+        if (!IsRunningTimeLine)
+        {
+            SelectedNextAction();
+
+            //Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
+        }
     }
 
     protected void SelectedNextAction()

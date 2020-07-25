@@ -9,7 +9,6 @@ public partial class Character : Model
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    int count = 0;
     void ActivateSkill(SkillManager.Skill skill)
     {
         if (IsinField)

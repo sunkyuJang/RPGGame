@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f2427e84ce514f478201917b93fe3db, type: 3}
-  m_Name: DialogueSheet
+  m_Name: DialogueSheet 1
   m_EditorClassIdentifier: 
   sheets:
   - name: Sheet1

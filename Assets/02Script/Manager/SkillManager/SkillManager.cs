@@ -88,7 +88,7 @@ public partial class SkillManager : MonoBehaviour
     {
         SkillViewerObj.SetActive(false);
         discriptionBox.gameObject.SetActive(false);
-        character.IntoNomalUI();
+        character.ShowGameUI(true);
     }
     
     class DiscriptionBox : MonoBehaviour

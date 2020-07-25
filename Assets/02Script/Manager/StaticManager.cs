@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ public class StaticManager : MonoBehaviour
 
     private static List<RectTransform> mainTextPositions = new List<RectTransform>();
     private const int maxTextLength = 3;
+
+    public static List<Model> RunningModels { private set; get; } = new List<Model>();
+    public static void AddRunningModel(Model model) { RunningModels.Add(model); }
+    public static void EffectToModelByTimeLine(bool isRunning) { foreach (Model model in RunningModels) model.IsRunningTimeLine = isRunning; }
     int alretLimite { set; get; }
     void Awake()
     {

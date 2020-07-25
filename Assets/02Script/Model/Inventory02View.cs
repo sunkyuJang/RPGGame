@@ -57,7 +57,7 @@ public partial class Inventory : MonoBehaviour
     public void HideInventory()
     {
         gameObject.SetActive(false);
-        if (Model is Character) (Model as Character).IntoNomalUI();
+        if (Model is Character) (Model as Character).ShowGameUI(true);
     }
 
     public void ItemDrop(ItemView itemView, Vector2 dropPosition)

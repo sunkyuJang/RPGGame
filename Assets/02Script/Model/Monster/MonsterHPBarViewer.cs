@@ -33,14 +33,17 @@ public class MonsterHPBarViewer : MonoBehaviour
         return viewer;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        transform.position = Camera.main.WorldToScreenPoint(Monster.HPBarPositionGuide.position);
-        if (transform.position.z >= DiminishingDist)
+        if (!Monster.IsRunningTimeLine)
         {
-            float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
-            RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
+            //transform.position = Camera.main.WorldToScreenPoint(Monster.HPBarPositionGuide.position);
+            if (transform.position.z >= DiminishingDist)
+            {
+                float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
+                RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
+            }
+            HPBar.fillAmount = (float)Monster.nowHP / (float)Monster.HP;
         }
-        HPBar.fillAmount = (float)Monster.nowHP / (float)Monster.HP;
     }
 }

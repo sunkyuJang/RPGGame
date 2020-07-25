@@ -137,7 +137,7 @@ public class SkulMagician : Monster
         canAttack = true;
     }
 
-    protected virtual bool IsCloseEnoughWithChracter
+    new protected virtual bool IsCloseEnoughWithChracter
     {
         get
         {

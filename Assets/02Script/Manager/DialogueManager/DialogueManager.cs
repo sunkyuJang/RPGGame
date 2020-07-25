@@ -7,6 +7,7 @@ using GLip;
 using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using UnityEditorInternal;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class DialogueManager : MonoBehaviour
                 case "Quest": return NextState.Quest;
                 case "ComfirmBox": return NextState.ComfirmBox;
                 case "Skip": return NextState.Skip;
+                case "Exit": return NextState.Exit;
             }
             return NextState.End;
         } }
@@ -77,7 +79,6 @@ public class DialogueManager : MonoBehaviour
         var selector = DialogueViewer.dialogueSelecter;
         List<DialogueSheet.Param> selectSub = new List<DialogueSheet.Param>();
         var nowIndex = ScriptModel.lastDialog + 1;
-        int i = 0;
         while(GetScriptByIndex(nowIndex).Type == "SelectSub")
         {
             var nowScript = GetScriptByIndex(nowIndex++);
@@ -100,7 +101,6 @@ public class DialogueManager : MonoBehaviour
         var npc = ScriptModel as Npc;
         List<NextState> states = new List<NextState>();
 
-        int count = 0;
         states.Add(NextState.End);
         DialogueSelecter.ShowSelectors("대화를 끝낸다.");
         if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.ShowSelectors("거래를 한다"); }
@@ -201,11 +201,20 @@ public class DialogueManager : MonoBehaviour
         SetNextDialogue();
     }
 
+
+    static IEnumerator DoExit()
+    {
+        if (!DialogueViewer.IsStillShowing)
+        {
+            IntoNomalUI();
+            yield break;
+        }
+    }
     static void IntoNomalUI()
     {
         DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
-        StaticManager.Character.IntoNomalUI();
+        StaticManager.Character.ShowGameUI(true);
     }
     static DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
 }

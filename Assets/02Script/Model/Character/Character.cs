@@ -12,8 +12,9 @@ public partial class Character : Model
 
     public int level { private set; get; }
     bool IsinField { set; get; } = true;
+    public bool GetIsInField { get { return IsinField; } }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
-    public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Battle;
+    public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -29,7 +30,6 @@ public partial class Character : Model
         EquipmentView = EquipmentView.GetNew(this);
         StateViewer = StateViewer.GetNew(this);
         Controller = Controller.GetNew(this);
-        DoAnimator(AnimatorState.Battle);
 
         nowHP = 10;
         Inventory.gold = 1000;
@@ -74,6 +74,10 @@ public partial class Character : Model
         Animator.SetBool("IsGetHit", false);
         Animator.SetBool("IsAttack", false);
     }
-    public void IntoDialogueUi() { Controller.SetAllActive(false); QuickSlot.gameObject.SetActive(false); }
-    public void IntoNomalUI() { Controller.SetAllActive(true); QuickSlot.gameObject.SetActive(true); }
+    public void ShowGameUI(bool isNeedToShow) 
+    { 
+        Controller.SetAllActive(isNeedToShow); 
+        QuickSlot.gameObject.SetActive(isNeedToShow);
+        StateViewer.gameObject.SetActive(isNeedToShow);
+    }
 }

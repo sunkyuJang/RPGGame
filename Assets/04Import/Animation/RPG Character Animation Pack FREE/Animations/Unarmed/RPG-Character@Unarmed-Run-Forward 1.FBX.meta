@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a7e98d51bd73b0348b47acf6a9f02766
+guid: e1f86b276e7ce154ca16010bc939906a
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
@@ -718,23 +718,10 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'B_Spine' has translation animation that
-      will be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
-      average position error 0.8 mm and maximum position error 10.8 mm at time 0:
-      1 (4.2%) Frame 1\n\tLeftUpperArm average position error 9.8 mm and maximum
-      position error 18.6 mm at time 0: 9 (37.5%) Frame 9\n\tLeftLowerArm average
-      position error 8.0 mm and maximum position error 18.3 mm at time 0: 9 (37.5%)
-      Frame 9\n\tLeftHand average position error 8.7 mm and maximum position error
-      19.0 mm at time 0: 9 (37.5%) Frame 9\n\tRightUpperArm average position error
-      8.4 mm and maximum position error 16.5 mm at time 0:21 (87.5%) Frame 21\n\tRightLowerArm
-      average position error 7.6 mm and maximum position error 17.1 mm at time 0:21
-      (87.5%) Frame 21\n\tRightHand average position error 7.5 mm and maximum position
-      error 17.6 mm at time 0:21 (87.5%) Frame 21\n\tHead average position error
-      16.0 mm and maximum position error 26.2 mm at time 0: 0 (0.0%) Frame 0\n"
-    animationDoRetargetingWarnings: 1
+      might lower retargeting quality:\n\t'B_Spine2' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
@@ -756,9 +743,9 @@ ModelImporter:
       level: 0
       cycleOffset: 0
       loop: 0
-      hasAdditiveReferencePose: 1
+      hasAdditiveReferencePose: 0
       loopTime: 0
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
@@ -787,6 +774,8 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
+      - path: Exporter
+        weight: 0
       - path: Motion
         weight: 1
       - path: Motion/B_Pelvis
@@ -893,9 +882,7 @@ ModelImporter:
         weight: 1
       - path: Motion/B_Pelvis/B_Spine/B_Spine1/B_Spine2/B_R_Clavicle/B_R_UpperArm/B_R_Forearm/B_R_Hand/B_R_Finger4/B_R_Finger41/B_R_Finger42
         weight: 1
-      - path: RPG-Character-Mesh
-        weight: 1
-      maskType: 1
+      maskType: 0
       maskSource: {fileID: 101100000, guid: 4ebc95c8618479f4d8251c7dafa10029, type: 2}
       additiveReferencePoseFrame: 0
     isReadable: 1
@@ -1632,7 +1619,7 @@ ModelImporter:
     feetSpacing: 0
     globalScale: 0.01
     rootMotionBoneName: PositionLocator
-    hasTranslationDoF: 0
+    hasTranslationDoF: 1
     hasExtraRoot: 0
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}

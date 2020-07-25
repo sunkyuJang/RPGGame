@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using GLip;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public partial class Model : MonoBehaviour
@@ -26,7 +28,9 @@ public partial class Model : MonoBehaviour
     public int SPD { protected set; get; }
     public bool isSuper { protected set; get; }
 
+    public bool IsRunningTimeLine { set; get; }
     protected int InventoryLength { set; get; }
+    protected RuntimeAnimatorController animatorController { set; get; }
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
         CharacterName = _CharacterName; HP = _HP; nowHP = HP; MP = _MP; nowMP = MP; ATK = _ATK; DEF = _DEF; SPD = _SPD;
@@ -37,13 +41,30 @@ public partial class Model : MonoBehaviour
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
+        animatorController = Animator.runtimeAnimatorController;
         AwakeInAlert();
     }
 
     protected void Start()
     {
         Inventory = Inventory.GetNew(InventoryLength, this);
+        SetRunningToStaticManager();
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }
+    public void SetRunningToStaticManager() 
+    { 
+        if (gameObject.activeSelf) StaticManager.AddRunningModel(this);
+    }
+    public void SetTimeLineRunning(bool isRunning) 
+    {
+        if (isRunning)
+        {
+            Animator.runtimeAnimatorController = null;
+        }
+        else
+        {
+            Animator.runtimeAnimatorController = animatorController;
+        }
+    }
 }
