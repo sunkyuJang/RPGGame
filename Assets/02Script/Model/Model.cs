@@ -41,7 +41,8 @@ public partial class Model : MonoBehaviour
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        animatorController = Animator.runtimeAnimatorController;
+        if(Animator != null)
+            animatorController = Animator.runtimeAnimatorController;
         AwakeInAlert();
     }
 

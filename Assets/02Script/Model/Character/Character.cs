@@ -5,6 +5,7 @@ using GLip;
 
 public partial class Character : Model
 {
+    public GameObject ControllerObj;
     Controller Controller { set; get; }
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
@@ -29,7 +30,7 @@ public partial class Character : Model
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         StateViewer = StateViewer.GetNew(this);
-        Controller = Controller.GetNew(this);
+        Controller = Instantiate(ControllerObj, StaticManager.canvasTrasform).GetComponent<Controller>();
 
         nowHP = 10;
         Inventory.gold = 1000;

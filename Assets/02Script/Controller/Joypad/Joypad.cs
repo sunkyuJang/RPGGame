@@ -2,31 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using UnityEngine.EventSystems;
+
 public class Joypad : MonoBehaviour
 {
-    public GameObject up, down;
-    private RectTransform upTransform;
-    private RectTransform downTransform;
-    private RectTransform rectTransform;
+    public GameObject up, hold, down;
+    protected RectTransform upTransform;
+    protected RectTransform holdTransform;
+    protected RectTransform downTransform;
+    protected RectTransform rectTransform;
+
+    protected Rect upRect;
+    protected Rect downRect;
+    protected Rect holdRect;
+    
     public float radian;
 
     public bool isPressed { set; get; }
-    private void Awake()
+    protected void Awake()
     {
         upTransform = up.GetComponent<RectTransform>();
+        holdTransform = hold.GetComponent<RectTransform>();
         downTransform = down.GetComponent<RectTransform>();
         rectTransform = gameObject.GetComponent<RectTransform>();
-    }
-    void Start()
-    {
-        
+
+        upRect = GMath.GetRect(upTransform);
+        downRect = GMath.GetRect(downTransform);
+        holdRect = GMath.GetRect(holdTransform);
+        //upTransform.GetComponent<EventTrigger.Entry>().callback.AddListener((data) => Pressed());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void Pressed()
     {
         bool isTouch = false;
@@ -37,8 +42,9 @@ public class Joypad : MonoBehaviour
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
         }
     }
-    IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    protected virtual IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
+        isPressed = true;
         float limit = downTransform.rect.width * 0.5f;
         Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
 
@@ -50,7 +56,7 @@ public class Joypad : MonoBehaviour
 
             if(dist < limit) { upTransform.position = inputPosition; }
             else { upTransform.position = centerPosition + nowNomal * limit; }
-
+            
             radian = Mathf.Atan2(nowNomal.x, nowNomal.y);
             yield return new WaitForFixedUpdate();
         }
@@ -59,26 +65,3 @@ public class Joypad : MonoBehaviour
         upTransform.position = downTransform.position;
     }
 }
-
-/*    public void Pressed()
-    {
-        Vector2 touchPosition = TouchManager.GetTouch(rectTransform);
-
-        float limit = downTransform.rect.width * 0.5f;
-        Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
-        float dist = Vector2.Distance(touchPosition, centerPosition);
-        Vector2 nowNomal = (touchPosition - centerPosition).normalized;
-        if (dist < limit)
-        {
-            upTransform.position = touchPosition;
-        }
-        else
-        {
-            upTransform.position = centerPosition + nowNomal * limit;
-        }
-        radian = Mathf.Atan2(nowNomal.x, nowNomal.y);
-    }
-    public void PressedUp()
-    {
-        upTransform.position = downTransform.position;
-    }*/

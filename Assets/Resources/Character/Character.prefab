@@ -1453,6 +1453,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e8308b183ad67438e4cbdba60a13c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DialogueSheet: {fileID: 0}
+  ControllerObj: {fileID: 768876183275153925, guid: 00807285339e38645b4c9bb8d3f66032,
+    type: 3}
+  canAttacking: 1
 --- !u!54 &640382561905646710
 Rigidbody:
   m_ObjectHideFlags: 0
