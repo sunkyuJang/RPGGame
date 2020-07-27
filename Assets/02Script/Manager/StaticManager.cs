@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class StaticManager : MonoBehaviour
 {
     public GameObject characterObj;
+    public GameObject CameraControllerObj;
     public static Character Character { private set; get; }
+    public static CameraController cameraController { private set; get; }
     public static Transform canvasTrasform { private set; get; }
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
@@ -23,6 +25,7 @@ public class StaticManager : MonoBehaviour
     void Awake()
     {
         Character = characterObj.GetComponent<Character>();
+        cameraController = CameraControllerObj.GetComponent<CameraController>();
         canvasTrasform = transform.parent;
         comfimBox = ComfimBox.GetNew;
         staticManager = this;

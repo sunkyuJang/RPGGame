@@ -5,35 +5,24 @@ using GLip;
 public partial class Controller : MonoBehaviour
 {
     public GameObject joypadObj;
-    public GameObject actionKeyObj;
+    public GameObject actionpadObj;
     public GameObject pauseKeyObj;
     public GameObject InventoryKeyObj;
     public GameObject EquipmentKeyObj;
     public GameObject skillTreeKeyObj;
 
     private SkillManager skillManager { set; get; }
-    private Character Character { set; get; }
-    private Joypad joypad;
-    private CameraController cameraController;
+    public Character Character { set; get; }
+    public Joypad joypad { private set; get; }
+    public CameraController cameraController { private set; get; }
 
     public bool isJoypadPressed = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Character = StaticManager.Character;
         skillManager = transform.parent.Find("Managers").GetComponent<SkillManager>();
-        joypad = joypadObj.GetComponent<Joypad>();
-        cameraController = Camera.main.GetComponent<CameraController>();
-    } 
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (joypad.isPressed) { joypad.Pressed(); }
-        Character.Move(joypad.isPressed, GetJoypadRadian);
     }
-    public void PressActionKey() { Character.SetActionState(Character.ActionState.Action); }
     public void PressInventoryKey()
     {
         SetAllActive(false);
@@ -53,7 +42,7 @@ public partial class Controller : MonoBehaviour
     public void SetAllActive(bool active)
     {
         joypadObj.SetActive(active);
-        actionKeyObj.SetActive(active);
+        actionpadObj.SetActive(active);
         InventoryKeyObj.SetActive(active);
         pauseKeyObj.SetActive(active);
         EquipmentKeyObj.SetActive(active);

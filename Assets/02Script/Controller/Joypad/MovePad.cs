@@ -2,41 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
-public class ActionPad : Joypad
-{
-    CameraController CameraController { set; get; }
-    public bool ShouldCameraMove { private set; get; }
-    public int IsMovingLeft { get { return upTransform.position.x - downTransform.position.x < 0f ? -1 : 1; } }
-    public float CameraSpeed 
-    { 
-        get 
-        {
-            if (upTransform.position.x > (downRect.xMax - downRect.width * 0.25f)
-                && upTransform.position.x < (downRect.xMin + downRect.width * 0.25f))
-                return 2f;
-            else
-                return 1f;
-        } 
-    }
 
+public class MovePad : Joypad
+{
+    public GameObject ActionPadObj;
+    ActionPad ActionPad { set; get; }
     new private void Awake()
     {
         base.Awake();
-        CameraController = StaticManager.cameraController;
+        ActionPad = ActionPadObj.GetComponent<ActionPad>();
     }
 
     new private void Start()
     {
         base.Start();
     }
-
     protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
         float limit = downTransform.rect.width * 0.5f;
         Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
 
-        float TimeCount = 0f;
         while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
         {
             Vector2 inputPosition = GPosition.GetInputPosition(isTouch, touchID, isMouse);
@@ -46,20 +32,17 @@ public class ActionPad : Joypad
             if (dist < limit) { upTransform.position = inputPosition; }
             else { upTransform.position = centerPosition + nowNomal * limit; }
 
-            if (CanCameraMove)
-                CameraController.RotateCamera(IsMovingLeft * CameraSpeed);
-
+            MoveCharacter(Mathf.Atan2(nowNomal.x, nowNomal.y));
             yield return new WaitForFixedUpdate();
-            TimeCount += Time.fixedDeltaTime;
         }
 
-        if(TimeCount < 0.5f)
-            character.SetActionState(Character.ActionState.Action);
-    
         isPressed = false;
+        MoveCharacter(0f);
         upTransform.position = downTransform.position;
     }
 
-    bool CanCameraMove { get { return !holdRect.Contains(upTransform.position); } }
-    public Vector3 GetCameraforward { get { return CameraController.transform.forward; } }
+    void MoveCharacter(float radian)
+    {
+        character.Move(isPressed, radian + Mathf.Deg2Rad * Vector2.Angle(Vector2.up, (GMath.ConvertV3xzToV2(ActionPad.GetCameraforward))));
+    }
 }

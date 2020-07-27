@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Joypad : MonoBehaviour
 {
+    protected Character character;
     public GameObject up, hold, down;
     protected RectTransform upTransform;
     protected RectTransform holdTransform;
@@ -21,6 +22,7 @@ public class Joypad : MonoBehaviour
     public bool isPressed { set; get; }
     protected void Awake()
     {
+
         upTransform = up.GetComponent<RectTransform>();
         holdTransform = hold.GetComponent<RectTransform>();
         downTransform = down.GetComponent<RectTransform>();
@@ -29,7 +31,11 @@ public class Joypad : MonoBehaviour
         upRect = GMath.GetRect(upTransform);
         downRect = GMath.GetRect(downTransform);
         holdRect = GMath.GetRect(holdTransform);
-        //upTransform.GetComponent<EventTrigger.Entry>().callback.AddListener((data) => Pressed());
+    }
+
+    protected void Start()
+    {
+        character = transform.parent.GetComponent<Controller>().Character;
     }
 
     public void Pressed()

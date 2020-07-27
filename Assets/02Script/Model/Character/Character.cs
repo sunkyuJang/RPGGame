@@ -30,7 +30,7 @@ public partial class Character : Model
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         StateViewer = StateViewer.GetNew(this);
-        Controller = Instantiate(ControllerObj, StaticManager.canvasTrasform).GetComponent<Controller>();
+        CreateContoller();
 
         nowHP = 10;
         Inventory.gold = 1000;
@@ -80,5 +80,10 @@ public partial class Character : Model
         Controller.SetAllActive(isNeedToShow); 
         QuickSlot.gameObject.SetActive(isNeedToShow);
         StateViewer.gameObject.SetActive(isNeedToShow);
+    }
+    public void CreateContoller()
+    {
+        Controller = Instantiate(ControllerObj, StaticManager.canvasTrasform).GetComponent<Controller>();
+        Controller.Character = this;
     }
 }
