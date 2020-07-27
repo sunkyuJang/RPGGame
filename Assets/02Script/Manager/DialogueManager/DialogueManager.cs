@@ -43,6 +43,7 @@ public class DialogueManager : MonoBehaviour
         {
             ScriptModel = model;
             DialogueScript = model.Dialogue;
+            DialogueViewer.ShowDiaogue(model.name, DialogueScript[model.lastDialog].Script);
             SetNextDialogue();
         }
     }
@@ -58,17 +59,28 @@ public class DialogueManager : MonoBehaviour
         {
             if (canSkipNext)
             {
-                var nowScript = DialogueScript[ScriptModel.lastDialog];
-                DialogueViewer.ShowDiaogue(ScriptModel.name, nowScript.Script);
-
                 switch (GetNextState)
                 {
-                    case NextState.None: ScriptModel.lastDialog++; break;
-                    case NextState.Select: StaticManager.coroutineStart(SelectScript()); break;
-                    case NextState.End: StaticManager.coroutineStart(EndDialogue()); break;
-                    case NextState.Skip: ScriptModel.lastDialog = nowScript.GoTo; break;
-                    case NextState.Exit: IntoNomalUI(); break;
-                    case NextState.Quest: CheckQuest((ScriptModel as Npc)); break;
+                    case NextState.None: 
+                        ScriptModel.lastDialog++;
+                        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+                        break;
+                    case NextState.Select: 
+                        StaticManager.coroutineStart(SelectScript());
+                        break;
+                    case NextState.End: 
+                        StaticManager.coroutineStart(EndDialogue()); 
+                        break;
+                    case NextState.Skip: 
+                        ScriptModel.lastDialog = DialogueScript[ScriptModel.lastDialog].GoTo;
+                        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+                        break;
+                    case NextState.Exit: 
+                        StaticManager.coroutineStart(DoExit()); 
+                        break;
+                    case NextState.Quest: 
+                        CheckQuest((ScriptModel as Npc)); 
+                        break;
                 }
             }
         }
@@ -92,7 +104,7 @@ public class DialogueManager : MonoBehaviour
         selector.HideSelecter();
         ScriptModel.lastDialog = selectSub[selector.GetSelectNum].GoTo;
         canSkipNext = true;
-        SetNextDialogue();
+        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
     static IEnumerator EndDialogue()
@@ -141,7 +153,8 @@ public class DialogueManager : MonoBehaviour
                 npc.lastDialog++;
             }
             canSkipNext = true;
-            SetNextDialogue();
+            DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+
         }
         else
         {
@@ -149,7 +162,8 @@ public class DialogueManager : MonoBehaviour
             {
                 npc.lastDialog++;
                 canSkipNext = true;
-                SetNextDialogue();
+                DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+
             }
             else if (GetNextState == NextState.Quest)
             {
@@ -198,17 +212,16 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
 
-        SetNextDialogue();
+        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
 
     static IEnumerator DoExit()
     {
-        if (!DialogueViewer.IsStillShowing)
-        {
-            IntoNomalUI();
-            yield break;
-        }
+        while (DialogueViewer.IsStillShowing)
+            yield return new WaitForFixedUpdate();
+
+        IntoNomalUI();
     }
     static void IntoNomalUI()
     {

@@ -60,6 +60,10 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -8495187275708050254, guid: c11fd1ea2780c5f46ae017c2fba7dc8f, type: 2}
     value: {fileID: 0}
+  - key: {fileID: 2159788033344397684, guid: c11fd1ea2780c5f46ae017c2fba7dc8f, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3012577155383284736, guid: c11fd1ea2780c5f46ae017c2fba7dc8f, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - 68f357d403b50304f9e70382e4c8755d: {fileID: 0}
@@ -92,3 +96,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interrupt: 0
   bossMonster: {fileID: 0}
+  bossMonsterDummy: {fileID: 0}
+  characterDummy: {fileID: 0}

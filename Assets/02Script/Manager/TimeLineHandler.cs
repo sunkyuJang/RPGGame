@@ -30,18 +30,8 @@ public class TimeLineHandler : MonoBehaviour
         {
             isAlreadyRunning = true;
             Character.ShowGameUI(false);
-            StaticManager.EffectToModelByTimeLine(true);
             ToDo();
         }
     }
     protected virtual void ToDo() { }
-
-    protected void SetRunningTImeline(bool isRunning)
-    {
-        foreach (Model model in StaticManager.RunningModels)
-        {
-            model.IsRunningTimeLine = isRunning;
-            model.SetTimeLineRunning(isRunning);
-        }
-    }
 }

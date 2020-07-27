@@ -49,14 +49,14 @@ public partial class Model : MonoBehaviour
     protected void Start()
     {
         Inventory = Inventory.GetNew(InventoryLength, this);
-        SetRunningToStaticManager();
+        //SetRunningToStaticManager();
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }
-    public void SetRunningToStaticManager() 
+/*    public void SetRunningToStaticManager() 
     { 
         if (gameObject.activeSelf) StaticManager.AddRunningModel(this);
-    }
+    }*/
     public void SetTimeLineRunning(bool isRunning) 
     {
         if (isRunning)

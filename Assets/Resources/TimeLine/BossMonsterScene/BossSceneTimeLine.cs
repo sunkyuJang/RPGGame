@@ -4,33 +4,31 @@ using UnityEngine;
 
 public class BossSceneTimeLine : TimeLineHandler
 {
-    public Monster bossMonster;
+    public GameObject bossMonster;
+    public GameObject bossMonsterDummy;
+    public GameObject characterDummy;
 
-    int count = 0;
     protected override void ToDo()
     {
         playableDirector.Play();
-        SetRunningTImeline(true);
+
         StartCoroutine(StartSequence());
     }
 
     IEnumerator StartSequence()
     {
+        Character.DoAnimator(Character.AnimatorState.Battle);
+
         while (!IsInterruptOccur)
             yield return new WaitForFixedUpdate();
 
         playableDirector.Stop();
-        //print(StaticManager.Character.IsRunningTimeLine);
 
-        //StaticManager.Character.DoAnimator(Character.AnimatorState.Battle);
-        SetRunningTImeline(false);
-        Character.DoAnimator(Character.AnimatorState.Battle);
-
-        DialogueManager.ShowDialogue(bossMonster);
+        DialogueManager.ShowDialogue(bossMonster.GetComponent<Model>());
         
         while (DialogueManager.DialogueViewer.gameObject.activeSelf)
             yield return new WaitForFixedUpdate();
 
-        //CameraController.followCamera.Priority = 11;
+        CameraController.followCamera.Priority = 11;
     }
 }
