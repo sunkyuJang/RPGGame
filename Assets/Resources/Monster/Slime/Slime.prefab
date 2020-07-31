@@ -100,6 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b0f5d705b4a36e4c9b7e0d53cd6273d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HPBar: {fileID: 3641087219154752630, guid: 4f5818613ea08a14d81e4d07009783cf, type: 3}
+  DialogueSheet: {fileID: 0}
+  HpBarPositionGuide: {fileID: 6573743014753943468}
 --- !u!54 &7383917442573904589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -236,6 +239,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

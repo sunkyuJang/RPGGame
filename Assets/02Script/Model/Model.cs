@@ -6,6 +6,8 @@ using UnityEngine;
 
 public partial class Model : MonoBehaviour
 {
+    public GameObject HPBar;
+    protected IStateViewerHandler iStateViewerHandler { private set; get; }
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
@@ -38,6 +40,7 @@ public partial class Model : MonoBehaviour
 
     protected void Awake()
     {
+
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
@@ -48,15 +51,16 @@ public partial class Model : MonoBehaviour
 
     protected void Start()
     {
+        if (HPBar != null)
+        {
+            HPBar = Instantiate(HPBar, StaticManager.canvasTrasform);
+            iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
+        }
         Inventory = Inventory.GetNew(InventoryLength, this);
-        //SetRunningToStaticManager();
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }
-/*    public void SetRunningToStaticManager() 
-    { 
-        if (gameObject.activeSelf) StaticManager.AddRunningModel(this);
-    }*/
+    
     public void SetTimeLineRunning(bool isRunning) 
     {
         if (isRunning)
@@ -68,4 +72,6 @@ public partial class Model : MonoBehaviour
             Animator.runtimeAnimatorController = animatorController;
         }
     }
+
+    protected void RefreshedHPBar() { if (HPBar != null) iStateViewerHandler.RefreshState(); }
 }

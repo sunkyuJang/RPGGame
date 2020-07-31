@@ -28,6 +28,7 @@ public partial class Model : MonoBehaviour
 
         if (data.During > 0)
         {
+            RefreshedHPBar();
             coroutinForEffecter.time = 0f;
             while (coroutinForEffecter.time <= data.During)
             {
@@ -45,8 +46,8 @@ public partial class Model : MonoBehaviour
 
             RemoveCoroutine(data);
         }
-
         if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
+        RefreshedHPBar();
     }
 
     public IEnumerator GetProcessDeincreaseEffect(StateEffecterSheet.Param data, StateEffecterManager.CoroutinForEffecter coroutinForEffecter)
@@ -70,6 +71,7 @@ public partial class Model : MonoBehaviour
 
         if (data.During > 0)
         {
+            RefreshedHPBar();
             coroutinForEffecter.time = 0;
             while (coroutinForEffecter.time <= data.During)
             {
@@ -87,6 +89,7 @@ public partial class Model : MonoBehaviour
         }
 
         if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
+        RefreshedHPBar();
         RemoveCoroutine(data);
         print(listForStateEffecter.Count);
     }
@@ -124,8 +127,8 @@ public partial class Model : MonoBehaviour
             ShowAlert(((int)damage).ToString(), Color.red);
             if (this is Monster) { (this as Monster).GetHit(HitFX, isFXStartFromGround); }
             else if (this is Character) { (this as Character).GetHit(); }
+            RefreshedHPBar();
+
         }
     }
-
-
 }

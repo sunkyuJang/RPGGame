@@ -10,24 +10,6 @@ using System.Runtime.Serialization;
 public class Monster : Model
 {
     protected Character Character { set; get; }
-    MonsterHPBarViewer HPViewer { set; get; }
-    public Transform HPBarPositionGuide { private set; get; }
-    bool CanShowingHPBar
-    {
-        get
-        {
-            if (!IsRunningTimeLine)
-            {
-                Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(HPBarPositionGuide.position);
-                if (HPViewer.MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < HPViewer.MaxDist)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
     protected Rect RoamingArea { set; get; }
     protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill }
     protected bool isAttacking { set; get; }
@@ -46,9 +28,8 @@ public class Monster : Model
         base.Awake();
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
-        HPViewer = MonsterHPBarViewer.GetNew(this, GameObject.Find("Canvas").GetComponent<Transform>());
-        HPBarPositionGuide = transform.Find("HPBarPositionGuide");
         FXStartPoint = transform.Find("FXStartPoint");
+
     }
 
     protected void MonsterSetInfo(Rect roamingArea)
@@ -64,10 +45,7 @@ public class Monster : Model
     // Update is called once per frame
     protected void Update()
     {
-        /*if (CanShowingHPBar != HPViewer.gameObject.activeSelf)
-        {
-            HPViewer.gameObject.SetActive(CanShowingHPBar);
-        }*/
+
     }
 
     protected void FixedUpdate()
@@ -269,7 +247,6 @@ public class Monster : Model
 
         float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         yield return new WaitForSeconds(waitTIme);
-        Destroy(HPViewer.gameObject);
         Destroy(gameObject);
         DropItem();
     }

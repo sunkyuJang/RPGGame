@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
-public class Slime : Monster
+public class Slime : NormalMonster
 {
     new private void Awake()
     {
@@ -26,6 +26,7 @@ public class Slime : Monster
 
     new private void FixedUpdate()
     {
+        base.FixedUpdate();
         SelectedNextAction();
     }
     new private void OnDrawGizmos()

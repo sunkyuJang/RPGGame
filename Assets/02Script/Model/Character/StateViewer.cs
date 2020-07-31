@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
-public class StateViewer : MonoBehaviour
+public class StateViewer : MonoBehaviour, IStateViewerHandler
 {
     Character Character { set; get; }
     RectTransform rectTransform;
@@ -54,8 +54,8 @@ public class StateViewer : MonoBehaviour
 
     private void Update()
     {
-        DrawState(state.hp);
-        DrawState(state.mp);
+/*        DrawState(state.hp);
+        DrawState(state.mp);*/
     }
 
     public static StateViewer GetNew(Character character) 
@@ -63,5 +63,16 @@ public class StateViewer : MonoBehaviour
         StateViewer viewer = Create.GetNewInCanvas<StateViewer>();
         viewer.Character = character;
         return viewer;
+    }
+
+    void IStateViewerHandler.RefreshState()
+    {
+        DrawState(state.hp);
+        DrawState(state.mp);
+    }
+
+    void IStateViewerHandler.ShowObj(bool souldShow)
+    {
+        gameObject.SetActive(souldShow);
     }
 }
