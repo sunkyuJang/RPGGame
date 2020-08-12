@@ -25,7 +25,6 @@ public class HitBoxCollider : MonoBehaviour
             transform.position += transform.forward * (speed * Time.fixedDeltaTime);
             if (HitBoxFXTransform != null)
                 HitBoxFXTransform.position = transform.position;
-                    //HitBoxFXTransform.position += transform.forward * (speed * Time.fixedDeltaTime);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -51,7 +50,7 @@ public class HitBoxCollider : MonoBehaviour
         return hitBoxCollider;
     }
 
-    public static HitBoxCollider StartHitBox(GameObject gameObject, Vector3 center, GameObject HitBoxFx , bool isFXDrawingAlways)
+    public static HitBoxCollider StartHitBox(GameObject gameObject, Vector3 center, GameObject HitBoxFx, bool isFXDrawingAlways)
     {
         HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
         hitBoxCollider.transform.position = center;
@@ -64,10 +63,10 @@ public class HitBoxCollider : MonoBehaviour
         return hitBoxCollider;
     }
 
-    public Collider GetColsedCollider(Vector3 center, string targetTo) 
+    public Collider GetColsedCollider(Vector3 center, string targetTo)
     {
         Collider beforeCollider = null;
-        foreach(Collider nowCollider in colliders)
+        foreach (Collider nowCollider in colliders)
         {
             if (nowCollider.CompareTag(targetTo))
             {
@@ -100,28 +99,10 @@ public class HitBoxCollider : MonoBehaviour
 
     IEnumerator DeleteParticleObj(ParticleSystem ps)
     {
-        if(ps.main.loop) ps.Stop();
+        if (ps.main.loop) ps.Stop();
         while (ps.IsAlive())
             yield return new WaitForFixedUpdate();
         Destroy(ps.gameObject);
         Destroy(gameObject);
     }
 }
-
-/*    public static HitBoxCollider StartHitBox(GameObject gameObject, Vector3 startPosition, Vector3 , SkillManager.Skill skill)
-    {
-        HitBoxCollider hitBoxCollider = Instantiate(gameObject).GetComponent<HitBoxCollider>();
-        hitBoxCollider.transform.position += new Vector3(character.position.x, 0, character.position.z);
-        hitBoxCollider.transform.forward = character.forward;
-        print(hitBoxCollider.speed);
-        hitBoxCollider.skill = skill;
-
-        if (skill.HitBoxFX != null)
-        {
-            hitBoxCollider.HitBoxFXTransform = skill.data.AttackType == "Line" ?
-                Instantiate(skill.HitBoxFX).GetComponent<Transform>() : skill.HitBoxFX.GetComponent<Transform>();
-            hitBoxCollider.HitBoxFXTransform.position = new Vector3(hitBoxCollider.transform.position.x, hitBoxCollider.HitBoxFXTransform.position.y, hitBoxCollider.transform.position.z);
-        }
-
-        return hitBoxCollider;
-    }*/

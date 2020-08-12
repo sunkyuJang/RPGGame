@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2396167037560408903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 332062659371634862}
+  m_Layer: 0
+  m_Name: HitFXStartPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &332062659371634862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2396167037560408903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.412, z: 0.439}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6168239131455911018}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6164083354697282128
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,7 +77,7 @@ GameObject:
   - component: {fileID: 7466753820924806713}
   m_Layer: 0
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,6 +96,7 @@ Transform:
   - {fileID: 6162986408245600924}
   - {fileID: 6168110785688938940}
   - {fileID: 5919106428102808267}
+  - {fileID: 332062659371634862}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HPBar: {fileID: 3641087219154752630, guid: 4f5818613ea08a14d81e4d07009783cf, type: 3}
   DialogueSheet: {fileID: 0}
+  HitFXStartPoint: {fileID: 2396167037560408903}
   HpBarPositionGuide: {fileID: 6573743014753943468}
 --- !u!54 &7383917442573904589
 Rigidbody:

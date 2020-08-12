@@ -9,7 +9,7 @@ public class SkulMagician : NormalMonster
     public GameObject HitBox;
     public GameObject HitBoxFX;
     
-    public float farEnogh = 2f;
+    public float farEnogh = 3f;
     new private void Awake()
     {
         SetInfo("허름한 마법사", 100, 25, 0, 100, 5);

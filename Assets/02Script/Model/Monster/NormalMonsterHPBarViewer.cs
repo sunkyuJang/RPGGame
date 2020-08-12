@@ -48,13 +48,11 @@ public class NormalMonsterHPBarViewer : MonoBehaviour, IStateViewerHandler
     public void ResizingHPBar()
     {
         transform.position = Camera.main.WorldToScreenPoint(Monster.HpBarPositionGuide.transform.position);
-        print(transform.position);
         if (transform.position.z >= DiminishingDist)
         {
             float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
             RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
         }
-        print(transform.position + "true");
     }
 
     void IStateViewerHandler.RefreshState() => HPBar.fillAmount = (float)Monster.nowHP / (float)Monster.HP;

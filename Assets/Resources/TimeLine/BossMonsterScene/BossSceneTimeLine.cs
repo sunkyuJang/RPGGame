@@ -5,8 +5,6 @@ using UnityEngine;
 public class BossSceneTimeLine : TimeLineHandler
 {
     public GameObject bossMonster;
-    public GameObject bossMonsterDummy;
-    public GameObject characterDummy;
 
     protected override void ToDo()
     {
@@ -30,5 +28,7 @@ public class BossSceneTimeLine : TimeLineHandler
             yield return new WaitForFixedUpdate();
 
         CameraController.followCamera.Priority = 11;
+
+        SetIsTimeLineStart(false);
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using System.Dynamic;
+
 public class StateViewer : MonoBehaviour, IStateViewerHandler
 {
-    Character Character { set; get; }
+    public Character Character { set; get; }
     RectTransform rectTransform;
     Image hpBar, mpBar;
     Text hpState, mpState;
@@ -52,18 +54,12 @@ public class StateViewer : MonoBehaviour, IStateViewerHandler
         nowText.text = _nowState + "/" + _origin;
     }
 
-    private void Update()
-    {
-/*        DrawState(state.hp);
-        DrawState(state.mp);*/
-    }
-
-    public static StateViewer GetNew(Character character) 
+/*    public static StateViewer GetNew(Character character) 
     { 
         StateViewer viewer = Create.GetNewInCanvas<StateViewer>();
         viewer.Character = character;
         return viewer;
-    }
+    }*/
 
     void IStateViewerHandler.RefreshState()
     {

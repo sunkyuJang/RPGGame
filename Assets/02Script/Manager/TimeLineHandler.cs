@@ -28,10 +28,17 @@ public class TimeLineHandler : MonoBehaviour
     {
         if (other.CompareTag("Character") && !isAlreadyRunning)
         {
-            isAlreadyRunning = true;
-            Character.ShowGameUI(false);
+            SetIsTimeLineStart(true);
             ToDo();
         }
     }
     protected virtual void ToDo() { }
+
+    protected void SetIsTimeLineStart(bool isStart)
+    {
+        StaticManager.SetRunningTimeLine(isStart ? this : null);
+        isAlreadyRunning = isStart;
+        Character.ShowGameUI(!isStart);
+        gameObject.SetActive(isStart);
+    }
 }

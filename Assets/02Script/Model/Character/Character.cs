@@ -29,10 +29,9 @@ public partial class Character : Model
         base.Start();
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
-        StateViewer = StateViewer.GetNew(this);
+        SetStateView();
         CreateContoller();
 
-        nowHP = 10;
         Inventory.gold = 1000;
 
         Inventory.AddItem(0, 5);
@@ -46,8 +45,9 @@ public partial class Character : Model
         Inventory.AddItem(3, 1);
     }
 
-    private void FixedUpdate()
+    new private void FixedUpdate()
     {
+        base.FixedUpdate();
         FixedUpdateInAction();
     }
 
@@ -85,5 +85,12 @@ public partial class Character : Model
     {
         Controller = Instantiate(ControllerObj, StaticManager.canvasTrasform).GetComponent<Controller>();
         Controller.Character = this;
+    }
+
+    void SetStateView()
+    {
+        StateViewer = HPBar.GetComponent<StateViewer>();
+        StateViewer.Character = this;
+        iStateViewerHandler.RefreshState();
     }
 }

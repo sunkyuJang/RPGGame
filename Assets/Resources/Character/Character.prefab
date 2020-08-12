@@ -415,6 +415,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1453,6 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e8308b183ad67438e4cbdba60a13c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HPBar: {fileID: 4055651439520164268, guid: 04d23717f7b0fff4d99cec87b3661f92, type: 3}
   DialogueSheet: {fileID: 0}
   ControllerObj: {fileID: 768876183275153925, guid: 00807285339e38645b4c9bb8d3f66032,
     type: 3}
@@ -1471,7 +1473,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &7642278941871005653
 CapsuleCollider:

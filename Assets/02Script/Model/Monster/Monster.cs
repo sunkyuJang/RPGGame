@@ -11,7 +11,7 @@ public class Monster : Model
 {
     protected Character Character { set; get; }
     protected Rect RoamingArea { set; get; }
-    protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill }
+    protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine}
     protected bool isAttacking { set; get; }
     protected ActionState NowState { set; get; }
     protected ActionState BeforeState { set; get; }
@@ -21,6 +21,7 @@ public class Monster : Model
     protected float closeEnough = 2f;
     protected float GetNowAngle { get { return GMath.Get360DegToRad(transform.eulerAngles.y); } }
     protected bool canAttack = true;
+    public GameObject HitFXStartPoint;
     public Transform FXStartPoint { private set; get; }
 
     new protected void Awake()
@@ -28,7 +29,7 @@ public class Monster : Model
         base.Awake();
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
-        FXStartPoint = transform.Find("FXStartPoint");
+        FXStartPoint = HitFXStartPoint.transform;
 
     }
 
@@ -45,17 +46,14 @@ public class Monster : Model
     // Update is called once per frame
     protected void Update()
     {
-
+        if (IsRunningTimeLine)
+            NowState = ActionState.TimeLine;
+        SelectedNextAction();
     }
 
-    protected void FixedUpdate()
+    new protected void FixedUpdate()
     {
-        if (!IsRunningTimeLine)
-        {
-            SelectedNextAction();
-
-            //Debug.DrawRay(Camera.main.transform.position, Camera.main.WorldToScreenPoint(HPBarPositionGuide.position));
-        }
+        base.FixedUpdate();
     }
 
     protected void SelectedNextAction()
@@ -72,6 +70,7 @@ public class Monster : Model
                 case ActionState.attack: StartCoroutine(DoAttack()); break;
                 case ActionState.getHit: StartCoroutine(DoGetHit()); break;
                 case ActionState.dead: StartCoroutine(DoDead()); break;
+                case ActionState.TimeLine: StartCoroutine(DoIdle()); break;
             }
         }
     }
@@ -79,25 +78,35 @@ public class Monster : Model
     protected virtual IEnumerator DoIdle()
     {
         DoAnimator(ActionState.idle);
-        float pauseTime = 0f;
-        float pauseTimeLimit = 3f;
-        while (BeforeState == ActionState.idle)
+        if (IsRunningTimeLine)
         {
-            if (pauseTime < pauseTimeLimit)
-            {
-                pauseTime += Time.fixedDeltaTime;
+            while(IsRunningTimeLine)
                 yield return new WaitForFixedUpdate();
 
-                if (IsDetectedCharacter)
+            NowState = ActionState.idle;
+        }
+        else
+        {
+            float pauseTime = 0f;
+            float pauseTimeLimit = 3f;
+            while (BeforeState == ActionState.idle)
+            {
+                if (pauseTime < pauseTimeLimit)
                 {
-                    NowState = ActionState.following;
+                    pauseTime += Time.fixedDeltaTime;
+                    yield return new WaitForFixedUpdate();
+
+                    if (IsDetectedCharacter)
+                    {
+                        NowState = ActionState.following;
+                        yield break;
+                    }
+                }
+                else
+                {
+                    NowState = ActionState.roaming;
                     yield break;
                 }
-            }
-            else
-            {
-                NowState = ActionState.roaming;
-                yield break;
             }
         }
     }
@@ -272,7 +281,7 @@ public class Monster : Model
         ResetAnimatorState();
         switch (state)
         {
-            case ActionState.idle: Animator.SetBool("NomalIdle", true); break;
+            case ActionState.idle: Animator.SetBool("NormalIdle", true); break;
             case ActionState.following: Animator.SetBool("Walking", true); break;
             case ActionState.battle: Animator.SetBool("BattleIdle", true); break;
             case ActionState.attack: Animator.SetBool("Attack", true); break;
@@ -283,7 +292,7 @@ public class Monster : Model
 
     void ResetAnimatorState()
     {
-        Animator.SetBool("NomalIdle", false);
+        Animator.SetBool("NormalIdle", false);
         Animator.SetBool("Walking", false);
         Animator.SetBool("BattleIdle", false);
         Animator.SetBool("Attack", false);

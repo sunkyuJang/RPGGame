@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Policy;
 using UnityEngine;
@@ -14,7 +15,12 @@ public class StaticManager : MonoBehaviour
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
     private static ComfimBox comfimBox;
-    
+
+    static TimeLineHandler RunningTimeLine = null;
+    public static void SetRunningTimeLine(TimeLineHandler timeLineHandler)
+        => RunningTimeLine = timeLineHandler;
+
+    public static bool IsRunningTimeLine { get { return RunningTimeLine != null; } }
     void Awake()
     {
         Character = characterObj.GetComponent<Character>();

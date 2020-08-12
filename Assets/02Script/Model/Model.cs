@@ -8,6 +8,7 @@ public partial class Model : MonoBehaviour
 {
     public GameObject HPBar;
     protected IStateViewerHandler iStateViewerHandler { private set; get; }
+    bool isIStateObjOn { set; get; }
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
@@ -30,7 +31,7 @@ public partial class Model : MonoBehaviour
     public int SPD { protected set; get; }
     public bool isSuper { protected set; get; }
 
-    public bool IsRunningTimeLine { set; get; }
+    public bool IsRunningTimeLine { get { return StaticManager.IsRunningTimeLine; } }
     protected int InventoryLength { set; get; }
     protected RuntimeAnimatorController animatorController { set; get; }
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
@@ -51,12 +52,12 @@ public partial class Model : MonoBehaviour
 
     protected void Start()
     {
+        Inventory = Inventory.GetNew(InventoryLength, this);
         if (HPBar != null)
         {
             HPBar = Instantiate(HPBar, StaticManager.canvasTrasform);
             iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
         }
-        Inventory = Inventory.GetNew(InventoryLength, this);
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }
@@ -73,5 +74,30 @@ public partial class Model : MonoBehaviour
         }
     }
 
+    protected void FixedUpdate()
+    {
+        if(iStateViewerHandler != null)
+        {
+            if(!IsRunningTimeLine != HPBar.gameObject.activeSelf)
+            {
+                iStateViewerHandler.ShowObj(!IsRunningTimeLine);
+            }
+        }
+    }
+
     protected void RefreshedHPBar() { if (HPBar != null) iStateViewerHandler.RefreshState(); }
+
+    protected IEnumerator WaitTillAnimatorStart(string name)
+    {
+        while (!NowAnimatorInfo.IsName(name)) yield return new WaitForFixedUpdate();
+    }
+    protected IEnumerator WaitTillTimeEnd(float time)
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime <= time)
+        {
+            elapsedTime += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+    }
 }

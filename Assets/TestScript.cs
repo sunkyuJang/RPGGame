@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour
 {
-    public Model model;
+    public GameObject obj;
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     bool isAlreadyRunning = false;
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
-        if (!isAlreadyRunning)
-        {
-            isAlreadyRunning = true;
-            DialogueManager.ShowDialogue(model);
-
-        }
+        obj.transform.position += Vector3.left;
     }
 }

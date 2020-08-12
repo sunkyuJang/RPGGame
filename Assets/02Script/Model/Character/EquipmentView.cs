@@ -22,7 +22,7 @@ public class EquipmentView : MonoBehaviour
     Text ATK{ set; get; }
     Text DEF{ set; get; }
     Text SPD { set; get; }
-    public void HideObject() { gameObject.SetActive(false); Character.ShowGameUI(false); }
+    public void HideObject() { gameObject.SetActive(false); Character.ShowGameUI(true); }
 
     public IEnumerator OnTouched(int index)
     {

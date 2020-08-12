@@ -80,7 +80,7 @@ public partial class Character : Model
         }
         return false;
     }
-    public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead }
+    public enum ActionState { Idle, Running, Action, Attack, GetHit, Talk, Trade, Dead, TimeLine }
     ActionState BeforeState { set; get; }
     public ActionState NowState { private set; get; }
     public void SetActionState(ActionState actionState)
@@ -96,8 +96,7 @@ public partial class Character : Model
     void FixedUpdateInAction()
     {
         //switch
-        if (!IsRunningTimeLine)
-            DoNextAction();
+        DoNextAction();
 
         /*        if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -119,6 +118,7 @@ public partial class Character : Model
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
                 case ActionState.Attack: StartCoroutine(DoAttack()); break;
+                case ActionState.TimeLine: StartCoroutine(DoIdle()); break;
                     //case ActionState.Dead: StartCoroutine(DoDead()); break;
             }
         }
@@ -155,6 +155,7 @@ public partial class Character : Model
         {
             SurroundingObj = GetSurroundingObj();
             TargetModel = GetNearestModel(SurroundingObj);
+            print(TargetModel.gameObject.name);
             try
             {
                 if (IsSameObjWithFrontObj(TargetModel.gameObject))
@@ -167,6 +168,7 @@ public partial class Character : Model
                     {
                         NowState = ActionState.Attack;
                         ReservedSkill = SkillManager.GetSkill(0);
+                        print(true);
                     }
                     yield break;
                 }
