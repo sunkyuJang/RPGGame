@@ -2852,7 +2852,9 @@ MonoBehaviour:
   HPBar: {fileID: 2574073645903671745, guid: ec07f22f9ecb05f49a01117c92c5f25b, type: 3}
   DialogueSheet: {fileID: 11400000, guid: 3e928f77ac400a045b7c670581fef3b4, type: 2}
   HitFXStartPoint: {fileID: 2610633207962561199}
-  NormalAttackHitBox: {fileID: 140566676655336721, guid: 3716b34fd051a9447a095619d5965578,
+  NormalAttackHitBoxObj: {fileID: 140566676655336721, guid: 3716b34fd051a9447a095619d5965578,
+    type: 3}
+  SeedBoomHitBoxObj: {fileID: 4729823032608670053, guid: 4b3ae3c4e5643bc41a665422b99d9584,
     type: 3}
   HitBoxFX: {fileID: 0}
 --- !u!136 &3682187146763113398

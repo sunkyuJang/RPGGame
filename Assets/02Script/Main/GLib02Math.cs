@@ -54,6 +54,10 @@ namespace GLip
             }
             return vectors;
         }
+        public static Vector2 DegreeToVector2(float rad)
+        {
+            return new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        }
 
         public static Vector2 ConvertV3xzToV2(Vector3 vector3) { return new Vector2(vector3.x, vector3.z); }
         public static Vector3 ConvertV2ToV3xz(Vector2 vector2) { return new Vector3(vector2.x, 0f, vector2.y); }

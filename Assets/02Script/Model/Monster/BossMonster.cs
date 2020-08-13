@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
 
 public class BossMonster : Monster
 {
     public BossHPBarViewer BossHPBarViewer { set; get; }
     public GameObject NormalAttackHitBoxObj;
+    public GameObject SeedBoomHitBoxObj;
     public GameObject HitBoxFX;
     int interrupt = 0;
     public void Interrupt(int i) { interrupt = i; }
@@ -15,7 +17,8 @@ public class BossMonster : Monster
     bool canStinger { set { canAttackList[1] = value; } get { return canAttackList[1]; } }
     bool canSeedBoom { set { canAttackList[2] = value; } get { return canAttackList[2]; } }
     bool canOverDirve { set { canAttackList[3] = value; } get { return canAttackList[3]; } }
-
+    bool canMove { set; get; } = true;
+    bool canLookAt { set; get; } = true;
     new private void Awake()
     {
         SetInfo("보스", 1000, 1000, 10, 10, 10);
@@ -46,17 +49,19 @@ public class BossMonster : Monster
         DoAnimator(ActionState.battle);
         while (BeforeState == ActionState.battle)
         {
-            transform.LookAt(Character.transform.position);
+            if(canLookAt)
+                transform.LookAt(Character.transform.position);
+
             yield return new WaitForFixedUpdate();
 
-            if (!IsCloseEnoughWithChracter)
+            if (!IsCloseEnoughWithChracter && canMove)
                 NowState = ActionState.following;
+
             else
             {
 
                 if (canAttack)
                 {
-                    canAttack = false;
                     NowState = ActionState.attack;
                 }
             }
@@ -66,43 +71,47 @@ public class BossMonster : Monster
     }
     protected override IEnumerator DoAttack()
     {
-        DoAnimator(ActionState.attack);
         SelectNextAttack();
         yield break;
     }
 
     void SelectNextAttack()
     {
-        try
+        //print(canAttackList.Count);
+        for (int i = 0; i < canAttackList.Count; i++)
         {
-            print(canAttackList.Count);
-            for (int i = 0; i < canAttackList.Count; i++)
+            if (canAttackList[i] == true)
             {
-                if (canAttackList[i] == true)
+                canAttack = false;
+                DoAnimator(ActionState.attack);
+                switch (i)
                 {
-                    switch (i)
-                    {
-                        case 0: StartCoroutine(DoAttack()); break;
-                        case 1: StartCoroutine(DoStinger()); break;
-                        case 2: StartCoroutine(DoSeedBoom()); break;
-                        case 3: StartCoroutine(DoOverDrive()); break;
-                    }
-                    break;
+                    case 0: StartCoroutine(DoNormalAttack()); break;
+                    case 1: StartCoroutine(DoStinger()); break;
+                    //case 2: StartCoroutine(DoSeedBoom()); break;
+                    //case 3: StartCoroutine(DoOverDrive()); break;
                 }
+                return;
             }
         }
-        catch { }
+
+        NowState = ActionState.battle;
     }
 
+    int counto;
     protected IEnumerator DoNormalAttack()
     {
+        print(counto++);
+        canMove = false;
         canDoAttack = false;
         DoSkillAnimation(SkillType.NormalAttack);
+        yield return StartCoroutine(WaitTillAnimator("NormalAttack", true));
+
         var NormalHitBoxScrip = NormalAttackHitBoxObj.GetComponent<HitBoxCollider>();
 
         int hitTIme = 0;
         var lastInterrut = interrupt;
-        while (hitTIme < 3)
+        /*while (hitTIme < 3)
         {
             if (lastInterrut != interrupt)
             {
@@ -119,15 +128,17 @@ public class BossMonster : Monster
             {
                 WaitTillInterrupt(interrupt == 0 ? 1 : 0);
             }
-        }
+        }*/
 
         EndAttack();
 
+        yield return StartCoroutine(WaitTillAnimator("NormalAttack", false));
+        canMove = true;
         float startAttackAfter = 1f;
         float startThisAttackAfter = 3f;
 
-        StartOtherAttackAfter(startAttackAfter);
-        WaitTillTimeEnd(startThisAttackAfter);
+        StartCoroutine(StartOtherAttackAfter(startAttackAfter));
+        yield return StartCoroutine(WaitTillTimeEnd(startThisAttackAfter));
         canDoAttack = true;
 
         yield break;
@@ -135,27 +146,30 @@ public class BossMonster : Monster
 
     protected IEnumerator DoStinger() 
     {
-        {// DamageStep
-            canStinger = false;
+        canMove = false;
+        canStinger = false;
+        canLookAt = false;
+        DoSkillAnimation(SkillType.Stinger);
+        yield return StartCoroutine(WaitTillAnimator("Stinger", true));
+        //WaitTillInterrupt(0);
 
-            DoSkillAnimation(SkillType.Stinger);
-            WaitTillInterrupt(0);
+        var targetPosition = Character.transform.position;
+        var forward = (targetPosition - transform.position).normalized;
+        transform.forward = forward;
+        Rigidbody.velocity = transform.forward * 20f;
 
-            var targetPosition = Character.transform.position;
-            var forward = (targetPosition - transform.position).normalized;
-            transform.forward = forward;
-            Rigidbody.velocity = transform.forward * 20f;
-
-            WaitTillInterrupt(1);
-        }
-        EndAttack();
+        //WaitTillInterrupt(1);
         
+        EndAttack();
+
+        yield return StartCoroutine(WaitTillAnimator("Stinger", false));
+        canMove = true;
+        canLookAt = true;
         float startAttackAfter = 1f;
         float startThisAttackAfter = 5f;
 
-        StartOtherAttackAfter(startAttackAfter);
-
-        WaitTillTimeEnd(startThisAttackAfter);
+        StartCoroutine(StartOtherAttackAfter(startAttackAfter));
+        yield return StartCoroutine(WaitTillTimeEnd(startThisAttackAfter));
         canStinger = true;
 
         yield break;
@@ -165,16 +179,57 @@ public class BossMonster : Monster
     {
         canAttack = false;
         canSeedBoom = false;
+        canLookAt = false;
 
         DoSkillAnimation(SkillType.SeedBoom);
-        while (interrupt == 0)
+        yield return StartCoroutine(WaitTillAnimator("SeedBoom", true));
+
+        List<HitBoxCollider> seedbooms = new List<HitBoxCollider>();
+        for(int i = 0; i < 3; i++)
+        {
+            var hitBoxTransform = HitBoxCollider.StartHitBox(SeedBoomHitBoxObj, transform.position, null, false).transform;// Instantiate(SeedBoomHitBoxObj).GetComponent<HitBoxCollider>();
+
+            float ratio = 0.3f;
+            float totalSpeed = 0.3f;
+            Vector3 firstShotDirction = (hitBoxTransform.forward * ratio + Vector3.up).normalized * totalSpeed;
+            Vector3 downAcceleration = (Physics.gravity * Time.fixedDeltaTime);
+
+            while (hitBoxTransform.position.y >= 0f)
+            {
+                hitBoxTransform.position = hitBoxTransform.position + firstShotDirction + downAcceleration;
+
+                yield return new WaitForFixedUpdate();
+                downAcceleration += downAcceleration * Time.fixedDeltaTime;
+                print(downAcceleration);
+
+                /*if (hitBox.IsEnteredTrigger)
+                {
+                    for (int i = 0; i < hitBox.colliders.Count; i++)
+                    {
+                        var nowCollider = hitBox.colliders[i];
+                        if (nowCollider.CompareTag("Monster"))
+                            hitBox.colliders.RemoveAt(i--);
+                        else if (nowCollider.CompareTag("Character"))
+                        {
+                            StateEffecterManager.EffectToModelBySkill(Character, MP, null, false);
+                            break;
+                        }
+                    }
+                }*/
+            }
+        }
+        IEnumerator MoveSeedBoom(Transform transform, float speed) 
+        {
+            yield break;
+        }
+        /*while (interrupt == 0)
             yield return new WaitForFixedUpdate();
 
 
 
         while (interrupt == 1)
-            yield return new WaitForFixedUpdate();
-
+            yield return new WaitForFixedUpdate();*/
+/*
         NowState = ActionState.battle;
 
         float delayed = 0;
@@ -190,7 +245,7 @@ public class BossMonster : Monster
             delayed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-        canSeedBoom = true;
+        canSeedBoom = true;*/
     }
     
     protected IEnumerator DoOverDrive() 
@@ -214,9 +269,9 @@ public class BossMonster : Monster
         while (interrupt != n) yield return new WaitForFixedUpdate();
     }
 
-    void StartOtherAttackAfter(float time)
+    IEnumerator StartOtherAttackAfter(float time)
     {
-        WaitTillTimeEnd(time);
+        yield return StartCoroutine(WaitTillTimeEnd(time));
         canAttack = true;
     }
 

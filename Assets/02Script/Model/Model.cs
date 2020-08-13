@@ -87,9 +87,12 @@ public partial class Model : MonoBehaviour
 
     protected void RefreshedHPBar() { if (HPBar != null) iStateViewerHandler.RefreshState(); }
 
-    protected IEnumerator WaitTillAnimatorStart(string name)
+    protected IEnumerator WaitTillAnimator(string name, bool isWaitforStart)
     {
-        while (!NowAnimatorInfo.IsName(name)) yield return new WaitForFixedUpdate();
+
+        while (isWaitforStart ? !NowAnimatorInfo.IsName(name) 
+            : NowAnimatorInfo.IsName(name)) 
+            yield return new WaitForFixedUpdate();
     }
     protected IEnumerator WaitTillTimeEnd(float time)
     {
