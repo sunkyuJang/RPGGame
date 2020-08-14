@@ -2857,6 +2857,7 @@ MonoBehaviour:
   SeedBoomHitBoxObj: {fileID: 4729823032608670053, guid: 4b3ae3c4e5643bc41a665422b99d9584,
     type: 3}
   HitBoxFX: {fileID: 0}
+  SeedBoomHitBoxFX: {fileID: 100008, guid: 2d79e775cd235f24bbc1cefea3b02d71, type: 3}
 --- !u!136 &3682187146763113398
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -101,12 +101,10 @@ public class SkulMagician : NormalMonster
         var hitBoxTransform = hitBox.GetComponent<Transform>();
         
         hitBoxTransform.forward = transform.forward;
-        float upperDegree = 90f * Mathf.Deg2Rad;
-        float ratio = 0.9f;
-        float totalSpeed = 0.3f;
-        var upperVector2 = GMath.DegreeToVector2(upperDegree);
-        print((hitBoxTransform.forward + new Vector3(0, upperVector2.y, 0)));
-        Vector3 firstShotDirction = (hitBoxTransform.forward + new Vector3(0, upperVector2.y, 0));
+        float upperDegree = 55f;
+        float totalSpeed = 0.4f;
+        var ratio = GMath.DegreeToRatio(upperDegree);
+        Vector3 firstShotDirction = (hitBoxTransform.forward * (1 - ratio) + Vector3.up * ratio) * totalSpeed;
         Vector3 downAcceleration = (Physics.gravity * Time.fixedDeltaTime) ;
 
         while (hitBoxTransform.position.y >= 0f)

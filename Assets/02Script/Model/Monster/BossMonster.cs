@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
+using GLip;
 
 public class BossMonster : Monster
 {
@@ -9,6 +10,7 @@ public class BossMonster : Monster
     public GameObject NormalAttackHitBoxObj;
     public GameObject SeedBoomHitBoxObj;
     public GameObject HitBoxFX;
+    public GameObject SeedBoomHitBoxFX;
     int interrupt = 0;
     public void Interrupt(int i) { interrupt = i; }
     enum SkillType { NormalAttack, Stinger, SeedBoom, OverDrive }
@@ -78,17 +80,17 @@ public class BossMonster : Monster
     void SelectNextAttack()
     {
         //print(canAttackList.Count);
-        for (int i = 0; i < canAttackList.Count; i++)
+        for (int i = 2; i < canAttackList.Count; i++)
         {
-            if (canAttackList[i] == true)
+            if (canAttackList[2] == true)
             {
                 canAttack = false;
                 DoAnimator(ActionState.attack);
                 switch (i)
                 {
-                    case 0: StartCoroutine(DoNormalAttack()); break;
-                    case 1: StartCoroutine(DoStinger()); break;
-                    //case 2: StartCoroutine(DoSeedBoom()); break;
+                    //case 0: StartCoroutine(DoNormalAttack()); break;
+                    //case 1: StartCoroutine(DoStinger()); break;
+                    case 2: StartCoroutine(DoSeedBoom()); break;
                     //case 3: StartCoroutine(DoOverDrive()); break;
                 }
                 return;
@@ -130,18 +132,7 @@ public class BossMonster : Monster
             }
         }*/
 
-        EndAttack();
-
-        yield return StartCoroutine(WaitTillAnimator("NormalAttack", false));
-        canMove = true;
-        float startAttackAfter = 1f;
-        float startThisAttackAfter = 3f;
-
-        StartCoroutine(StartOtherAttackAfter(startAttackAfter));
-        yield return StartCoroutine(WaitTillTimeEnd(startThisAttackAfter));
-        canDoAttack = true;
-
-        yield break;
+        StartCoroutine(WaitAttackEnd(SkillType.NormalAttack));
     }
 
     protected IEnumerator DoStinger() 
@@ -159,20 +150,8 @@ public class BossMonster : Monster
         Rigidbody.velocity = transform.forward * 20f;
 
         //WaitTillInterrupt(1);
-        
-        EndAttack();
 
-        yield return StartCoroutine(WaitTillAnimator("Stinger", false));
-        canMove = true;
-        canLookAt = true;
-        float startAttackAfter = 1f;
-        float startThisAttackAfter = 5f;
-
-        StartCoroutine(StartOtherAttackAfter(startAttackAfter));
-        yield return StartCoroutine(WaitTillTimeEnd(startThisAttackAfter));
-        canStinger = true;
-
-        yield break;
+        StartCoroutine(WaitAttackEnd(SkillType.Stinger));
     }
     
     protected IEnumerator DoSeedBoom() 
@@ -185,67 +164,34 @@ public class BossMonster : Monster
         yield return StartCoroutine(WaitTillAnimator("SeedBoom", true));
 
         List<HitBoxCollider> seedbooms = new List<HitBoxCollider>();
+
+        Vector2[] dir = GMath.MoveToRad(transform.eulerAngles.y, 60f, 1f);
         for(int i = 0; i < 3; i++)
         {
-            var hitBoxTransform = HitBoxCollider.StartHitBox(SeedBoomHitBoxObj, transform.position, null, false).transform;// Instantiate(SeedBoomHitBoxObj).GetComponent<HitBoxCollider>();
-
-            float ratio = 0.3f;
-            float totalSpeed = 0.3f;
-            Vector3 firstShotDirction = (hitBoxTransform.forward * ratio + Vector3.up).normalized * totalSpeed;
-            Vector3 downAcceleration = (Physics.gravity * Time.fixedDeltaTime);
-
-            while (hitBoxTransform.position.y >= 0f)
-            {
-                hitBoxTransform.position = hitBoxTransform.position + firstShotDirction + downAcceleration;
-
-                yield return new WaitForFixedUpdate();
-                downAcceleration += downAcceleration * Time.fixedDeltaTime;
-                print(downAcceleration);
-
-                /*if (hitBox.IsEnteredTrigger)
-                {
-                    for (int i = 0; i < hitBox.colliders.Count; i++)
-                    {
-                        var nowCollider = hitBox.colliders[i];
-                        if (nowCollider.CompareTag("Monster"))
-                            hitBox.colliders.RemoveAt(i--);
-                        else if (nowCollider.CompareTag("Character"))
-                        {
-                            StateEffecterManager.EffectToModelBySkill(Character, MP, null, false);
-                            break;
-                        }
-                    }
-                }*/
-            }
+            var startDir = i == 0 ? GMath.ConvertV2ToV3xz(dir[0])
+                : i == 1 ? transform.forward : GMath.ConvertV2ToV3xz(dir[1]);  
+            var hitBoxTransform = HitBoxCollider.StartHitBox(SeedBoomHitBoxObj, transform.position, SeedBoomHitBoxFX, true).transform;// Instantiate(SeedBoomHitBoxObj).GetComponent<HitBoxCollider>();
+            StartCoroutine(MoveSeedBoom(hitBoxTransform, (i + 1) * 0.1f + 0.3f, startDir));
         }
-        IEnumerator MoveSeedBoom(Transform transform, float speed) 
+
+        StartCoroutine(WaitAttackEnd(SkillType.SeedBoom));
+    }
+    IEnumerator MoveSeedBoom(Transform hitBoxTransform, float force, Vector3 startDir) 
+    {
+        hitBoxTransform.forward = startDir;
+        float upperDegree = 75f;
+        var ratio = GMath.DegreeToRatio(upperDegree);
+        Vector3 firstShotDirction = (hitBoxTransform.forward * (1 - ratio) + Vector3.up * ratio) * force;
+        Vector3 downAcceleration = (Physics.gravity * Time.fixedDeltaTime);
+
+        while (hitBoxTransform.position.y >= 0f)
         {
-            yield break;
-        }
-        /*while (interrupt == 0)
+            hitBoxTransform.position = hitBoxTransform.position + firstShotDirction + downAcceleration;
+
             yield return new WaitForFixedUpdate();
-
-
-
-        while (interrupt == 1)
-            yield return new WaitForFixedUpdate();*/
-/*
-        NowState = ActionState.battle;
-
-        float delayed = 0;
-        while (delayed <= 1f)
-        {
-            delayed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
+            downAcceleration += downAcceleration * Time.fixedDeltaTime;
         }
-        canAttack = true;
-
-        while (delayed <= 5f)
-        {
-            delayed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        canSeedBoom = true;*/
+        yield break;
     }
     
     protected IEnumerator DoOverDrive() 
@@ -275,9 +221,43 @@ public class BossMonster : Monster
         canAttack = true;
     }
 
-    void EndAttack()
+    IEnumerator WaitAttackEnd(SkillType skillType)
     {
         NowState = ActionState.battle;
         interrupt = 0;
+
+        switch (skillType)
+        {
+            case SkillType.NormalAttack:
+                yield return StartCoroutine(WaitTillAnimator("NormalAttack", false));
+                StartCoroutine(StartOtherAttackAfter(1f));
+                canAttack = true;
+                yield return StartCoroutine(WaitTillTimeEnd(3f));
+                canDoAttack = true;
+                break;
+            case SkillType.Stinger: 
+                yield return StartCoroutine(WaitTillAnimator("Stinger", false));
+                StartCoroutine(StartOtherAttackAfter(1f));
+                canAttack = true;
+                yield return StartCoroutine(WaitTillTimeEnd(4f));
+                canStinger = true;
+                break;
+            case SkillType.SeedBoom: 
+                yield return StartCoroutine(WaitTillAnimator("SeedBoom", false));
+                StartCoroutine(StartOtherAttackAfter(1f));
+                canAttack = true;
+                yield return StartCoroutine(WaitTillTimeEnd(5f));
+                canSeedBoom = true;
+                break;
+            case SkillType.OverDrive: 
+                yield return StartCoroutine(WaitTillAnimator("OverDrive", false));
+                StartCoroutine(StartOtherAttackAfter(1f));
+                canAttack = true;
+                yield return StartCoroutine(WaitTillTimeEnd(5f));
+                canOverDirve = true;
+                break;
+        }
+
+        canMove = true;
     }
 }
