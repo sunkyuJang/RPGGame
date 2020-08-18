@@ -33,11 +33,6 @@ public class Joypad : MonoBehaviour
         holdRect = GMath.GetRect(holdTransform);
     }
 
-    protected void Start()
-    {
-        character = transform.parent.GetComponent<Controller>().Character;
-    }
-
     public void Pressed()
     {
         bool isTouch = false;

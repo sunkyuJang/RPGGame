@@ -28,6 +28,18 @@ public class StateEffecterManager : MonoBehaviour
         else { Debug.Log("Somthing Worng in stateEffecter "); }
     }
 
+    static void EffectToModel(int index, bool isDeEffect, Model targetModel)
+    {
+        int coroutineIndex = 0;
+        if (CoroutinForEffecter.IsAlreadyRunning(targetModel, data[index], out coroutineIndex))
+        {
+            CoroutinForEffecter.StopRunningCoroutine(targetModel, coroutineIndex);
+        }
+
+        var coroutineEffecter = new CoroutinForEffecter(targetModel, data[index], isDeEffect);
+        if (coroutineEffecter.data.During > 0) { targetModel.listForStateEffecter.Add(coroutineEffecter); }
+    }
+
     public static void EffectToModelBySkill(SkillManager.Skill skill, Model target, float damage, GameObject hitFX, bool isFXStartFromGround)
     {
         var isNpc = target is Npc;
@@ -43,7 +55,19 @@ public class StateEffecterManager : MonoBehaviour
                 EffectToModel(skill.data.Index, skill.data.StateEffecterIndex, false, false, target);
             }
         }
-    }    
+    }
+    public static void EffectToModelBySkill(SkillData skill, Model target, float damage)
+    {
+        if (skill.DamagePercentage != 0)
+        {
+            target.GetHit(damage, null, false);
+        }
+
+        if (skill.shouldLookAtEffectSheet)
+        {
+            EffectToModel(skill.EffectSheetNum, false, target);
+        }
+    }
 
     public static void EffectToModelBySkill(Model target, float damage, GameObject hitFX, bool isFXStartFromGround)
     {

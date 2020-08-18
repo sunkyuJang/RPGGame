@@ -9,11 +9,11 @@ public class SkulMagician : NormalMonster
     public GameObject HitBox;
     public GameObject HitBoxFX;
     
-    public float farEnogh = 3f;
+    public float farEnogh = 5f;
     new private void Awake()
     {
         SetInfo("허름한 마법사", 100, 25, 0, 100, 5);
-        MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(8, 8)));
+        MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(15 , 15)));
         base.Awake();
     }
     // Start is called before the first frame update

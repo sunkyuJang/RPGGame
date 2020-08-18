@@ -238,6 +238,7 @@ public class BossMonster : Monster
             case SkillType.Stinger: 
                 yield return StartCoroutine(WaitTillAnimator("Stinger", false));
                 StartCoroutine(StartOtherAttackAfter(1f));
+                canLookAt = true;
                 canAttack = true;
                 yield return StartCoroutine(WaitTillTimeEnd(4f));
                 canStinger = true;

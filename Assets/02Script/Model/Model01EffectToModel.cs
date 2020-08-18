@@ -128,7 +128,6 @@ public partial class Model : MonoBehaviour
             if (this is Monster) { (this as Monster).GetHit(HitFX, isFXStartFromGround); }
             else if (this is Character) { (this as Character).GetHit(); }
             RefreshedHPBar();
-
         }
     }
 }

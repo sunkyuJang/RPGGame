@@ -131,21 +131,3 @@ public partial class SkillManager : MonoBehaviour
         }
     }
 }
-
-    //public static List<Skill> RunningSkills { private set; get; } = new List<Skill>();
-/*    public static bool IsDeActivateSkill (Skill skill) 
-    { 
-        foreach(Skill nowSkill in RunningSkills)
-            if (skill.data.Index == nowSkill.data.Index) 
-                return false;
-        return true;
-    }
-*//*    public static void ActivateSkiil(Skill skill, Character character)
-    {
-        StaticSkillManager.StartCoroutine(skill.ActivateSkill(character));
-        RunningSkills.Add(skill);
-    }
-    public static void DeActivateSkill(Skill skill) 
-    { 
-        RunningSkills.Remove(skill);
-    }*/
