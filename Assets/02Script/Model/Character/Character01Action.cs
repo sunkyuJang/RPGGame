@@ -155,7 +155,6 @@ public partial class Character : Model
         {
             SurroundingObj = GetSurroundingObj();
             TargetModel = GetNearestModel(SurroundingObj);
-            print(TargetModel.gameObject.name);
             try
             {
                 if (IsSameObjWithFrontObj(TargetModel.gameObject))

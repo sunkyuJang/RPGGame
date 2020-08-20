@@ -62,6 +62,7 @@ MonoBehaviour:
   description: "\uC804\uBC29\uC758 \uC801\uC744 \uD0C0\uACA9\uD55C\uB2E4."
   icon: {fileID: 21300000, guid: 72efa47df09fd19418f4f7b8edb8ac19, type: 3}
   isLearn: 1
+  Length: 1
   attackType: 0
   DamagePercentage: 0
   CoolDown: 2

@@ -14,7 +14,8 @@ public class SkillFireBall : SkillData
 
         copy.transform.position = Model.position + Model.forward;
         copy.Rigidbody.velocity = Model.forward * 10f;
-        yield return copy.CheckObjCollideInTime();
+
+        yield return StartCoroutine(copy.CheckObjCollideInDist(transform.position, Length));
 
         if (copy.isWorks)
         {

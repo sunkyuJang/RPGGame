@@ -12,7 +12,7 @@ public class SkillBoostMorale : SkillData
     {
         var copy = GetHitBox();
 
-        copy.transform.position = Model.position;
+        copy.transform.position = Model.position + Model.forward * Length;
 
         yield return copy.CheckObjCollideInTime();
 

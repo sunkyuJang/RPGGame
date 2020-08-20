@@ -12,7 +12,7 @@ public class SkillLowSmash : SkillData
     {
         var copy = GetHitBox();
 
-        copy.transform.position = Model.position + Vector3.forward;
+        copy.transform.position = Model.position + Model.forward * Length;
 
         yield return copy.CheckObjCollideInTime();
 

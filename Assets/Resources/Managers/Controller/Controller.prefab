@@ -182,12 +182,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BtnGroupObj: {fileID: 7457804983269407446}
-  joypadObj: {fileID: 7868899671684559919}
-  actionpadObj: {fileID: 1537554472299147751}
+  joypad: {fileID: 5129829536917812286}
+  actionpad: {fileID: 4896330238767864148}
   pauseKeyObj: {fileID: 768876183390264427}
   InventoryKeyObj: {fileID: 768876182730790887}
   EquipmentKeyObj: {fileID: 3462356533201218061}
   skillTreeKeyObj: {fileID: 1149984953554076676}
+  characterSkiilViewer: {fileID: 0}
   isJoypadPressed: 0
 --- !u!1 &768876183390264427
 GameObject:

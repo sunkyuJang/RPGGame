@@ -13,10 +13,11 @@ public class MovePad : Joypad
         ActionPad = ActionPadObj.GetComponent<ActionPad>();
     }
 
-    new private void Start()
+    new void Start()
     {
         base.Start();
     }
+
     protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;

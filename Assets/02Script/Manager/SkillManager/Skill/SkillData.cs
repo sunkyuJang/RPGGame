@@ -4,6 +4,7 @@ using System.Data;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class SkillData : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class SkillData : MonoBehaviour
     public string description;
     public Sprite icon;
     public bool isLearn;
+    public float Length;
     public enum AttackType { Physic, Magic }
     public AttackType attackType;
     public float DamagePercentage;
@@ -47,19 +49,14 @@ public class SkillData : MonoBehaviour
     {
         if (!isCoolDown)
         {
-            StartCoolDown();
+            StartCoroutine(StartCoolDown());
             StartCoroutine(StartHitBoxMove());
         }
     }
 
     protected virtual IEnumerator StartHitBoxMove() { yield return null; }
 
-    public void StartCoolDown()
-    {
-        StartCoroutine(ReduceNowCoolDown());
-    }
-
-    IEnumerator ReduceNowCoolDown()
+    IEnumerator StartCoolDown()
     {
         nowCoolDown = CoolDown;
         while(nowCoolDown >= 0f)

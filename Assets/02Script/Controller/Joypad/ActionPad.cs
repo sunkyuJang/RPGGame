@@ -25,7 +25,7 @@ public class ActionPad : Joypad
         CameraController = StaticManager.cameraController;
     }
 
-    new private void Start()
+    new void Start()
     {
         base.Start();
     }

@@ -5,8 +5,8 @@ using GLip;
 public partial class Controller : MonoBehaviour
 {
     public GameObject BtnGroupObj;
-    public Joypad joypad;
-    public MovePad actionpad;
+    public MovePad joypad;
+    public ActionPad actionpad;
     public GameObject pauseKeyObj;
     public GameObject InventoryKeyObj;
     public GameObject EquipmentKeyObj;

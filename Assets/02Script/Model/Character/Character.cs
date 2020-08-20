@@ -12,6 +12,7 @@ public partial class Character : Model
     public StateViewer StateViewer { private set; get; }
 
     public int level { private set; get; }
+    public int SkillPoint;
     bool IsinField { set; get; } = true;
     public bool GetIsInField { get { return IsinField; } }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
@@ -20,6 +21,7 @@ public partial class Character : Model
     {
         SetInfo("temp",100, 100, 10, 10, 10);
         level = 4;
+        SkillPoint = level;
         isPlayer = true;
         base.Awake();
     }

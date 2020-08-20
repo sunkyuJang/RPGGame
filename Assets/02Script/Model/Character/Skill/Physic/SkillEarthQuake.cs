@@ -10,12 +10,23 @@ public class SkillEarthQuake : SkillData
     }
     protected override IEnumerator StartHitBoxMove()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0, max = 5; i < max; i++)
         {
             var copy = GetHitBox();
 
-            copy.transform.position = Model.position;
+            StartCoroutine(EachBoxMove(copy, i, Length / max));
+            yield return new WaitForSeconds(0.2f);
+        }
+        yield return null;
+    }
 
+    IEnumerator EachBoxMove(HitBox copy, int count, float dist)
+    {
+        copy.transform.position = Model.position + Model.forward * count * dist;
+        copy.isImmediately = true;
+
+        while (copy.isTimeOver)
+        {
             yield return copy.CheckObjCollideInTime();
 
             if (copy.isWorks)
@@ -24,11 +35,12 @@ public class SkillEarthQuake : SkillData
                 var target = copy.GetTarget(Model.position);
                 SetDamage(target);
             }
-
-            copy.Collider.enabled = false;
-            copy.gameObject.SetActive(false);
-            hitBoxes.Enqueue(copy);
         }
+
+        copy.Collider.enabled = false;
+        copy.gameObject.SetActive(false);
+        hitBoxes.Enqueue(copy);
+
         yield return null;
     }
 }

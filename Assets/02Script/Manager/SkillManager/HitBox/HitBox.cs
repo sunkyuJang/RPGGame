@@ -18,9 +18,15 @@ public class HitBox : MonoBehaviour
     { get { return targetModel == TargetModel.Monster ? "Monster" : "Character"; } }
     public bool isSingleTarget;
 
+    public enum CheckedType { inTime, inDist }
+    public CheckedType nowCheckedType;
     public float duringTime;
     float nowDuringTime;
-    public bool isTimeOver { get { return !(nowDuringTime > 0f); } }
+    public bool isTimeOver { get { return nowDuringTime < 0f; } }
+
+    public float dist;
+    float nowDist;
+    public bool isDistOver { get { return nowDist > dist; } }
 
     public void Awake()
     {
@@ -72,11 +78,14 @@ public class HitBox : MonoBehaviour
         }
         else
             target = GetMultiTargetColiders();
+
+        enteredColliders.Clear();
         return target;
     }
 
     public IEnumerator CheckObjCollideInTime()
     {
+        nowCheckedType = CheckedType.inTime;
         nowDuringTime = duringTime;
         while (!isTimeOver)
         {
@@ -90,5 +99,28 @@ public class HitBox : MonoBehaviour
         }
     }
 
-    public bool isWorks { get { return isCollide && !isTimeOver; } }
+    public IEnumerator CheckObjCollideInDist(Vector3 center, float dist)
+    {
+        this.dist = dist;
+        nowDist = Vector3.Distance(transform.position, center);
+        while(nowDist < dist)
+        {
+            yield return new WaitForFixedUpdate();
+            if (isCollide) 
+            {
+                break;
+            }
+        }
+    }
+
+    public bool isWorks
+    {
+        get 
+        { 
+            if (nowCheckedType == CheckedType.inTime)
+                return isCollide && !isTimeOver;
+            else
+                return isCollide && !isDistOver;
+        }
+    }
 }

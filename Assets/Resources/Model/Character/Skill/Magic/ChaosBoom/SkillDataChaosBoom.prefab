@@ -60,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillData: {fileID: 0}
   skillViewerImage: {fileID: 0}
+  characterSkiilViewer: {fileID: 0}
 --- !u!114 &6926925346999661758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +78,7 @@ MonoBehaviour:
   description: "\uC804\uBC29\uC5D0 \uD3ED\uBC1C\uD558\uB294 \uAD6C\uCCB4\uB97C \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
   icon: {fileID: 21300000, guid: d8a0950034ce16f41968b16017885ea1, type: 3}
   isLearn: 0
+  Length: 5
   attackType: 1
   DamagePercentage: 100
   CoolDown: 5

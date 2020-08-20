@@ -4,41 +4,90 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GLip;
-public class SkillViewer : MonoBehaviour
+using JetBrains.Annotations;
+using System.Globalization;
+using System.Diagnostics;
+
+public class SkillViewer : MonoBehaviour, IInputTracer
 {
+    RectTransform RectTransform;
     public SkillData skillData;
     public Image skillViewerImage;
+    public CharacterSkiilViewer characterSkiilViewer;
+    GameObject copy;
+
+    GraphicRaycaster graphicRaycaster;
+    PointerEventData ped;
     private void Awake()
     {
+        RectTransform = GetComponent<RectTransform>();
         skillViewerImage.sprite = skillData.icon;
-        GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => PressedIcon());
-        SetLearnedIcon(skillData.isLearn);
+        GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => Pressed());
+        SetLearnedIcon();
     }
 
-    void SetLearnedIcon(bool isLearned)
+    private void Start()
     {
-        if (isLearned)
+        copy = new GameObject(gameObject.name + "copy");
+        copy.transform.parent = transform;
+        copy.AddComponent<Image>().sprite = skillViewerImage.sprite;
+        copy.transform.position = transform.position;
+        copy.SetActive(false);
+
+        graphicRaycaster = StaticManager.canvasTrasform.GetComponent<GraphicRaycaster>();
+        ped = new PointerEventData(null);
+    }
+
+    public void SetLearnedIcon()
+    {
+        if (skillData.isLearn)
             skillViewerImage.color = new Color(255f, 255f, 255f, 1f);
         else
             skillViewerImage.color = new Color(255f, 255f, 255f, 0.5f);
     }
-    public void PressedIcon() 
+    public void Pressed() 
     {
-        /*bool isTouch;
+        bool isTouch;
         int touchId = 0;
         bool isMouse;
-        if (GPosition.IsContainInput(GetComponent<RectTransform>(), out isTouch, out touchId, out isMouse))
+        if (GPosition.IsContainInput(RectTransform, out isTouch, out touchId, out isMouse))
         {
-            StartCoroutine(TraceInput(viewer, isTouch, touchId, isMouse));
+            characterSkiilViewer.ShowDescription(this);
+            if(skillData.isLearn)
+                StartCoroutine(TraceInput(isTouch, touchId, isMouse));
         }
         else
-            print("somting Wrong in SkillManager_SelectedIcon");*/
-
-        skillData.ActivateSkill();
+            print("somting Wrong in SkillManager_SelectedIcon");
     }
 
-/*    public IEnumerator TraceInput()
+    public IEnumerator TraceInput(bool isTouch, int touchId, bool isMouse)
     {
+        copy.SetActive(true);
+        copy.transform.SetParent(StaticManager.canvasTrasform);
 
-    }*/
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        while(GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
+        {
+            copy.transform.position = GPosition.GetInputPosition(isTouch, touchId, isMouse);
+            yield return new WaitForFixedUpdate();
+        }
+
+        /*        ped.position = copy.transform.position;
+                graphicRaycaster.Raycast(ped, results);
+                foreach(RaycastResult result in results)
+                {
+                    print(result.gameObject.name);
+                }*/
+
+        var quickSlot = characterSkiilViewer.character.QuickSlot;
+        var quickSlotNum = quickSlot.IsIn(copy.transform.position);
+        if(quickSlotNum >= 0) { quickSlot.SetSlot(transform, quickSlotNum); }
+
+        copy.transform.SetParent(transform);
+        copy.transform.position = transform.position;
+        copy.SetActive(false);
+
+        yield return null;
+    }
 }

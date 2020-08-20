@@ -13,7 +13,6 @@ public class SkillChaosBoom : SkillData
         var copy = GetHitBox();
 
         copy.transform.position = Model.position + Model.forward;
-        copy.Rigidbody.velocity = Model.forward * 10f;
         yield return copy.CheckObjCollideInTime();
 
         if (copy.isWorks)

@@ -22,7 +22,6 @@ public class Joypad : MonoBehaviour
     public bool isPressed { set; get; }
     protected void Awake()
     {
-
         upTransform = up.GetComponent<RectTransform>();
         holdTransform = hold.GetComponent<RectTransform>();
         downTransform = down.GetComponent<RectTransform>();
@@ -31,6 +30,11 @@ public class Joypad : MonoBehaviour
         upRect = GMath.GetRect(upTransform);
         downRect = GMath.GetRect(downTransform);
         holdRect = GMath.GetRect(holdTransform);
+    }
+
+    public void Start()
+    {
+        character = StaticManager.Character;
     }
 
     public void Pressed()
