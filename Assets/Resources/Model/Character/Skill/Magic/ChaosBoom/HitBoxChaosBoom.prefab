@@ -81,7 +81,10 @@ MonoBehaviour:
   HitBoxEffectObj: {fileID: 5872860588309603328}
   targetModel: 0
   isSingleTarget: 0
-  duringTime: 1.2
+  nowCheckedType: 0
+  duringTime: 3
+  effectTime: 3
+  dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,6 +137,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5872860588309603330}
     m_Modifications:
+    - target: {fileID: 2155668201938265969, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265969, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265971, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265975, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265975, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265981, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2155668201938265981, guid: f9dc7726c149cac43bd627e613af9abd,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2155668201938296529, guid: f9dc7726c149cac43bd627e613af9abd,
         type: 3}
       propertyPath: m_Materials.Array.size

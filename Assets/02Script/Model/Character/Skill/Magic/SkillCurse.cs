@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillCurse : SkillData
+public class SkillCurse : SkillData, ISkillActivator
 {
     new public void Awake()
     {
         base.Awake();
     }
+
+    public void SetActivateSkill()
+    {
+        ActivateSkill();
+    }
+
     protected override IEnumerator StartHitBoxMove()
     {
         var copy = GetHitBox();

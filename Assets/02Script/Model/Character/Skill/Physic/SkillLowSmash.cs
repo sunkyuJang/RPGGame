@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillLowSmash : SkillData
+public class SkillLowSmash : SkillData, ISkillActivator
 {
     new public void Awake()
     {
         base.Awake();
     }
+    public void SetActivateSkill()
+    {
+        ActivateSkill();
+    }
+
     protected override IEnumerator StartHitBoxMove()
     {
         var copy = GetHitBox();
@@ -21,9 +26,11 @@ public class SkillLowSmash : SkillData
             print(true);
             var target = copy.GetTarget(Model.position);
             SetDamage(target);
+            copy.Collider.enabled = false;
         }
 
-        copy.Collider.enabled = false;
+        yield return StartCoroutine(copy.WaitForEffectTime());
+
         copy.gameObject.SetActive(false);
         hitBoxes.Enqueue(copy);
 

@@ -10,6 +10,42 @@ namespace GLip
     class GPosition
     {
         public static Vector2 nonPosition { get { return new Vector2(-5, -5); } }
+        public static Collider GetClosedCollider(Transform centerTransform, float castRad, float castFOVRad, string targetTag)
+        {
+            var list = GetSelectedColliderInFOV(centerTransform, castRad, castFOVRad, targetTag);
+            var dist = 10000f;
+            Collider closeOne = null;
+            if (list.Count > 0)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var nowCollider = list[i];
+                    var nowDist = Vector3.Distance(centerTransform.position, nowCollider.transform.position);
+                    if(nowDist < dist)
+                    {
+                        dist = nowDist;
+                        closeOne = nowCollider;
+                    }
+                }
+            }
+            return closeOne;
+        }
+
+        public static List<Collider> GetAllCollidersInFOV(Transform centerTransform, float castRad, float castFOVRad)
+        {
+            var list = GetNearByObj(centerTransform.position, castRad);
+            List<Collider> newList = new List<Collider>();
+            foreach (Collider nowCollider in list)
+            {
+                    Vector3 directionFromCenterToCollider = nowCollider.transform.position - centerTransform.position;
+                    float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
+                    if (angleFromCenterToCollider <= castFOVRad)
+                    {
+                        newList.Add(nowCollider);
+                    }
+            }
+            return newList;
+        }
 
         public static List<Collider> GetSelectedColliderInFOV(Transform centerTransform, float castRad, float castFOVRad, string targetTag)
         {

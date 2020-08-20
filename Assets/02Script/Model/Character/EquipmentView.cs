@@ -56,13 +56,13 @@ public class EquipmentView : MonoBehaviour
         if (data.ItemType == "EquipmentWeapon")
         {
             WeaponImage.sprite = equipmentItem.Icon.sprite;
-            Instantiate(Resources.Load<GameObject>("Character/Weapon/Dagger"), WeaponTrans);
+            Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Dagger/Dagger"), WeaponTrans);
             EquipmentItems[0] = equipmentItem.ItemCounter.CopyThis();
         }
         else
         {
             ArmorImage.sprite = equipmentItem.Icon.sprite;
-            ArmorTrans = Instantiate(Resources.Load<GameObject>("Character/Armor/WarriorMale"), Character.transform).transform;
+            ArmorTrans = Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Leather/WarriorMale"), Character.transform).transform;
             EquipmentItems[1] = equipmentItem.ItemCounter.CopyThis();
         }
         LoadCharacterState();

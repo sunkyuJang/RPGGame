@@ -11,7 +11,7 @@ public class TestScript : MonoBehaviour
         
     }
 
-    bool isAlreadyRunning = false;
+    //bool isAlreadyRunning = false;
     // Update is called once per frame
     void FixedUpdate()
     {

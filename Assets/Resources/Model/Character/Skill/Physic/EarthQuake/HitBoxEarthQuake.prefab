@@ -81,7 +81,10 @@ MonoBehaviour:
   HitBoxEffectObj: {fileID: 5872860588309603328}
   targetModel: 0
   isSingleTarget: 0
-  duringTime: 3
+  nowCheckedType: 0
+  duringTime: 10
+  effectTime: 10
+  dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitBox: {fileID: 5872860588705113133}
   HitBoxEffectObj: {fileID: 5872860588309603328}
-  effectorStartTime: 1
+  effectorStartTime: 0
 --- !u!136 &5872860588705113123
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -144,11 +147,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1675651108914592292, guid: 714ca40ffc6c5634fb2290839c742ea6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3297187318216948880, guid: 714ca40ffc6c5634fb2290839c742ea6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2bb17b11d9352434e99f9cb7bcdd02a7, type: 2}
+    - target: {fileID: 3297187318216948880, guid: 714ca40ffc6c5634fb2290839c742ea6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4695355490860220108, guid: 714ca40ffc6c5634fb2290839c742ea6,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -264,7 +277,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: EarthQuakeHitBoxFX
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1675651108914592292, guid: 714ca40ffc6c5634fb2290839c742ea6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 714ca40ffc6c5634fb2290839c742ea6, type: 3}
 --- !u!4 &5863277837249803036 stripped
 Transform:

@@ -6,7 +6,7 @@ using GLip;
 public partial class Character : Model
 {
     public GameObject ControllerObj;
-    Controller Controller { set; get; }
+    public Controller Controller;
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     public StateViewer StateViewer { private set; get; }

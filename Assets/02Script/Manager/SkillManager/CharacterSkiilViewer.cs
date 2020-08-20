@@ -11,6 +11,8 @@ public class CharacterSkiilViewer : MonoBehaviour
     public GameObject skillTreeViewer;
     public CharacterSkillDescriptionBox characterSkillDescriptionBox;
 
+    public SkillNormalAttack SkillNormalAttack;
+
     SkillViewer nowSkillViewer;
     private void Awake()
     {
@@ -21,6 +23,8 @@ public class CharacterSkiilViewer : MonoBehaviour
     {
         character = StaticManager.Character;
         SkillTreeSet();
+
+        SkillNormalAttack = physicSkillGroup.transform.Find("SkillNormalAttack").GetComponent<SkillNormalAttack>();
     }
 
     void SkillTreeSet()
@@ -59,9 +63,17 @@ public class CharacterSkiilViewer : MonoBehaviour
                 ShowDescription(nowSkillViewer);
             }
             else
-                character.ShowAlert("상위스킬을 먼저 배우셔야 합니다.", Color.red);
+                UseCharacterAlert("상위스킬을 먼저 배우셔야 합니다.", Color.red);
         }
         else
-            character.ShowAlert("스킬포인트가 부족합니다.", Color.red);
+            UseCharacterAlert("스킬포인트가 부족합니다.", Color.red);
+    }
+
+    public void UseCharacterAlert(string text, Color color)
+        => character.ShowAlert(text, color);
+
+    public void DoNormalAttack() 
+    {
+        SkillNormalAttack.ActivateSkill();
     }
 }

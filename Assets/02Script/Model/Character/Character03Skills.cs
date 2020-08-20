@@ -9,17 +9,16 @@ public partial class Character : Model
     public bool isHitTriggerActivate { private set; get; }
     public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
 
-    void ActivateSkill(SkillManager.Skill skill)
+    void ActivateSkill(SkillData skill)
     {
         if (IsinField)
         {
             if (canAttacking)
             {
-                if (!skill.isCoolDownNow)
+                if (!skill.isCoolDown)
                 {
-                    if (skill.IsThereMonsterAround(this.transform))
+                    if (skill.IsReachedTarget)
                     {
-                        SkillManager.ActivateSkiil(skill, this);
                         StartCoroutine(DeActivateSkill(skill));
                         return;
                     }
@@ -32,28 +31,26 @@ public partial class Character : Model
         }
     }
 
-    public IEnumerator DeActivateSkill(SkillManager.Skill skill)
+    public IEnumerator DeActivateSkill(SkillData skill)
     {
         canAttacking = false;
         canGetHit = false;
 
-        SetSkillAnimator(skill);
+        SetSkillAnimator(skill, true);
         yield return new WaitForFixedUpdate();
 
         while (!isHitTriggerActivate)
         {
-            print("isHitTriggerActivate Stuck");
+            //print("isHitTriggerActivate Stuck");
             yield return new WaitForFixedUpdate();
         }
 
-        var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-        print(lestTime);
+        (skill as ISkillActivator).SetActivateSkill();
 
-        Animator.SetInteger("SkillTier", 0);
-        Animator.SetInteger("SkillIndex", 0);
-        Animator.SetBool("IsPhysic", false);
-        Animator.SetBool("IsMagic", false);
-        Animator.SetBool("IsAttack", false);
+        var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+        //print(lestTime);
+
+        SetSkillAnimator(skill, false);
 
         NowState = ActionState.Idle;
         canGetHit = true;
@@ -62,18 +59,18 @@ public partial class Character : Model
         float nowTime = -0.5f;
         while (nowTime < lestTime)
         {
-            nowTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
+            nowTime += Time.fixedDeltaTime;
         }
 
         canAttacking = true;
     }
 
-    void SetSkillAnimator(SkillManager.Skill skill)
+    void SetSkillAnimator(SkillData skill, bool isStart)
     {
-        Animator.SetInteger("SkillTier", skill.data.SkillTier);
-        Animator.SetInteger("SkillIndex", skill.data.Index);
-        Animator.SetBool(skill.data.InfluencedBy == "Physic" ? "IsPhysic" : "IsMagic", true);
-        DoAnimator(AnimatorState.Attak);
+        Animator.SetTrigger(skill.gameObject.name);
+        Animator.SetBool(skill.attackType == SkillData.AttackType.Physic ? "IsPhysic" : "IsMagic", isStart);
+        if(isStart)
+            DoAnimator(AnimatorState.Attak);
     }
 }

@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillEarthQuake : SkillData
+public class SkillEarthQuake : SkillData, ISkillActivator
 {
     new public void Awake()
     {
         base.Awake();
     }
+    public void SetActivateSkill()
+    {
+        ActivateSkill();
+    }
+
     protected override IEnumerator StartHitBoxMove()
     {
         for (int i = 0, max = 5; i < max; i++)
@@ -15,7 +20,7 @@ public class SkillEarthQuake : SkillData
             var copy = GetHitBox();
 
             StartCoroutine(EachBoxMove(copy, i, Length / max));
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.3f);
         }
         yield return null;
     }
@@ -25,16 +30,15 @@ public class SkillEarthQuake : SkillData
         copy.transform.position = Model.position + Model.forward * count * dist;
         copy.isImmediately = true;
 
-        while (copy.isTimeOver)
+        copy.StartCountDown();
+        while (copy.isTimeLeft)
         {
-            yield return copy.CheckObjCollideInTime();
-
             if (copy.isWorks)
             {
-                print(true);
                 var target = copy.GetTarget(Model.position);
                 SetDamage(target);
             }
+            yield return new WaitForFixedUpdate();
         }
 
         copy.Collider.enabled = false;

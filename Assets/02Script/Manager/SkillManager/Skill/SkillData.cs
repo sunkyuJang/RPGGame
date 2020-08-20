@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using GLip;
+using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
@@ -34,6 +37,22 @@ public class SkillData : MonoBehaviour
     public Transform skillpulling;
     public int hitBoxNum;
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
+
+    protected Model targetModel;
+    public bool IsReachedTarget 
+    { 
+        get 
+        {
+            var closeCollider = GPosition.GetClosedCollider(Model, Length, 30f, hitBox.GetTargetModelTag);
+            if (closeCollider != null)
+            {
+                targetModel = closeCollider.transform.GetComponent<Model>();
+                return true;
+            }
+            else
+                return false;
+        } 
+    }
     public void Awake()
     {
         skillName_eng = gameObject.name;
@@ -47,11 +66,8 @@ public class SkillData : MonoBehaviour
 
     public void ActivateSkill()
     {
-        if (!isCoolDown)
-        {
-            StartCoroutine(StartCoolDown());
-            StartCoroutine(StartHitBoxMove());
-        }
+        StartCoroutine(StartCoolDown());
+        StartCoroutine(StartHitBoxMove());
     }
 
     protected virtual IEnumerator StartHitBoxMove() { yield return null; }
@@ -87,6 +103,7 @@ public class SkillData : MonoBehaviour
         var copy = hitBoxes.Dequeue();
         copy.gameObject.SetActive(true);
         copy.transform.forward = Model.forward;
+        copy.Collider.enabled = true;
         return copy;
     }
 }

@@ -33,12 +33,12 @@ public partial class Character : Model
     float SigthLength { get { return 5f; } }
     float SigthDegLimit { get { return 30f; } }
     public Model TargetModel { private set; get; }
-    Collider[] SurroundingObj { set; get; }
+    List<Collider> SurroundingObj { set; get; }
     Collider[] GetSurroundingObj() 
     { 
         return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore); 
     }
-    Model GetNearestModel(Collider[] colliders)
+    Model GetNearestModel(List<Collider> colliders)
     {
         Model nearest = null;
         float beforeDist = SigthLength;
@@ -90,7 +90,7 @@ public partial class Character : Model
             NowState = actionState;
         }
     }
-    public SkillManager.Skill ReservedSkill { set; get; }
+    public SkillData ReservedSkill { set; get; }
 
 
     void FixedUpdateInAction()
@@ -153,7 +153,7 @@ public partial class Character : Model
     {
         if (BeforeState == ActionState.Action)
         {
-            SurroundingObj = GetSurroundingObj();
+            SurroundingObj = GPosition.GetAllCollidersInFOV(transform, SigthLength, SigthDegLimit);
             TargetModel = GetNearestModel(SurroundingObj);
             try
             {
@@ -166,7 +166,7 @@ public partial class Character : Model
                     else if (TargetModel is Monster)
                     {
                         NowState = ActionState.Attack;
-                        ReservedSkill = SkillManager.GetSkill(0);
+                        ReservedSkill = StaticManager.CharacterSkiilViewer.SkillNormalAttack;
                         print(true);
                     }
                     yield break;

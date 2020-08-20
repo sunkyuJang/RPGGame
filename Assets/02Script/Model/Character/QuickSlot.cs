@@ -42,7 +42,7 @@ public class QuickSlot : MonoBehaviour
         if (nowSlot != null)
         {
             ItemView itemView = nowSlot.GetComponent<ItemView>();
-            SkillManager.Skill skillViewer = nowSlot.GetComponent<SkillManager.Skill>();
+            SkillViewer skillViewer = nowSlot.GetComponent<SkillViewer>();
 
             if (itemView != null)
             {
@@ -66,7 +66,7 @@ public class QuickSlot : MonoBehaviour
             }
             else if (skillViewer != null)
             {
-                Character.ReservedSkill = skillViewer;
+                Character.ReservedSkill = skillViewer.skillData;
                 Character.SetActionState(Character.ActionState.Attack);
             }
         }

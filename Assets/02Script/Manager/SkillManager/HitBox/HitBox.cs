@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HitBox : MonoBehaviour
 {
@@ -22,7 +23,11 @@ public class HitBox : MonoBehaviour
     public CheckedType nowCheckedType;
     public float duringTime;
     float nowDuringTime;
-    public bool isTimeOver { get { return nowDuringTime < 0f; } }
+    public bool isTimeLeft { get { return nowDuringTime > 0f; } }
+
+    public float effectTime;
+    float nowEffectTime;
+    public bool isEffectTimeLeft { get { return nowEffectTime > 0f; } }
 
     public float dist;
     float nowDist;
@@ -87,13 +92,12 @@ public class HitBox : MonoBehaviour
     {
         nowCheckedType = CheckedType.inTime;
         nowDuringTime = duringTime;
-        while (!isTimeOver)
+        while (isTimeLeft)
         {
             yield return new WaitForFixedUpdate();
             nowDuringTime -= Time.fixedDeltaTime;
             if (isCollide) 
             {
-                print(targetModel);
                 break; 
             }
         }
@@ -118,9 +122,33 @@ public class HitBox : MonoBehaviour
         get 
         { 
             if (nowCheckedType == CheckedType.inTime)
-                return isCollide && !isTimeOver;
+                return isCollide && !isTimeLeft;
             else
                 return isCollide && !isDistOver;
+        }
+    }
+
+    public void StartCountDown()
+    {
+        StartCoroutine(ReduceTime());
+    }
+    IEnumerator ReduceTime()
+    {
+        nowDuringTime = duringTime;
+        while (isTimeLeft)
+        {
+            yield return new WaitForFixedUpdate();
+            nowDuringTime -= Time.fixedDeltaTime;
+        }
+    }
+
+    public IEnumerator WaitForEffectTime()
+    {
+        nowEffectTime = effectTime;
+        while (isEffectTimeLeft)
+        {
+            yield return new WaitForFixedUpdate();
+            nowEffectTime -= Time.fixedDeltaTime;
         }
     }
 }

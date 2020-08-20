@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 322215185748847836}
   - component: {fileID: 2482731235928755482}
   - component: {fileID: 3310164098621874773}
+  - component: {fileID: 1653811831}
   m_Layer: 5
   m_Name: Managers
   m_TagString: Untagged
@@ -106,6 +107,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheet: {fileID: 11400000, guid: 5691b6b33cab4cb46b35a249ce0ba795, type: 2}
+--- !u!114 &1653811831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322215185748847835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971747ffb5f633f45bafa47500c113fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicSkillGroup: {fileID: 885526503}
+  MagicSkillGroup: {fileID: 361355113}
+  skillTreeViewer: {fileID: 1651961915}
+  characterSkillDescriptionBox: {fileID: 1216855407}
+  SkillNormalAttack: {fileID: 0}
 --- !u!1001 &4752181646941458665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,10 +131,161 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 322215185748847832}
     m_Modifications:
+    - target: {fileID: 1186070329027028629, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillLowSmash
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070329088006309, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillChaosBoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070329161020206, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillBoostMorale
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070329630994107, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillEarthQuake
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070329773466894, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillFireBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070329935393103, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillCurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186070330169269715, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Name
+      value: SkillNormalAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181646473629157, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181646577554000, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: defc09316dfa8fb48aee14ab1abb35a7,
+        type: 3}
+    - target: {fileID: 4752181646685134844, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181646718579636, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181647015055748, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181647244004435, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: skillData
+      value: 
+      objectReference: {fileID: 2785715224369857068}
+    - target: {fileID: 4752181647244004435, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181647753906586, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181647786693679, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: characterSkiilViewer
+      value: 
+      objectReference: {fileID: 1653811831}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: CharacterSkiilViewer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PressedLearnBtn
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077978, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
+      objectReference: {fileID: 1216855406}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Controller, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetAllActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752181647874131189, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4752181647953029066, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
@@ -228,11 +397,66 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterSkillViewer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4752181648520180403, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_Text
+      value: "\uC804\uBC29\uC744 \uD5A5\uD574\uC11C \uC9C0\uC9C4\uBB3C\uACB0\uC744
+        \uC77C\uC73C\uD0A8\uB2E4."
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4752181647953029111, guid: 93240af75a770bd46a85bc50b11c155a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 93240af75a770bd46a85bc50b11c155a, type: 3}
 --- !u!224 &1145927459 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4752181647953029066, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &885526503 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4752181647155896078, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2785715224369857068 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7447824839301468869, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2637c05de0363d4185ca24405fff997, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &361355113 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4752181646631520128, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1216855406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4752181647889411463, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1216855407 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4752181647889411462, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4752181646941458665}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216855406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e4d2bc12bdc46489557801f36b8e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1651961915 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4752181648523878610, guid: 93240af75a770bd46a85bc50b11c155a,
     type: 3}
   m_PrefabInstance: {fileID: 4752181646941458665}
   m_PrefabAsset: {fileID: 0}

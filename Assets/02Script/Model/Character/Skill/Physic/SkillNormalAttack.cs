@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
 
-public class SkillNormalAttack : SkillData
+public class SkillNormalAttack : SkillData, ISkillActivator
 {
     new public void Awake()
     {
         base.Awake();
     }
+
+    public void SetActivateSkill()
+    {
+        ActivateSkill();
+    }
+
+
     protected override IEnumerator StartHitBoxMove()
     {
         var copy = GetHitBox();

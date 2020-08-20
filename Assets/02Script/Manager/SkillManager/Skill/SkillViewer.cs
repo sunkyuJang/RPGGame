@@ -16,8 +16,8 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     public CharacterSkiilViewer characterSkiilViewer;
     GameObject copy;
 
-    GraphicRaycaster graphicRaycaster;
-    PointerEventData ped;
+/*    GraphicRaycaster graphicRaycaster;
+    PointerEventData ped;*/
     private void Awake()
     {
         RectTransform = GetComponent<RectTransform>();
@@ -34,8 +34,8 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         copy.transform.position = transform.position;
         copy.SetActive(false);
 
-        graphicRaycaster = StaticManager.canvasTrasform.GetComponent<GraphicRaycaster>();
-        ped = new PointerEventData(null);
+/*        graphicRaycaster = StaticManager.canvasTrasform.GetComponent<GraphicRaycaster>();
+        ped = new PointerEventData(null);*/
     }
 
     public void SetLearnedIcon()
@@ -65,7 +65,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         copy.SetActive(true);
         copy.transform.SetParent(StaticManager.canvasTrasform);
 
-        List<RaycastResult> results = new List<RaycastResult>();
+        //List<RaycastResult> results = new List<RaycastResult>();
 
         while(GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
         {

@@ -81,7 +81,10 @@ MonoBehaviour:
   HitBoxEffectObj: {fileID: 5872860588309603328}
   targetModel: 0
   isSingleTarget: 0
-  duringTime: 0
+  nowCheckedType: 0
+  duringTime: 1
+  effectTime: 3.5
+  dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
   m_ObjectHideFlags: 0

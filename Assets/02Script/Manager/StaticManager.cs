@@ -17,6 +17,8 @@ public class StaticManager : MonoBehaviour
     private static ComfimBox comfimBox;
 
     static TimeLineHandler RunningTimeLine = null;
+
+    public static CharacterSkiilViewer CharacterSkiilViewer;
     public static void SetRunningTimeLine(TimeLineHandler timeLineHandler)
         => RunningTimeLine = timeLineHandler;
 
@@ -28,6 +30,7 @@ public class StaticManager : MonoBehaviour
         canvasTrasform = transform.parent;
         comfimBox = ComfimBox.GetNew;
         staticManager = this;
+        CharacterSkiilViewer = GetComponent<CharacterSkiilViewer>();
     }
     public static Coroutine coroutineStart(IEnumerator _routine)
     {
