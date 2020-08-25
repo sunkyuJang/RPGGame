@@ -131,6 +131,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 322215185748847832}
     m_Modifications:
+    - target: {fileID: 169046949433554092, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: isLearn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 169046949433554092, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: hitBoxNum
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 373290885539525403, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: Length
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1186070329027028629, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Name
@@ -165,6 +180,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SkillNormalAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 1561937862681970109, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: Length
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437087179942167771, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: isLearn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4752181646473629157, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
@@ -242,6 +267,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1653811831}
     - target: {fileID: 4752181647844077978, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_IsActive
@@ -402,6 +432,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\uC804\uBC29\uC744 \uD5A5\uD574\uC11C \uC9C0\uC9C4\uBB3C\uACB0\uC744
         \uC77C\uC73C\uD0A8\uB2E4."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7671341493812820705, guid: 93240af75a770bd46a85bc50b11c155a,
+        type: 3}
+      propertyPath: isLearn
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4752181647953029111, guid: 93240af75a770bd46a85bc50b11c155a, type: 3}

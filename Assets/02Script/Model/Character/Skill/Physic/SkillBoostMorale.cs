@@ -17,15 +17,21 @@ public class SkillBoostMorale : SkillData, ISkillActivator
     {
         var copy = GetHitBox();
 
-        copy.transform.position = Model.position + Model.forward * Length;
+        copy.transform.position = Model.position;
+        copy.isImmediately = true;
 
-        yield return copy.CheckObjCollideInTime();
+        //yield return copy.CheckObjCollideInTime();
 
-        if (copy.isWorks)
+        copy.StartEffectTimeCountDown();
+        while (copy.isEffectTimeLeft)
         {
-            print(true);
-            var target = copy.GetTarget(Model.position);
-            SetDamage(target);
+            yield return new WaitForFixedUpdate();
+            if (copy.isWorks)
+            {
+                print(true);
+                var target = copy.GetTarget(Model.position);
+                SetDamage(target);
+            }
         }
 
         copy.Collider.enabled = false;

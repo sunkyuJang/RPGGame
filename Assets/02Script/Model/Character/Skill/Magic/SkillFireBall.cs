@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SkillFireBall : SkillData, ISkillActivator
 {
@@ -18,11 +19,13 @@ public class SkillFireBall : SkillData, ISkillActivator
     {
         var copy = GetHitBox();
 
+        print(copy.gameObject.name);
+
         copy.transform.position = Model.position + Model.forward;
-        copy.Rigidbody.velocity = Model.forward * 10f;
+        copy.Rigidbody.velocity = Model.forward * 1f;
         copy.isImmediately = true;
 
-        yield return StartCoroutine(copy.CheckObjCollideInDist(transform.position, Length));
+        yield return StartCoroutine(copy.CheckObjCollideInDist(Model.transform.position, Length));
         print(true);
 
         if (copy.isWorks)

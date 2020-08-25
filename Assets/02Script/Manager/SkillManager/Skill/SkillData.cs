@@ -38,7 +38,7 @@ public class SkillData : MonoBehaviour
     public int hitBoxNum;
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
-    protected Model targetModel;
+    public Model targetModel;
     public bool IsReachedTarget 
     { 
         get 
@@ -57,7 +57,6 @@ public class SkillData : MonoBehaviour
     {
         skillName_eng = gameObject.name;
         skillpulling = new GameObject(skillName_eng).GetComponent<Transform>();
-
         for (int i = 0; i < hitBoxNum; i++)
         {
             SetHitBox();
@@ -82,22 +81,27 @@ public class SkillData : MonoBehaviour
         }
         nowCoolDown = 0f;
     }
-
-    protected void SetDamage(List<Collider> colliders)
+    int setDamageCount;
+    public void SetDamage(List<Collider> colliders)
     {
         foreach(Collider collider in colliders)
         {
-            StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), DamagePercentage);
+            SetDamage(collider);
+            print(setDamageCount++);
         }
     }
+    public void SetDamage(Collider collider)
+    {
+          StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), DamagePercentage);
+    }
 
-    protected void SetHitBox()
+    public void SetHitBox()
     {
         var nowHitBox = Instantiate(hitBox.gameObject, skillpulling).GetComponent<HitBox>();
         nowHitBox.gameObject.SetActive(false);
         hitBoxes.Enqueue(nowHitBox);
     }
-    protected HitBox GetHitBox()
+    public HitBox GetHitBox()
     {
         if(hitBoxes.Count == 0) { SetHitBox(); }
         var copy = hitBoxes.Dequeue();
@@ -105,5 +109,11 @@ public class SkillData : MonoBehaviour
         copy.transform.forward = Model.forward;
         copy.Collider.enabled = true;
         return copy;
+    }
+
+    protected HitBox GetHitBoxWithOutSetUp()
+    {
+        if (hitBoxes.Count == 0) { SetHitBox(); }
+        return hitBoxes.Dequeue();
     }
 }

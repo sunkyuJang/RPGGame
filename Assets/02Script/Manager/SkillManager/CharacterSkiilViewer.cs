@@ -38,7 +38,15 @@ public class CharacterSkiilViewer : MonoBehaviour
             {
                 var skillData = group.GetChild(j).GetComponent<SkillData>();
                 skillData.Model = character.transform;
-                skillData.skillpulling.parent = skillPulling;
+                try
+                {
+                    skillData.skillpulling.parent = skillPulling;
+                }
+                catch 
+                {
+                    if(!skillData.gameObject.activeSelf)
+                        print(skillData.skillName_kor); 
+                }
             }
         }
     }

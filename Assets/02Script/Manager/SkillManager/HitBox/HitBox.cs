@@ -75,15 +75,14 @@ public class HitBox : MonoBehaviour
 
     public List<Collider> GetTarget(Vector3 centerPosition)
     {
-        List<Collider> target;
+        List<Collider> target= new List<Collider>();
+        
         if (isSingleTarget)
-        {
-            target = new List<Collider>();
             target.Add(GetSingleTargetColiders(centerPosition));
-        }
         else
-            target = GetMultiTargetColiders();
-
+            foreach(Collider collider in GetMultiTargetColiders())
+                target.Add(collider);
+        
         enteredColliders.Clear();
         return target;
     }
@@ -142,6 +141,10 @@ public class HitBox : MonoBehaviour
         }
     }
 
+    public void StartEffectTimeCountDown()
+    {
+        StartCoroutine(WaitForEffectTime());
+    }
     public IEnumerator WaitForEffectTime()
     {
         nowEffectTime = effectTime;

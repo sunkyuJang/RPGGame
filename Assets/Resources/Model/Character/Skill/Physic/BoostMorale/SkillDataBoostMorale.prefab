@@ -63,11 +63,12 @@ MonoBehaviour:
     50% \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
   icon: {fileID: 21300000, guid: f055d85c1c48a434eb8b868f2ad1fd2b, type: 3}
   isLearn: 0
+  Length: 0
   attackType: 0
   DamagePercentage: 0
   CoolDown: 5
   nowCoolDown: 0
-  hitBox: {fileID: 0}
+  hitBox: {fileID: 5872860588705113133, guid: d0f20f24617e6b84594ea352339b56b7, type: 3}
   shouldLookAtEffectSheet: 1
   EffectSheetNum: 4
   parentSkillData: {fileID: 0}
