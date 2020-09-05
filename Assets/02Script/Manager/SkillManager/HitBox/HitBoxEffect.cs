@@ -7,7 +7,7 @@ public class HitBoxEffect : MonoBehaviour
 {
     public HitBox hitBox;
     public GameObject HitBoxEffectObj;
-    public enum EffectorStartTime { Immediately, Hit, EndMove }
+    public enum EffectorStartTime { Start, Immediately, Hit, EndMove }
     public EffectorStartTime effectorStartTime;
     bool isBeforeEffectDrawing { get { return !HitBoxEffectObj.activeSelf; } }
 
@@ -27,6 +27,8 @@ public class HitBoxEffect : MonoBehaviour
     {
         switch (effectorStartTime)
         {
+            case EffectorStartTime.Start:
+                return true;
             case EffectorStartTime.Hit:
                 return hitBox.isCollide;
             case EffectorStartTime.EndMove:

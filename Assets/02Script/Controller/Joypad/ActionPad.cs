@@ -22,12 +22,12 @@ public class ActionPad : Joypad
     new private void Awake()
     {
         base.Awake();
-        CameraController = StaticManager.cameraController;
     }
 
     new void Start()
     {
         base.Start();
+        CameraController = StaticManager.cameraController;
     }
 
     protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)

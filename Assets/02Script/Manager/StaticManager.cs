@@ -19,6 +19,9 @@ public class StaticManager : MonoBehaviour
     static TimeLineHandler RunningTimeLine = null;
 
     public static CharacterSkiilViewer CharacterSkiilViewer;
+
+    public static Transform CharacterSkillPulling;
+    public static Transform MonsterSkillPulling;
     public static void SetRunningTimeLine(TimeLineHandler timeLineHandler)
         => RunningTimeLine = timeLineHandler;
 
@@ -31,6 +34,9 @@ public class StaticManager : MonoBehaviour
         comfimBox = ComfimBox.GetNew;
         staticManager = this;
         CharacterSkiilViewer = GetComponent<CharacterSkiilViewer>();
+
+        CharacterSkillPulling = new GameObject("CharaceterSkillPulling").GetComponent<Transform>();
+        MonsterSkillPulling = new GameObject("MonsterSkillPulling").GetComponent<Transform>();
     }
     public static Coroutine coroutineStart(IEnumerator _routine)
     {

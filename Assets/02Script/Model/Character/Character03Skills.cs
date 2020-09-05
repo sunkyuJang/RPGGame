@@ -45,7 +45,7 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
         }
 
-        (skill as ISkillActivator).SetActivateSkill();
+        skill.ActivateSkill();
 
         var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         //print(lestTime);

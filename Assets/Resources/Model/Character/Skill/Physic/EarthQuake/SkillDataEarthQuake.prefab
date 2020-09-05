@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
-  - component: {fileID: 2785715225189094590}
+  - component: {fileID: -1478891998053499962}
+  - component: {fileID: 5167993523351947152}
   m_Layer: 5
   m_Name: SkillDataEarthQuake
   m_TagString: Untagged
@@ -45,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5874629782710724800}
   m_CullTransparentMesh: 0
---- !u!114 &2785715225189094590
+--- !u!114 &-1478891998053499962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874629782710724800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2637c05de0363d4185ca24405fff997, type: 3}
+  m_Script: {fileID: 11500000, guid: f551c15f2d2d7d843af24c8b8eefbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
@@ -62,7 +63,7 @@ MonoBehaviour:
   description: "\uC804\uBC29\uC744 \uD5A5\uD574\uC11C \uC9C0\uC9C4\uBB3C\uACB0\uC744
     \uC77C\uC73C\uD0A8\uB2E4."
   icon: {fileID: 21300000, guid: defc09316dfa8fb48aee14ab1abb35a7, type: 3}
-  isLearn: 1
+  isLearn: 0
   Length: 15
   attackType: 0
   DamagePercentage: 100
@@ -74,3 +75,16 @@ MonoBehaviour:
   parentSkillData: {fileID: 0}
   skillpulling: {fileID: 0}
   hitBoxNum: 15
+  targetModel: {fileID: 0}
+--- !u!114 &5167993523351947152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874629782710724800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18a59adba0940f4493ff9edb57baacf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

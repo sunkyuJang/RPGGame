@@ -34,6 +34,8 @@ public partial class Model : MonoBehaviour
     public bool IsRunningTimeLine { get { return StaticManager.IsRunningTimeLine; } }
     protected int InventoryLength { set; get; }
     protected RuntimeAnimatorController animatorController { set; get; }
+
+    protected string SkillDataName = "SkillData";
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
         CharacterName = _CharacterName; HP = _HP; nowHP = HP; MP = _MP; nowMP = MP; ATK = _ATK; DEF = _DEF; SPD = _SPD;
@@ -87,14 +89,14 @@ public partial class Model : MonoBehaviour
 
     protected void RefreshedHPBar() { if (HPBar != null) iStateViewerHandler.RefreshState(); }
 
-    protected IEnumerator WaitTillAnimator(string name, bool isWaitforStart)
+    public IEnumerator WaitTillAnimator(string name, bool isWaitforStart)
     {
 
         while (isWaitforStart ? !NowAnimatorInfo.IsName(name) 
             : NowAnimatorInfo.IsName(name)) 
             yield return new WaitForFixedUpdate();
     }
-    protected IEnumerator WaitTillTimeEnd(float time)
+    public IEnumerator WaitTillTimeEnd(float time)
     {
         float elapsedTime = 0f;
         while(elapsedTime <= time)
@@ -102,5 +104,11 @@ public partial class Model : MonoBehaviour
             elapsedTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
+    }
+    protected int interrupt = 0;
+    public void Interrupt(int i) { interrupt = i; }
+    public IEnumerator WaitTillInterrupt(int n)
+    {
+        while (interrupt != n) yield return new WaitForFixedUpdate();
     }
 }

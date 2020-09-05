@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 public class SkillData : MonoBehaviour
 {
-    public Transform Model;
+    public Model Model;
     string skillName_eng;
     public string skillName_kor;
     [TextArea]
@@ -39,11 +39,13 @@ public class SkillData : MonoBehaviour
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
     public Model targetModel;
+
+    public ISkillMovement skillMovement;
     public bool IsReachedTarget 
     { 
         get 
         {
-            var closeCollider = GPosition.GetClosedCollider(Model, Length, 30f, hitBox.GetTargetModelTag);
+            var closeCollider = GPosition.GetClosedCollider(Model.transform, Length, 30f, hitBox.GetTargetModelTag);
             if (closeCollider != null)
             {
                 targetModel = closeCollider.transform.GetComponent<Model>();
@@ -66,7 +68,7 @@ public class SkillData : MonoBehaviour
     public void ActivateSkill()
     {
         StartCoroutine(StartCoolDown());
-        StartCoroutine(StartHitBoxMove());
+        skillMovement.StartMove();
     }
 
     protected virtual IEnumerator StartHitBoxMove() { yield return null; }
@@ -87,12 +89,11 @@ public class SkillData : MonoBehaviour
         foreach(Collider collider in colliders)
         {
             SetDamage(collider);
-            print(setDamageCount++);
         }
     }
     public void SetDamage(Collider collider)
     {
-          StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), DamagePercentage);
+        StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), Model.ATK + (DamagePercentage * (attackType == AttackType.Physic ? Model.ATK : Model.MP * 10) * 0.01f));
     }
 
     public void SetHitBox()
@@ -106,12 +107,12 @@ public class SkillData : MonoBehaviour
         if(hitBoxes.Count == 0) { SetHitBox(); }
         var copy = hitBoxes.Dequeue();
         copy.gameObject.SetActive(true);
-        copy.transform.forward = Model.forward;
+        copy.transform.forward = Model.transform.forward;
         copy.Collider.enabled = true;
         return copy;
     }
 
-    protected HitBox GetHitBoxWithOutSetUp()
+    public HitBox GetHitBoxWithOutSetUp()
     {
         if (hitBoxes.Count == 0) { SetHitBox(); }
         return hitBoxes.Dequeue();

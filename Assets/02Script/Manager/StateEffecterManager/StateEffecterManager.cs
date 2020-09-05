@@ -11,7 +11,6 @@ public class StateEffecterManager : MonoBehaviour
     public static List<Transform> nowRunningList { set; get; } = new List<Transform>();
 
     private void Awake() => data = sheet.sheets[0].list;
-
     static void EffectToModel(int index, int requestIndex, bool isItem, bool isDeEffect, Model targetModel)
     {
         if (CompareIndexer(index, requestIndex, isItem))
@@ -58,6 +57,7 @@ public class StateEffecterManager : MonoBehaviour
     }
     public static void EffectToModelBySkill(SkillData skill, Model target, float damage)
     {
+        print(target.gameObject.name + "//" + damage);
         if (skill.DamagePercentage != 0)
         {
             target.GetHit(damage, null, false);

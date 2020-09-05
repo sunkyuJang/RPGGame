@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
-  - component: {fileID: 3135966000857315119}
+  - component: {fileID: 7700060838297998004}
+  - component: {fileID: -8720989990813443833}
   m_Layer: 5
-  m_Name: SkillDataFireBall
+  m_Name: SkillDataFireBall 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5874629782710724800}
   m_CullTransparentMesh: 0
---- !u!114 &3135966000857315119
+--- !u!114 &7700060838297998004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874629782710724800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d1820a17d500942b85259fc2a3b6cd, type: 3}
+  m_Script: {fileID: 11500000, guid: f551c15f2d2d7d843af24c8b8eefbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
@@ -73,3 +74,16 @@ MonoBehaviour:
   parentSkillData: {fileID: 0}
   skillpulling: {fileID: 0}
   hitBoxNum: 0
+  targetModel: {fileID: 0}
+--- !u!114 &-8720989990813443833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874629782710724800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a73c14fc76c5f48bd521e5423e11d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

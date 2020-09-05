@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
-  - component: {fileID: 6079360534548450280}
+  - component: {fileID: 7232021261138976467}
+  - component: {fileID: -4705056717310163651}
   m_Layer: 5
-  m_Name: SkillDataLowSmash
+  m_Name: SkillDataLowSmash 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5874629782710724800}
   m_CullTransparentMesh: 0
---- !u!114 &6079360534548450280
+--- !u!114 &7232021261138976467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874629782710724800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67aae83aa0121e241874917b532e046c, type: 3}
+  m_Script: {fileID: 11500000, guid: f551c15f2d2d7d843af24c8b8eefbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
@@ -73,3 +74,16 @@ MonoBehaviour:
   parentSkillData: {fileID: 0}
   skillpulling: {fileID: 0}
   hitBoxNum: 3
+  targetModel: {fileID: 0}
+--- !u!114 &-4705056717310163651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874629782710724800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc2aebf45565b5f488f858f2e4b195e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

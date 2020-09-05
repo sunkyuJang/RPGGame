@@ -14,17 +14,13 @@ public class CharacterSkiilViewer : MonoBehaviour
     public SkillNormalAttack SkillNormalAttack;
 
     SkillViewer nowSkillViewer;
-    private void Awake()
-    {
-        skillPulling = new GameObject("CharacterSkillPulling").GetComponent<Transform>();
-    }
 
     private void Start()
     {
         character = StaticManager.Character;
         SkillTreeSet();
 
-        SkillNormalAttack = physicSkillGroup.transform.Find("SkillNormalAttack").GetComponent<SkillNormalAttack>();
+        SkillNormalAttack = physicSkillGroup.transform.Find("SkillDataNormalAttack").GetComponent<SkillNormalAttack>();
     }
 
     void SkillTreeSet()
@@ -37,16 +33,8 @@ public class CharacterSkiilViewer : MonoBehaviour
             for (int j = 0; j < count; j++)
             {
                 var skillData = group.GetChild(j).GetComponent<SkillData>();
-                skillData.Model = character.transform;
-                try
-                {
-                    skillData.skillpulling.parent = skillPulling;
-                }
-                catch 
-                {
-                    if(!skillData.gameObject.activeSelf)
-                        print(skillData.skillName_kor); 
-                }
+                skillData.Model = character;
+                skillData.skillpulling.parent = StaticManager.CharacterSkillPulling;
             }
         }
     }

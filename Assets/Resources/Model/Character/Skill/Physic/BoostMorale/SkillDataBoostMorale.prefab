@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
-  - component: {fileID: -4347179488275370174}
+  - component: {fileID: 4380385107689838931}
+  - component: {fileID: 3426405943227214639}
   m_Layer: 5
   m_Name: SkillDataBoostMorale
   m_TagString: Untagged
@@ -45,7 +46,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5874629782710724800}
   m_CullTransparentMesh: 0
---- !u!114 &-4347179488275370174
+--- !u!114 &4380385107689838931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874629782710724800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69190e814fea89a4abfb2523e31ab13d, type: 3}
+  m_Script: {fileID: 11500000, guid: f551c15f2d2d7d843af24c8b8eefbbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
@@ -73,4 +74,17 @@ MonoBehaviour:
   EffectSheetNum: 4
   parentSkillData: {fileID: 0}
   skillpulling: {fileID: 0}
-  hitBoxNum: 0
+  hitBoxNum: 3
+  targetModel: {fileID: 0}
+--- !u!114 &3426405943227214639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874629782710724800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a081534c413d73842b0ec298a78bbb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

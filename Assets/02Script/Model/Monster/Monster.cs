@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using JetBrains.Annotations;
 using System.Runtime.Serialization;
+using UnityEngine.XR.WSA.Input;
 
 public class Monster : Model
 {
@@ -23,14 +24,16 @@ public class Monster : Model
     protected bool canAttack = true;
     public GameObject HitFXStartPoint;
     public Transform FXStartPoint { private set; get; }
-
+    public Transform skillPullingGroup;
+    public Transform skillListGroup;
+    protected List<SkillData> skillsMovements = new List<SkillData>();
     new protected void Awake()
     {
         base.Awake();
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
-
+        skillPullingGroup = new GameObject(gameObject.name).GetComponent<Transform>();
     }
 
     protected void MonsterSetInfo(Rect roamingArea)
@@ -41,8 +44,24 @@ public class Monster : Model
     new protected void Start()
     {
         base.Start();
+        skillPullingGroup.parent = StaticManager.MonsterSkillPulling;
+        foreach (Transform skillTransform in skillListGroup)
+        {
+            var nowSkillData = skillTransform.GetComponent<SkillData>();
+            nowSkillData.Model = this;
+            nowSkillData.skillpulling.parent = skillPullingGroup;
+            skillsMovements.Add(nowSkillData);
+        }
     }
 
+    protected SkillData GetSkillData(string name)
+    {
+        foreach (SkillData skillData in skillsMovements)
+            if (skillData.gameObject.name.Equals(name))
+                return skillData;
+
+        return null;
+    }
     // Update is called once per frame
     protected void Update()
     {
@@ -299,6 +318,7 @@ public class Monster : Model
         Animator.SetBool("GetHit", false);
         Animator.SetBool("Dead", false);
     }
+
 
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
     bool IsDetectedCharacter 

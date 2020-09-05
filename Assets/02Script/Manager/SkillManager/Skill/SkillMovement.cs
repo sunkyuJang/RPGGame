@@ -1,21 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 public class SkillMovement : MonoBehaviour
 {
     protected SkillData skillData;
-
+    protected Model model { get { return skillData.Model; } }
     protected void Start()
     {
         skillData = GetComponent<SkillData>();
     }
-
-    protected void StartMovement() 
-    {
-        skillData.ActivateSkill();
-        StartCoroutine(StartHitBoxMove());
-    }
-
-    protected virtual IEnumerator StartHitBoxMove() { yield return null; }
 }
