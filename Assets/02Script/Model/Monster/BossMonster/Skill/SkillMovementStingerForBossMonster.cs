@@ -28,15 +28,15 @@ public class SkillMovementStingerForBossMonster : SkillMovement, ISkillMovement
             copy.transform.position = model.transform.position + model.transform.forward + Vector3.up;
             nowLength = Vector3.Distance(startPoint, model.transform.position);
             if (nowLength > skillData.Length * 0.5f)
-            {
-                print(true);
                 model.Rigidbody.velocity = model.transform.forward * startSpeed--;
-            }
+
             if (copy.isCollide)
                 skillData.SetDamage(copy.GetTarget(copy.transform.position));
         }
-        
 
+        startSpeed = 15f;
+        copy.gameObject.SetActive(false);
+        skillData.hitBoxes.Enqueue(copy);
         yield return null;
     }
 }

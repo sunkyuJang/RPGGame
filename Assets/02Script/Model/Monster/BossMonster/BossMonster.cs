@@ -53,6 +53,22 @@ public class BossMonster : Monster
     protected override IEnumerator DoBattle()
     {
         DoAnimator(ActionState.battle);
+
+        while (BeforeState == ActionState.battle)
+        {
+            if (canLookAt)
+                transform.LookAt(Character.transform.position);
+            yield return new WaitForFixedUpdate();
+
+            if (isAllSkillRunning())
+                if (!IsCloseEnoughWithChracter && canMove)
+                    NowState = ActionState.following;
+        }
+    }
+/*    //oldBattle
+    protected override IEnumerator DoBattle()
+    {
+        DoAnimator(ActionState.battle);
         while (BeforeState == ActionState.battle)
         {
             if(canLookAt)
@@ -74,44 +90,52 @@ public class BossMonster : Monster
         }
 
         yield break;
-    }
-    protected override IEnumerator DoAttack()
+    }*/
+/*    protected override IEnumerator DoAttack()
     {
         SelectNextAttack();
         yield break;
-    }
+    }*/
 
-    void SelectNextAttack()
+    bool isAllSkillRunning()
     {
-        //print(canAttackList.Count);
-        for (int i = 3; i < skillsMovements.Count; i++)
+        if (canAttack)
         {
-            if (!skillsMovements[i].isCoolDown)
+            for (int i = 0; i < skillsMovements.Count; i++)
             {
-                canAttack = false;
-                canMove = false;
-                DoAnimator(ActionState.attack);
-                switch (i)
+                if (skillsMovements[i].IsReachedTarget)
                 {
-                    case 0: StartCoroutine(DoNormalAttack()); break;
-                    case 1: StartCoroutine(DoOverDrive()); break;
-                    case 2: StartCoroutine(DoSeedBoom()); break;
-                    case 3: StartCoroutine(DoStinger()); break;
+                    if (!skillsMovements[i].isCoolDown)
+                    {
+                        print(skillsMovements[i].gameObject.name + "//" + skillsMovements[i].isCoolDown);
+                        canAttack = false;
+                        canMove = false;
+                        NowState = ActionState.attack;
+                        DoAnimator(ActionState.attack);
+                        Rigidbody.velocity = Vector3.zero;
+                        switch (i)
+                        {
+                            case 0: StartCoroutine(DoNormalAttack()); break;
+                            case 1: StartCoroutine(DoOverDrive()); break;
+                            case 2: StartCoroutine(DoSeedBoom()); break;
+                            case 3: StartCoroutine(DoStinger()); break;
+                        }
+                        return false;
+                    }
                 }
-                return;
             }
         }
 
-        NowState = ActionState.battle;
+        return true;
     }
 
     int counto;
     protected IEnumerator DoNormalAttack()
     {
-        //canMove = false;
-        //canDoAttack = false;
+        yield return new WaitForFixedUpdate();
+
         DoSkillAnimation(SkillType.NormalAttack);
-        skillsMovements[0].ActivateSkill();
+        skillNormalAttack.ActivateSkill();
         yield return StartCoroutine(WaitTillAnimator("NormalAttack", true));
         
         yield return StartCoroutine(WaitAttackEnd(SkillType.NormalAttack));
@@ -119,26 +143,20 @@ public class BossMonster : Monster
 
     protected IEnumerator DoStinger() 
     {
-        //canMove = false;
-        //canStinger = false;
+        yield return new WaitForFixedUpdate();
+
         canLookAt = false;
         skillStinger.ActivateSkill();
         DoSkillAnimation(SkillType.Stinger);
         yield return StartCoroutine(WaitTillAnimator("Stinger", true));
-        //WaitTillInterrupt(0);
-
-/*        var targetPosition = Character.transform.position;
-        var forward = (targetPosition - transform.position).normalized;
-        transform.forward = forward;
-        Rigidbody.velocity = transform.forward * 20f;*/
-
-        //WaitTillInterrupt(1);
 
         yield return StartCoroutine(WaitAttackEnd(SkillType.Stinger));
     }
     
     protected IEnumerator DoSeedBoom() 
     {
+        yield return new WaitForFixedUpdate();
+
         canLookAt = false;
         DoSkillAnimation(SkillType.SeedBoom);
         skillSeedBoom.ActivateSkill();
@@ -149,8 +167,9 @@ public class BossMonster : Monster
     
     protected IEnumerator DoOverDrive() 
     {
-        canLookAt = false;
+        yield return new WaitForFixedUpdate();
 
+        canLookAt = false;
         DoSkillAnimation(SkillType.OverDrive);
         skillOverDrive.ActivateSkill();
         yield return StartCoroutine(WaitTillAnimator("OverDrive", true));
@@ -169,16 +188,11 @@ public class BossMonster : Monster
         }
     }
 
-    IEnumerator StartOtherAttackAfter(float time)
-    {
-        yield return StartCoroutine(WaitTillTimeEnd(time));
-        canAttack = true;
-    }
-
     IEnumerator WaitAttackEnd(SkillType skillType)
     {
         NowState = ActionState.battle;
         interrupt = 0;
+        yield return new WaitForFixedUpdate();
 
         switch (skillType)
         {
@@ -214,5 +228,6 @@ public class BossMonster : Monster
         }
         canAttack = true;
         canMove = true;
+        print(true);
     }
 }
