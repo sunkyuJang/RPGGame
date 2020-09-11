@@ -9,11 +9,10 @@ public class SkulMagician : NormalMonster
     public GameObject HitBox;
     public GameObject HitBoxFX;
     
-    public float farEnogh = 5f;
+    public float farEnogh { set; get; }
     new private void Awake()
     {
         SetInfo("허름한 마법사", 100, 25, 0, 100, 5);
-        MonsterSetInfo(GMath.GetRect(GMath.ConvertV3xzToV2(transform.position), new Vector2(15 , 15)));
         base.Awake();
     }
     // Start is called before the first frame update
@@ -23,8 +22,14 @@ public class SkulMagician : NormalMonster
         Inventory.AddItemForMonster(0, 1, 0.8f);
         Inventory.AddItemForMonster(2, 1, 1f);
 
-        closeEnough = 5f;
+        closeEnough = 6f;
+        farEnogh = 5f;
     }
+    private void OnEnable()
+    {
+        base.OnEnable();
+    }
+
     new void Update()
     {
         base.Update();
@@ -55,20 +60,13 @@ public class SkulMagician : NormalMonster
             {
                 if (canAttack)
                     NowState = ActionState.attack;
-                else 
+                else
                 {
                     if (!NowAnimatorInfo.IsName("NomalAttack"))
-                    {
                         if (!IsFarEnoughWithCharacter)
-                        {
                             Rigidbody.velocity = transform.forward * (-SPD);
-                        }
                         else
-                        {
                             Rigidbody.velocity = Vector3.zero;
-                        }
-                    }
-                    
                 }
             }
         }
@@ -93,59 +91,7 @@ public class SkulMagician : NormalMonster
         while (nowAttack.isCoolDown)
             yield return new WaitForFixedUpdate();
         canAttack = true;
-
-
-/*        while (BeforeState == ActionState.attack)
-        {
-            yield return new WaitForFixedUpdate();
-            transform.LookAt(Character.transform.position);
-
-            NowState = ActionState.battle;
-            break;
-        }*/
     }
-
-/*    protected IEnumerator MoveFireBall()
-    {
-        var hitBox = HitBoxCollider.StartHitBox(HitBox, FXStartPoint.position, HitBoxFX, true);
-        var hitBoxTransform = hitBox.GetComponent<Transform>();
-        
-        hitBoxTransform.forward = transform.forward;
-        float upperDegree = 55f;
-        float totalSpeed = 0.4f;
-        var ratio = GMath.DegreeToRatio(upperDegree);
-        Vector3 firstShotDirction = (hitBoxTransform.forward * (1 - ratio) + Vector3.up * ratio) * totalSpeed;
-        Vector3 downAcceleration = (Physics.gravity * Time.fixedDeltaTime) ;
-
-        while (hitBoxTransform.position.y >= 0f)
-        {
-            hitBoxTransform.position = hitBoxTransform.position + firstShotDirction + downAcceleration;
-            
-            yield return new WaitForFixedUpdate();
-            downAcceleration += downAcceleration * Time.fixedDeltaTime;
-
-            if (hitBox.IsEnteredTrigger)
-            {
-                for(int i = 0; i < hitBox.colliders.Count; i++)
-                {
-                    var nowCollider = hitBox.colliders[i];
-                    if (nowCollider.CompareTag("Monster"))
-                        hitBox.colliders.RemoveAt(i--);
-                    else if (nowCollider.CompareTag("Character"))
-                    {
-                        StateEffecterManager.EffectToModelBySkill(Character, MP, null, false);
-                        break;
-                    }
-                }
-            }
-        }
-
-        Destroy(hitBox.HitBoxFXTransform.gameObject);
-        Destroy(hitBox.gameObject);
-
-        yield return new WaitForSeconds(2f);
-        canAttack = true;
-    }*/
 
     new protected virtual bool IsCloseEnoughWithChracter
     {

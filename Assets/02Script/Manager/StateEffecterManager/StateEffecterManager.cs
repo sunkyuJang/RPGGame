@@ -57,7 +57,6 @@ public class StateEffecterManager : MonoBehaviour
     }
     public static void EffectToModelBySkill(SkillData skill, Model target, float damage)
     {
-        print(target.gameObject.name + "//" + damage);
         if (skill.DamagePercentage != 0)
         {
             target.GetHit(damage, null, false);

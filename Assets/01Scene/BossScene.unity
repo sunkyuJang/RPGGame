@@ -948,10 +948,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 742416680732974811, guid: 7f4aa7fb335861547b8e8b06442325cf,
+        type: 3}
+      propertyPath: Length
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 742416680808317921, guid: 7f4aa7fb335861547b8e8b06442325cf,
+        type: 3}
+      propertyPath: Length
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 742416681731222032, guid: 7f4aa7fb335861547b8e8b06442325cf,
         type: 3}
       propertyPath: Length
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 742416681731222032, guid: 7f4aa7fb335861547b8e8b06442325cf,
+        type: 3}
+      propertyPath: CoolDown
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 742416682082125052, guid: 7f4aa7fb335861547b8e8b06442325cf,
+        type: 3}
+      propertyPath: CoolDown
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f4aa7fb335861547b8e8b06442325cf, type: 3}
@@ -1225,18 +1245,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1059731797 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1653811831, guid: 52682351ff1992240adba0873af92f79,
-    type: 3}
-  m_PrefabInstance: {fileID: 1717975717}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 971747ffb5f633f45bafa47500c113fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1090373459 stripped
@@ -1951,7 +1959,8 @@ PrefabInstance:
       propertyPath: CameraControllerObj
       value: 
       objectReference: {fileID: 2076354538}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1653811831, guid: 52682351ff1992240adba0873af92f79, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 52682351ff1992240adba0873af92f79, type: 3}
 --- !u!1001 &1773065461
 PrefabInstance:
@@ -2148,7 +2157,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 1059731797}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00807285339e38645b4c9bb8d3f66032, type: 3}
 --- !u!1 &2076354538 stripped

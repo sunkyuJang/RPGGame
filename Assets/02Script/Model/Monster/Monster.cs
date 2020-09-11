@@ -11,7 +11,7 @@ using UnityEngine.XR.WSA.Input;
 public class Monster : Model
 {
     protected Character Character { set; get; }
-    protected Rect RoamingArea { set; get; }
+    public Rect RoamingArea { set; get; }
     protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine}
     protected bool isAttacking { set; get; }
     protected ActionState NowState { set; get; }
@@ -27,6 +27,8 @@ public class Monster : Model
     public Transform skillPullingGroup;
     public Transform skillListGroup;
     protected List<SkillData> skillsMovements = new List<SkillData>();
+
+    public bool isCreating { private set; get; } = true;
     new protected void Awake()
     {
         base.Awake();
@@ -34,11 +36,6 @@ public class Monster : Model
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
         skillPullingGroup = new GameObject(gameObject.name).GetComponent<Transform>();
-    }
-
-    protected void MonsterSetInfo(Rect roamingArea)
-    {
-        RoamingArea = roamingArea;
     }
     // Start is called before the first frame update
     new protected void Start()
@@ -52,6 +49,13 @@ public class Monster : Model
             nowSkillData.skillpulling.parent = skillPullingGroup;
             skillsMovements.Add(nowSkillData);
         }
+    }
+
+    protected void OnEnable()
+    {
+/*        nowHP = HP;
+        nowMP = MP;
+        RefreshedHPBar();*/
     }
 
     protected SkillData GetSkillData(string name)

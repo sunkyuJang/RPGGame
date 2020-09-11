@@ -27,9 +27,6 @@ public class BossMonster : Monster
     new private void Awake()
     {
         SetInfo("보스", 1000, 1000, 10, 10, 10);
-        MonsterSetInfo(new Rect(new Vector2(-500, -500), new Vector2(1000, 1000)));
-/*        for (int i = 0; i < 4; i++)
-            canAttackList.Add(true);*/
         base.Awake();
     }
 
@@ -39,6 +36,12 @@ public class BossMonster : Monster
         BossHPBarViewer = HPBar.GetComponent<BossHPBarViewer>();
         BossHPBarViewer.BossMonster = this;
         BossHPBarViewer.SetName(CharacterName);
+        gameObject.SetActive(false);
+    }
+
+    protected void OnEnable()
+    {
+        base.OnEnable();
     }
     new private void Update()
     {
@@ -111,7 +114,6 @@ public class BossMonster : Monster
                         canAttack = false;
                         canMove = false;
                         NowState = ActionState.attack;
-                        DoAnimator(ActionState.attack);
                         Rigidbody.velocity = Vector3.zero;
                         switch (i)
                         {
@@ -132,10 +134,10 @@ public class BossMonster : Monster
     int counto;
     protected IEnumerator DoNormalAttack()
     {
-        yield return new WaitForFixedUpdate();
-
         DoSkillAnimation(SkillType.NormalAttack);
         skillNormalAttack.ActivateSkill();
+        yield return new WaitForFixedUpdate();
+
         yield return StartCoroutine(WaitTillAnimator("NormalAttack", true));
         
         yield return StartCoroutine(WaitAttackEnd(SkillType.NormalAttack));
@@ -143,11 +145,12 @@ public class BossMonster : Monster
 
     protected IEnumerator DoStinger() 
     {
-        yield return new WaitForFixedUpdate();
 
         canLookAt = false;
         skillStinger.ActivateSkill();
         DoSkillAnimation(SkillType.Stinger);
+        yield return new WaitForFixedUpdate();
+       
         yield return StartCoroutine(WaitTillAnimator("Stinger", true));
 
         yield return StartCoroutine(WaitAttackEnd(SkillType.Stinger));
@@ -155,11 +158,12 @@ public class BossMonster : Monster
     
     protected IEnumerator DoSeedBoom() 
     {
-        yield return new WaitForFixedUpdate();
 
         canLookAt = false;
         DoSkillAnimation(SkillType.SeedBoom);
         skillSeedBoom.ActivateSkill();
+        yield return new WaitForFixedUpdate();
+        
         yield return StartCoroutine(WaitTillAnimator("SeedBoom", true));
 
         yield return StartCoroutine(WaitAttackEnd(SkillType.SeedBoom));
@@ -167,11 +171,12 @@ public class BossMonster : Monster
     
     protected IEnumerator DoOverDrive() 
     {
-        yield return new WaitForFixedUpdate();
 
         canLookAt = false;
         DoSkillAnimation(SkillType.OverDrive);
         skillOverDrive.ActivateSkill();
+        yield return new WaitForFixedUpdate();
+        
         yield return StartCoroutine(WaitTillAnimator("OverDrive", true));
 
         yield return StartCoroutine(WaitAttackEnd(SkillType.OverDrive));
@@ -179,6 +184,7 @@ public class BossMonster : Monster
 
     void DoSkillAnimation(SkillType type)
     {
+        DoAnimator(ActionState.attack);
         switch (type)
         {
             case SkillType.NormalAttack: Animator.SetInteger("AttackNum", 0); break;
@@ -228,6 +234,5 @@ public class BossMonster : Monster
         }
         canAttack = true;
         canMove = true;
-        print(true);
     }
 }

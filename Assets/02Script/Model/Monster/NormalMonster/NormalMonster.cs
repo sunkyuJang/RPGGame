@@ -18,6 +18,7 @@ public class NormalMonster : Monster
         base.Start();
         hpBarScrip = HPBar.GetComponent<NormalMonsterHPBarViewer>();
         hpBarScrip.Monster = this;
+        gameObject.SetActive(false);
     }
 
     new protected void FixedUpdate()

@@ -109,6 +109,8 @@ public partial class Model : MonoBehaviour
     public void Interrupt(int i) { interrupt = i; }
     public IEnumerator WaitTillInterrupt(int n)
     {
-        while (interrupt != n) yield return new WaitForFixedUpdate();
+        while (interrupt != n)
+            yield return new WaitForFixedUpdate();
+        interrupt = 0;
     }
 }

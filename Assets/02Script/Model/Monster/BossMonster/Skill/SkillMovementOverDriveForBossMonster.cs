@@ -13,6 +13,7 @@ public class SkillMovementOverDriveForBossMonster : SkillMovement, ISkillMovemen
     public IEnumerator StartHitBoxMovement()
     {
         yield return StartCoroutine(model.WaitTillInterrupt(1));
+
         var copy = skillData.GetHitBox();
 
         copy.transform.position = skillData.Model.transform.position + Vector3.up + skillData.Model.transform.forward;

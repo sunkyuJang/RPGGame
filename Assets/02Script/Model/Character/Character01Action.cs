@@ -167,7 +167,6 @@ public partial class Character : Model
                     {
                         NowState = ActionState.Attack;
                         ReservedSkill = StaticManager.CharacterSkiilViewer.SkillNormalAttack;
-                        print(true);
                     }
                     yield break;
                 }

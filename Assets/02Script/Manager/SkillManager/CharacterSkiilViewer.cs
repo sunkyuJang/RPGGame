@@ -11,7 +11,8 @@ public class CharacterSkiilViewer : MonoBehaviour
     public GameObject skillTreeViewer;
     public CharacterSkillDescriptionBox characterSkillDescriptionBox;
 
-    public SkillNormalAttack SkillNormalAttack;
+    public SkillData SkillNormalAttack;
+    ISkillMovement NormalSkillMovement;
 
     SkillViewer nowSkillViewer;
 
@@ -20,7 +21,7 @@ public class CharacterSkiilViewer : MonoBehaviour
         character = StaticManager.Character;
         SkillTreeSet();
 
-        SkillNormalAttack = physicSkillGroup.transform.Find("SkillDataNormalAttack").GetComponent<SkillNormalAttack>();
+        //NormalSkillMovement = (ISkillMovement)SkillNormalAttack;
     }
 
     void SkillTreeSet()
@@ -67,9 +68,4 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     public void UseCharacterAlert(string text, Color color)
         => character.ShowAlert(text, color);
-
-    public void DoNormalAttack() 
-    {
-        SkillNormalAttack.ActivateSkill();
-    }
 }

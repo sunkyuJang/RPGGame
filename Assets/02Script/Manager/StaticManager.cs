@@ -33,7 +33,7 @@ public class StaticManager : MonoBehaviour
         canvasTrasform = transform.parent;
         comfimBox = ComfimBox.GetNew;
         staticManager = this;
-        CharacterSkiilViewer = GetComponent<CharacterSkiilViewer>();
+        CharacterSkiilViewer = transform.Find("CharacterSkillViewer").GetComponent<CharacterSkiilViewer>();
 
         CharacterSkillPulling = new GameObject("CharaceterSkillPulling").GetComponent<Transform>();
         MonsterSkillPulling = new GameObject("MonsterSkillPulling").GetComponent<Transform>();

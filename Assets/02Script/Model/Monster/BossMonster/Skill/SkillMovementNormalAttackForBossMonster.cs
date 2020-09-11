@@ -18,8 +18,7 @@ public class SkillMovementNormalAttackForBossMonster : SkillMovement, ISkillMove
         print(true);
         for(int i = 1, max = 3; i <= max; i++)
         {
-            var interruptCount = i % 2;
-            yield return StartCoroutine(model.WaitTillInterrupt(interruptCount));
+            yield return StartCoroutine(model.WaitTillInterrupt(1));
             copy.Collider.enabled = true;
             
             yield return copy.CheckObjCollideInTime();
