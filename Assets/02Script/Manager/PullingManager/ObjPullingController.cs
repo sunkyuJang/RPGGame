@@ -1,0 +1,49 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjPullingController : MonoBehaviour
+{
+    public GameObject comparePrefab;
+    private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();
+
+    public List<GameObject> GetObj(int count) 
+    {
+        var list = new List<GameObject>();
+        for (int i = 0; i < count; i++)
+            list.Add(CreatedObjList.Dequeue());
+
+        return list;
+    }
+    public GameObject GetObj()
+    {
+        return CreatedObjList.Dequeue();
+    }
+
+    bool isRunningOut(int count) { return count > CreatedObjList.Count; }
+    public IEnumerator CheckCanUseObj(int count)
+    {
+        if (isRunningOut(count))
+            yield return StartCoroutine(CreateObj(count - CreatedObjList.Count));
+
+        yield return null;
+    }
+    public void returnObj(GameObject gameObject) => CreatedObjList.Enqueue(gameObject);
+
+    public void returnObj(List<GameObject> gameObjects)
+    {
+        for (int i = 0; i < gameObjects.Count; i++)
+            CreatedObjList.Enqueue(gameObjects[i]);
+    }
+
+    IEnumerator CreateObj(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var nowObj = Instantiate(comparePrefab, transform);
+            yield return new WaitForFixedUpdate();
+            nowObj.SetActive(false);
+            CreatedObjList.Enqueue(nowObj);
+        }
+    }
+}

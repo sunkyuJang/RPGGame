@@ -9,6 +9,85 @@ public class MonseterLocator : MonoBehaviour
     public int maxCount;
     public int nowCount;
     public float responeTime;
+    public float resetDist = 100f;
+
+    public int vertical;
+    public int horizon;
+    public Color color;
+    Rect RoamingArea { set; get; }
+    List<Monster> MonsterInArea { set; get; } = new List<Monster>();
+    ObjPullingController MonsterPullController;
+    private void Awake()
+    {
+        var position = GMath.ConvertV3xzToV2(transform.position);
+        var positionX = position.x - vertical / 2;
+        var positionY = position.y - horizon / 2;
+        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(vertical, horizon));
+    }
+
+    private void Start()
+    {
+        MonsterPullController = ObjPullingManager.staticObjHandler.ReqeuestObjPullingController(requestMonster);
+        StartCoroutine(DoNext());
+    }
+
+    IEnumerator DoNext()
+    {
+        while(true)
+        {
+            var dist = Vector3.Distance(StaticManager.Character.transform.position, transform.position);
+            if(dist < resetDist)
+            {
+                if(MonsterInArea.Count < maxCount)
+                {
+                    yield return StartCoroutine(MonsterPullController.CheckCanUseObj(1));
+                    var nowMonster = MonsterPullController.GetObj().GetComponent<Monster>();
+                    LocatedMonster(nowMonster);
+                }
+            }
+            else
+                if(MonsterInArea.Count > 0)
+                    returnAllMonsterObj();
+            
+            yield return new WaitForSeconds(responeTime);
+        }
+    }
+    void returnAllMonsterObj()
+    {
+        for(int i = 0; i < MonsterInArea.Count; i++)
+            returnMonsterObj(MonsterInArea[i].gameObject);
+
+        MonsterInArea.Clear();
+    }
+
+    void returnMonsterObj(GameObject gameObject)
+    {
+        MonsterPullController.returnObj(gameObject);
+    }
+    void LocatedMonster(Monster monster)
+    {
+        monster.transform.position =
+            new Vector3(
+                Random.Range(RoamingArea.xMin, RoamingArea.xMax),
+                0,
+                Random.Range(RoamingArea.yMin, RoamingArea.yMax));
+
+        monster.RoamingArea = RoamingArea;
+        MonsterInArea.Add(monster);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = color;
+        Gizmos.DrawCube(transform.position, new Vector3(vertical, 1, horizon));
+    }
+}
+/*public class MonseterLocator : MonoBehaviour
+{
+    public GameObject requestMonster;
+    public int maxCount;
+    public int nowCount;
+    public float responeTime;
 
     public int vertical;
     public int horizon;
@@ -72,3 +151,4 @@ public class MonseterLocator : MonoBehaviour
         Gizmos.DrawCube(transform.position, new Vector3(vertical, 1, horizon));
     }
 }
+*/

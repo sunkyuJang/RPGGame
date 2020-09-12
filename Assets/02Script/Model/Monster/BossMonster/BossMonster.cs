@@ -36,7 +36,6 @@ public class BossMonster : Monster
         BossHPBarViewer = HPBar.GetComponent<BossHPBarViewer>();
         BossHPBarViewer.BossMonster = this;
         BossHPBarViewer.SetName(CharacterName);
-        gameObject.SetActive(false);
     }
 
     protected void OnEnable()

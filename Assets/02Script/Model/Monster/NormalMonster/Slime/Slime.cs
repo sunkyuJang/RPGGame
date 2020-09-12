@@ -8,6 +8,8 @@ public class Slime : NormalMonster
     {
         SetInfo("허접한 슬라임", 100, 0, 15, 100, 5);
         base.Awake();
+        print(true);
+
     }
     // Start is called before the first frame update
     new void Start()
