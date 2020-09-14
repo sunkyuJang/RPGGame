@@ -29,7 +29,7 @@ public class ObjPullingManager : MonoBehaviour
     public ObjPullingController CreatObjPullingController(GameObject requestPrefab)
     {
         var controller = Instantiate(objControllerPrefab, pullingGroup).GetComponent<ObjPullingController>();
-        controller.name = requestPrefab.name + "PullList";
+        controller.name = requestPrefab.name + "PullingControllerList";
         controller.comparePrefab = requestPrefab;
         return controller;
     }

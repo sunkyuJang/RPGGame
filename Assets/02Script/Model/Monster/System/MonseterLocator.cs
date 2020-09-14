@@ -10,7 +10,7 @@ public class MonseterLocator : MonoBehaviour
     public int nowCount;
     public float responeTime;
     public float resetDist = 100f;
-
+    public float nowDistFromCharacter = 0f;
     public int vertical;
     public int horizon;
     public Color color;
@@ -35,13 +35,16 @@ public class MonseterLocator : MonoBehaviour
     {
         while(true)
         {
-            var dist = Vector3.Distance(StaticManager.Character.transform.position, transform.position);
-            if(dist < resetDist)
+            nowDistFromCharacter = Vector3.Distance(StaticManager.Character.transform.position, transform.position);
+            nowCount = MonsterInArea.Count;
+            if(nowDistFromCharacter < resetDist)
             {
                 if(MonsterInArea.Count < maxCount)
                 {
                     yield return StartCoroutine(MonsterPullController.CheckCanUseObj(1));
                     var nowMonster = MonsterPullController.GetObj().GetComponent<Monster>();
+                    nowMonster.transform.parent = transform;
+                    nowMonster.gameObject.SetActive(true);
                     LocatedMonster(nowMonster);
                 }
             }
@@ -54,9 +57,13 @@ public class MonseterLocator : MonoBehaviour
     }
     void returnAllMonsterObj()
     {
-        for(int i = 0; i < MonsterInArea.Count; i++)
-            returnMonsterObj(MonsterInArea[i].gameObject);
-
+        print(true);
+        for (int i = 0; i < MonsterInArea.Count; i++)
+        {
+            var nowMonster = MonsterInArea[i];
+            nowMonster.gameObject.SetActive(false);
+            returnMonsterObj(nowMonster.gameObject);
+        }
         MonsterInArea.Clear();
     }
 

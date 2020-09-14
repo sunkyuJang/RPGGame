@@ -36,6 +36,7 @@ public class SkillData : MonoBehaviour
 
     public Transform skillpulling;
     public int hitBoxNum;
+    public ObjPullingController hitBoxPullingController { private set; get; }
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
     public Model targetModel;

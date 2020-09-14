@@ -12,9 +12,10 @@ public class Monster : Model
 {
     protected Character Character { set; get; }
     public Rect RoamingArea { set; get; }
-    protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine}
+    protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine, non }
     protected bool isAttacking { set; get; }
     protected ActionState NowState { set; get; }
+    public void SetIdleState() { NowState = ActionState.idle; }
     protected ActionState BeforeState { set; get; }
 
     protected float sightRadius = 5f;
@@ -53,9 +54,13 @@ public class Monster : Model
 
     protected void OnEnable()
     {
-/*        nowHP = HP;
-        nowMP = MP;
-        RefreshedHPBar();*/
+        NowState = ActionState.idle;
+    }
+
+    protected void OnDisable()
+    {
+        BeforeState = ActionState.non;
+        base.OnDisable();
     }
 
     protected SkillData GetSkillData(string name)

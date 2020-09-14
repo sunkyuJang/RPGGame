@@ -28,7 +28,11 @@ public class ObjPullingController : MonoBehaviour
 
         yield return null;
     }
-    public void returnObj(GameObject gameObject) => CreatedObjList.Enqueue(gameObject);
+    public void returnObj(GameObject gameObject)
+    {
+        gameObject.transform.parent = transform.parent;
+        CreatedObjList.Enqueue(gameObject);
+    }
 
     public void returnObj(List<GameObject> gameObjects)
     {
@@ -41,9 +45,11 @@ public class ObjPullingController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var nowObj = Instantiate(comparePrefab, transform);
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
             nowObj.SetActive(false);
             CreatedObjList.Enqueue(nowObj);
         }
+
+        yield return null;
     }
 }

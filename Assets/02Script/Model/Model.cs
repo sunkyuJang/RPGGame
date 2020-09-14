@@ -62,6 +62,11 @@ public partial class Model : MonoBehaviour
         }
     }
 
+    protected void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     public void ShowInventory() { Inventory.ShowInventory(); }
     
     public void SetTimeLineRunning(bool isRunning) 
