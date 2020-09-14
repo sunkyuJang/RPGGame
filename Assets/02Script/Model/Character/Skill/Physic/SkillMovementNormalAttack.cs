@@ -12,6 +12,8 @@ public class SkillMovementNormalAttack : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
+
         var copy = skillData.GetHitBox();
 
         copy.transform.position = skillData.Model.transform.position + Vector3.up + skillData.Model.transform.forward * skillData.Length;
@@ -24,9 +26,7 @@ public class SkillMovementNormalAttack : SkillMovement, ISkillMovement
             skillData.SetDamage(target);
         }
 
-        copy.Collider.enabled = false;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
 
         yield return null;
     }

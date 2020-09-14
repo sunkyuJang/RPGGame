@@ -124,27 +124,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &19777577 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 322215185748847835, guid: 52682351ff1992240adba0873af92f79,
+--- !u!114 &19777584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 19777584, guid: 52682351ff1992240adba0873af92f79,
     type: 3}
   m_PrefabInstance: {fileID: 322215186086401082}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &19777578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 19777577}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6bad6cfe084144881e92ed77b199ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 971747ffb5f633f45bafa47500c113fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pullingGroup: {fileID: 0}
-  objControllerPrefab: {fileID: 810285901701462778, guid: 39c5a4623754bea4ea89567fdb5957b0,
-    type: 3}
 --- !u!1001 &133494674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -175,7 +166,7 @@ PrefabInstance:
     - target: {fileID: 8562684370646769991, guid: 63f8d82a4de83c043b8fb6300348e397,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.8
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8562684370646769991, guid: 63f8d82a4de83c043b8fb6300348e397,
         type: 3}
@@ -185,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 8562684370646769991, guid: 63f8d82a4de83c043b8fb6300348e397,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -60.6
+      value: -2.6
       objectReference: {fileID: 0}
     - target: {fileID: 8562684370646769991, guid: 63f8d82a4de83c043b8fb6300348e397,
         type: 3}
@@ -1091,18 +1082,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1430759065 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6343945082584908706, guid: 52682351ff1992240adba0873af92f79,
-    type: 3}
-  m_PrefabInstance: {fileID: 322215186086401082}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f551c15f2d2d7d843af24c8b8eefbbe3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1672703074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1224,7 +1203,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 19777584}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00807285339e38645b4c9bb8d3f66032, type: 3}
 --- !u!1 &1806217432 stripped
@@ -1408,11 +1387,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 368764148}
     m_Modifications:
-    - target: {fileID: -8734940949252729593, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
-      propertyPath: CharacterObj
-      value: 
-      objectReference: {fileID: 564375187}
     - target: {fileID: 322215185748847832, guid: 52682351ff1992240adba0873af92f79,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1533,13 +1507,7 @@ PrefabInstance:
       propertyPath: CameraControllerObj
       value: 
       objectReference: {fileID: 1806217432}
-    - target: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
-      propertyPath: SkillNormalAttack
-      value: 
-      objectReference: {fileID: 1430759065}
-    m_RemovedComponents:
-    - {fileID: 1653811831, guid: 52682351ff1992240adba0873af92f79, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52682351ff1992240adba0873af92f79, type: 3}
 --- !u!1001 &3615163278980605129
 PrefabInstance:

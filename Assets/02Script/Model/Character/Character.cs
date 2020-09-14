@@ -5,7 +5,6 @@ using GLip;
 
 public partial class Character : Model
 {
-    public Controller Controller;
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     public StateViewer StateViewer { private set; get; }
@@ -77,7 +76,7 @@ public partial class Character : Model
     }
     public void ShowGameUI(bool isNeedToShow) 
     { 
-        Controller.SetAllActive(isNeedToShow); 
+        Controller.instance.SetAllActive(isNeedToShow); 
         QuickSlot.gameObject.SetActive(isNeedToShow);
         StateViewer.gameObject.SetActive(isNeedToShow);
     }

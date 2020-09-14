@@ -8,6 +8,9 @@ public class CharacterSkiilViewer : MonoBehaviour
     Transform skillPulling;
     public GameObject physicSkillGroup;
     public GameObject MagicSkillGroup;
+    public GameObject SkillImageGroup;
+    public List<SkillData> skillDatas { private set; get; } = new List<SkillData>();
+    List<SkillViewer> skillViewers { set; get; } = new List<SkillViewer>();
     public GameObject skillTreeViewer;
     public CharacterSkillDescriptionBox characterSkillDescriptionBox;
 
@@ -15,6 +18,12 @@ public class CharacterSkiilViewer : MonoBehaviour
     ISkillMovement NormalSkillMovement;
 
     SkillViewer nowSkillViewer;
+
+    private void Awake()
+    {
+        foreach (Transform transform in SkillImageGroup.transform)
+            skillViewers.Add(transform.GetComponent<SkillViewer>());
+    }
 
     private void Start()
     {
@@ -36,8 +45,30 @@ public class CharacterSkiilViewer : MonoBehaviour
                 var skillData = group.GetChild(j).GetComponent<SkillData>();
                 skillData.Model = character;
                 skillData.skillpulling.parent = StaticManager.CharacterSkillPulling;
+                
+                for(int k = 0; k < skillViewers.Count; k++)
+                {
+                    var nowSkillViewer = skillViewers[k];
+                    if (skillData.skillName_eng == nowSkillViewer.gameObject.name)
+                    {
+                        nowSkillViewer.skillData = skillData;
+                        nowSkillViewer.characterSkiilViewer = this;
+                        nowSkillViewer.MakeImage();
+                        skillViewers.RemoveAt(k);
+                        break;
+                    }
+                }
             }
         }
+    }
+
+    public SkillData GetSkillData(string name)
+    {
+        foreach (SkillData skillData in skillDatas)
+            if (skillData.skillName_eng == name)
+                return skillData;
+
+        return null;
     }
 
     public void ShowDescription(SkillViewer viewer)
@@ -47,6 +78,11 @@ public class CharacterSkiilViewer : MonoBehaviour
         
         nowSkillViewer = viewer;
         characterSkillDescriptionBox.ShowDescription(viewer.skillData);
+    }
+
+    public void HideSkillTree()
+    {
+        character.ShowGameUI(true);
     }
 
     public void PressedLearnBtn()

@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class SkillMovementCurse : SkillMovement, ISkillMovement
 {
+
+    // Start is called before the first frame update
+    new void Start()
+    {
+        base.Start();
+        skillData.skillMovement = (ISkillMovement)this;
+    }
+    public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
+
         var copy = skillData.GetHitBox();
 
         copy.transform.position = skillData.targetModel.transform.position;
@@ -21,9 +31,7 @@ public class SkillMovementCurse : SkillMovement, ISkillMovement
             }
         }
 
-        copy.Collider.enabled = false;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
 
         yield return null;
     }
@@ -43,16 +51,7 @@ public class SkillMovementCurse : SkillMovement, ISkillMovement
             yield return new WaitForFixedUpdate();
         }
 
-        nowHitbox.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(nowHitbox);
+        skillData.returnHitBox(nowHitbox);
         yield return null;
-    }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
-
-    // Start is called before the first frame update
-    new void Start()
-    {
-        base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
     }
 }

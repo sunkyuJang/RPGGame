@@ -14,6 +14,7 @@ public class SkillMovementChaosBoom : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
         var copy = skillData.GetHitBox();
 
         copy.transform.position = skillData.targetModel.transform.position + Vector3.up * 5f;
@@ -38,8 +39,7 @@ public class SkillMovementChaosBoom : SkillMovement, ISkillMovement
             copy.Collider.enabled = colliderTurnOn;
         }
 
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
 
         yield return null;
     }

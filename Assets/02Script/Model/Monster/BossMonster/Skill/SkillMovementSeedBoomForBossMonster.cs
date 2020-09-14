@@ -14,6 +14,8 @@ public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
+
         yield return StartCoroutine(model.WaitTillInterrupt(1));
 
         Vector2[] dir = GMath.MoveToRad(model.transform.eulerAngles.y, 1f, 1f);
@@ -21,7 +23,6 @@ public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
         {
             var startDir = i == 0 ? GMath.ConvertV2ToV3xz(dir[0])
                 : i == 1 ? model.transform.forward : GMath.ConvertV2ToV3xz(dir[1]);
-            print(startDir + "//" + model.transform.forward);
             var hitBox = skillData.GetHitBox();// Instantiate(SeedBoomHitBoxObj).GetComponent<HitBoxCollider>();
             hitBox.transform.position = model.transform.position;
             StartCoroutine(EachBallMovement(hitBox, (i + 1) * 0.1f + 0.3f, startDir));
@@ -66,8 +67,7 @@ public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
         if (hitBox.isCollide)
             skillData.SetDamage(hitBox.GetTarget(hitBox.transform.position));
 
-        hitBox.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(hitBox);
+        skillData.returnHitBox(hitBox);
         yield break;
     }
 }

@@ -31,6 +31,7 @@ public class ObjPullingManager : MonoBehaviour
         var controller = Instantiate(objControllerPrefab, pullingGroup).GetComponent<ObjPullingController>();
         controller.name = requestPrefab.name + "PullingControllerList";
         controller.comparePrefab = requestPrefab;
+        objPullingControllers.Add(controller);
         return controller;
     }
 }

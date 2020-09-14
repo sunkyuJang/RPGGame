@@ -4,6 +4,8 @@ using UnityEngine;
 using GLip;
 public partial class Controller : MonoBehaviour
 {
+    public static Controller instance;
+
     public GameObject BtnGroupObj;
     public MovePad joypad;
     public ActionPad actionpad;
@@ -20,6 +22,7 @@ public partial class Controller : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         BtnGroupObj.SetActive(true);
     }
 

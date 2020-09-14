@@ -16,6 +16,7 @@ public class SkillMovementStingerForBossMonster : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
         yield return StartCoroutine(model.WaitTillInterrupt(1));
 
         var copy = skillData.GetHitBox();
@@ -35,8 +36,7 @@ public class SkillMovementStingerForBossMonster : SkillMovement, ISkillMovement
         }
 
         startSpeed = 15f;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
         yield return null;
     }
 }

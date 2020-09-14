@@ -21,21 +21,19 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     private void Awake()
     {
         RectTransform = GetComponent<RectTransform>();
-        skillViewerImage.sprite = skillData.icon;
         GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => Pressed());
         SetLearnedIcon();
     }
 
-    private void Start()
+    public void MakeImage()
     {
+        skillViewerImage.sprite = skillData.icon;
+
         copy = new GameObject(gameObject.name + "copy");
         copy.transform.parent = transform;
         copy.AddComponent<Image>().sprite = skillViewerImage.sprite;
         copy.transform.position = transform.position;
         copy.SetActive(false);
-
-/*        graphicRaycaster = StaticManager.canvasTrasform.GetComponent<GraphicRaycaster>();
-        ped = new PointerEventData(null);*/
     }
 
     public void SetLearnedIcon()

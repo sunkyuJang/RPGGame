@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
@@ -56,3 +56,4 @@ public class SkillCurse : SkillData, ISkillActivator
         yield return null;
     }
 }
+*/

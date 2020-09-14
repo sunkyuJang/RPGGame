@@ -12,6 +12,8 @@ public class SkillMovementOverDriveForBossMonster : SkillMovement, ISkillMovemen
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
+
         yield return StartCoroutine(model.WaitTillInterrupt(1));
 
         var copy = skillData.GetHitBox();
@@ -28,9 +30,7 @@ public class SkillMovementOverDriveForBossMonster : SkillMovement, ISkillMovemen
                 skillData.SetDamage(copy.GetTarget(model.transform.position));
         }
 
-        copy.Collider.enabled = false;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
 
         yield return null;
     }

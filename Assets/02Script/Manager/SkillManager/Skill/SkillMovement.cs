@@ -11,4 +11,9 @@ public class SkillMovement : MonoBehaviour
     {
         skillData = GetComponent<SkillData>();
     }
+
+    protected IEnumerator StartHitBoxMovement()
+    {
+        yield return StartCoroutine(skillData.hitBoxPullingController.CheckCanUseObj(skillData.hitBoxNum));
+    }
 }

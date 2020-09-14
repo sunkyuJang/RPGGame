@@ -12,6 +12,8 @@ public class SkillMovementEarthQuake : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
+
         for (int i = 0, max = 5; i < max; i++)
         {
             var copy = skillData.GetHitBox();
@@ -37,9 +39,7 @@ public class SkillMovementEarthQuake : SkillMovement, ISkillMovement
             yield return new WaitForFixedUpdate();
         }
 
-        copy.Collider.enabled = false;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
 
         yield return null;
     }

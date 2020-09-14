@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿/*using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -39,3 +39,4 @@ public class SkillNormalAttack : SkillData, ISkillActivator
         yield return null;
     }
 }
+*/

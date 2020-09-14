@@ -6,6 +6,8 @@ public class ObjPullingController : MonoBehaviour
 {
     public GameObject comparePrefab;
     private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();
+    private int totalReservedCount = 0;
+    public int CountOfalreadyMaking = 0;
 
     public List<GameObject> GetObj(int count) 
     {
@@ -21,16 +23,31 @@ public class ObjPullingController : MonoBehaviour
     }
 
     bool isRunningOut(int count) { return count > CreatedObjList.Count; }
+
     public IEnumerator CheckCanUseObj(int count)
     {
         if (isRunningOut(count))
-            yield return StartCoroutine(CreateObj(count - CreatedObjList.Count));
-
+        {
+            count -= CreatedObjList.Count;
+            StartCoroutine(CreateObj(count));
+            yield return StartCoroutine(CreateObj(count));
+        }
+        yield return null;
+    }
+    public IEnumerator CheckCanUseObj()
+    {
+        var count = 1;
+        if (isRunningOut(count))
+        {
+            count -= CreatedObjList.Count;
+            StartCoroutine(CreateObj(count));
+            yield return StartCoroutine(CreateObj(count));
+        }
         yield return null;
     }
     public void returnObj(GameObject gameObject)
     {
-        gameObject.transform.parent = transform.parent;
+        gameObject.transform.parent = transform;
         CreatedObjList.Enqueue(gameObject);
     }
 

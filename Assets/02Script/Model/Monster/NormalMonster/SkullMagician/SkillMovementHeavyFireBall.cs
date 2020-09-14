@@ -16,6 +16,7 @@ public class SkillMovementHeavyFireBall : SkillMovement, ISkillMovement
 
     public IEnumerator StartHitBoxMovement()
     {
+        yield return base.StartHitBoxMovement();
         var copy = skillData.GetHitBox();
         copy.isImmediately = true;
         var copyTranform = copy.transform;
@@ -38,9 +39,7 @@ public class SkillMovementHeavyFireBall : SkillMovement, ISkillMovement
             }
         }
 
-        copy.Collider.enabled = false;
-        copy.gameObject.SetActive(false);
-        skillData.hitBoxes.Enqueue(copy);
+        skillData.returnHitBox(copy);
         yield return null;
     }
 
