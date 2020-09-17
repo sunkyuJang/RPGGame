@@ -152,8 +152,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181646473629179, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Color.a
@@ -174,8 +173,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181646718579594, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Color.a
@@ -185,14 +183,12 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647015055748, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647015055770, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Color.a
@@ -207,8 +203,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647753906584, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Color.a
@@ -218,8 +213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647786693677, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_Color.a
@@ -229,8 +223,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterSkiilViewer
       value: 
-      objectReference: {fileID: 6742206477981692141, guid: 52682351ff1992240adba0873af92f79,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4752181647844077956, guid: 93240af75a770bd46a85bc50b11c155a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
-using System.Runtime.InteropServices;
-using TMPro;
-using System.Diagnostics.PerformanceData;
-using System.Threading;
-using System.Linq.Expressions;
 
 public partial class Character : Model
 {

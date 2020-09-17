@@ -1456,8 +1456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HPBar: {fileID: 4055651439520164268, guid: 04d23717f7b0fff4d99cec87b3661f92, type: 3}
   DialogueSheet: {fileID: 0}
-  ControllerObj: {fileID: 768876183275153925, guid: 00807285339e38645b4c9bb8d3f66032,
-    type: 3}
+  SkillPoint: 0
   canAttacking: 1
 --- !u!54 &640382561905646710
 Rigidbody:
@@ -1467,7 +1466,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8562684370647203175}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
