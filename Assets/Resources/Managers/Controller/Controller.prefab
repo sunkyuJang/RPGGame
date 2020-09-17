@@ -188,6 +188,8 @@ MonoBehaviour:
   InventoryKeyObj: {fileID: 768876182730790887}
   EquipmentKeyObj: {fileID: 3462356533201218061}
   skillTreeKeyObj: {fileID: 1149984953554076676}
+  CameraControllerObj: {fileID: 134317638702113560, guid: c8d6b08302329bf43822e782c392f637,
+    type: 3}
   characterSkiilViewer: {fileID: 0}
   isJoypadPressed: 0
 --- !u!1 &768876183390264427

@@ -14,6 +14,8 @@ public partial class Controller : MonoBehaviour
     public GameObject EquipmentKeyObj;
     public GameObject skillTreeKeyObj;
 
+    public GameObject CameraControllerObj;
+
     public CharacterSkiilViewer characterSkiilViewer;
     public Character Character { set; get; }
     public CameraController cameraController { private set; get; }
@@ -24,6 +26,7 @@ public partial class Controller : MonoBehaviour
     {
         instance = this;
         BtnGroupObj.SetActive(true);
+        CreatCameraController();
     }
 
     // Start is called before the first frame update
@@ -52,12 +55,8 @@ public partial class Controller : MonoBehaviour
         BtnGroupObj.SetActive(active);
     }
     public float GetJoypadRadian { get { return joypad.radian/* + cameraController.Radian*/; } }
-
-    public static Controller GetNew(Character character)
+    void CreatCameraController()
     {
-        Controller controller = Create.GetNewInCanvas<Controller>();
-        controller.transform.SetAsFirstSibling();
-        controller.Character = character;
-        return controller;
+        cameraController = Instantiate(CameraControllerObj).GetComponent<CameraController>();
     }
 }

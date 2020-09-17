@@ -44,6 +44,10 @@ public class MovePad : Joypad
 
     void MoveCharacter(float radian)
     {
-        character.Move(isPressed, radian + Mathf.Deg2Rad * Vector2.Angle(Vector2.up, (GMath.ConvertV3xzToV2(ActionPad.GetCameraforward))));
+/*        var CameraAngle = Vector3.Angle(Vector3.forward, CameraController.instance.GetFrontWithOutY());
+        print(CameraAngle + "cameraAngle");
+        print(radian + "jopadAngle");
+        print(CameraAngle + radian + "combine");*/
+        character.Move(isPressed, radian + CameraController.instance.GetRadianFromFront());
     }
 }

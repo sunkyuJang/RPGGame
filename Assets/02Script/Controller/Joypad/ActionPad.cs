@@ -27,7 +27,7 @@ public class ActionPad : Joypad
     new void Start()
     {
         base.Start();
-        CameraController = StaticManager.cameraController;
+        CameraController = CameraController.instance;
     }
 
     protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)

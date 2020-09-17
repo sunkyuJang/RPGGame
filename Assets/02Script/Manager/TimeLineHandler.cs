@@ -7,7 +7,6 @@ using UnityEngine.Timeline;
 public class TimeLineHandler : MonoBehaviour
 {
     public Character Character { set; get; }
-    public CameraController CameraController { set; get; }
     public PlayableDirector playableDirector { set; get; }
     public int interrupt = 0;
 
@@ -21,7 +20,6 @@ public class TimeLineHandler : MonoBehaviour
     private void Start()
     {
         Character = StaticManager.Character;
-        CameraController = StaticManager.cameraController;
     }
 
     private void OnTriggerEnter(Collider other)

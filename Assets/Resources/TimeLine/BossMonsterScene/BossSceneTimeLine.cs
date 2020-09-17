@@ -27,8 +27,6 @@ public class BossSceneTimeLine : TimeLineHandler
         while (DialogueManager.DialogueViewer.gameObject.activeSelf)
             yield return new WaitForFixedUpdate();
 
-        CameraController.followCamera.Priority = 11;
-
         SetIsTimeLineStart(false);
     }
 }
