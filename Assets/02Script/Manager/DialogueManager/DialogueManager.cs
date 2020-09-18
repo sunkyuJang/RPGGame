@@ -194,20 +194,20 @@ public class DialogueManager : MonoBehaviour
             comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
         }
 
-        StaticManager.ShowComfirmBox(comfirmText);
-        var comfirmBox = StaticManager.GetComfimBox;
+        var confirmBox = ConfimBoxManager.instance;
+        confirmBox.ShowComfirmBox(comfirmText);
 
-        while (comfirmBox.NowState == ComfimBox.State.Waiting)
+        while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
             yield return new WaitForFixedUpdate();
 
         canSkipNext = true;
-        switch (comfirmBox.NowState)
+        switch (confirmBox.NowState)
         {
-            case ComfimBox.State.Yes:
+            case ConfimBoxManager.State.Yes:
                 QuestManager.AcceptQuest(quest);
                 npc.lastDialog = GetScriptByIndex(npc.lastDialog).GoTo;
                 break;
-            case ComfimBox.State.No:
+            case ConfimBoxManager.State.No:
                 npc.lastDialog++;
                 break;
         }

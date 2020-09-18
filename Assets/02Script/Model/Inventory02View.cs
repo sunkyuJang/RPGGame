@@ -169,12 +169,13 @@ public partial class Inventory : MonoBehaviour
 
     IEnumerator TradeItem(ItemView itemView, Inventory targetInventory, bool isBuying)
     {
-        StaticManager.ShowComfirmBox("아이템을 " + (isBuying ? "구매" : "판매") + " 하시겠습니까?");
+        var confirmBox = ConfimBoxManager.instance;
+        confirmBox.ShowComfirmBox("아이템을 " + (isBuying ? "구매" : "판매") + " 하시겠습니까?");
 
-        while (StaticManager.GetComfimBox.NowState == ComfimBox.State.Waiting)
+        while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
             yield return new WaitForFixedUpdate();
 
-        if(StaticManager.GetComfimBox.NowState == ComfimBox.State.Yes)
+        if(confirmBox.NowState == ConfimBoxManager.State.Yes)
         {
             if (isBuying) // !isPlayer
             {

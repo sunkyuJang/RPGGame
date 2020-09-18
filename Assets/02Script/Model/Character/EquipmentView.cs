@@ -29,10 +29,10 @@ public class EquipmentView : MonoBehaviour
         print(index);
         if (index >= 0)
         {
-            ComfimBox comfimBox = StaticManager.GetComfimBox;
-            comfimBox.ShowComfirmBox("장착된 아이템을 해제 하시겠습니까?");
-            while (comfimBox.NowState == ComfimBox.State.Waiting) { yield return new WaitForFixedUpdate(); }
-            if (comfimBox.NowState == ComfimBox.State.Yes)
+            var confirmBox = ConfimBoxManager.instance;
+            confirmBox.ShowComfirmBox("장착된 아이템을 해제 하시겠습니까?");
+            while (confirmBox.NowState == ConfimBoxManager.State.Waiting) { yield return new WaitForFixedUpdate(); }
+            if (confirmBox.NowState == ConfimBoxManager.State.Yes)
             {
                 var equipmentItem = EquipmentItems[index];
                 var View = ItemManager.GetNewItemView(equipmentItem, Character.Inventory);

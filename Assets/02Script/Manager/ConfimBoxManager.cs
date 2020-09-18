@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class ComfimBox : MonoBehaviour
+public class ConfimBoxManager : MonoBehaviour
 {
+    public static ConfimBoxManager instance;
     private RectTransform rectTransform;
     private Text script;
     public enum State { Yes, No, Waiting }
@@ -12,6 +13,7 @@ public class ComfimBox : MonoBehaviour
     public bool isYes { set; get; }
     private void Awake()
     {
+        instance = this;
         rectTransform = gameObject.GetComponent<RectTransform>();
 
         script = gameObject.transform.GetChild(0).GetComponent<Text>();
@@ -29,6 +31,4 @@ public class ComfimBox : MonoBehaviour
 
     public void PreseedYes() { NowState = State.Yes; gameObject.SetActive(false); }
     public void PressedNo() { NowState = State.No; gameObject.SetActive(false); }
-
-    public static ComfimBox GetNew { get { return Instantiate(Resources.Load<GameObject>("ComfirmBox"), GameObject.Find("Canvas").transform).GetComponent<ComfimBox>(); } }
 }

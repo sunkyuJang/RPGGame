@@ -13,7 +13,6 @@ public class StaticManager : MonoBehaviour
     public static Transform canvasTrasform { private set; get; }
     private static StaticManager staticManager;
     public static StaticManager GetStaticManager { get { return staticManager; } }
-    private static ComfimBox comfimBox;
 
     static TimeLineHandler RunningTimeLine = null;
 
@@ -29,7 +28,6 @@ public class StaticManager : MonoBehaviour
     {
         Character = characterObj.GetComponent<Character>();
         canvasTrasform = transform.parent;
-        comfimBox = ComfimBox.GetNew;
         staticManager = this;
         CharacterSkiilViewer = transform.Find("CharacterSkillViewer").GetComponent<CharacterSkiilViewer>();
 
@@ -42,14 +40,5 @@ public class StaticManager : MonoBehaviour
     }
     public static void CorutineStop(Coroutine _coroutine) {
         staticManager.StopCoroutine(_coroutine);
-    }
-
-    public static void ShowComfirmBox(string _script)
-    {
-        comfimBox.ShowComfirmBox(_script);
-    }
-    public static ComfimBox GetComfimBox
-    {
-        get { return comfimBox; }
     }
 }

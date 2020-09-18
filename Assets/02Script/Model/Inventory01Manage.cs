@@ -90,13 +90,13 @@ public partial class Inventory : MonoBehaviour
             if (useComfirmBox)
             {
                 string word = nowType == ItemSheet.Param.ItemTypeEnum.Active ? "사용" : "장착";
-                StaticManager.ShowComfirmBox("이 아이템을 " + word + "하시겠습니까?");
+                var confirmBox = ConfimBoxManager.instance;
+                confirmBox.ShowComfirmBox("이 아이템을 " + word + "하시겠습니까?");
 
-                var comfirmBox = StaticManager.GetComfimBox;
-                while (comfirmBox.NowState == ComfimBox.State.Waiting)
+                while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
                     yield return new WaitForFixedUpdate();
 
-                if (comfirmBox.NowState == ComfimBox.State.Yes)
+                if (confirmBox.NowState == ConfimBoxManager.State.Yes)
                 {
                     StateEffecterManager.EffectToModelByItem(Model, itemView.ItemCounter, false);
                     if(nowType == ItemSheet.Param.ItemTypeEnum.Equipment) { (Model as Character).EquipmentView.SetEquipmetItem(itemView); }
