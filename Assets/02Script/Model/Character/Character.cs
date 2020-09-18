@@ -8,7 +8,6 @@ public partial class Character : Model
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     public StateViewer StateViewer { private set; get; }
-    public IStateViewerHandler handler;
     public int level { private set; get; }
     public int SkillPoint;
     bool IsinField { set; get; } = true;
