@@ -19,13 +19,13 @@ public class TimeLineHandler : MonoBehaviour
     }
     private void Start()
     {
-        Character = StaticManager.Character;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Character") && !isAlreadyRunning)
         {
+            Character = other.GetComponent<Character>();
             SetIsTimeLineStart(true);
             ToDo();
         }

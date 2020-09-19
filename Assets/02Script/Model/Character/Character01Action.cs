@@ -178,7 +178,7 @@ public partial class Character : Model
         if (npc.HasDialogue)
         {
             ShowGameUI(false);
-            DialogueManager.instance.ShowDialogue(npc);
+            DialogueManager.instance.ShowDialogue(this, npc);
         }
         NowState = ActionState.Idle;
         yield break;

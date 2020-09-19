@@ -22,7 +22,7 @@ public class BossSceneTimeLine : TimeLineHandler
 
         playableDirector.Stop();
 
-        DialogueManager.instance.ShowDialogue(bossMonster.GetComponent<Model>());
+        DialogueManager.instance.ShowDialogue(Character, bossMonster.GetComponent<Model>());
         
         while (DialogueManager.instance.DialogueViewer.gameObject.activeSelf)
             yield return new WaitForFixedUpdate();

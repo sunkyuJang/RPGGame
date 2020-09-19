@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager instance;
     public DialogueViewer DialogueViewer { set; get; }
     public DialogueSelecter DialogueSelecter { set; get; }
+    public Character PlayerModel { set; get; }
     public Model ScriptModel { set; get; }
     public List<DialogueSheet.Param> DialogueScript { set; get; } 
     enum NextState { None, Select, Quest, ComfirmBox, End, Exit, Trade, Skip}
@@ -39,10 +40,11 @@ public class DialogueManager : MonoBehaviour
         DialogueSelecter = DialogueViewer.dialogueSelecter;
     }
 
-    public void ShowDialogue(Model model)
+    public void ShowDialogue(Character playerModel , Model model)
     {
         if(model.HasDialogue)
         {
+            PlayerModel = playerModel;
             ScriptModel = model;
             DialogueScript = model.Dialogue;
             DialogueViewer.ShowDiaogue(model.name, DialogueScript[model.lastDialog].Script);
@@ -132,7 +134,7 @@ public class DialogueManager : MonoBehaviour
                 break;
             case NextState.Trade:
                 IntoNomalUI();
-                StaticManager.Character.SetActionState(Character.ActionState.Trade);
+                PlayerModel.SetActionState(Character.ActionState.Trade);
                 break;
             case NextState.Quest:
                 CheckQuest(npc);
@@ -229,7 +231,7 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
-        StaticManager.Character.ShowGameUI(true);
+        PlayerModel.ShowGameUI(true);
     }
     DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
 }
