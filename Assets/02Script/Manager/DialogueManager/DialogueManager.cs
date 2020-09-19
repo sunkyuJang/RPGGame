@@ -11,12 +11,13 @@ using UnityEditorInternal;
 
 public class DialogueManager : MonoBehaviour
 {
-    public static DialogueViewer DialogueViewer { set; get; }
-    public static DialogueSelecter DialogueSelecter { set; get; }
-    public static Model ScriptModel { set; get; }
-    public static List<DialogueSheet.Param> DialogueScript { set; get; } 
+    public static DialogueManager instance;
+    public DialogueViewer DialogueViewer { set; get; }
+    public DialogueSelecter DialogueSelecter { set; get; }
+    public Model ScriptModel { set; get; }
+    public List<DialogueSheet.Param> DialogueScript { set; get; } 
     enum NextState { None, Select, Quest, ComfirmBox, End, Exit, Trade, Skip}
-    static NextState GetNextState { get
+    NextState GetNextState { get
         {
             switch (DialogueScript[ScriptModel.lastDialog].Type)
             {
@@ -32,12 +33,13 @@ public class DialogueManager : MonoBehaviour
     
     private void Awake()
     {
+        instance = this;
         DialogueViewer = Instantiate(Resources.Load<GameObject>("Managers/DialogueViewer"), transform).GetComponent<DialogueViewer>();
         DialogueViewer.transform.Find("Dialogue").GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SetNextDialogue());
         DialogueSelecter = DialogueViewer.dialogueSelecter;
     }
 
-    public static void ShowDialogue(Model model)
+    public void ShowDialogue(Model model)
     {
         if(model.HasDialogue)
         {
@@ -48,8 +50,8 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    static bool canSkipNext { set; get; } = true;
-    static void SetNextDialogue()
+    bool canSkipNext { set; get; } = true;
+    void SetNextDialogue()
     {
         if (DialogueViewer.IsStillShowing)
         {
@@ -66,17 +68,17 @@ public class DialogueManager : MonoBehaviour
                         DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
                     case NextState.Select: 
-                        StaticManager.coroutineStart(SelectScript());
+                        StartCoroutine(SelectScript());
                         break;
-                    case NextState.End: 
-                        StaticManager.coroutineStart(EndDialogue()); 
+                    case NextState.End:
+                        StartCoroutine(EndDialogue()); 
                         break;
                     case NextState.Skip: 
                         ScriptModel.lastDialog = DialogueScript[ScriptModel.lastDialog].GoTo;
                         DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
-                    case NextState.Exit: 
-                        StaticManager.coroutineStart(DoExit()); 
+                    case NextState.Exit:
+                        StartCoroutine(DoExit()); 
                         break;
                     case NextState.Quest: 
                         CheckQuest((ScriptModel as Npc)); 
@@ -85,7 +87,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-    static IEnumerator SelectScript()
+    IEnumerator SelectScript()
     {
         canSkipNext = false;
         var selector = DialogueViewer.dialogueSelecter;
@@ -107,7 +109,7 @@ public class DialogueManager : MonoBehaviour
         DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
-    static IEnumerator EndDialogue()
+    IEnumerator EndDialogue()
     {
         canSkipNext = false;
         var npc = ScriptModel as Npc;
@@ -138,7 +140,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    static void CheckQuest(Npc npc)
+    void CheckQuest(Npc npc)
     {
         canSkipNext = false;
         var nowQuest = QuestManager.GetQuest(npc);
@@ -167,12 +169,12 @@ public class DialogueManager : MonoBehaviour
             }
             else if (GetNextState == NextState.Quest)
             {
-                StaticManager.coroutineStart(ComfirmQuest(nowQuest));
+                StartCoroutine(ComfirmQuest(nowQuest));
             }
         }
     }
 
-    static IEnumerator ComfirmQuest(QuestManager.QuestTable quest)
+    IEnumerator ComfirmQuest(QuestManager.QuestTable quest)
     {
         while (DialogueViewer.IsStillShowing)
             yield return new WaitForFixedUpdate();
@@ -216,20 +218,20 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    static IEnumerator DoExit()
+    IEnumerator DoExit()
     {
         while (DialogueViewer.IsStillShowing)
             yield return new WaitForFixedUpdate();
 
         IntoNomalUI();
     }
-    static void IntoNomalUI()
+    void IntoNomalUI()
     {
         DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
         StaticManager.Character.ShowGameUI(true);
     }
-    static DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
+    DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
 }
 /*    public Character Character { set; get; }
 

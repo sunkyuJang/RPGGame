@@ -88,6 +88,11 @@ public class StateEffecterManager : MonoBehaviour
                 (data[(int)requestIndex].RequestType == "Item" ? true : false) == isItem;
     }
 
+    protected void StartCoroutineForInnerClass(IEnumerator coroutine)
+    {
+        StartCoroutine(coroutine);
+    }
+
     public class CoroutinForEffecter
     {
         public StateEffecterSheet.Param data;

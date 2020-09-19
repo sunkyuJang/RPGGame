@@ -13,11 +13,11 @@ public partial class Model : MonoBehaviour
     }
     public void ShowAlert(string text, Color color)
     {
-        Text alertText = Instantiate(AlertBox, AlertBoxStartPoint, Quaternion.identity, StaticManager.canvasTrasform).GetComponent<Text>();
+        Text alertText = Instantiate(AlertBox, AlertBoxStartPoint, Quaternion.identity, MainCanvas.getTransform).GetComponent<Text>();
         alertText.text = text;
         alertText.color = color;
         AlertBoxTexts.Add(alertText);
-        StaticManager.coroutineStart(StartAlertTextMove(alertText));
+        StartCoroutine(StartAlertTextMove(alertText));
     }
     IEnumerator StartAlertTextMove(Text text)
     {

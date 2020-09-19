@@ -22,9 +22,9 @@ public class BossSceneTimeLine : TimeLineHandler
 
         playableDirector.Stop();
 
-        DialogueManager.ShowDialogue(bossMonster.GetComponent<Model>());
+        DialogueManager.instance.ShowDialogue(bossMonster.GetComponent<Model>());
         
-        while (DialogueManager.DialogueViewer.gameObject.activeSelf)
+        while (DialogueManager.instance.DialogueViewer.gameObject.activeSelf)
             yield return new WaitForFixedUpdate();
 
         SetIsTimeLineStart(false);

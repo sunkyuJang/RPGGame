@@ -57,7 +57,7 @@ public partial class Model : MonoBehaviour
         Inventory = Inventory.GetNew(InventoryLength, this);
         if (HPBar != null)
         {
-            HPBar = Instantiate(HPBar, StaticManager.canvasTrasform);
+            HPBar = Instantiate(HPBar, MainCanvas.getTransform);
             iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
         }
     }
