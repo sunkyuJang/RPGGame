@@ -86,7 +86,7 @@ public class MonseterLocator : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawCube(transform.position, new Vector3(vertical, 1, horizon));
+        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(vertical, 1, horizon));
     }
 }
 /*public class MonseterLocator : MonoBehaviour

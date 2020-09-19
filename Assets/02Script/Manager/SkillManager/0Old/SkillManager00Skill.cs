@@ -136,8 +136,8 @@ public partial class SkillManager : MonoBehaviour
 
         void SetDamageToTarget(Collider target, float damage, GameObject hitFX, bool isFXStartFromGround)
         {
-            if (target != null) 
-                StateEffecterManager.EffectToModelBySkill(this, target.GetComponent<Model>(), damage, hitFX, isFXStartFromGround);
+            /*if (target != null) 
+                StateEffecterManager.EffectToModelBySkill(this, target.GetComponent<Model>(), damage, hitFX, isFXStartFromGround);*/
         }
     }
 

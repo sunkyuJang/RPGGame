@@ -98,14 +98,14 @@ public partial class Inventory : MonoBehaviour
 
                 if (confirmBox.NowState == ConfimBoxManager.State.Yes)
                 {
-                    StateEffecterManager.EffectToModelByItem(Model, itemView.ItemCounter, false);
+                    StateEffecterManager.EffectToModelByItem(itemView.ItemCounter, Model, false);
                     if(nowType == ItemSheet.Param.ItemTypeEnum.Equipment) { (Model as Character).EquipmentView.SetEquipmetItem(itemView); }
                     RemoveItem(itemView.ItemCounter.Data.Index, 1);
                 }
             }
             else
             {
-                StateEffecterManager.EffectToModelByItem(Model, itemView.ItemCounter, false);
+                StateEffecterManager.EffectToModelByItem(itemView.ItemCounter, Model, false);
                 RemoveItem(itemView.ItemCounter.Data.Index, 1);
             }
         }

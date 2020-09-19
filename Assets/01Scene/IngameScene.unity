@@ -218,8 +218,9 @@ GameObject:
   - component: {fileID: 368764146}
   - component: {fileID: 368764145}
   - component: {fileID: 368764149}
+  - component: {fileID: 368764150}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,6 +315,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368764144}
   m_CullTransparentMesh: 0
+--- !u!114 &368764150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368764144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f9834c1cd7a7540812bc70397f54cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &521917343
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,6 +946,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 310233177469592492, guid: 1cf5536b9d4cf7c43ac92a178a9bf762,
+        type: 3}
+      propertyPath: color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 310233177469592492, guid: 1cf5536b9d4cf7c43ac92a178a9bf762,
+        type: 3}
+      propertyPath: color.g
+      value: 0.051886797
+      objectReference: {fileID: 0}
+    - target: {fileID: 310233177469592492, guid: 1cf5536b9d4cf7c43ac92a178a9bf762,
+        type: 3}
+      propertyPath: color.b
+      value: 0.051886797
+      objectReference: {fileID: 0}
     - target: {fileID: 310233177702541742, guid: 1cf5536b9d4cf7c43ac92a178a9bf762,
         type: 3}
       propertyPath: m_LocalPosition.x
