@@ -8,6 +8,7 @@ public partial class Character : Model
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     public StateViewer StateViewer { private set; get; }
+    public Controller controller { set; get; }
     public int level { private set; get; }
     public int SkillPoint;
     bool IsinField { set; get; } = true;
@@ -75,7 +76,7 @@ public partial class Character : Model
     }
     public void ShowGameUI(bool isNeedToShow) 
     { 
-        Controller.instance.SetAllActive(isNeedToShow); 
+        controller.SetAllActive(isNeedToShow); 
         QuickSlot.gameObject.SetActive(isNeedToShow);
         StateViewer.gameObject.SetActive(isNeedToShow);
     }

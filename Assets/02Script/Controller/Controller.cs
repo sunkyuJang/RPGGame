@@ -4,7 +4,8 @@ using UnityEngine;
 using GLip;
 public partial class Controller : MonoBehaviour
 {
-    public static Controller instance;
+    public GameObject CharacterPrefab;
+    Character Character { set; get; }
 
     public GameObject BtnGroupObj;
     public MovePad joypad;
@@ -14,25 +15,24 @@ public partial class Controller : MonoBehaviour
     public GameObject EquipmentKeyObj;
     public GameObject skillTreeKeyObj;
 
-    public GameObject CameraControllerObj;
+    public GameObject CameraControllerPrefab;
+    CameraController CameraController { set; get; }
 
     public CharacterSkiilViewer characterSkiilViewer;
-    public Character Character { set; get; }
-    public CameraController cameraController { private set; get; }
 
     public bool isJoypadPressed = false;
 
     private void Awake()
     {
-        instance = this;
-        BtnGroupObj.SetActive(true);
+        Character = Instantiate(CharacterPrefab).GetComponent<Character>();
+        Character.controller = this;
         CreatCameraController();
+        BtnGroupObj.SetActive(true);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-        Character = StaticManager.Character;
+        CameraController.transform.position = Character.transform.position;
     }
     public void PressInventoryKey()
     {
@@ -54,11 +54,15 @@ public partial class Controller : MonoBehaviour
     {
         BtnGroupObj.SetActive(active);
     }
-    public float GetJoypadRadian { get { return joypad.radian/* + cameraController.Radian*/; } }
     void CreatCameraController()
     {
-        cameraController = Instantiate(CameraControllerObj).GetComponent<CameraController>();
-        cameraController.controller = this;
+        CameraController = Instantiate(CameraControllerPrefab).GetComponent<CameraController>();
     }
-    public Vector3 GetCharaterPosition { get { return Character.transform.position; } }
+    
+    public void MoveCharacter(bool isPressed, float radian) 
+        => Character.Move(isPressed, radian + CameraController.GetRadianFromFront());
+    public void RotateCamera(float raidan) 
+        => CameraController.RotateCamera(raidan);
+    public void DoCharacterAtion()
+        => Character.SetActionState(Character.ActionState.Action);
 }

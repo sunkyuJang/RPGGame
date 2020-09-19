@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class Joypad : MonoBehaviour
 {
+    public Controller controller;
+
     public GameObject up, hold, down;
     protected RectTransform upTransform;
     protected RectTransform holdTransform;

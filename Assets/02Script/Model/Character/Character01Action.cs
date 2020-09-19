@@ -185,7 +185,7 @@ public partial class Character : Model
     }
     IEnumerator DoTrade()
     {
-        Controller.instance.SetAllActive(false);
+        controller.SetAllActive(false);
         QuickSlot.gameObject.SetActive(false);
         Inventory.ShowInventoryForTrade(TargetModel.Inventory);
         TargetModel.Inventory.ShowInventoryForTrade(Inventory);
@@ -194,7 +194,7 @@ public partial class Character : Model
         {
             if(!Inventory.gameObject.activeSelf || !TargetModel.Inventory.gameObject.activeSelf)
             {
-                Controller.instance.SetAllActive(true);
+                controller.SetAllActive(true);
                 QuickSlot.gameObject.SetActive(true);
                 ShowGameUI(true);
                 Inventory.gameObject.SetActive(false);

@@ -28,21 +28,12 @@ public class MovePad : Joypad, IInputTracer
             if (dist < limit) { upTransform.position = inputPosition; }
             else { upTransform.position = centerPosition + nowNomal * limit; }
 
-            MoveCharacter(Mathf.Atan2(nowNomal.x, nowNomal.y));
+            controller.MoveCharacter(isPressed, Mathf.Atan2(nowNomal.x, nowNomal.y));
             yield return new WaitForFixedUpdate();
         }
 
         isPressed = false;
-        MoveCharacter(0f);
+        controller.MoveCharacter(isPressed, 0f);
         upTransform.position = downTransform.position;
-    }
-
-    void MoveCharacter(float radian)
-    {
-/*        var CameraAngle = Vector3.Angle(Vector3.forward, CameraController.instance.GetFrontWithOutY());
-        print(CameraAngle + "cameraAngle");
-        print(radian + "jopadAngle");
-        print(CameraAngle + radian + "combine");*/
-        character.Move(isPressed, radian + CameraController.instance.GetRadianFromFront());
     }
 }

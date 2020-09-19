@@ -181,6 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef851700a0f63845b266907307b32d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterPrefab: {fileID: 8562684370647203175, guid: 63f8d82a4de83c043b8fb6300348e397,
+    type: 3}
   BtnGroupObj: {fileID: 7457804983269407446}
   joypad: {fileID: 5129829536917812286}
   actionpad: {fileID: 4896330238767864148}
@@ -188,8 +190,7 @@ MonoBehaviour:
   InventoryKeyObj: {fileID: 768876182730790887}
   EquipmentKeyObj: {fileID: 3462356533201218061}
   skillTreeKeyObj: {fileID: 1149984953554076676}
-  CameraControllerObj: {fileID: 134317638702113560, guid: c8d6b08302329bf43822e782c392f637,
-    type: 3}
+  CameraControllerPrefab: {fileID: 0}
   characterSkiilViewer: {fileID: 0}
   isJoypadPressed: 0
 --- !u!1 &768876183390264427
@@ -614,6 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59bb4a393e1788248ba36bc1f180537b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
   up: {fileID: 1537554470545241044}
   hold: {fileID: 4968481731896261375}
   down: {fileID: 1537554470499177264}
@@ -882,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4116b926705e58e488be33c1bba8e2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
   up: {fileID: 7868899670216390172}
   hold: {fileID: 4365704262915178295}
   down: {fileID: 7868899670262339320}

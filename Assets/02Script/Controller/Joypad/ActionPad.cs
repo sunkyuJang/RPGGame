@@ -4,7 +4,6 @@ using UnityEngine;
 using GLip;
 public class ActionPad : Joypad, IInputTracer
 {
-    CameraController CameraController { set; get; }
     public bool ShouldCameraMove { private set; get; }
     public int IsMovingLeft { get { return upTransform.position.x - downTransform.position.x < 0f ? -1 : 1; } }
     public float CameraSpeed 
@@ -41,19 +40,18 @@ public class ActionPad : Joypad, IInputTracer
             else { upTransform.position = centerPosition + nowNomal * limit; }
 
             if (CanCameraMove)
-                CameraController.RotateCamera(IsMovingLeft * CameraSpeed);
+                controller.RotateCamera(IsMovingLeft * CameraSpeed);
 
             yield return new WaitForFixedUpdate();
             TimeCount += Time.fixedDeltaTime;
         }
 
         if(TimeCount < 0.5f)
-            character.SetActionState(Character.ActionState.Action);
+            controller.DoCharacterAtion();
     
         isPressed = false;
         upTransform.position = downTransform.position;
     }
 
     bool CanCameraMove { get { return !holdRect.Contains(upTransform.position); } }
-    public Vector3 GetCameraforward { get { return CameraController.transform.forward; } }
 }
