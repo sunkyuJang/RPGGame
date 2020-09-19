@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
-public class ActionPad : Joypad
+public class ActionPad : Joypad, IInputTracer
 {
     CameraController CameraController { set; get; }
     public bool ShouldCameraMove { private set; get; }
@@ -24,13 +24,7 @@ public class ActionPad : Joypad
         base.Awake();
     }
 
-    new void Start()
-    {
-        base.Start();
-        CameraController = CameraController.instance;
-    }
-
-    protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    public override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
         float limit = downTransform.rect.width * 0.5f;

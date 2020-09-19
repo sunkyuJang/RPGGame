@@ -58,5 +58,7 @@ public partial class Controller : MonoBehaviour
     void CreatCameraController()
     {
         cameraController = Instantiate(CameraControllerObj).GetComponent<CameraController>();
+        cameraController.controller = this;
     }
+    public Vector3 GetCharaterPosition { get { return Character.transform.position; } }
 }

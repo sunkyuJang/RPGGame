@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class Joypad : MonoBehaviour
 {
-    protected Character character;
     public GameObject up, hold, down;
     protected RectTransform upTransform;
     protected RectTransform holdTransform;
@@ -32,11 +31,6 @@ public class Joypad : MonoBehaviour
         holdRect = GMath.GetRect(holdTransform);
     }
 
-    public void Start()
-    {
-        character = StaticManager.Character;
-    }
-
     public void Pressed()
     {
         bool isTouch = false;
@@ -47,7 +41,7 @@ public class Joypad : MonoBehaviour
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
         }
     }
-    protected virtual IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    public virtual IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
         float limit = downTransform.rect.width * 0.5f;

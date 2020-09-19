@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    public Character character { set; get; }
     public QuestSheet questSheet;
     public static List<QuestSheet.Param> QuestList { private set; get; }
     private static List<QuestTable> QuestTableList { set; get; }
@@ -16,12 +15,6 @@ public class QuestManager : MonoBehaviour
         QuestTableList = new List<QuestTable>();
         ProcessingQuestList = new List<QuestTable>();
     }
-
-    private void Start()
-    {
-        character = StaticManager.Character;
-    }
-
     public static QuestTable GetQuest(Npc npc)
     {
         QuestTable nowQuest = null;
@@ -63,10 +56,9 @@ public class QuestManager : MonoBehaviour
         ProcessingQuestList.Add(quest); 
     }
     
-    public static bool CanClearQuest(QuestTable quest)
+    public static bool CanClearQuest(Inventory requestPlayerInventory, QuestTable quest)
     {
-        var inventory = StaticManager.Character.Inventory;
-        if (quest.ComfareItemList(inventory))
+        if (quest.ComfareItemList(requestPlayerInventory))
         {
             return true;
         }

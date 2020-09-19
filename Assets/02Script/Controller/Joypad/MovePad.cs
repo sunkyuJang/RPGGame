@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GLip;
 
-public class MovePad : Joypad
+public class MovePad : Joypad, IInputTracer
 {
     public GameObject ActionPadObj;
     ActionPad ActionPad { set; get; }
@@ -13,12 +13,7 @@ public class MovePad : Joypad
         ActionPad = ActionPadObj.GetComponent<ActionPad>();
     }
 
-    new void Start()
-    {
-        base.Start();
-    }
-
-    protected override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    public override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
         float limit = downTransform.rect.width * 0.5f;

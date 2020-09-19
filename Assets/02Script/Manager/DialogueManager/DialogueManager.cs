@@ -148,7 +148,7 @@ public class DialogueManager : MonoBehaviour
         var nowQuest = QuestManager.GetQuest(npc);
         if (nowQuest.isAccept)
         {
-            if (QuestManager.CanClearQuest(nowQuest))
+            if (QuestManager.CanClearQuest(PlayerModel.Inventory, nowQuest))
             {
                 npc.lastDialog = npc.Dialogue[npc.lastDialog].GoTo;
             }

@@ -7,16 +7,12 @@ using Cinemachine;
 public class CameraController : MonoBehaviour
 {
     public static CameraController instance;
-    public GameObject character;
+    public Controller controller;
     public CinemachineVirtualCamera followCamera { private set; get; }
     public void Awake()
     {
         instance = this;
         followCamera = transform.GetChild(0).GetComponent<CinemachineVirtualCamera>();
-    }
-    public void Start()
-    {
-        character = StaticManager.Character.gameObject;
     }
     private void FixedUpdate()
     {
