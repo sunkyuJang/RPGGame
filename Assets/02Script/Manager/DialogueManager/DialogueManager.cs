@@ -36,7 +36,7 @@ public class DialogueManager : MonoBehaviour
     {
         instance = this;
         DialogueViewer = Instantiate(Resources.Load<GameObject>("Managers/DialogueViewer"), transform).GetComponent<DialogueViewer>();
-        DialogueViewer.transform.Find("Dialogue").GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SetNextDialogue());
+        DialogueViewer.transform.Find("Dialogue").Find("Dialogue").GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => SetNextDialogue());
         DialogueSelecter = DialogueViewer.dialogueSelecter;
     }
 

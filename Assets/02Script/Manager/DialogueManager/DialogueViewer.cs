@@ -15,9 +15,6 @@ public class DialogueViewer : MonoBehaviour
  
     private void Awake()
     {
-        nameText = transform.Find("Name").GetComponent<Text>();
-        DialogueText = transform.Find("Dialogue").GetComponent<Text>();
-
         dialogueSelecter = transform.Find("Selecter").GetComponent<DialogueSelecter>();
         gameObject.SetActive(false);
     }
