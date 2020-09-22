@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
+    public GameObject ControllerPrefab;
     public Text title;
 
     public Button signUpBtn;
@@ -24,8 +25,6 @@ public class LoginManager : MonoBehaviour
             return nickNameField.transform.parent.parent.gameObject; 
         } 
     }
-
-    List<PlayerData> playerDatas = new List<PlayerData>();
 
     string loginText = "Login";
     string cancelText = "Cancel";
@@ -69,14 +68,21 @@ public class LoginManager : MonoBehaviour
     {
         get
         {
-            string id = idField.textComponent.text;
-            string pw = pwField.textComponent.text;
+            List<string> words = new List<string>();
+            words.Add(idField.text);
+            words.Add(pwField.text);
+            words.Add(nickNameField.text);
 
-            if (id.Length > 5 && pw.Length > 5)
+            for (int i = 0; i < (GetNickNameFieldGameObj.activeSelf ? 3 : 2); i++)
+            {
+                if (!IsAllSmallLetter(words[i]))
+                    return false;
+            }
+
+            if (words[0].Length > 5 && words[1].Length > 5)
                 if (GetNickNameFieldGameObj.activeSelf)
                 {
-                    string nn = nickNameField.textComponent.text;
-                    if (nn.Length > 5)
+                    if (words[2].Length > 5)
                         return true;
                 }
                 else
@@ -84,6 +90,17 @@ public class LoginManager : MonoBehaviour
 
             return false;
         }
+    }
+
+    bool IsAllSmallLetter(string n)
+    {
+        for (int i = 0; i < n.Length; i++)
+        {
+            var nowCharNum = (int)n[i];
+            if (97 > nowCharNum || nowCharNum > 122)
+                return false;
+        }
+        return true;
     }
 
     bool CheckAccountExsit
@@ -116,7 +133,7 @@ public class LoginManager : MonoBehaviour
             }
             else
             {
-                var newData = new PlayerData(idField.textComponent.text, pwField.textComponent.text, nickNameField.textComponent.text);
+                var newData = new PlayerData(idField.textComponent.text, pwField.text, nickNameField.textComponent.text);
                 File.WriteAllText(newData.GetJsonPathWithAcc, JsonUtility.ToJson(newData, true));
                 ClearAllTextField();
                 idField.text = "계정이 생성되었습니다.";
@@ -132,7 +149,6 @@ public class LoginManager : MonoBehaviour
     public void CancelCreatingAccount()
     {
         title.gameObject.SetActive(true);
-        nickNameField.text = "";
 
         GetNickNameFieldGameObj.SetActive(false);
 
@@ -147,7 +163,9 @@ public class LoginManager : MonoBehaviour
         {
             var data = JsonUtility.FromJson<PlayerData>(File.ReadAllText(PlayerData.path + idField.textComponent.text + ".json"));
             if (data.pw == pwField.textComponent.text)
-                idField.textComponent.text = "존재";
+            {
+
+            }
             else
             {
                 ClearAllTextField();
@@ -163,30 +181,8 @@ public class LoginManager : MonoBehaviour
 
     void ClearAllTextField()
     {
-        idField.textComponent.text = "";
-        pwField.textComponent.text = "";
-        nickNameField.textComponent.text = "";
-    }
-
-    public class PlayerData
-    {
-        public string id;
-        public string pw;
-        public string NickName;
-
-        public static string path = Application.dataPath + "/Resources/Managers/SaveData/";
-        public string GetJsonPathWithAcc { get { return PlayerData.path + id + ".json"; } }
-
-        public bool isFirstStart;
-        public Vector3 LastPosition;
-        Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
-        public PlayerData(string id, string pw, string nickName)
-        {
-            this.id = id;
-            this.pw = pw;
-            NickName = nickName;
-            isFirstStart = true;
-            LastPosition = Vector3.zero;
-        }
+        idField.text = "";
+        pwField.text = "";
+        nickNameField.text = "";
     }
 }

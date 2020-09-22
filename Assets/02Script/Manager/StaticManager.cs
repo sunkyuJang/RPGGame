@@ -25,7 +25,6 @@ public class StaticManager : MonoBehaviour
     public static bool IsRunningTimeLine { get { return RunningTimeLine != null; } }
     void Awake()
     {
-        Character = characterObj.GetComponent<Character>();
         staticManager = this;
         CharacterSkiilViewer = transform.Find("CharacterSkillViewer").GetComponent<CharacterSkiilViewer>();
 

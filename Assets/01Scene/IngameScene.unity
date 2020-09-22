@@ -656,6 +656,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MonsterLocatorList
       objectReference: {fileID: 0}
+    - target: {fileID: 310233177702541743, guid: 1cf5536b9d4cf7c43ac92a178a9bf762,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cf5536b9d4cf7c43ac92a178a9bf762, type: 3}
 --- !u!1001 &911849083645311178
@@ -774,11 +779,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3074650193410908650, guid: cf93389744aa2be43a00eb55db78a452,
-        type: 3}
-      propertyPath: characterObj
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf93389744aa2be43a00eb55db78a452, type: 3}

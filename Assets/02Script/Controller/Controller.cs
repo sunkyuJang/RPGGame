@@ -5,6 +5,7 @@ using GLip;
 public partial class Controller : MonoBehaviour
 {
     public GameObject CharacterPrefab;
+    public PlayerData playerData;
     Character Character { set; get; }
 
     public GameObject BtnGroupObj;
@@ -28,6 +29,17 @@ public partial class Controller : MonoBehaviour
         Character.controller = this;
         CreatCameraController();
         BtnGroupObj.SetActive(true);
+    }
+
+    void Start()
+    {
+        joypad.controller = this;
+        actionpad.controller = this;
+    }
+
+    public void SetPlayerData(PlayerData playerData)
+    {
+        this.playerData = playerData;
     }
 
     private void FixedUpdate()

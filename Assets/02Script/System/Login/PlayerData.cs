@@ -7,21 +7,24 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 
-//[Serializable]
-/*public class PlayerData
+public class PlayerData
 {
-    public string ID { set; get; }
-    public string NickName { set; get; }
+    public string id;
+    public string pw;
+    public string NickName;
 
     public static string path = Application.dataPath + "/Resources/Managers/SaveData/";
-    public PlayerData(string id, string nickName)
-    {
-        ID = id;
-        NickName = nickName;
-    }
+    public string GetJsonPathWithAcc { get { return PlayerData.path + id + ".json"; } }
 
-    public void CreateJsonFile()
+    public bool isFirstStart;
+    public Vector3 LastPosition;
+    Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
+    public PlayerData(string id, string pw, string nickName)
     {
-        var fileStream = new FileStream(string.Format("{0}/{1}.json", Application.dataPath, ID), FileMode.Create);
+        this.id = id;
+        this.pw = pw;
+        NickName = nickName;
+        isFirstStart = true;
+        LastPosition = Vector3.zero;
     }
-}*/
+}
