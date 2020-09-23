@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.WSA.Input;
 
 public class PlayerData
@@ -17,6 +18,7 @@ public class PlayerData
     public string GetJsonPathWithAcc { get { return PlayerData.path + id + ".json"; } }
 
     public bool isFirstStart;
+    public string LastScene;
     public Vector3 LastPosition;
     Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
     public PlayerData(string id, string pw, string nickName)
@@ -26,5 +28,6 @@ public class PlayerData
         NickName = nickName;
         isFirstStart = true;
         LastPosition = Vector3.zero;
+        LastScene = GameManager.pathOfScenes + "IngameScene";
     }
 }

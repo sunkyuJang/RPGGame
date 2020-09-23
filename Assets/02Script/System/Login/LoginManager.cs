@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
-    public GameObject ControllerPrefab;
+    public GameObject GameManagerPrefab;
     public Text title;
 
     public Button signUpBtn;
@@ -162,9 +162,10 @@ public class LoginManager : MonoBehaviour
         if (CheckAccountExsit)
         {
             var data = JsonUtility.FromJson<PlayerData>(File.ReadAllText(PlayerData.path + idField.textComponent.text + ".json"));
-            if (data.pw == pwField.textComponent.text)
+            if (data.pw == pwField.text)
             {
-
+                var gameManager = Instantiate(GameManagerPrefab).GetComponent<GameManager>();
+                gameManager.SetPlayerData(data);
             }
             else
             {

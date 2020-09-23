@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2e1eb7f262bff468efcb5664205618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ControllerPrefab: {fileID: 768876183275153925, guid: 00807285339e38645b4c9bb8d3f66032,
+  GameManagerPrefab: {fileID: 911849083831540794, guid: cf93389744aa2be43a00eb55db78a452,
     type: 3}
   title: {fileID: 5586952451908345068}
   signUpBtn: {fileID: 4045709288623102407}

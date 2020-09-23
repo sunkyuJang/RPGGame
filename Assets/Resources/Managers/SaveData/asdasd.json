@@ -1,8 +1,9 @@
 {
-    "id": "asdfasdfdsf",
-    "pw": "asdfasdfads",
-    "NickName": "asdfasdf",
+    "id": "asdasd",
+    "pw": "asdasd",
+    "NickName": "asdasd",
     "isFirstStart": true,
+    "LastScene": "01Scene/IngameScene",
     "LastPosition": {
         "x": 0.0,
         "y": 0.0,

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 911849083831540792}
   - component: {fileID: 911849083831540795}
   - component: {fileID: 911849083831540799}
-  - component: {fileID: 911849083831540796}
+  - component: {fileID: 2842836882411904411}
   m_Layer: 5
-  m_Name: MainCanvas
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911849083831540794}
   m_CullTransparentMesh: 0
---- !u!114 &911849083831540796
+--- !u!114 &2842836882411904411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,9 +119,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 911849083831540794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5f9834c1cd7a7540812bc70397f54cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 35cf695d49f357b4284e2d333da0368f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 435742203824668335}
 --- !u!114 &911849084574764583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,3 +655,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 911849085210907816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &435742203824668335 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 768876183275153927, guid: 00807285339e38645b4c9bb8d3f66032,
+    type: 3}
+  m_PrefabInstance: {fileID: 911849085210907816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef851700a0f63845b266907307b32d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
