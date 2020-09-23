@@ -33,7 +33,9 @@ public class GameManager : MonoBehaviour
         this.playerData = playerData;
         SceneManager.LoadSceneAsync(playerData.LastScene, LoadSceneMode.Single);
         var character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
-        character.SetCharacterWithPlayerData(playerData);
+        DontDestroyOnLoad(character.gameObject);
+        StartCoroutine(character.SetCharacterWithPlayerData(playerData));
+        character.controller = controller;
         controller.Character = character;
     }
 }

@@ -17,6 +17,8 @@ public partial class Character : Model
     public bool GetIsInField { get { return IsinField; } }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
+
+    bool isStartFuncPassed = false;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -29,6 +31,7 @@ public partial class Character : Model
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         SetStateView();
+        isStartFuncPassed = true;
     }
 
     new private void FixedUpdate()
@@ -75,15 +78,17 @@ public partial class Character : Model
         iStateViewerHandler.RefreshState();
     }
 
-    public void SetCharacterWithPlayerData(PlayerData playerData)
+    public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
     {
+        yield return new WaitWhile(() => isStartFuncPassed == false);
+            print(true);
         CharacterName = playerData.NickName;
-        
-        for(int i = 0; i < playerData.inventoryItem.Count; i++)
+        print(playerData.itemKinds.Count);
+        for(int i = 0; i < playerData.itemKinds.Count; i++)
         {
             Inventory.AddItem
-                (playerData.inventoryItem.Keys.ToList()[i],
-                playerData.inventoryItem.Values.ToList()[i]);
+                (playerData.itemKinds[i],
+                playerData.itemCounts[i]);
         }
 
         level = playerData.level;

@@ -9,5 +9,14 @@
         "y": 0.0,
         "z": 0.0
     },
+    "itemKinds": [
+        0,
+        1
+    ],
+    "itemCounts": [
+        10,
+        5
+    ],
+    "WearingItem": [],
     "level": 0
 }

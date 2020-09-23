@@ -1,4 +1,5 @@
 ﻿using GLip;
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,11 @@ public class PlayerData
     public bool isFirstStart;
     public string LastScene;
     public Vector3 LastPosition;
-    public Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
+    public List<int> itemKinds = new List<int>();
+    public List<int> itemCounts = new List<int>();
+
+    public List<int> WearingItem;
+    
     public int level;
     public PlayerData(string id, string pw, string nickName)
     {
@@ -31,6 +36,9 @@ public class PlayerData
         LastPosition = Vector3.zero;
         LastScene = GameManager.pathOfScenes + "IngameScene";
 
-        inventoryItem.Add(0, 3);
+        itemKinds.Add(0);
+        itemCounts.Add(10);
+        itemKinds.Add(1);
+        itemCounts.Add(5);
     }
 }

@@ -61,7 +61,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     public IEnumerator TraceInput(bool isTouch, int touchId, bool isMouse)
     {
         copy.SetActive(true);
-        copy.transform.SetParent(MainCanvas.getTransform);
+        copy.transform.SetParent(GameManager.mainCanvas);
 
         //List<RaycastResult> results = new List<RaycastResult>();
 

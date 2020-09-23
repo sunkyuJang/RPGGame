@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCanvas : MonoBehaviour
+/*public class MainCanvas : MonoBehaviour
 {
     public static MainCanvas instance;
     public static Transform getTransform;
@@ -11,4 +11,4 @@ public class MainCanvas : MonoBehaviour
         instance = this;
         getTransform = transform;
     }
-}
+}*/
