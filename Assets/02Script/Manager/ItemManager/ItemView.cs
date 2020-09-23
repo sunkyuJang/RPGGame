@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GLip;
 
-public class ItemView : MonoBehaviour
+public class ItemView : MonoBehaviour, IInputTracer
 {
     public ItemManager.ItemCounter ItemCounter { set; get; }
     public Inventory inventory { set; get; }
@@ -59,7 +59,7 @@ public class ItemView : MonoBehaviour
         }
     }
 
-    IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
+    public IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         Color readyColor = new Color(0, 0, 0, 0.7f);
         Transform copy = Instantiate(gameObject, transform.root).GetComponent<Transform>();
@@ -86,6 +86,11 @@ public class ItemView : MonoBehaviour
         Icon.color += readyColor;
         HideDiscriptionBox();
         inventory.ItemDrop(this, copyPosition);
+    }
+
+    public void Pressed()
+    {
+        throw new System.NotImplementedException();
     }
 
     class ItemViewDiscritionBox

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using UnityEditor.Callbacks;
 
 public partial class Inventory : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public partial class Inventory : MonoBehaviour
     public Rect Area { private set; get; }
     public bool isPlayer { private set; get; }
 
+    public GameObject itemViewFrame;
     public List<ItemView> itemViews { private set; get; } = new List<ItemView>();
+    //public DidReloadS DiscriptionBox;
     public bool HasItem { get { return itemViews.Count > 0; } }
     public int length { set; get; }
 
