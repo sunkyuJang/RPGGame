@@ -4,9 +4,8 @@ using UnityEngine;
 using GLip;
 public partial class Controller : MonoBehaviour
 {
-    public GameObject CharacterPrefab;
     public PlayerData playerData;
-    Character Character { set; get; }
+    public Character Character { set; get; }
 
     public GameObject BtnGroupObj;
     public MovePad joypad;
@@ -25,8 +24,8 @@ public partial class Controller : MonoBehaviour
 
     private void Awake()
     {
-        Character = Instantiate(CharacterPrefab).GetComponent<Character>();
-        Character.controller = this;
+/*        Character = Instantiate(CharacterPrefab).GetComponent<Character>();
+        Character.controller = this;*/
         CreatCameraController();
         BtnGroupObj.SetActive(true);
     }
@@ -44,7 +43,8 @@ public partial class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CameraController.transform.position = Character.transform.position;
+        if(Character != null)
+            CameraController.transform.position = Character.transform.position;
     }
     public void PressInventoryKey()
     {
@@ -69,6 +69,7 @@ public partial class Controller : MonoBehaviour
     void CreatCameraController()
     {
         CameraController = Instantiate(CameraControllerPrefab).GetComponent<CameraController>();
+        DontDestroyOnLoad(CameraController.gameObject);
     }
     
     public void MoveCharacter(bool isPressed, float radian) 

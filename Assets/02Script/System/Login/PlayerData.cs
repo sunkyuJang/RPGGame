@@ -20,7 +20,8 @@ public class PlayerData
     public bool isFirstStart;
     public string LastScene;
     public Vector3 LastPosition;
-    Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
+    public Dictionary<int, int> inventoryItem = new Dictionary<int, int>();
+    public int level;
     public PlayerData(string id, string pw, string nickName)
     {
         this.id = id;
@@ -29,5 +30,7 @@ public class PlayerData
         isFirstStart = true;
         LastPosition = Vector3.zero;
         LastScene = GameManager.pathOfScenes + "IngameScene";
+
+        inventoryItem.Add(0, 3);
     }
 }

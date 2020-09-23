@@ -165,7 +165,7 @@ public class LoginManager : MonoBehaviour
             if (data.pw == pwField.text)
             {
                 var gameManager = Instantiate(GameManagerPrefab).GetComponent<GameManager>();
-                gameManager.SetPlayerData(data);
+                gameManager.SetGameStart(data);
             }
             else
             {

@@ -15,7 +15,6 @@ public partial class Model : MonoBehaviour
     public Animator Animator { private set; get; }
     public AnimatorStateInfo NowAnimatorInfo { get { return Animator.GetCurrentAnimatorStateInfo(0); } }
 
-    public bool isPlayer { protected set; get; }
     public int lastDialog { set; get; }
     public DialogueSheet DialogueSheet;
     public List<DialogueSheet.Param> Dialogue { get { return DialogueSheet.sheets[0].list; } }

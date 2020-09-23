@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35cf695d49f357b4284e2d333da0368f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterPrefab: {fileID: 8562684370647203175, guid: 63f8d82a4de83c043b8fb6300348e397,
+    type: 3}
   controller: {fileID: 435742203824668335}
 --- !u!114 &911849084574764583
 MonoBehaviour:

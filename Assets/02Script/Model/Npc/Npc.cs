@@ -8,7 +8,6 @@ public class Npc : Model
     public int ClearQuestCount = 0;
     protected new void Awake()
     {
-        isPlayer = false;
         base.Awake();
     }
     new void Start()

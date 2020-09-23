@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GLip;
+using System.Linq;
 
 public partial class Character : Model
 {
+    public static Character instance;
     public QuickSlot QuickSlot { private set; get; }
     public EquipmentView EquipmentView { private set; get; }
     public StateViewer StateViewer { private set; get; }
@@ -18,9 +20,6 @@ public partial class Character : Model
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
-        level = 4;
-        SkillPoint = level;
-        isPlayer = true;
         base.Awake();
     }
     // Start is called before the first frame update
@@ -30,18 +29,6 @@ public partial class Character : Model
         QuickSlot = QuickSlot.GetNew(this);
         EquipmentView = EquipmentView.GetNew(this);
         SetStateView();
-
-        Inventory.gold = 1000;
-
-        Inventory.AddItem(0, 5);
-        Inventory.AddItem(0, 3);
-        Inventory.AddItem(0, 10);
-        Inventory.AddItem(1, 8);
-        Inventory.AddItem(0, 1);
-        Inventory.AddItem(1, 10);
-        Inventory.AddItem(2, 1);
-        Inventory.AddItem(2, 1);
-        Inventory.AddItem(3, 1);
     }
 
     new private void FixedUpdate()
@@ -86,5 +73,19 @@ public partial class Character : Model
         StateViewer = HPBar.GetComponent<StateViewer>();
         StateViewer.Character = this;
         iStateViewerHandler.RefreshState();
+    }
+
+    public void SetCharacterWithPlayerData(PlayerData playerData)
+    {
+        CharacterName = playerData.NickName;
+        
+        for(int i = 0; i < playerData.inventoryItem.Count; i++)
+        {
+            Inventory.AddItem
+                (playerData.inventoryItem.Keys.ToList()[i],
+                playerData.inventoryItem.Values.ToList()[i]);
+        }
+
+        level = playerData.level;
     }
 }
