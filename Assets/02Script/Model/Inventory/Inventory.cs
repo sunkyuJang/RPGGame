@@ -4,28 +4,56 @@ using UnityEngine;
 using UnityEngine.UI;
 using GLip;
 using UnityEditor.Callbacks;
+using System.Net.NetworkInformation;
 
 public partial class Inventory : MonoBehaviour
 {
     Model Model { set; get; }
+    public GameObject InventoryView;
     Inventory TargetInventory { set; get; }
-    public RectTransform rectTransform { private set; get; }
+    public Transform itemViewGroup;
     public Rect Area { private set; get; }
     public bool isPlayer { private set; get; }
 
-    public GameObject itemViewFrame;
+    public GameObject itemViewPrefab;
+    public ObjPullingController itemViewPullingController { set; get; }
     public List<ItemView> itemViews { private set; get; } = new List<ItemView>();
-    //public DidReloadS DiscriptionBox;
     public bool HasItem { get { return itemViews.Count > 0; } }
     public int length { set; get; }
 
     public ItemCounterTable table { private set; get; }
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
         table = new ItemCounterTable();
+        itemViewPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(itemViewPrefab);
     }
-    public static Inventory GetNew(int length, Model model) 
+
+    private void Start()
+    {
+        transform.parent = GetInventoryGroup;
+        var rectTransform = transform.GetComponent<RectTransform>();
+        transform.GetComponent<RectTransform>().anchorMin = Vector2.zero;
+        transform.GetComponent<RectTransform>().anchorMax = Vector2.one;
+
+    }
+
+    Transform GetInventoryGroup
+    {
+        get
+        {
+            var InventoryGroupTransform = GameManager.mainCanvas.Find("InventoryGroup");
+            if (InventoryGroupTransform == null)
+            {
+                InventoryGroupTransform = new GameObject("InventoryGroup").AddComponent<RectTransform>();
+                InventoryGroupTransform.parent = GameManager.mainCanvas;
+                InventoryGroupTransform.GetComponent<RectTransform>().anchorMin = Vector2.zero;
+                InventoryGroupTransform.GetComponent<RectTransform>().anchorMax = Vector2.one;
+                InventoryGroupTransform.position = Vector3.zero;
+            }
+            return InventoryGroupTransform;
+        }
+    }
+/*    public static Inventory GetNew(int length, Model model) 
     { 
         Inventory inventory = Create.GetNewInCanvas<Inventory>();
         inventory.length = length;
@@ -34,6 +62,14 @@ public partial class Inventory : MonoBehaviour
         inventory.SetViewPosition();
         inventory.gameObject.SetActive(false);
         return inventory;
+    }*/
+
+    public void SetDefault(Model model)
+    {
+        Model = model;
+        isPlayer = model is Character ? true : false;
+        SetViewPosition();
+        InventoryView.SetActive(false);
     }
 
     public void ShowInventoryForTrade(Inventory targetInventory)

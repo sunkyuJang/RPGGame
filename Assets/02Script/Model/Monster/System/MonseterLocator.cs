@@ -27,7 +27,7 @@ public class MonseterLocator : MonoBehaviour
 
     private void Start()
     {
-        MonsterPullController = ObjPullingManager.staticObjHandler.ReqeuestObjPullingController(requestMonster);
+        MonsterPullController = ObjPullingManager.instance.ReqeuestObjPullingController(requestMonster);
         StartCoroutine(DoNext());
     }
 

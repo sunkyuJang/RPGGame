@@ -6,8 +6,6 @@ public class ObjPullingController : MonoBehaviour
 {
     public GameObject comparePrefab;
     private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();
-    private int totalReservedCount = 0;
-    public int CountOfalreadyMaking = 0;
 
     public List<GameObject> GetObj(int count) 
     {

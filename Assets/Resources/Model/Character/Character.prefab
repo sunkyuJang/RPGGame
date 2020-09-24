@@ -1455,6 +1455,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 4055651439520164268, guid: 04d23717f7b0fff4d99cec87b3661f92, type: 3}
+  inventoryPrefab: {fileID: 8977424725632707573, guid: 7cb9f76e02332dc419b4740c3f44f97a,
+    type: 3}
   DialogueSheet: {fileID: 0}
   SkillPoint: 0
   canAttacking: 1

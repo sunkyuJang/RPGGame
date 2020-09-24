@@ -8,28 +8,26 @@ using JetBrains.Annotations;
 
 public partial class Inventory : MonoBehaviour
 {
-    public Vector3 goldTextPosition;
-    public Text GoldText { set; get; }
+    public InventroyDiscription inventroyDiscription;
+    public Text goldText;
     public double gold { set; get; } = 0;
-    public void SetGold(double gold) { this.gold = gold; GoldText.text = this.gold.ToString(); }
+    public void SetGold(double gold) { this.gold = gold; goldText.text = this.gold.ToString(); }
     Vector2 viewStartPoint { get { return new Vector2(-160f, 210f); } }
     void SetViewPosition()
     {
         Transform goldTransform = transform.GetChild(0);
-        goldTextPosition = goldTransform.localPosition;
-        GoldText = goldTransform.GetChild(1).GetComponent<Text>();
         if (!isPlayer) transform.localPosition = new Vector3(transform.localPosition.x * -1, transform.localPosition.y, transform.localPosition.z);
-        Area = GMath.GetRect(rectTransform);
+        Area = GMath.GetRect(transform.GetComponent<RectTransform>());
     }
     public void ShowInventory()
     {
-        gameObject.SetActive(true);
+        InventoryView.SetActive(true);
         RefreashInventoryView();
     }
 
     void RefreashInventoryView()
     {
-        GoldText.text = gold.ToString();
+        goldText.text = gold.ToString();
         Vector2 startPosition = viewStartPoint;
         Vector2 nextPosition = startPosition;
         float interval = 10;
@@ -56,7 +54,7 @@ public partial class Inventory : MonoBehaviour
 
     public void HideInventory()
     {
-        gameObject.SetActive(false);
+        InventoryView.SetActive(false);
         if (Model is Character) (Model as Character).ShowGameUI(true);
     }
 
@@ -203,5 +201,8 @@ public partial class Inventory : MonoBehaviour
             }
         }
     }
+
+    public void ShowDiscription(ItemView itemView) => inventroyDiscription.Show(itemView);
+    public void HideDiscription() => inventroyDiscription.Hide();
 }
 

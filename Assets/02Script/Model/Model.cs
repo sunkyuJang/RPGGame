@@ -9,6 +9,7 @@ public partial class Model : MonoBehaviour
     public GameObject HPBar;
     protected IStateViewerHandler iStateViewerHandler { private set; get; }
     bool isIStateObjOn { set; get; }
+    public GameObject inventoryPrefab;
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
@@ -42,18 +43,18 @@ public partial class Model : MonoBehaviour
 
     protected void Awake()
     {
-
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         if(Animator != null)
             animatorController = Animator.runtimeAnimatorController;
+
         AwakeInAlert();
+        MakeInventory();
     }
 
     protected void Start()
     {
-        Inventory = Inventory.GetNew(InventoryLength, this);
         if (HPBar != null)
         {
             HPBar = Instantiate(HPBar, GameManager.mainCanvas);
@@ -64,6 +65,11 @@ public partial class Model : MonoBehaviour
     protected void OnDisable()
     {
         StopAllCoroutines();
+    }
+    void MakeInventory()
+    {
+        Inventory = Instantiate(inventoryPrefab, GameManager.mainCanvas).GetComponent<Inventory>();
+        Inventory.SetDefault(this);
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }

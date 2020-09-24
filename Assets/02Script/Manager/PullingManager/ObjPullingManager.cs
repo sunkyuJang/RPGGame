@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class ObjPullingManager : MonoBehaviour
 {
-    public static ObjPullingManager staticObjHandler { set; get; }
+    public static ObjPullingManager instance { set; get; }
     public Transform pullingGroup;
     public GameObject objControllerPrefab;
     public List<ObjPullingController> objPullingControllers { set; get; } = new List<ObjPullingController>();
 
     private void Awake()
     {
-        staticObjHandler = this;
+        instance = this;
         pullingGroup = new GameObject().transform;
         pullingGroup.name = "PullingManager";
     }

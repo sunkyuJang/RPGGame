@@ -14,7 +14,7 @@ public class SkillMovementHeavyFireBall : SkillMovement, ISkillMovement
     }
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
 
-    public IEnumerator StartHitBoxMovement()
+    new public IEnumerator StartHitBoxMovement()
     {
         yield return base.StartHitBoxMovement();
         var copy = skillData.GetHitBox();

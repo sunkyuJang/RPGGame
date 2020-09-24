@@ -14,8 +14,8 @@ public class Slime : NormalMonster
     new void Start()
     {
         base.Start();
-        Inventory.AddItemForMonster(0, 1, 0.8f);
-        Inventory.AddItemForMonster(2, 1, 1f);
+        Inventory.AddItem(0, 1, 0.8f);
+        Inventory.AddItem(2, 1, 1f);
     }
 
     // Update is called once per frame

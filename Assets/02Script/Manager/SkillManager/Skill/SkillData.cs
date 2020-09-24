@@ -67,7 +67,7 @@ public class SkillData : MonoBehaviour
     }
     private void Start()
     {
-        hitBoxPullingController = ObjPullingManager.staticObjHandler.ReqeuestObjPullingController(hitBox.gameObject);
+        hitBoxPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(hitBox.gameObject);
         StartCoroutine(hitBoxPullingController.CheckCanUseObj(hitBoxNum));
     }
 

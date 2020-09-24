@@ -1,18 +1,25 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventroyDiscription : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Image icon;
+    Text name;
+    Text discription;
+
+    public void Show(ItemView itemView)
     {
-        
+        gameObject.SetActive(true);
+        icon.sprite = itemView.Icon.sprite;
+        name.text = itemView.ItemCounter.Data.Name;
+        discription.text = itemView.ItemCounter.Data.Description;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Hide()
     {
-        
+        gameObject.SetActive(false);
     }
 }

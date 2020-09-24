@@ -14,38 +14,30 @@ public class ItemView : MonoBehaviour, IInputTracer
     public Text Count { set; get; }
     public bool IsContainInputPosition(Vector2 position) { return Area.Contains(position); }
 
-    ItemViewDiscritionBox discritionBox { set; get; }
-
     private void Awake()
     {
-        Icon = transform.Find("ShowImage").GetComponent<Image>();
+/*        Icon = transform.Find("ShowImage").GetComponent<Image>();
         Name = transform.Find("Name").GetComponent<Text>();
-        Count = transform.Find("Count").GetComponent<Text>();
+        Count = transform.Find("Count").GetComponent<Text>();*/
     }
-    public void SetItemCounter(ItemManager.ItemCounter counter, Inventory parentInventory)
+    public ItemView SetItemCounter(ItemManager.ItemCounter counter, Inventory parentInventory)
     {
         inventory = parentInventory;
         ItemCounter = counter;
         Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
-        discritionBox = new ItemViewDiscritionBox(transform.Find("DiscriptionBox"), this);
 
-        SetDiscriptionBox();
+        transform.SetParent(parentInventory.itemViewGroup);
 
-        transform.SetParent(parentInventory.transform);
+        return this;
     }
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
         Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
-
-        SetDiscriptionBox();
     }
     public void RefreshText() { Name.text = ItemCounter.Data.Name; Count.text = ItemCounter.count.ToString(); }
-    public void SetDiscriptionBox() => discritionBox.SetDiscription();
-    public void ShowDiscriptionBox() => discritionBox.ShowDiscription();
-    public void HideDiscriptionBox() => discritionBox.HideDiscriprtion();
     public void UseThis() => StartCoroutine(inventory.UseItem(this, false));
     public void SelectedIcon()
     {
@@ -70,11 +62,11 @@ public class ItemView : MonoBehaviour, IInputTracer
         {
             if(GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
             {
-                ShowDiscriptionBox();
+                inventory.ShowDiscription(this);
             }
             else
             {
-                HideDiscriptionBox();
+                inventory.HideDiscription();
             }
 
             copy.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
@@ -84,7 +76,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         var copyPosition = copy.position;
         Destroy(copy.gameObject);
         Icon.color += readyColor;
-        HideDiscriptionBox();
+        inventory.HideDiscription();
         inventory.ItemDrop(this, copyPosition);
     }
 
@@ -93,7 +85,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         throw new System.NotImplementedException();
     }
 
-    class ItemViewDiscritionBox
+/*    class ItemViewDiscritionBox
     {
         ItemView View { set; get; }
         Transform Transform { set; get; }
@@ -122,5 +114,5 @@ public class ItemView : MonoBehaviour, IInputTracer
 
         public void ShowDiscription() => Transform.gameObject.SetActive(true);
         public void HideDiscriprtion() => Transform.gameObject.SetActive(false);
-    }
+    }*/
 }

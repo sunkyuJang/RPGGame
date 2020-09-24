@@ -5,9 +5,19 @@ using UnityEngine;
 
 public partial class Inventory : MonoBehaviour
 {
+    public void AddItem(int itemIndex, int addCounter, float probability)
+    {
+        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probability), 0));
+    }
+
     public void AddItem(int itemIndex, int addCounter)
     {
-        ItemManager.ItemCounter newCounter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex));
+        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex)), addCounter));
+    }
+    
+    public IEnumerator ProcessAddItem(ItemManager.ItemCounter itemCounter, int addCounter)
+    {
+        ItemManager.ItemCounter newCounter = itemCounter;
         ItemManager.ItemCounter sameKind = table.GetLastPositionItemCounter(newCounter.Data);
 
         ItemManager.ItemCounter lastCounter = sameKind == null ? newCounter : sameKind;
@@ -24,33 +34,34 @@ public partial class Inventory : MonoBehaviour
             {
                 newCounter = new ItemManager.ItemCounter(newCounter.Data);
                 newCounter.GetExcessCount(count);
-                AddViewAndTableList(newCounter);
+                yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
 
             if(lest > 0)
             {
                 newCounter = new ItemManager.ItemCounter(newCounter.Data);
                 newCounter.GetExcessCount(lest);
-                AddViewAndTableList(newCounter);
+                yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
         }
 
         RefreashInventoryView();
     }
 
-    public void AddItemForMonster(int itemIndex, int addCounter, float probablility) 
+/*    public IEnumerator AddItemForMonster(int itemIndex, int addCounter, float probablility)
     {
         var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probablility);
-        var view = ItemManager.GetNewItemView(counter, this);
-
-        itemViews.Add(view);
-    }
+        yield return StartCoroutine(itemViewPullingController.CheckCanUseObj());
+        var view = itemViewPullingController.GetObj().GetComponent<ItemView>(); //ItemManager.GetNewItemView(counter, this);
+        itemViews.Add(view.SetItemCounter(counter, this));
+    }*/
     public void AddItem(ItemManager.ItemCounter counter) => AddItem(counter.Data.Index, counter.count);
 
-    void AddViewAndTableList(ItemManager.ItemCounter newCounter)
+    IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
     {
         table.AddItemCounter(newCounter);
-        itemViews.Add(ItemManager.GetNewItemView(newCounter, this));
+        yield return StartCoroutine(itemViewPullingController.CheckCanUseObj());
+        itemViews.Add(itemViewPullingController.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this));
     }
 
     public bool RemoveItem(int itemIndex, int removeCount)

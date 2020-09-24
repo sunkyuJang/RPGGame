@@ -22,13 +22,13 @@ public partial class ItemManager : MonoBehaviour
     }
 
     public static ItemSheet.Param GetitemData(int index) => Data[index];
-    public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
+/*    public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
     {
-        ItemView itemView = Instantiate(ItemViewObj).GetComponent<ItemView>();
+        //ItemView itemView = Instantiate(ItemViewObj).GetComponent<ItemView>();
         itemView.SetItemCounter(itemCount, inventory);
         itemCount.View = itemView;
         return itemView;
-    }
+    }*/
     public class ItemCounter
     {
         public ItemSheet.Param Data { private set; get; }
