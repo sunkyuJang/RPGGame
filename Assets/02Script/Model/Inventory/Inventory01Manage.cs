@@ -23,21 +23,21 @@ public partial class Inventory : MonoBehaviour
         ItemManager.ItemCounter lastCounter = sameKind == null ? newCounter : sameKind;
 
         int overNum = lastCounter.GetExcessCount(addCounter);
-        if(lastCounter.View == null) { AddViewAndTableList(lastCounter); }
+        if(lastCounter.View == null) { yield return StartCoroutine(AddViewAndTableList(lastCounter)); }
 
         if (overNum > 0)
         {
             int carry = overNum / lastCounter.Data.Limit;
             int lest = overNum % lastCounter.Data.Limit;
             int count = newCounter.Data.Limit;
-            for(int i = 0; i < carry; i++)
+            for (int i = 0; i < carry; i++)
             {
                 newCounter = new ItemManager.ItemCounter(newCounter.Data);
                 newCounter.GetExcessCount(count);
                 yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
 
-            if(lest > 0)
+            if (lest > 0)
             {
                 newCounter = new ItemManager.ItemCounter(newCounter.Data);
                 newCounter.GetExcessCount(lest);
@@ -61,7 +61,14 @@ public partial class Inventory : MonoBehaviour
     {
         table.AddItemCounter(newCounter);
         yield return StartCoroutine(itemViewPullingController.CheckCanUseObj());
-        itemViews.Add(itemViewPullingController.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this));
+        var itemView = itemViewPullingController.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);
+        var transformView = itemView.GetComponent<RectTransform>();
+        transformView.parent = itemViewGroup;
+        transformView.localPosition = Vector3.zero;
+        transformView.localScale = Vector3.one;
+        //itemView.GetComponent<RectTransform>().
+        itemView.gameObject.SetActive(true);
+        itemViews.Add(itemView);
     }
 
     public bool RemoveItem(int itemIndex, int removeCount)

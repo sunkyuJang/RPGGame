@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using System.Runtime.Remoting.Messaging;
 
 public class ItemView : MonoBehaviour, IInputTracer
 {
     public ItemManager.ItemCounter ItemCounter { set; get; }
     public Inventory inventory { set; get; }
-    public Rect Area { get { return GMath.GetRect(transform.GetComponent<RectTransform>()); } }
-    public Image Icon { set; get; }
-    public Text Name { set; get; }
-    public Text Count { set; get; }
+    public Rect Area { get { return GMath.GetRect(frame.GetComponent<RectTransform>()); } }
+    public Image icon;
+    public Text itemname;
+    public Text count;
+    public Transform frame;
     public bool IsContainInputPosition(Vector2 position) { return Area.Contains(position); }
 
-    private void Awake()
-    {
-/*        Icon = transform.Find("ShowImage").GetComponent<Image>();
-        Name = transform.Find("Name").GetComponent<Text>();
-        Count = transform.Find("Count").GetComponent<Text>();*/
-    }
     public ItemView SetItemCounter(ItemManager.ItemCounter counter, Inventory parentInventory)
     {
         inventory = parentInventory;
         ItemCounter = counter;
-        Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
 
         transform.SetParent(parentInventory.itemViewGroup);
@@ -34,17 +30,17 @@ public class ItemView : MonoBehaviour, IInputTracer
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
-        Icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
     }
-    public void RefreshText() { Name.text = ItemCounter.Data.Name; Count.text = ItemCounter.count.ToString(); }
+    public void RefreshText() { itemname.text = ItemCounter.Data.Name; count.text = ItemCounter.count.ToString(); }
     public void UseThis() => StartCoroutine(inventory.UseItem(this, false));
     public void SelectedIcon()
     {
         bool isTouch = false;
         int touchID = 0;
         bool isMouse = false;
-        if (GPosition.IsContainInput(transform.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
+        if (GPosition.IsContainInput(frame.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
         {
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
             if (!inventory.isPlayer) { inventory.SetGold(ItemCounter.Data.Buy * ItemCounter.count); }
@@ -54,9 +50,9 @@ public class ItemView : MonoBehaviour, IInputTracer
     public IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         Color readyColor = new Color(0, 0, 0, 0.7f);
-        Transform copy = Instantiate(gameObject, transform.root).GetComponent<Transform>();
-        copy.position = transform.position;
-        Icon.color -= readyColor;
+        var copy = Instantiate(gameObject, transform.parent).GetComponent<ItemView>();
+        copy.frame.position = frame.position;
+        icon.color -= readyColor;
 
         while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
         {
@@ -69,13 +65,13 @@ public class ItemView : MonoBehaviour, IInputTracer
                 inventory.HideDiscription();
             }
 
-            copy.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
+            copy.frame.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
             yield return new WaitForFixedUpdate();
         }
 
-        var copyPosition = copy.position;
+        var copyPosition = copy.frame.position;
         Destroy(copy.gameObject);
-        Icon.color += readyColor;
+        icon.color += readyColor;
         inventory.HideDiscription();
         inventory.ItemDrop(this, copyPosition);
     }

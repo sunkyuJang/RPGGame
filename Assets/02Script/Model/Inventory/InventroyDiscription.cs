@@ -6,14 +6,19 @@ using UnityEngine.UI;
 
 public class InventroyDiscription : MonoBehaviour
 {
-    Image icon;
-    Text name;
-    Text discription;
+    public Image icon;
+    public Text name;
+    public Text discription;
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void Show(ItemView itemView)
     {
         gameObject.SetActive(true);
-        icon.sprite = itemView.Icon.sprite;
+        icon.sprite = itemView.icon.sprite;
         name.text = itemView.ItemCounter.Data.Name;
         discription.text = itemView.ItemCounter.Data.Description;
     }

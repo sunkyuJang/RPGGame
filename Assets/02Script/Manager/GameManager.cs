@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     
     public static GameManager instance;
     public PlayerData playerData;
-    public static Transform mainCanvas;
+    public static RectTransform mainCanvas;
     public Controller controller;
 
     public static string pathOfScenes { get { return "01Scene/"; } }
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            mainCanvas = transform;
+            mainCanvas = transform.GetComponent<RectTransform>();
             DontDestroyOnLoad(this.gameObject);
         }
         else

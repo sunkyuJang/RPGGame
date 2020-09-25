@@ -55,13 +55,13 @@ public class EquipmentView : MonoBehaviour
         ItemSheet.Param data = equipmentItem.ItemCounter.Data;
         if (data.ItemType == "EquipmentWeapon")
         {
-            WeaponImage.sprite = equipmentItem.Icon.sprite;
+            WeaponImage.sprite = equipmentItem.icon.sprite;
             Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Dagger/Dagger"), WeaponTrans);
             EquipmentItems[0] = equipmentItem.ItemCounter.CopyThis();
         }
         else
         {
-            ArmorImage.sprite = equipmentItem.Icon.sprite;
+            ArmorImage.sprite = equipmentItem.icon.sprite;
             ArmorTrans = Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Leather/WarriorMale"), Character.transform).transform;
             EquipmentItems[1] = equipmentItem.ItemCounter.CopyThis();
         }

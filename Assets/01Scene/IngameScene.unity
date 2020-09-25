@@ -494,6 +494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPBar: {fileID: 0}
+  inventoryPrefab: {fileID: 8977424725632707573, guid: 7cb9f76e02332dc419b4740c3f44f97a,
+    type: 3}
   DialogueSheet: {fileID: 11400000, guid: affb1d9e1b48c474eaa4d2ddaab0371a, type: 2}
   questSheet: {fileID: 11400000, guid: 85f79c3b1299763418595b25e76d7cb0, type: 2}
   ClearQuestCount: 0

@@ -35,7 +35,7 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     void SkillTreeSet()
     {
-        for (int i = 0; i < 2; i++)
+        /*for (int i = 0; i < 2; i++)
         {
             var group = i == 0 ? physicSkillGroup.transform : MagicSkillGroup.transform;
             var count = group.childCount;
@@ -59,7 +59,7 @@ public class CharacterSkiilViewer : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
     }
 
     public SkillData GetSkillData(string name)

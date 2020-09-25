@@ -81,9 +81,7 @@ public partial class Character : Model
     public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
     {
         yield return new WaitWhile(() => isStartFuncPassed == false);
-            print(true);
         CharacterName = playerData.NickName;
-        print(playerData.itemKinds.Count);
         for(int i = 0; i < playerData.itemKinds.Count; i++)
         {
             Inventory.AddItem

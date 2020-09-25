@@ -25,7 +25,7 @@ public partial class Inventory : MonoBehaviour
     private void Awake()
     {
         table = new ItemCounterTable();
-        itemViewPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(itemViewPrefab);
+        itemViewPullingController = GetItemViewPullingController;
     }
 
     private void Start()
@@ -37,6 +37,19 @@ public partial class Inventory : MonoBehaviour
 
     }
 
+    ObjPullingController GetItemViewPullingController
+    {
+        get
+        {
+            var viewPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(itemViewPrefab);
+            var viewRectTransform = viewPullingController.GetComponent<RectTransform>();
+            if(viewRectTransform == null)
+                viewPullingController.gameObject.AddComponent<RectTransform>();
+            viewPullingController.transform.parent = GameManager.mainCanvas;
+            return viewPullingController;
+        }
+    }
+
     Transform GetInventoryGroup
     {
         get
@@ -44,11 +57,10 @@ public partial class Inventory : MonoBehaviour
             var InventoryGroupTransform = GameManager.mainCanvas.Find("InventoryGroup");
             if (InventoryGroupTransform == null)
             {
-                InventoryGroupTransform = new GameObject("InventoryGroup").AddComponent<RectTransform>();
-                InventoryGroupTransform.parent = GameManager.mainCanvas;
-                InventoryGroupTransform.GetComponent<RectTransform>().anchorMin = Vector2.zero;
-                InventoryGroupTransform.GetComponent<RectTransform>().anchorMax = Vector2.one;
-                InventoryGroupTransform.position = Vector3.zero;
+                var inventoryGroupRectTransform = new GameObject("InventoryGroup", typeof(RectTransform)).GetComponent<RectTransform>();
+                inventoryGroupRectTransform.SetParent(GameManager.mainCanvas, true);
+
+                InventoryGroupTransform = inventoryGroupRectTransform;
             }
             return InventoryGroupTransform;
         }
@@ -69,6 +81,7 @@ public partial class Inventory : MonoBehaviour
         Model = model;
         isPlayer = model is Character ? true : false;
         SetViewPosition();
+        gameObject.name = model.CharacterName + gameObject.name;
         InventoryView.SetActive(false);
     }
 

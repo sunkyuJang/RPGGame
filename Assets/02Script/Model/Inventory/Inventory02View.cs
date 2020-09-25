@@ -36,7 +36,7 @@ public partial class Inventory : MonoBehaviour
             var itemView = itemViews[i];
             if (itemView.ItemCounter != null)
             {
-                itemView.transform.localPosition = nextPosition;
+                itemView.frame.localPosition = nextPosition;
                 nextPosition += new Vector2(interval + itemView.Area.width, 0);
                 if ((i + 1) % 4 == 0 && i != 0)
                 {
@@ -103,10 +103,10 @@ public partial class Inventory : MonoBehaviour
     }
     void SwapItem(ItemView itemView, Vector2 dropPosition)
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(dropPosition, itemView.GetComponent<BoxCollider2D>().size, 0f);
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(dropPosition, itemView.frame.GetComponent<BoxCollider2D>().size, 0f);
 
         dropPosition -= new Vector2(transform.position.x, transform.position.y);
-        var itemViewCollider = itemView.gameObject.GetComponent<BoxCollider2D>(); 
+        var itemViewCollider = itemView.frame.GetComponent<BoxCollider2D>(); 
         Collider2D targetCollider = null;
         if(colliders.Length > 0)
         {
@@ -124,7 +124,7 @@ public partial class Inventory : MonoBehaviour
                 }
             }
 
-            var targetView = targetCollider.transform.GetComponent<ItemView>();
+            var targetView = targetCollider.transform.parent.GetComponent<ItemView>();
             if (targetView.ItemCounter.Data.Index == itemView.ItemCounter.Data.Index)
             {
                 if (targetView.ItemCounter.count < targetView.ItemCounter.Data.Limit)

@@ -60,11 +60,9 @@ public class ObjPullingController : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var nowObj = Instantiate(comparePrefab, transform);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             nowObj.SetActive(false);
             CreatedObjList.Enqueue(nowObj);
         }
-
-        yield return null;
     }
 }
