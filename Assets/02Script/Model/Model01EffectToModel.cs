@@ -23,7 +23,8 @@ public partial class Model : MonoBehaviour
 
         var StateSaver = new StateSaver(data);
         StateSaver.coroutine = StartCoroutine(isDeEffect ? GetProcessDeincreaseEffect(data, StateSaver) : GetProcessIncreaseEffect(data, StateSaver));
-        StateSavers.Add(StateSaver);
+        if(data.During > 0)
+            StateSavers.Add(StateSaver);
     }
 
     public IEnumerator GetProcessIncreaseEffect(StateEffecterSheet.Param data, StateSaver saver)
@@ -62,9 +63,10 @@ public partial class Model : MonoBehaviour
             ATK -= saver.increasePercentageATK;
             DEF -= saver.increasePercentageDEF;
             SPD -= saver.increasePercentageSPD;
-
+            
             StateSavers.Remove(saver);
         }
+
         if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
         RefreshedHPBar();
     }
@@ -105,11 +107,12 @@ public partial class Model : MonoBehaviour
             ATK += saver.increasePercentageATK;
             DEF += saver.increasePercentageDEF;
             SPD += saver.increasePercentageSPD;
+            
+            StateSavers.Remove(saver);
         }
 
         if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
         RefreshedHPBar();
-        StateSavers.Remove(saver);
     }
 
     public void StopEffectToModel(StateSaver saver)

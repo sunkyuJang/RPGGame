@@ -46,6 +46,7 @@ public class ObjPullingController : MonoBehaviour
     public void returnObj(GameObject gameObject)
     {
         gameObject.transform.parent = transform;
+        gameObject.SetActive(false);
         CreatedObjList.Enqueue(gameObject);
     }
 
