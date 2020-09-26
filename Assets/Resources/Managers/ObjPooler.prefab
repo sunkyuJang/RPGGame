@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9096359845140294597}
   - component: {fileID: 6359965554581727457}
   m_Layer: 0
-  m_Name: ObjPullingController
+  m_Name: ObjPoolingController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33766d4d9bf13c54998720eac082e317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  comparePrefab: {fileID: 0}

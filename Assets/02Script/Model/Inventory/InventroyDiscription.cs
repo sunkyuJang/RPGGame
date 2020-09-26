@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InventroyDiscription : MonoBehaviour
 {
     public Image icon;
-    public Text name;
+    new public Text name;
     public Text discription;
 
     private void Awake()

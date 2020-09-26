@@ -38,7 +38,7 @@ public class BossMonster : Monster
         BossHPBarViewer.SetName(CharacterName);
     }
 
-    protected void OnEnable()
+    new protected void OnEnable()
     {
         base.OnEnable();
     }

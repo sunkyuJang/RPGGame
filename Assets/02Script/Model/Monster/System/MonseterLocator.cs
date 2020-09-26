@@ -16,7 +16,7 @@ public class MonseterLocator : MonoBehaviour
     public Color color;
     Rect RoamingArea { set; get; }
     List<Monster> MonsterInArea { set; get; } = new List<Monster>();
-    ObjPullingController MonsterPullController;
+    ObjPooler MonsterPooler;
     private void Awake()
     {
         var position = GMath.ConvertV3xzToV2(transform.position);
@@ -27,7 +27,7 @@ public class MonseterLocator : MonoBehaviour
 
     private void Start()
     {
-        MonsterPullController = ObjPullingManager.instance.ReqeuestObjPullingController(requestMonster);
+        MonsterPooler = ObjPoolerManager.instance.ReqeuestObjPooler(requestMonster);
         StartCoroutine(DoNext());
     }
 
@@ -41,8 +41,8 @@ public class MonseterLocator : MonoBehaviour
             {
                 if(MonsterInArea.Count < maxCount)
                 {
-                    yield return StartCoroutine(MonsterPullController.CheckCanUseObj(1));
-                    var nowMonster = MonsterPullController.GetObj().GetComponent<Monster>();
+                    yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
+                    var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();
                     nowMonster.transform.parent = transform;
                     nowMonster.gameObject.SetActive(true);
                     LocatedMonster(nowMonster);
@@ -69,7 +69,7 @@ public class MonseterLocator : MonoBehaviour
 
     void returnMonsterObj(GameObject gameObject)
     {
-        MonsterPullController.returnObj(gameObject);
+        MonsterPooler.returnObj(gameObject);
     }
     void LocatedMonster(Monster monster)
     {

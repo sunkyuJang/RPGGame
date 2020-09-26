@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjPullingController : MonoBehaviour
+public class ObjPooler : MonoBehaviour
 {
     public GameObject comparePrefab;
     private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();

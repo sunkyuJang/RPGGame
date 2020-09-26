@@ -16,7 +16,7 @@ public partial class Inventory : MonoBehaviour
     public bool isPlayer { private set; get; }
 
     public GameObject itemViewPrefab;
-    public ObjPullingController itemViewPullingController { set; get; }
+    public ObjPooler itemViewPooler{ set; get; }
     public List<ItemView> itemViews { private set; get; } = new List<ItemView>();
     public bool HasItem { get { return itemViews.Count > 0; } }
     public int length { set; get; }
@@ -25,27 +25,27 @@ public partial class Inventory : MonoBehaviour
     private void Awake()
     {
         table = new ItemCounterTable();
-        itemViewPullingController = GetItemViewPullingController;
+        itemViewPooler = GetitemViewPooler;
     }
 
     private void Start()
     {
-        transform.parent = GetInventoryGroup;
+        transform.SetParent(GetInventoryGroup);
         var rectTransform = transform.GetComponent<RectTransform>();
         transform.GetComponent<RectTransform>().anchorMin = Vector2.zero;
         transform.GetComponent<RectTransform>().anchorMax = Vector2.one;
 
     }
 
-    ObjPullingController GetItemViewPullingController
+    ObjPooler GetitemViewPooler
     {
         get
         {
-            var viewPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(itemViewPrefab);
+            var viewPullingController = ObjPoolerManager.instance.ReqeuestObjPooler(itemViewPrefab);
             var viewRectTransform = viewPullingController.GetComponent<RectTransform>();
             if(viewRectTransform == null)
                 viewPullingController.gameObject.AddComponent<RectTransform>();
-            viewPullingController.transform.parent = GameManager.mainCanvas;
+            viewPullingController.transform.SetParent(GameManager.mainCanvas);
             return viewPullingController;
         }
     }

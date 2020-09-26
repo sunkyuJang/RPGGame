@@ -14,6 +14,6 @@ public class SkillMovement : MonoBehaviour
 
     protected IEnumerator StartHitBoxMovement()
     {
-        yield return StartCoroutine(skillData.hitBoxPullingController.CheckCanUseObj(skillData.hitBoxNum));
+        yield return StartCoroutine(skillData.hitBoxPooler.CheckCanUseObj(skillData.hitBoxNum));
     }
 }

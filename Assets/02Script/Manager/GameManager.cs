@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(this.gameObject);
-
-        print(pathOfScenes);
     }
 
     public void SetGameStart(PlayerData playerData)

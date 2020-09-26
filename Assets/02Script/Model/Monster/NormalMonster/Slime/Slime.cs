@@ -24,12 +24,12 @@ public class Slime : NormalMonster
         base.Update();
     }
 
-    protected void OnEnable()
+    new protected void OnEnable()
     {
         base.OnEnable();
     }
 
-    private void OnDisable()
+    new private void OnDisable()
     {
         base.OnDisable();
     }

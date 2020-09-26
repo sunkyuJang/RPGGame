@@ -45,7 +45,7 @@ public partial class Inventory : MonoBehaviour
             }
             else
             {
-                itemViewPullingController.returnObj(itemView.gameObject);
+                itemViewPooler.returnObj(itemView.gameObject);
                 itemViews.RemoveAt(i);
                 i--;
             }

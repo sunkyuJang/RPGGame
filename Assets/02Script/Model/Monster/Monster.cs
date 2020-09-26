@@ -57,7 +57,7 @@ public class Monster : Model
         NowState = ActionState.idle;
     }
 
-    protected void OnDisable()
+    new protected void OnDisable()
     {
         BeforeState = ActionState.non;
         base.OnDisable();

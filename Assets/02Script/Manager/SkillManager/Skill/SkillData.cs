@@ -36,7 +36,7 @@ public class SkillData : MonoBehaviour
 
     public Transform skillpulling;
     public int hitBoxNum;
-    public ObjPullingController hitBoxPullingController { private set; get; }
+    public ObjPooler hitBoxPooler { private set; get; }
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
     public Model targetModel;
@@ -67,8 +67,8 @@ public class SkillData : MonoBehaviour
     }
     private void Start()
     {
-        hitBoxPullingController = ObjPullingManager.instance.ReqeuestObjPullingController(hitBox.gameObject);
-        StartCoroutine(hitBoxPullingController.CheckCanUseObj(hitBoxNum));
+        hitBoxPooler = ObjPoolerManager.instance.ReqeuestObjPooler(hitBox.gameObject);
+        StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
     }
 
     public void ActivateSkill()
@@ -103,7 +103,7 @@ public class SkillData : MonoBehaviour
 
     public HitBox GetHitBox()
     {
-        var copy = hitBoxPullingController.GetObj().GetComponent<HitBox>();
+        var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
         copy.gameObject.SetActive(true);
         copy.transform.parent = skillpulling.transform;
         copy.transform.forward = Model.transform.forward;
@@ -119,7 +119,7 @@ public class SkillData : MonoBehaviour
     public void returnHitBox(HitBox hitBox)
     {
         hitBox.gameObject.SetActive(false);
-        hitBoxPullingController.returnObj(hitBox.gameObject);
+        hitBoxPooler.returnObj(hitBox.gameObject);
     }
     public void returnHitBox(List<HitBox> hitBoxs)
     {
@@ -154,7 +154,7 @@ public class SkillData : MonoBehaviour
 
     public Transform skillpulling;
     public int hitBoxNum;
-    public ObjPullingController hitBoxPullingController { private set; get; }
+    public ObjPullingController hitBoxPooler { private set; get; }
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
     public Model targetModel;

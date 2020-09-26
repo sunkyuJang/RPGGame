@@ -25,7 +25,7 @@ public class SkulMagician : NormalMonster
         closeEnough = 6f;
         farEnogh = 5f;
     }
-    private void OnEnable()
+    new private void OnEnable()
     {
         base.OnEnable();
     }

@@ -60,10 +60,10 @@ public partial class Inventory : MonoBehaviour
     IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
     {
         table.AddItemCounter(newCounter);
-        yield return StartCoroutine(itemViewPullingController.CheckCanUseObj());
-        var itemView = itemViewPullingController.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);
+        yield return StartCoroutine(itemViewPooler.CheckCanUseObj());
+        var itemView = itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);
         var transformView = itemView.GetComponent<RectTransform>();
-        transformView.parent = itemViewGroup;
+        transformView.SetParent(itemViewGroup);
         transformView.localPosition = Vector3.zero;
         transformView.localScale = Vector3.one;
         //itemView.GetComponent<RectTransform>().
