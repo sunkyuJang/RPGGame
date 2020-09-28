@@ -28,13 +28,12 @@ public partial class Inventory : MonoBehaviour
         itemViewPooler = GetitemViewPooler;
     }
 
-    private void Start()
+    public void SetTransformParent() 
     {
         transform.SetParent(GetInventoryGroup);
         var rectTransform = transform.GetComponent<RectTransform>();
         transform.GetComponent<RectTransform>().anchorMin = Vector2.zero;
         transform.GetComponent<RectTransform>().anchorMax = Vector2.one;
-
     }
 
     ObjPooler GetitemViewPooler

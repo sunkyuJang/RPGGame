@@ -19,6 +19,10 @@ public class ObjPooler : MonoBehaviour
     {
         return CreatedObjList.Dequeue();
     }
+    public T GetObj<T>()
+    {
+        return CreatedObjList.Dequeue().GetComponent<T>();
+    }
 
     bool isRunningOut(int count) { return count > CreatedObjList.Count; }
 

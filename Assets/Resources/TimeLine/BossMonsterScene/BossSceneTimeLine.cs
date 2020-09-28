@@ -20,6 +20,9 @@ public class BossSceneTimeLine : TimeLineHandler
         while (!IsInterruptOccur)
             yield return new WaitForFixedUpdate();
 
+        foreach (TimeLineAnimationController controller in timeLineAnimationControllers)
+            controller.LoopLastAnimation(true);
+
         playableDirector.Stop();
 
         DialogueManager.instance.ShowDialogue(Character, bossMonster.GetComponent<Model>());

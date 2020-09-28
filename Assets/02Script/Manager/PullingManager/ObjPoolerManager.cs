@@ -6,15 +6,15 @@ using UnityEngine;
 public class ObjPoolerManager : MonoBehaviour
 {
     public static ObjPoolerManager instance { set; get; }
-    public Transform pullingGroup;
+//s    public Transform poolerGroup;
     public GameObject objControllerPrefab;
     public List<ObjPooler> ObjPoolers { set; get; } = new List<ObjPooler>();
 
     private void Awake()
     {
         instance = this;
-        pullingGroup = new GameObject().transform;
-        pullingGroup.name = "PullingManager";
+/*        poolerGroup = new GameObject().transform;
+        poolerGroup.name = "PoolerManager";*/
     }
 
     public ObjPooler ReqeuestObjPooler(GameObject requestPrefab)
@@ -28,8 +28,8 @@ public class ObjPoolerManager : MonoBehaviour
 
     public ObjPooler CreatObjPooler(GameObject requestPrefab)
     {
-        var controller = Instantiate(objControllerPrefab, pullingGroup).GetComponent<ObjPooler>();
-        controller.name = requestPrefab.name + "PullingControllerList";
+        var controller = Instantiate(objControllerPrefab).GetComponent<ObjPooler>();
+        controller.name = requestPrefab.name + "Pooler";
         controller.comparePrefab = requestPrefab;
         ObjPoolers.Add(controller);
         return controller;

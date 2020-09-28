@@ -50,7 +50,7 @@ public partial class Model : MonoBehaviour
             animatorController = Animator.runtimeAnimatorController;
 
         AwakeInAlert();
-        MakeInventory();
+        StartCoroutine(SetInventoryFromInventoryPoolerManager());
     }
 
     protected void Start()
@@ -66,10 +66,15 @@ public partial class Model : MonoBehaviour
     {
         StopAllCoroutines();
     }
-    void MakeInventory()
+    IEnumerator SetInventoryFromInventoryPoolerManager()
     {
-        Inventory = Instantiate(inventoryPrefab, GameManager.mainCanvas).GetComponent<Inventory>();
+        var inventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
+        yield return inventoryPooler.CheckCanUseObj();
+        Inventory = inventoryPooler.GetObj<Inventory>();
+        Inventory.gameObject.SetActive(true);
+        Inventory.SetTransformParent();
         Inventory.SetDefault(this);
+        //Inventory = Instantiate(inventoryPrefab, GameManager.mainCanvas).GetComponent<Inventory>();
     }
 
     public void ShowInventory() { Inventory.ShowInventory(); }

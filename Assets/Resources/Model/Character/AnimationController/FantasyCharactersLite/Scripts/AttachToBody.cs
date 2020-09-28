@@ -11,7 +11,7 @@ public class AttachToBody : MonoBehaviour
 	void Start ()
 	{
 		int i = 0;
-		Transform rootParent = transform.root.transform;
+		Transform rootParent = transform.parent;
 		GameObject target;
 		Transform[] bodyBones = null;
 		for (i = 0; i < rootParent.childCount; i++)

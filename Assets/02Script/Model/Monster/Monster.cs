@@ -366,7 +366,7 @@ public class Monster : Model
     {
         Gizmos.color = new Color(1,1,1, 0.5f);
         Gizmos.DrawCube(GMath.ConvertV2ToV3xz(RoamingArea.center), GMath.ConvertV2ToV3xz(RoamingArea.size) + Vector3.up);
-        Gizmos.DrawSphere(transform.position, sightRadius);
+        Gizmos.DrawWireSphere(transform.position, sightRadius);
 
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
         Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.red);

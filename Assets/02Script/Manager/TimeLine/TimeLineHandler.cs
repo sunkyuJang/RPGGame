@@ -10,6 +10,7 @@ public class TimeLineHandler : MonoBehaviour
     public PlayableDirector playableDirector { set; get; }
     public int interrupt = 0;
 
+    public List<TimeLineAnimationController> timeLineAnimationControllers = new List<TimeLineAnimationController>();
     bool isAlreadyRunning { set; get; }
     public bool IsInterruptOccur { get { return interrupt == 1; } }
     private void Awake()
@@ -17,26 +18,40 @@ public class TimeLineHandler : MonoBehaviour
         playableDirector = gameObject.GetComponent<PlayableDirector>();
         playableDirector.Stop();
     }
-    private void Start()
-    {
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Character") && !isAlreadyRunning)
         {
             Character = other.GetComponent<Character>();
+            playableDirector.Play();
             SetIsTimeLineStart(true);
-            ToDo();
+            StartCoroutine(doit());
+            //ToDo();
         }
     }
-    protected virtual void ToDo() { }
+
+    IEnumerator doit()
+    {
+        while (!IsInterruptOccur)
+            yield return new WaitForFixedUpdate();
+
+        playableDirector.Pause();
+
+        foreach (TimeLineAnimationController controller in timeLineAnimationControllers)
+            controller.LoopLastAnimation(true);
+
+    }
+    protected virtual void ToDo() 
+    {
+        
+    }
 
     protected void SetIsTimeLineStart(bool isStart)
     {
-        StaticManager.SetRunningTimeLine(isStart ? this : null);
+/*        StaticManager.SetRunningTimeLine(isStart ? this : null);
         isAlreadyRunning = isStart;
         Character.ShowGameUI(!isStart);
-        gameObject.SetActive(isStart);
+        gameObject.SetActive(isStart);*/
     }
 }
