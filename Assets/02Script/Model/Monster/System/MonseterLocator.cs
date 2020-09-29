@@ -12,7 +12,7 @@ public class MonseterLocator : MonoBehaviour
     public float resetDist = 100f;
     public float nowDistFromCharacter = 0f;
     public int vertical;
-    public int horizon;
+    public int horizontal;
     public Color color;
     Rect RoamingArea { set; get; }
     List<Monster> MonsterInArea { set; get; } = new List<Monster>();
@@ -21,8 +21,8 @@ public class MonseterLocator : MonoBehaviour
     {
         var position = GMath.ConvertV3xzToV2(transform.position);
         var positionX = position.x - vertical / 2;
-        var positionY = position.y - horizon / 2;
-        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(vertical, horizon));
+        var positionY = position.y - horizontal / 2;
+        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(vertical, horizontal));
     }
 
     private void Start()
@@ -80,13 +80,14 @@ public class MonseterLocator : MonoBehaviour
                 Random.Range(RoamingArea.yMin, RoamingArea.yMax));
 
         monster.RoamingArea = RoamingArea;
+        monster.MonseterLocator = this;
         MonsterInArea.Add(monster);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(vertical, 1, horizon));
+        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(vertical, 1, horizontal));
     }
 }
 /*public class MonseterLocator : MonoBehaviour
@@ -97,7 +98,7 @@ public class MonseterLocator : MonoBehaviour
     public float responeTime;
 
     public int vertical;
-    public int horizon;
+    public int horizontal;
     public Color color;
     Rect RoamingArea { set; get; }
     List<Monster> MonsterInArea { set; get; } = new List<Monster>(); 
@@ -106,7 +107,7 @@ public class MonseterLocator : MonoBehaviour
     private void Awake()
     {
         MonsterGenerator = transform.root.GetComponent<MonsterHandler>().SearchGenerator(requestMonster);
-        RoamingArea = new Rect(GMath.ConvertV3xzToV2(transform.position), new Vector2(vertical/2, horizon/2));
+        RoamingArea = new Rect(GMath.ConvertV3xzToV2(transform.position), new Vector2(vertical/2, horizontal/2));
     }
 
     void Start()
@@ -155,7 +156,7 @@ public class MonseterLocator : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawCube(transform.position, new Vector3(vertical, 1, horizon));
+        Gizmos.DrawCube(transform.position, new Vector3(vertical, 1, horizontal));
     }
 }
 */

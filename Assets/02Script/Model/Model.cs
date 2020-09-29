@@ -9,7 +9,7 @@ public partial class Model : MonoBehaviour
     public GameObject HPBar;
     protected IStateViewerHandler iStateViewerHandler { private set; get; }
     bool isIStateObjOn { set; get; }
-    public GameObject inventoryPrefab;
+    //public GameObject inventoryPrefab;
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }

@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
         DialogueSelecter = DialogueViewer.dialogueSelecter;
     }
 
-    public void ShowDialogue(Character playerModel , Model model)
+    public void ShowDialogue(Character playerModel, Model model)
     {
         if(model.HasDialogue)
         {

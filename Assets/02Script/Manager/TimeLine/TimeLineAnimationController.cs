@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimeLineAnimationController : MonoBehaviour
 {
-    Animator nowAnimator;
+/*    Animator nowAnimator;
 
     private void Awake()
     {
@@ -17,5 +17,5 @@ public class TimeLineAnimationController : MonoBehaviour
     public void LoopLastAnimation(bool isTrue)
     {
         nowAnimator.SetBool("NeedLooping", isTrue);
-    }
+    }*/
 }

@@ -10,6 +10,9 @@ using UnityEngine.XR.WSA.Input;
 
 public class Monster : Model
 {
+    public MonseterLocator MonseterLocator { set; get; }
+    public float roamingHorizontal;
+    public float roamingVertical;
     protected Character Character { set; get; }
     public Rect RoamingArea { set; get; }
     protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine, non }
@@ -50,6 +53,11 @@ public class Monster : Model
             nowSkillData.skillpulling.parent = skillPullingGroup;
             skillsMovements.Add(nowSkillData);
         }
+
+        var position = GMath.ConvertV3xzToV2(transform.position);
+        var positionX = position.x - roamingVertical / 2;
+        var positionY = position.y - roamingHorizontal / 2;
+        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(roamingVertical, roamingHorizontal));
     }
 
     protected void OnEnable()
@@ -365,7 +373,8 @@ public class Monster : Model
     protected void OnDrawGizmos()
     {
         Gizmos.color = new Color(1,1,1, 0.5f);
-        Gizmos.DrawCube(GMath.ConvertV2ToV3xz(RoamingArea.center), GMath.ConvertV2ToV3xz(RoamingArea.size) + Vector3.up);
+        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(roamingVertical, 1, roamingHorizontal));
+        Gizmos.color = new Color(1,0,0, 0.5f);
         Gizmos.DrawWireSphere(transform.position, sightRadius);
 
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
