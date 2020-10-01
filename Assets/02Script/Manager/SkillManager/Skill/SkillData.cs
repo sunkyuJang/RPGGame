@@ -34,7 +34,7 @@ public class SkillData : MonoBehaviour
 
     public SkillData parentSkillData;
 
-    public Transform skillpulling;
+    public Transform skillPooling;
     public int hitBoxNum;
     public ObjPooler hitBoxPooler { private set; get; }
     public Queue<HitBox> hitBoxes = new Queue<HitBox>();
@@ -59,7 +59,7 @@ public class SkillData : MonoBehaviour
     protected void Awake()
     {
         skillName_eng = gameObject.name.Substring(9);
-        skillpulling = new GameObject(skillName_eng).GetComponent<Transform>();
+        skillPooling = new GameObject(skillName_eng).GetComponent<Transform>();
 /*        for (int i = 0; i < hitBoxNum; i++)
         {
             SetHitBox();
@@ -105,7 +105,7 @@ public class SkillData : MonoBehaviour
     {
         var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
         copy.gameObject.SetActive(true);
-        copy.transform.parent = skillpulling.transform;
+        copy.transform.parent = skillPooling.transform;
         copy.transform.forward = Model.transform.forward;
         copy.Collider.enabled = true;
         return copy;

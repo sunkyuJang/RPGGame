@@ -161,7 +161,7 @@ public partial class Character : Model
                     else if (TargetModel is Monster)
                     {
                         NowState = ActionState.Attack;
-                        ReservedSkill = StaticManager.CharacterSkiilViewer.SkillNormalAttack;
+                        ReservedSkill = CharacterSkiilViewer.SkillNormalAttack;
                     }
                     yield break;
                 }
@@ -177,7 +177,7 @@ public partial class Character : Model
         Npc npc = TargetModel as Npc;
         if (npc.HasDialogue)
         {
-            ShowGameUI(false);
+            IntoDialogueUI();
             DialogueManager.instance.ShowDialogue(this, npc);
         }
         NowState = ActionState.Idle;
@@ -196,7 +196,7 @@ public partial class Character : Model
             {
                 controller.SetAllActive(true);
                 QuickSlot.gameObject.SetActive(true);
-                ShowGameUI(true);
+                IntoNormalUI();
                 Inventory.gameObject.SetActive(false);
                 TargetModel.Inventory.gameObject.SetActive(false);
                 NowState = ActionState.Idle;

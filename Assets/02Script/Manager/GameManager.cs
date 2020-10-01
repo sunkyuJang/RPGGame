@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject CharacterPrefab;
+    public GameObject SkillDataGroup;
     
     public static GameManager instance;
     public PlayerData playerData;
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour
             instance = this;
             mainCanvas = transform.GetComponent<RectTransform>();
             DontDestroyOnLoad(this.gameObject);
+
+            Instantiate(SkillDataGroup, transform.root.parent);
         }
         else
             Destroy(this.gameObject);

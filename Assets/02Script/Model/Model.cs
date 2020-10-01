@@ -1,6 +1,7 @@
 ﻿using GLip;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -35,6 +36,10 @@ public partial class Model : MonoBehaviour
     protected int InventoryLength { set; get; }
     protected RuntimeAnimatorController animatorController { set; get; }
 
+    public Transform skillPullingGroup { set; get;}
+    public Transform skillListGroup;
+    protected List<SkillData> skillsMovements { set; get; } = new List<SkillData>();
+
     protected string SkillDataName = "SkillData";
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
@@ -60,6 +65,22 @@ public partial class Model : MonoBehaviour
             HPBar = Instantiate(HPBar, GameManager.mainCanvas);
             iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
         }
+
+        SetSkillData();
+    }
+
+    void SetSkillData()
+    {
+        if (skillListGroup != null)
+        {
+            foreach (Transform skillTransform in skillListGroup)
+            {
+                var nowSkillData = skillTransform.GetComponent<SkillData>();
+                nowSkillData.Model = this;
+                SkillDataGrouper.instance.SetSkillDataParent(nowSkillData);
+                skillsMovements.Add(nowSkillData);
+            }
+        }
     }
 
     protected void OnDisable()
@@ -68,17 +89,16 @@ public partial class Model : MonoBehaviour
     }
     IEnumerator SetInventoryFromInventoryPoolerManager()
     {
+        yield return new WaitUntil(() => InventoryPoolerManager.instance.inventoryPooler != null);
         var inventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
-        yield return inventoryPooler.CheckCanUseObj();
+        print(inventoryPooler.name);
+        yield return StartCoroutine(inventoryPooler.CheckCanUseObj());
         Inventory = inventoryPooler.GetObj<Inventory>();
         Inventory.gameObject.SetActive(true);
         Inventory.SetTransformParent();
         Inventory.SetDefault(this);
         //Inventory = Instantiate(inventoryPrefab, GameManager.mainCanvas).GetComponent<Inventory>();
     }
-
-    public void ShowInventory() { Inventory.ShowInventory(); }
-    
     public void SetTimeLineRunning(bool isRunning) 
     {
         if (isRunning)

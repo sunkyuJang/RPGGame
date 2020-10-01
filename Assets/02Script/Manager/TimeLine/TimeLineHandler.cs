@@ -54,7 +54,7 @@ public class TimeLineHandler : MonoBehaviour
     {
         StaticManager.SetRunningTimeLine(isStart ? this : null);
         isAlreadyRunning = isStart;
-        Character.ShowGameUI(!isStart);
+        Character.ShowGameUI(Character.UIList.all, false);
         gameObject.SetActive(isStart);
     }
 }

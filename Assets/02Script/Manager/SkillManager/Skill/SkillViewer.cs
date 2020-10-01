@@ -11,7 +11,7 @@ using System.Diagnostics;
 public class SkillViewer : MonoBehaviour, IInputTracer
 {
     RectTransform RectTransform;
-    public SkillData skillData;
+    public SkillData skillData { set; get; }
     public Image skillViewerImage;
     public CharacterSkiilViewer characterSkiilViewer;
     GameObject copy;
@@ -22,7 +22,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     {
         RectTransform = GetComponent<RectTransform>();
         GetComponent<EventTrigger>().triggers[0].callback.AddListener((data) => Pressed());
-        SetLearnedIcon();
+        //SetLearnedIcon();
     }
 
     public void MakeImage()
@@ -60,7 +60,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
 
     public IEnumerator TraceInput(bool isTouch, int touchId, bool isMouse)
     {
-        copy.SetActive(true);
+/*        copy.SetActive(true);
         copy.transform.SetParent(GameManager.mainCanvas);
 
         //List<RaycastResult> results = new List<RaycastResult>();
@@ -71,12 +71,12 @@ public class SkillViewer : MonoBehaviour, IInputTracer
             yield return new WaitForFixedUpdate();
         }
 
-        /*        ped.position = copy.transform.position;
+        *//*        ped.position = copy.transform.position;
                 graphicRaycaster.Raycast(ped, results);
                 foreach(RaycastResult result in results)
                 {
                     print(result.gameObject.name);
-                }*/
+                }*//*
 
         var quickSlot = characterSkiilViewer.character.QuickSlot;
         var quickSlotNum = quickSlot.IsIn(copy.transform.position);
@@ -84,7 +84,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
 
         copy.transform.SetParent(transform);
         copy.transform.position = transform.position;
-        copy.SetActive(false);
+        copy.SetActive(false);*/
 
         yield return null;
     }

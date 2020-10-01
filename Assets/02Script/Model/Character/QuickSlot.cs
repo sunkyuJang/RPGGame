@@ -6,7 +6,7 @@ using GLip;
 
 public class QuickSlot : MonoBehaviour
 {
-    Character Character { set; get; }
+    public Character Character { set; get; }
     private new Transform transform;
     private Rect area;
     private List<Transform> lists = new List<Transform>();
@@ -102,13 +102,5 @@ public class QuickSlot : MonoBehaviour
         {
             gameObject.SetActive(isOn);
         }
-    }
-
-    public static QuickSlot GetNew(Character character)
-    {
-        QuickSlot quickSlot = Create.GetNewInCanvas<QuickSlot>();
-        quickSlot.Character = character;
-        //quickSlot.gameObject.SetActive(false);
-        return quickSlot;
     }
 }

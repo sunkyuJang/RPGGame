@@ -14,9 +14,6 @@ public class Npc : Model
     {
         base.Start();
     }
-    public void DoTrade() { ShowInventory(); }
-    public void DoQuest(int _questIndex){ }
-    public bool HasItems { get { return Inventory.HasItem; } }
     public bool HasQuest 
     { 
         get 

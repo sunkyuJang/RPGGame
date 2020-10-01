@@ -14,11 +14,6 @@ public class StaticManager : MonoBehaviour
     public static StaticManager GetStaticManager { get { return staticManager; } }
 
     static TimeLineHandler RunningTimeLine = null;
-
-    public static CharacterSkiilViewer CharacterSkiilViewer;
-
-    public static Transform CharacterSkillPulling;
-    public static Transform MonsterSkillPulling;
     public static void SetRunningTimeLine(TimeLineHandler timeLineHandler)
         => RunningTimeLine = timeLineHandler;
 
@@ -26,16 +21,5 @@ public class StaticManager : MonoBehaviour
     void Awake()
     {
         staticManager = this;
-        CharacterSkiilViewer = transform.Find("CharacterSkillViewer").GetComponent<CharacterSkiilViewer>();
-
-        CharacterSkillPulling = new GameObject("CharaceterSkillPulling").GetComponent<Transform>();
-        MonsterSkillPulling = new GameObject("MonsterSkillPulling").GetComponent<Transform>();
-    }
-    public static Coroutine coroutineStart(IEnumerator _routine)
-    {
-        return staticManager.StartCoroutine(_routine);
-    }
-    public static void CorutineStop(Coroutine _coroutine) {
-        staticManager.StopCoroutine(_coroutine);
     }
 }

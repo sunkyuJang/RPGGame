@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,7 +79,7 @@ public partial class SkillManager : MonoBehaviour
     {
         SkillViewerObj.SetActive(false);
         discriptionBox.gameObject.SetActive(false);
-        character.ShowGameUI(true);
+        character.IntoNormalUI();
     }
     
     class DiscriptionBox : MonoBehaviour
@@ -130,4 +130,4 @@ public partial class SkillManager : MonoBehaviour
                 character.ShowAlert("스킬포인트가 부족합니다", Color.red);
         }
     }
-}
+}*/

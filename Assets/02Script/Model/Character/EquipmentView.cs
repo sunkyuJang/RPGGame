@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
+using TMPro;
 
 public class EquipmentView : MonoBehaviour
 {
-    Character Character { set; get; }
+    public Character Character { set; get; }
     ItemManager.ItemCounter[] EquipmentItems { set; get; } = new ItemManager.ItemCounter[2];
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
@@ -22,8 +23,13 @@ public class EquipmentView : MonoBehaviour
     Text ATK{ set; get; }
     Text DEF{ set; get; }
     Text SPD { set; get; }
-    public void HideObject() { gameObject.SetActive(false); Character.ShowGameUI(true); }
+    public void SetDefault(Character character) => Character = character;
 
+    public void HideObject() { gameObject.SetActive(false); Character.IntoNormalUI(); }
+    public void Start()
+    {
+        gameObject.SetActive(false);
+    }
     public IEnumerator OnTouched(int index)
     {
         print(index);
@@ -66,13 +72,6 @@ public class EquipmentView : MonoBehaviour
             EquipmentItems[1] = equipmentItem.ItemCounter.CopyThis();
         }
         LoadCharacterState();
-    }
-    public static EquipmentView GetNew(Character character)
-    {
-        EquipmentView NewEquipmentView = Create.GetNewInCanvas<EquipmentView>();
-        NewEquipmentView.SetConstructor(character);
-        NewEquipmentView.LoadCharacterState();
-        return NewEquipmentView;
     }
     void SetConstructor(Character character)
     {

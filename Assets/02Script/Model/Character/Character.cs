@@ -6,10 +6,6 @@ using System.Linq;
 
 public partial class Character : Model
 {
-    public static Character instance;
-    public QuickSlot QuickSlot { private set; get; }
-    public EquipmentView EquipmentView { private set; get; }
-    public StateViewer StateViewer { private set; get; }
     public Controller controller { set; get; }
     public int level { private set; get; }
     public int SkillPoint;
@@ -23,13 +19,12 @@ public partial class Character : Model
     {
         SetInfo("temp",100, 100, 10, 10, 10);
         base.Awake();
+        AwakeInUI();
     }
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        QuickSlot = QuickSlot.GetNew(this);
-        EquipmentView = EquipmentView.GetNew(this);
         SetStateView();
         isStartFuncPassed = true;
     }
@@ -64,26 +59,13 @@ public partial class Character : Model
         Animator.SetBool("IsGetHit", false);
         Animator.SetBool("IsAttack", false);
     }
-    public void ShowGameUI(bool isNeedToShow) 
-    { 
-        controller.SetAllActive(isNeedToShow); 
-        QuickSlot.gameObject.SetActive(isNeedToShow);
-        StateViewer.gameObject.SetActive(isNeedToShow);
-    }
-
-    void SetStateView()
-    {
-        StateViewer = HPBar.GetComponent<StateViewer>();
-        StateViewer.Character = this;
-        iStateViewerHandler.RefreshState();
-    }
 
     public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
     {
         yield return new WaitWhile(() => isStartFuncPassed == false);
-        yield return new WaitUntil(() => Inventory == null);
+        yield return new WaitUntil(() => Inventory != null);
         CharacterName = playerData.NickName;
-        for(int i = 0; i < playerData.itemKinds.Count; i++)
+        for (int i = 0; i < playerData.itemKinds.Count; i++)
         {
             Inventory.AddItem
                 (playerData.itemKinds[i],

@@ -231,7 +231,7 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
-        PlayerModel.ShowGameUI(true);
+        PlayerModel.IntoNormalUI();
     }
     DialogueSheet.Param GetScriptByIndex(int i) { return DialogueScript[i]; }
 }

@@ -124,6 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterPrefab: {fileID: 8562684370647203175, guid: 63f8d82a4de83c043b8fb6300348e397,
     type: 3}
+  SkillDataGroup: {fileID: 4958471511206506496, guid: 32beefa90b83f394993819c18f088b34,
+    type: 3}
   controller: {fileID: 435742203824668335}
 --- !u!114 &911849084574764583
 MonoBehaviour:
@@ -146,6 +148,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 911849083831540798}
     m_Modifications:
+    - target: {fileID: 19777584, guid: 52682351ff1992240adba0873af92f79, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 322215185748847832, guid: 52682351ff1992240adba0873af92f79,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -357,7 +363,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 639287843761106160}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911849084247130155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 971747ffb5f633f45bafa47500c113fc, type: 3}
   m_Name: 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,8 +136,8 @@ public partial class SkillManager : MonoBehaviour
 
         void SetDamageToTarget(Collider target, float damage, GameObject hitFX, bool isFXStartFromGround)
         {
-            /*if (target != null) 
-                StateEffecterManager.EffectToModelBySkill(this, target.GetComponent<Model>(), damage, hitFX, isFXStartFromGround);*/
+            *//*if (target != null) 
+                StateEffecterManager.EffectToModelBySkill(this, target.GetComponent<Model>(), damage, hitFX, isFXStartFromGround);*//*
         }
     }
 
@@ -188,7 +188,7 @@ public partial class SkillManager : MonoBehaviour
     }
 }
 
-        /*public IEnumerator ActivateSkill(Character character)
+        *//*public IEnumerator ActivateSkill(Character character)
         {
             if(data.Cooldown > 0f) StaticManager.coroutineStart(CountCoolDown());
 

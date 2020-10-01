@@ -28,9 +28,9 @@ public class Monster : Model
     protected bool canAttack = true;
     public GameObject HitFXStartPoint;
     public Transform FXStartPoint { private set; get; }
-    public Transform skillPullingGroup;
+/*    public Transform skillPullingGroup;
     public Transform skillListGroup;
-    protected List<SkillData> skillsMovements = new List<SkillData>();
+    protected List<SkillData> skillsMovements { set; get; } = new List<SkillData>();*/
 
     public bool isCreating { private set; get; } = true;
     new protected void Awake()
@@ -39,20 +39,20 @@ public class Monster : Model
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
-        skillPullingGroup = new GameObject(gameObject.name).GetComponent<Transform>();
+ //       skillPullingGroup = new GameObject(gameObject.name).GetComponent<Transform>();
     }
     // Start is called before the first frame update
     new protected void Start()
     {
         base.Start();
-        skillPullingGroup.parent = StaticManager.MonsterSkillPulling;
+/*        skillPullingGroup.parent = StaticManager.MonsterSkillPulling;
         foreach (Transform skillTransform in skillListGroup)
         {
             var nowSkillData = skillTransform.GetComponent<SkillData>();
             nowSkillData.Model = this;
-            nowSkillData.skillpulling.parent = skillPullingGroup;
+            nowSkillData.skillPooling.parent = skillPullingGroup;
             skillsMovements.Add(nowSkillData);
-        }
+        }*/
 
         var position = GMath.ConvertV3xzToV2(transform.position);
         var positionX = position.x - roamingVertical / 2;

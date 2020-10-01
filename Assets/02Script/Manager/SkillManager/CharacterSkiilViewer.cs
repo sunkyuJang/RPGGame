@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CharacterSkiilViewer : MonoBehaviour
 {
-    public Character character { private set; get; }
+    public Character character { set; get; }
     Transform skillPulling;
     public GameObject physicSkillGroup;
     public GameObject MagicSkillGroup;
-    public GameObject SkillImageGroup;
+    public GameObject skillViewGroup;
     public List<SkillData> skillDatas { private set; get; } = new List<SkillData>();
     List<SkillViewer> skillViewers { set; get; } = new List<SkillViewer>();
     public GameObject skillTreeViewer;
@@ -21,21 +21,21 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     private void Awake()
     {
-        foreach (Transform transform in SkillImageGroup.transform)
+        foreach (Transform transform in skillViewGroup.transform)
             skillViewers.Add(transform.GetComponent<SkillViewer>());
     }
 
     private void Start()
     {
-        character = StaticManager.Character;
         SkillTreeSet();
 
-        //NormalSkillMovement = (ISkillMovement)SkillNormalAttack;
+        gameObject.SetActive(false);
+        NormalSkillMovement = SkillNormalAttack.skillMovement;
     }
 
     void SkillTreeSet()
     {
-        /*for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             var group = i == 0 ? physicSkillGroup.transform : MagicSkillGroup.transform;
             var count = group.childCount;
@@ -44,9 +44,9 @@ public class CharacterSkiilViewer : MonoBehaviour
             {
                 var skillData = group.GetChild(j).GetComponent<SkillData>();
                 skillData.Model = character;
-                skillData.skillpulling.parent = StaticManager.CharacterSkillPulling;
-                
-                for(int k = 0; k < skillViewers.Count; k++)
+                skillData.skillPooling.parent = SkillDataGrouper.instance.CharacterGroup;
+
+                for (int k = 0; k < skillViewers.Count; k++)
                 {
                     var nowSkillViewer = skillViewers[k];
                     if (skillData.skillName_eng == nowSkillViewer.gameObject.name)
@@ -54,12 +54,13 @@ public class CharacterSkiilViewer : MonoBehaviour
                         nowSkillViewer.skillData = skillData;
                         nowSkillViewer.characterSkiilViewer = this;
                         nowSkillViewer.MakeImage();
+                        nowSkillViewer.SetLearnedIcon();
                         skillViewers.RemoveAt(k);
                         break;
                     }
                 }
             }
-        }*/
+        }
     }
 
     public SkillData GetSkillData(string name)
@@ -82,7 +83,8 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     public void HideSkillTree()
     {
-        character.ShowGameUI(true);
+        print(character == null);
+        character.IntoNormalUI();
     }
 
     public void PressedLearnBtn()
