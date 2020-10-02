@@ -60,31 +60,33 @@ public class SkillViewer : MonoBehaviour, IInputTracer
 
     public IEnumerator TraceInput(bool isTouch, int touchId, bool isMouse)
     {
-/*        copy.SetActive(true);
+        copy.SetActive(true);
         copy.transform.SetParent(GameManager.mainCanvas);
 
         //List<RaycastResult> results = new List<RaycastResult>();
 
-        while(GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
+        while (GPosition.IsHoldPressedInput(isTouch, touchId, isMouse))
         {
             copy.transform.position = GPosition.GetInputPosition(isTouch, touchId, isMouse);
             yield return new WaitForFixedUpdate();
         }
 
-        *//*        ped.position = copy.transform.position;
-                graphicRaycaster.Raycast(ped, results);
-                foreach(RaycastResult result in results)
-                {
-                    print(result.gameObject.name);
-                }*//*
+/*        ped.position = copy.transform.position;
+        graphicRaycaster.Raycast(ped, results);
+        foreach (RaycastResult result in results)
+        {
+            print(result.gameObject.name);
+        }
+*/
 
         var quickSlot = characterSkiilViewer.character.QuickSlot;
         var quickSlotNum = quickSlot.IsIn(copy.transform.position);
-        if(quickSlotNum >= 0) { quickSlot.SetSlot(transform, quickSlotNum); }
+        print(quickSlot.transform.GetComponent<RectTransform>().position);
+        if (quickSlotNum >= 0) { quickSlot.SetSlot(transform, skillData.icon, quickSlotNum); }
 
         copy.transform.SetParent(transform);
         copy.transform.position = transform.position;
-        copy.SetActive(false);*/
+        copy.SetActive(false);
 
         yield return null;
     }

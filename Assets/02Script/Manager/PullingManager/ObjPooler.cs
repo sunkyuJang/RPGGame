@@ -49,7 +49,7 @@ public class ObjPooler : MonoBehaviour
     }
     public void returnObj(GameObject gameObject)
     {
-        gameObject.transform.parent = transform;
+        gameObject.transform.SetParent(transform);
         gameObject.SetActive(false);
         CreatedObjList.Enqueue(gameObject);
     }

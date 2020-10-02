@@ -83,7 +83,6 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     public void HideSkillTree()
     {
-        print(character == null);
         character.IntoNormalUI();
     }
 

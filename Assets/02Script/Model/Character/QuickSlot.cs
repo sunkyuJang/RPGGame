@@ -10,8 +10,7 @@ public class QuickSlot : MonoBehaviour
     private new Transform transform;
     private Rect area;
     private List<Transform> lists = new List<Transform>();
-    private List<Rect> childArea = new List<Rect>();
-    private List<Transform> child = new List<Transform>();
+    private List<RectTransform> childs = new List<RectTransform>();
     Sprite recoverIcon { set; get; }
     public bool IsActive { set; get; }
 
@@ -24,8 +23,7 @@ public class QuickSlot : MonoBehaviour
         {
             Transform nowChild = transform.GetChild(i);
             lists.Add(null);
-            childArea.Add(GMath.GetRect(nowChild.GetComponent<RectTransform>()));
-            child.Add(nowChild);
+            childs.Add(nowChild.GetComponent<RectTransform>());
         }
     }
 
@@ -55,7 +53,7 @@ public class QuickSlot : MonoBehaviour
                     var kind = inventory.table.GetSameKind(data);
                     if (kind == null)
                     {
-                        child[num].GetComponent<Image>().sprite = recoverIcon;
+                        childs[num].GetComponent<Image>().sprite = recoverIcon;
                         lists[num] = null;
                     }
                     else
@@ -74,11 +72,13 @@ public class QuickSlot : MonoBehaviour
 
     public int IsIn(Vector2 _position)
     {
-        if (area.Contains(_position))
+        //area.Contains(_position)
+        var rect = GMath.GetRect(transform.GetComponent<RectTransform>());
+        if (rect.Contains(_position))
         {
-            for (int i = 0; i < childArea.Count; i++)
+            for (int i = 0; i < childs.Count; i++)
             {
-                if (childArea[i].Contains(_position))
+                if (GMath.GetRect(childs[i]).Contains(_position))
                 {
                     return i;
                 }
@@ -86,14 +86,11 @@ public class QuickSlot : MonoBehaviour
         }
         return -1;
     }
-    public void SetSlot(Transform targetTrasform, int _num) 
+    public void SetSlot(Transform targetTrasform, Sprite icon, int _num) 
     {
         lists.RemoveAt(_num);
         lists.Insert(_num, targetTrasform);
-
-        child[_num].GetComponent<Image>().sprite
-            = targetTrasform.GetComponent<ItemView>() != null ? targetTrasform.GetChild(0).GetComponent<Image>().sprite
-            : targetTrasform.GetComponent<Image>().sprite;
+        childs[_num].GetComponent<Image>().sprite = icon;
     }
 
     public void TurnOn(bool isOn)

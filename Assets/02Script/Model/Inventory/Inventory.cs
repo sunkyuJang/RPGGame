@@ -10,9 +10,10 @@ public partial class Inventory : MonoBehaviour
 {
     Model Model { set; get; }
     public GameObject InventoryView;
+    public RectTransform rectTransform { private set; get; }
     Inventory TargetInventory { set; get; }
     public Transform itemViewGroup;
-    public Rect Area { private set; get; }
+    public Rect Area { get { return GMath.GetRect(rectTransform); } }
     public bool isPlayer { private set; get; }
 
     public GameObject itemViewPrefab;
@@ -25,6 +26,7 @@ public partial class Inventory : MonoBehaviour
     private void Awake()
     {
         table = new ItemCounterTable();
+        rectTransform = InventoryView.GetComponent<RectTransform>();
         itemViewPooler = GetitemViewPooler;
     }
 

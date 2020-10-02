@@ -177,7 +177,7 @@ public partial class Character : Model
         Npc npc = TargetModel as Npc;
         if (npc.HasDialogue)
         {
-            IntoDialogueUI();
+            IntoClearUI();
             DialogueManager.instance.ShowDialogue(this, npc);
         }
         NowState = ActionState.Idle;

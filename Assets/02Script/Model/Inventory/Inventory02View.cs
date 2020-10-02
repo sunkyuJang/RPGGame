@@ -17,7 +17,6 @@ public partial class Inventory : MonoBehaviour
     {
         Transform goldTransform = transform.GetChild(0);
         if (!isPlayer) transform.localPosition = new Vector3(transform.localPosition.x * -1, transform.localPosition.y, transform.localPosition.z);
-        Area = GMath.GetRect(transform.GetComponent<RectTransform>());
     }
     public void ShowInventory()
     {
@@ -83,7 +82,7 @@ public partial class Inventory : MonoBehaviour
                 if (slotNum >= 0)
                 {
                     //registQuickSlot
-                    Character.QuickSlot.SetSlot(itemView.transform, slotNum);
+                    Character.QuickSlot.SetSlot(itemView.transform, itemView.icon.sprite, slotNum);
                 }
                 else if(TargetInventory != null)
                 {

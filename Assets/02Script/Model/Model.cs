@@ -91,13 +91,11 @@ public partial class Model : MonoBehaviour
     {
         yield return new WaitUntil(() => InventoryPoolerManager.instance.inventoryPooler != null);
         var inventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
-        print(inventoryPooler.name);
         yield return StartCoroutine(inventoryPooler.CheckCanUseObj());
         Inventory = inventoryPooler.GetObj<Inventory>();
         Inventory.gameObject.SetActive(true);
         Inventory.SetTransformParent();
         Inventory.SetDefault(this);
-        //Inventory = Instantiate(inventoryPrefab, GameManager.mainCanvas).GetComponent<Inventory>();
     }
     public void SetTimeLineRunning(bool isRunning) 
     {

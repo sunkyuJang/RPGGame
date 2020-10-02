@@ -12,27 +12,38 @@ public class EquipmentView : MonoBehaviour
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }
-    Image WeaponImage { set; get; }
-    Image ArmorImage { set; get; }
+    public Image WeaponImage;
+    public Image ArmorImage;
 
-    public static Rect WeaponArea { private set; get; }
-    public static Rect ArmorArea { private set; get; }
+    public Transform InfoTransform;
     Text CharacterName { set; get; }
     Text HP { set; get; }
     Text MP { set; get; }
     Text ATK{ set; get; }
     Text DEF{ set; get; }
     Text SPD { set; get; }
-    public void SetDefault(Character character) => Character = character;
 
-    public void HideObject() { gameObject.SetActive(false); Character.IntoNormalUI(); }
-    public void Start()
+    public void HideObject() 
+    { 
+        Character.IntoNormalUI(); 
+        gameObject.SetActive(false); 
+    }
+
+    public void Awake()
     {
+        Transform = gameObject.GetComponent<RectTransform>();
+
+        CharacterName = InfoTransform.GetChild(0).GetChild(0).GetComponent<Text>();
+        HP = InfoTransform.GetChild(1).GetChild(0).GetComponent<Text>();
+        MP = InfoTransform.GetChild(2).GetChild(0).GetComponent<Text>();
+        ATK = InfoTransform.GetChild(3).GetChild(0).GetComponent<Text>();
+        DEF = InfoTransform.GetChild(4).GetChild(0).GetComponent<Text>();
+        SPD = InfoTransform.GetChild(5).GetChild(0).GetComponent<Text>();
+
         gameObject.SetActive(false);
     }
     public IEnumerator OnTouched(int index)
     {
-        print(index);
         if (index >= 0)
         {
             var confirmBox = ConfimBoxManager.instance;
@@ -73,30 +84,13 @@ public class EquipmentView : MonoBehaviour
         }
         LoadCharacterState();
     }
-    void SetConstructor(Character character)
+
+
+    public void SetCharacter(Character character)
     {
         Character = character;
 
         WeaponTrans = Character.Transform.Find("CharArmature/Root/Pelvis/Spine/Chest/Shoulder.R/UpperArm.R/LowerArm.R/Hand.R/HoldWeapon");
-
-        Transform = gameObject.GetComponent<RectTransform>();
-        Transform WeaponTransform = Transform.Find("Weapon");
-        WeaponImage = WeaponTransform.GetChild(1).GetComponent<Image>();
-        WeaponArea = GMath.GetRect(WeaponTransform.GetComponent<RectTransform>());
-
-        Transform ArmorTransform = Transform.Find("Armor");
-        ArmorImage = ArmorTransform.GetChild(1).GetComponent<Image>();
-        ArmorArea = GMath.GetRect(ArmorTransform.GetComponent<RectTransform>());
-
-        Transform ChildTransform = Transform.Find("CharacterStat");
-        CharacterName = ChildTransform.GetChild(0).GetChild(0).GetComponent<Text>();
-        HP = ChildTransform.GetChild(1).GetChild(0).GetComponent<Text>();
-        MP = ChildTransform.GetChild(2).GetChild(0).GetComponent<Text>();
-        ATK = ChildTransform.GetChild(3).GetChild(0).GetComponent<Text>();
-        DEF = ChildTransform.GetChild(4).GetChild(0).GetComponent<Text>();
-        SPD = ChildTransform.GetChild(5).GetChild(0).GetComponent<Text>();
-
-        gameObject.SetActive(false);
     }
     public void LoadCharacterState()
     {

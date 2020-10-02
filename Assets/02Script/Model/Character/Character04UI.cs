@@ -15,15 +15,15 @@ public partial class Character : Model
     public EquipmentView EquipmentView { set; get; }
     public StateViewer StateViewer { set; get; }
     public CharacterSkiilViewer CharacterSkiilViewer { set; get; }
-    public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView, all, non }
+    public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView }
     void AwakeInUI()
     {
         QuickSlot = Instantiate(quickSlotPrefab, GameManager.mainCanvas).GetComponent<QuickSlot>();
         QuickSlot.Character = this;
         EquipmentView = Instantiate(equipmentPrefab, GameManager.mainCanvas).GetComponent<EquipmentView>();
-        EquipmentView.Character = this;
-        CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
-        CharacterSkiilViewer.character = this;
+        EquipmentView.SetCharacter(this);
+/*        CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
+        CharacterSkiilViewer.character = this;*/
     }
 
     public void IntoNormalUI()
@@ -33,9 +33,11 @@ public partial class Character : Model
         ShowGameUI(UIList.stateView, true);
     }
 
-    public void IntoDialogueUI()
+    public void IntoClearUI()
     {
-        ShowGameUI(UIList.all, false);
+        ShowGameUI(UIList.quickSlot, false);
+        ShowGameUI(UIList.stateView, false);
+        ShowGameUI(UIList.controller, false);
     }
     public void ShowGameUI(UIList uiList, bool needShow)
     {
@@ -45,12 +47,8 @@ public partial class Character : Model
             case UIList.inventory: if (needShow) Inventory.ShowInventory(); else Inventory.HideInventory(); break;
             case UIList.equipment: EquipmentView.gameObject.SetActive(needShow); break;
             case UIList.skillViewer: CharacterSkiilViewer.gameObject.SetActive(needShow); break;
-            case UIList.stateView: StateViewer.gameObject.SetActive(needShow); break;
+            case UIList.stateView: StateViewer.gameObject.SetActive(needShow); print(needShow); break;
             case UIList.controller: controller.SetAllActive(needShow); break;
-            case UIList.all:
-                foreach (UIList target in Enum.GetValues(typeof(UIList)))
-                    ShowGameUI(target, needShow);
-                break;
         }
     }
 
