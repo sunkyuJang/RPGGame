@@ -21,11 +21,21 @@ public class SkillDataGrouper : MonoBehaviour
 
     public void SetSkillDataParent(SkillData skillData)
     {
-        var nowSkillGroup = new GameObject(skillData.Model.CharacterName);
-        nowSkillGroup.transform.position = Vector3.zero;
-        skillData.skillPooling.SetParent(nowSkillGroup.transform);
+        Transform group = skillData.Model is Character ? CharacterGroup : MonsterGroup;
+        Transform nowTransform = group; // temp value
 
-        if (skillData.Model is Character) nowSkillGroup.transform.SetParent(CharacterGroup);
-        else if (skillData.Model is Monster) nowSkillGroup.transform.SetParent(MonsterGroup);
+        if (group.childCount > 0)
+        {
+            foreach (Transform sameName in group)
+                if (sameName.GetComponent<SkillData>().Model.CharacterName == skillData.Model.CharacterName)
+                    nowTransform = sameName;
+        }
+        else
+            nowTransform = new GameObject(skillData.Model.CharacterName).transform;
+        
+        nowTransform.position = Vector3.zero;
+        skillData.skillPooling.SetParent(nowTransform);
+
+        nowTransform.SetParent(group);
     }
 }

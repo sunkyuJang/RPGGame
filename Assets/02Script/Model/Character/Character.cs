@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using GLip;
 using System.Linq;
 
@@ -15,6 +16,8 @@ public partial class Character : Model
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
 
     bool isStartFuncPassed = false;
+
+    public float MonsterLocatorDetectTime = 3f;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -27,6 +30,7 @@ public partial class Character : Model
         base.Start();
         SetStateView();
         isStartFuncPassed = true;
+        StartCoroutine(DetectMonsterLocator());
     }
 
     new private void FixedUpdate()
@@ -73,5 +77,30 @@ public partial class Character : Model
         }
 
         level = playerData.level;
+    }
+
+    IEnumerator DetectMonsterLocator()
+    {
+        while (true)
+        {
+            Ray ray = new Ray();
+            ray.origin = transform.position + Vector3.up * 0.5f;
+            ray.direction = transform.forward;
+            var layerMask = 1 << LayerMask.NameToLayer("MonsterLocator");
+            var hits = Physics.RaycastAll(ray, 100f, layerMask);
+            for (int i = 0; i < hits.Length; i++)
+            {
+                var locator = hits[i].transform.GetComponent<MonseterLocator>();
+                if (locator != null)
+                    locator.TurnOnLocator(this);
+            }
+            yield return new WaitForSeconds(MonsterLocatorDetectTime);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(transform.position, transform.forward * 100f);
     }
 }

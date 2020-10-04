@@ -17,6 +17,9 @@ public class MonseterLocator : MonoBehaviour
     Rect RoamingArea { set; get; }
     List<Monster> MonsterInArea { set; get; } = new List<Monster>();
     ObjPooler MonsterPooler;
+
+    List<Character> Characters { set; get; } = new List<Character>();
+    public bool canMonsterLocatorWorks { set; get; }
     private void Awake()
     {
         var position = GMath.ConvertV3xzToV2(transform.position);
@@ -31,15 +34,48 @@ public class MonseterLocator : MonoBehaviour
         StartCoroutine(DoNext());
     }
 
+    public void TurnOnLocator(Character character)
+    {
+        var isNew = true;
+        for (int i = 0; i < Characters.Count; i++)
+            if (Characters[i].Equals(character))
+            {
+                isNew = false;
+                break;
+            }
+
+        if (isNew)
+            Characters.Add(character);
+
+        canMonsterLocatorWorks = true;
+    }
+
+    bool CanMonsterLocatorWorks()
+    {
+        if(Characters.Count > 0)
+        {
+            for(int i = 0; i < Characters.Count; i++)
+            {
+                var nowCharacter = Characters[i];
+                var dist = Vector3.Distance(transform.position, nowCharacter.transform.position);
+                if (dist < resetDist)
+                    return true;
+                else
+                    Characters.RemoveAt(i--);
+            }
+        }
+
+        return false;
+    }
     IEnumerator DoNext()
     {
         while(true)
         {
-            nowDistFromCharacter = Vector3.Distance(StaticManager.Character.transform.position, transform.position);
-            nowCount = MonsterInArea.Count;
-            if(nowDistFromCharacter < resetDist)
+            if (canMonsterLocatorWorks)
             {
-                if(MonsterInArea.Count < maxCount)
+                canMonsterLocatorWorks = CanMonsterLocatorWorks();
+                nowCount = MonsterInArea.Count;
+                if (MonsterInArea.Count < maxCount)
                 {
                     yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
                     var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();
@@ -49,15 +85,14 @@ public class MonseterLocator : MonoBehaviour
                 }
             }
             else
-                if(MonsterInArea.Count > 0)
+                if (MonsterInArea.Count > 0)
                     returnAllMonsterObj();
-            
+
             yield return new WaitForSeconds(responeTime);
         }
     }
     void returnAllMonsterObj()
     {
-        print(true);
         for (int i = 0; i < MonsterInArea.Count; i++)
         {
             var nowMonster = MonsterInArea[i];

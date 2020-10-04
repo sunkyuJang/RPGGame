@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,4 +31,4 @@ public class MonsterHandler : MonoBehaviour
                 if (Vector3.Distance(nowLocator.position, StaticManager.Character.transform.position) < 10f)
                     nowLocator.gameObject.SetActive(true);
     }
-}
+}*/

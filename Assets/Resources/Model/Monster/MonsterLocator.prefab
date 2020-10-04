@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645873409564241967}
   - component: {fileID: 645873409564241936}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MonsterLocator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,5 +51,5 @@ MonoBehaviour:
   resetDist: 100
   nowDistFromCharacter: 0
   vertical: 10
-  horizon: 10
+  horizontal: 0
   color: {r: 0.8301887, g: 0.6383055, b: 0.6383055, a: 0.40392157}

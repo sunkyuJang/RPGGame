@@ -81,7 +81,6 @@ public class SkillViewer : MonoBehaviour, IInputTracer
 
         var quickSlot = characterSkiilViewer.character.QuickSlot;
         var quickSlotNum = quickSlot.IsIn(copy.transform.position);
-        print(quickSlot.transform.GetComponent<RectTransform>().position);
         if (quickSlotNum >= 0) { quickSlot.SetSlot(transform, skillData.icon, quickSlotNum); }
 
         copy.transform.SetParent(transform);

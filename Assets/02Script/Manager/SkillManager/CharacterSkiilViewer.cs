@@ -29,7 +29,9 @@ public class CharacterSkiilViewer : MonoBehaviour
     {
         SkillTreeSet();
 
-        gameObject.SetActive(false);
+        skillTreeViewer.SetActive(false);
+        characterSkillDescriptionBox.gameObject.SetActive(false);
+
         NormalSkillMovement = SkillNormalAttack.skillMovement;
     }
 
@@ -44,7 +46,7 @@ public class CharacterSkiilViewer : MonoBehaviour
             {
                 var skillData = group.GetChild(j).GetComponent<SkillData>();
                 skillData.Model = character;
-                skillData.skillPooling.parent = SkillDataGrouper.instance.CharacterGroup;
+                SkillDataGrouper.instance.SetSkillDataParent(skillData);
 
                 for (int k = 0; k < skillViewers.Count; k++)
                 {
@@ -80,7 +82,10 @@ public class CharacterSkiilViewer : MonoBehaviour
         nowSkillViewer = viewer;
         characterSkillDescriptionBox.ShowDescription(viewer.skillData);
     }
-
+    public void ShowSKillTree()
+    {
+        skillTreeViewer.gameObject.SetActive(true);
+    }
     public void HideSkillTree()
     {
         character.IntoNormalUI();

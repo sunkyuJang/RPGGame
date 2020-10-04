@@ -22,8 +22,8 @@ public partial class Character : Model
         QuickSlot.Character = this;
         EquipmentView = Instantiate(equipmentPrefab, GameManager.mainCanvas).GetComponent<EquipmentView>();
         EquipmentView.SetCharacter(this);
-/*        CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
-        CharacterSkiilViewer.character = this;*/
+        CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
+        CharacterSkiilViewer.character = this;
     }
 
     public void IntoNormalUI()
@@ -46,8 +46,8 @@ public partial class Character : Model
             case UIList.quickSlot: QuickSlot.gameObject.SetActive(needShow); break;
             case UIList.inventory: if (needShow) Inventory.ShowInventory(); else Inventory.HideInventory(); break;
             case UIList.equipment: EquipmentView.gameObject.SetActive(needShow); break;
-            case UIList.skillViewer: CharacterSkiilViewer.gameObject.SetActive(needShow); break;
-            case UIList.stateView: StateViewer.gameObject.SetActive(needShow); print(needShow); break;
+            case UIList.skillViewer: if (needShow) CharacterSkiilViewer.ShowSKillTree(); else CharacterSkiilViewer.HideSkillTree();  break;
+            case UIList.stateView: StateViewer.gameObject.SetActive(needShow); break;
             case UIList.controller: controller.SetAllActive(needShow); break;
         }
     }
