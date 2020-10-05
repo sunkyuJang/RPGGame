@@ -27,14 +27,14 @@ public class SkillDataGrouper : MonoBehaviour
         if (group.childCount > 0)
         {
             foreach (Transform sameName in group)
-                if (sameName.GetComponent<SkillData>().Model.CharacterName == skillData.Model.CharacterName)
+                if (sameName.name == skillData.Model.CharacterName)
                     nowTransform = sameName;
         }
         else
             nowTransform = new GameObject(skillData.Model.CharacterName).transform;
         
         nowTransform.position = Vector3.zero;
-        skillData.skillPooling.SetParent(nowTransform);
+        skillData.skillPooling.SetParent(nowTransform.Find("PoolerObj"));
 
         nowTransform.SetParent(group);
     }

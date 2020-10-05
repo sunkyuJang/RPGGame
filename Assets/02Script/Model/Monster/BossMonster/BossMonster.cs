@@ -7,16 +7,12 @@ using GLip;
 public class BossMonster : Monster
 {
     public BossHPBarViewer BossHPBarViewer { set; get; }
-    public GameObject NormalAttackHitBoxObj;
-    public GameObject SeedBoomHitBoxObj;
-    public GameObject HitBoxFX;
-    public GameObject SeedBoomHitBoxFX;
 
     enum SkillType { NormalAttack, Stinger, SeedBoom, OverDrive }
-    SkillData skillNormalAttack { get { return skillsMovements[0]; } }
-    SkillData skillOverDrive { get { return skillsMovements[1]; } }
-    SkillData skillSeedBoom { get { return skillsMovements[2]; } }
-    SkillData skillStinger { get { return skillsMovements[3]; } }
+    SkillData skillNormalAttack { get { return skillListHandler.skillDatas[0]; } }
+    SkillData skillOverDrive { get { return skillListHandler.skillDatas[1]; } }
+    SkillData skillSeedBoom { get { return skillListHandler.skillDatas[2]; } }
+    SkillData skillStinger { get { return skillListHandler.skillDatas[3]; } }
 /*    List<bool> canAttackList = new List<bool>();
     bool canDoAttack { set { killMovements[0] = value; } get { return canAttackList[0]; } }
     bool canStinger { set { canAttackList[1] = value; } get { return canAttackList[1]; } }
@@ -103,13 +99,13 @@ public class BossMonster : Monster
     {
         if (canAttack)
         {
-            for (int i = 0; i < skillsMovements.Count; i++)
+            for (int i = 0; i < skillListHandler.skillDatas.Count; i++)
             {
-                if (skillsMovements[i].IsReachedTarget)
+                if (skillListHandler.skillDatas[i].IsReachedTarget)
                 {
-                    if (!skillsMovements[i].isCoolDown)
+                    if (!skillListHandler.skillDatas[i].isCoolDown)
                     {
-                        print(skillsMovements[i].gameObject.name + "//" + skillsMovements[i].isCoolDown);
+                        print(skillListHandler.skillDatas[i].gameObject.name + "//" + skillListHandler.skillDatas[i].isCoolDown);
                         canAttack = false;
                         canMove = false;
                         NowState = ActionState.attack;

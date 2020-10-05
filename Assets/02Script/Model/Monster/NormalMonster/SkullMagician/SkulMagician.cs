@@ -81,7 +81,7 @@ public class SkulMagician : NormalMonster
         DoAnimator(ActionState.attack);
         yield return StartCoroutine(WaitTillAnimator("NomalAttack", true));
 
-        var nowAttack = skillsMovements[0];
+        var nowAttack = skillListHandler.skillDatas[0];
         nowAttack.ActivateSkill();
 
         NowState = ActionState.battle;

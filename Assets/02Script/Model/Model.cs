@@ -35,10 +35,7 @@ public partial class Model : MonoBehaviour
     public bool IsRunningTimeLine { get { return StaticManager.IsRunningTimeLine; } }
     protected int InventoryLength { set; get; }
     protected RuntimeAnimatorController animatorController { set; get; }
-
-    public Transform skillPullingGroup { set; get;}
-    public Transform skillListGroup;
-    protected List<SkillData> skillsMovements { set; get; } = new List<SkillData>();
+    public SkillListHandler skillListHandler;
 
     protected string SkillDataName = "SkillData";
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
@@ -64,22 +61,6 @@ public partial class Model : MonoBehaviour
         {
             HPBar = Instantiate(HPBar, GameManager.mainCanvas);
             iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
-        }
-
-        SetSkillData();
-    }
-
-    void SetSkillData()
-    {
-        if (skillListGroup != null)
-        {
-            foreach (Transform skillTransform in skillListGroup)
-            {
-                var nowSkillData = skillTransform.GetComponent<SkillData>();
-                nowSkillData.Model = this;
-                SkillDataGrouper.instance.SetSkillDataParent(nowSkillData);
-                skillsMovements.Add(nowSkillData);
-            }
         }
     }
 

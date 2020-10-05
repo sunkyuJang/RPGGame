@@ -28,10 +28,10 @@ public class ObjPoolerManager : MonoBehaviour
 
     public ObjPooler CreatObjPooler(GameObject requestPrefab)
     {
-        var controller = Instantiate(objControllerPrefab).GetComponent<ObjPooler>();
-        controller.name = requestPrefab.name + "Pooler";
-        controller.comparePrefab = requestPrefab;
-        ObjPoolers.Add(controller);
-        return controller;
+        var pooler = Instantiate(objControllerPrefab).GetComponent<ObjPooler>();
+        pooler.name = requestPrefab.name + "Pooler";
+        pooler.comparePrefab = requestPrefab;
+        ObjPoolers.Add(pooler);
+        return pooler;
     }
 }

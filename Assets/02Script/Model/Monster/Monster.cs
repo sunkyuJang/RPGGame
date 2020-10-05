@@ -28,9 +28,6 @@ public class Monster : Model
     protected bool canAttack = true;
     public GameObject HitFXStartPoint;
     public Transform FXStartPoint { private set; get; }
-/*    public Transform skillPullingGroup;
-    public Transform skillListGroup;
-    protected List<SkillData> skillsMovements { set; get; } = new List<SkillData>();*/
 
     public bool isCreating { private set; get; } = true;
     new protected void Awake()
@@ -39,21 +36,10 @@ public class Monster : Model
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
- //       skillPullingGroup = new GameObject(gameObject.name).GetComponent<Transform>();
     }
-    // Start is called before the first frame update
     new protected void Start()
     {
         base.Start();
-/*        skillPullingGroup.parent = StaticManager.MonsterSkillPulling;
-        foreach (Transform skillTransform in skillListGroup)
-        {
-            var nowSkillData = skillTransform.GetComponent<SkillData>();
-            nowSkillData.Model = this;
-            nowSkillData.skillPooling.parent = skillPullingGroup;
-            skillsMovements.Add(nowSkillData);
-        }*/
-
         var position = GMath.ConvertV3xzToV2(transform.position);
         var positionX = position.x - roamingVertical / 2;
         var positionY = position.y - roamingHorizontal / 2;
@@ -73,7 +59,7 @@ public class Monster : Model
 
     protected SkillData GetSkillData(string name)
     {
-        foreach (SkillData skillData in skillsMovements)
+        foreach (SkillData skillData in skillListHandler.skillDatas)
             if (skillData.gameObject.name.Equals(name))
                 return skillData;
 
@@ -298,14 +284,16 @@ public class Monster : Model
 
     void DropItem()
     {
-        var probablility = Random.Range(0, 100) * 0.01f;
-        print(probablility);
-        foreach(ItemView kind in Inventory.itemViews)
+        if (Inventory.HasItem)
         {
-            if (probablility <= kind.ItemCounter.Probablilty)
+            var probablility = Random.Range(0, 100) * 0.01f;
+            foreach (ItemView kind in Inventory.itemViews)
             {
-                Character.Inventory.AddItem(kind.ItemCounter);
-                Character.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
+                if (probablility <= kind.ItemCounter.Probablilty)
+                {
+                    Character.Inventory.AddItem(kind.ItemCounter);
+                    Character.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
+                }
             }
         }
     }

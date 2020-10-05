@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class CharacterSkiilViewer : MonoBehaviour
 {
-    public Character character { set; get; }
-    Transform skillPulling;
-    public GameObject physicSkillGroup;
-    public GameObject MagicSkillGroup;
+    public Character Character { set; get; }
     public GameObject skillViewGroup;
     public List<SkillData> skillDatas { private set; get; } = new List<SkillData>();
     List<SkillViewer> skillViewers { set; get; } = new List<SkillViewer>();
     public GameObject skillTreeViewer;
     public CharacterSkillDescriptionBox characterSkillDescriptionBox;
 
-    public SkillData SkillNormalAttack;
-    ISkillMovement NormalSkillMovement;
+    public SkillData SkillNormalAttack { set; get; }
 
     SkillViewer nowSkillViewer;
 
@@ -27,15 +23,19 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     private void Start()
     {
-        SkillTreeSet();
+//        SkillTreeSet();
 
         skillTreeViewer.SetActive(false);
         characterSkillDescriptionBox.gameObject.SetActive(false);
-
-        NormalSkillMovement = SkillNormalAttack.skillMovement;
     }
 
-    void SkillTreeSet()
+    public void SetCharater(Character character)
+    {
+        Character = character;
+        StartCoroutine(SetSkillListHandler(character.skillListHandler));
+    }
+
+/*    void SkillTreeSet()
     {
         for (int i = 0; i < 2; i++)
         {
@@ -56,13 +56,30 @@ public class CharacterSkiilViewer : MonoBehaviour
                         nowSkillViewer.skillData = skillData;
                         nowSkillViewer.characterSkiilViewer = this;
                         nowSkillViewer.MakeImage();
-                        nowSkillViewer.SetLearnedIcon();
                         skillViewers.RemoveAt(k);
                         break;
                     }
                 }
             }
         }
+    }*/
+    IEnumerator SetSkillListHandler(SkillListHandler listHandler)
+    {
+        yield return new WaitWhile(() => !listHandler.StartPass);
+        var skillList = listHandler.skillDatas;
+        foreach (SkillData nowSkillData in skillList)
+            for (int i = 0; i < skillViewers.Count; i++)
+            {
+                var skillViewer = skillViewers[i];
+                if (skillViewer.name == nowSkillData.skillName_eng)
+                {
+                    skillViewer.SetSkillData(nowSkillData, this);
+                    skillViewers.RemoveAt(i);
+
+                    if (nowSkillData.skillName_eng.Equals("NormalAttack"))
+                        SkillNormalAttack = nowSkillData;
+                }
+            }
     }
 
     public SkillData GetSkillData(string name)
@@ -88,12 +105,12 @@ public class CharacterSkiilViewer : MonoBehaviour
     }
     public void HideSkillTree()
     {
-        character.IntoNormalUI();
+        Character.IntoNormalUI();
     }
 
     public void PressedLearnBtn()
     {
-        if (character.SkillPoint > 0)
+        if (Character.SkillPoint > 0)
         {
             if (nowSkillViewer.skillData.parentSkillData.isLearn)
             {
@@ -109,5 +126,5 @@ public class CharacterSkiilViewer : MonoBehaviour
     }
 
     public void UseCharacterAlert(string text, Color color)
-        => character.ShowAlert(text, color);
+        => Character.ShowAlert(text, color);
 }

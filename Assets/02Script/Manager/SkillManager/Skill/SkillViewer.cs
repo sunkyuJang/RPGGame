@@ -13,7 +13,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     RectTransform RectTransform;
     public SkillData skillData { set; get; }
     public Image skillViewerImage;
-    public CharacterSkiilViewer characterSkiilViewer;
+    public CharacterSkiilViewer characterSkiilViewer { set; get; }
     GameObject copy;
 
 /*    GraphicRaycaster graphicRaycaster;
@@ -25,8 +25,14 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         //SetLearnedIcon();
     }
 
-    public void MakeImage()
+    public void SetSkillData(SkillData skillData, CharacterSkiilViewer characterSkiilViewer)
     {
+        this.characterSkiilViewer = characterSkiilViewer;
+        SetSkillData(skillData);
+    }
+    public void SetSkillData(SkillData skillData)
+    {
+        this.skillData = skillData; 
         skillViewerImage.sprite = skillData.icon;
 
         copy = new GameObject(gameObject.name + "copy");
@@ -34,6 +40,8 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         copy.AddComponent<Image>().sprite = skillViewerImage.sprite;
         copy.transform.position = transform.position;
         copy.SetActive(false);
+
+        SetLearnedIcon();
     }
 
     public void SetLearnedIcon()
@@ -79,7 +87,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         }
 */
 
-        var quickSlot = characterSkiilViewer.character.QuickSlot;
+        var quickSlot = characterSkiilViewer.Character.QuickSlot;
         var quickSlotNum = quickSlot.IsIn(copy.transform.position);
         if (quickSlotNum >= 0) { quickSlot.SetSlot(transform, skillData.icon, quickSlotNum); }
 

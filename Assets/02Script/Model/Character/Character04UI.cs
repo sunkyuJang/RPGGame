@@ -23,7 +23,7 @@ public partial class Character : Model
         EquipmentView = Instantiate(equipmentPrefab, GameManager.mainCanvas).GetComponent<EquipmentView>();
         EquipmentView.SetCharacter(this);
         CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
-        CharacterSkiilViewer.character = this;
+        CharacterSkiilViewer.SetCharater(this);
     }
 
     public void IntoNormalUI()
