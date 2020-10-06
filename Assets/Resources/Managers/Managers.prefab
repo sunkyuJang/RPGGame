@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e894500abd02147aa4db9f56f429c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questSheet: {fileID: 0}
+  questSheet: {fileID: 11400000, guid: dc0f4a891c158134c9f71c3348c20586, type: 2}
 --- !u!114 &2482731235928755482
 MonoBehaviour:
   m_ObjectHideFlags: 0

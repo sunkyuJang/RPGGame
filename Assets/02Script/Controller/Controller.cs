@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using GLip;
+
 public partial class Controller : MonoBehaviour
 {
     public PlayerData playerData;
@@ -11,6 +13,7 @@ public partial class Controller : MonoBehaviour
     public MovePad joypad;
     public ActionPad actionpad;
     public QuickSlot quickSlot;
+    public Button saveBtn;
 /*    public GameObject pauseKeyObj;
     public GameObject InventoryKeyObj;
     public GameObject EquipmentKeyObj;
@@ -27,6 +30,7 @@ public partial class Controller : MonoBehaviour
     {
         CreatCameraController();
         BtnGroupObj.SetActive(true);
+        saveBtn.onClick.AddListener(() => GameManager.instance.SaveGame());
     }
 
     void Start()

@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class LoginManager : MonoBehaviour
 {
+    public static LoginManager instance { set; get; }
+
     public GameObject GameManagerPrefab;
     public Text title;
 
@@ -31,9 +33,18 @@ public class LoginManager : MonoBehaviour
 
     private void Awake()
     {
-        SetSignUpBtnListener(true);
+        if (instance == null)
+        {
+            instance = this;
+            //DontDestroyOnLoad(gameObject);
+            SetSignUpBtnListener(true);
 
-        SetLoginBtnListener(true);
+            SetLoginBtnListener(true);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void SetSignUpBtnListener(bool isCreatMode)
@@ -179,6 +190,11 @@ public class LoginManager : MonoBehaviour
             ClearAllTextField();
             idField.text = "존재하지 않는 계정입니다.";
         }
+    }
+
+    public void SavePlayerDataToJson(PlayerData playerData)
+    {
+        File.WriteAllText(playerData.GetJsonPathWithAcc, JsonUtility.ToJson(playerData, true));
     }
 
     void ClearAllTextField()

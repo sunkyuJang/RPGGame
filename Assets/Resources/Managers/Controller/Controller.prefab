@@ -266,6 +266,7 @@ MonoBehaviour:
   joypad: {fileID: 5129829536917812286}
   actionpad: {fileID: 4896330238767864148}
   quickSlot: {fileID: 0}
+  saveBtn: {fileID: 768876183390264421}
   CameraControllerPrefab: {fileID: 134317638702113560, guid: c8d6b08302329bf43822e782c392f637,
     type: 3}
   characterSkiilViewer: {fileID: 0}
@@ -283,7 +284,7 @@ GameObject:
   - component: {fileID: 768876183390264422}
   - component: {fileID: 768876183390264421}
   m_Layer: 5
-  m_Name: PauseKey
+  m_Name: SaveKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1293,12 +1294,12 @@ PrefabInstance:
     - target: {fileID: 4900685374006844413, guid: 4f44f3f73241e1644987033b8dc8e7c5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -26.230011
+      value: -26.22998
       objectReference: {fileID: 0}
     - target: {fileID: 4900685374006844413, guid: 4f44f3f73241e1644987033b8dc8e7c5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 59.817
+      value: 59.817017
       objectReference: {fileID: 0}
     - target: {fileID: 4900685374006844413, guid: 4f44f3f73241e1644987033b8dc8e7c5,
         type: 3}

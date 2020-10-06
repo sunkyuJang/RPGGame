@@ -8,7 +8,8 @@ using TMPro;
 public class EquipmentView : MonoBehaviour
 {
     public Character Character { set; get; }
-    ItemManager.ItemCounter[] EquipmentItems { set; get; } = new ItemManager.ItemCounter[2];
+    public ItemManager.ItemCounter[] EquipmentItems { private set; get; } = new ItemManager.ItemCounter[2];
+    public bool IsWearing { get { foreach (ItemManager.ItemCounter itemCounter in EquipmentItems) if (itemCounter == null) return false; return true; } }
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }

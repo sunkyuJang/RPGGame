@@ -37,6 +37,7 @@ public partial class ItemManager : MonoBehaviour
         public ItemCounter(ItemSheet.Param data) => Data = data;
         ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
         public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
+        public bool isWaitingView{ set; get; } = true;
         public ItemView View { set; get; }
         public int GetExcessCount(int addCount) 
         {

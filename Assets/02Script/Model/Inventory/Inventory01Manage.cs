@@ -14,6 +14,11 @@ public partial class Inventory : MonoBehaviour
     {
         StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex)), addCounter));
     }
+
+    public void AddGold(int gold)
+    {
+        SetGold(this.gold + gold);
+    }
     
     public IEnumerator ProcessAddItem(ItemManager.ItemCounter itemCounter, int addCounter)
     {
@@ -23,8 +28,8 @@ public partial class Inventory : MonoBehaviour
         ItemManager.ItemCounter lastCounter = sameKind == null ? newCounter : sameKind;
 
         int overNum = lastCounter.GetExcessCount(addCounter);
-        if(lastCounter.View == null) { yield return StartCoroutine(AddViewAndTableList(lastCounter)); }
-
+        //if (lastCounter.View == null) { yield return StartCoroutine(AddViewAndTableList(lastCounter)); }
+        
         if (overNum > 0)
         {
             int carry = overNum / lastCounter.Data.Limit;
@@ -44,6 +49,10 @@ public partial class Inventory : MonoBehaviour
                 yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
         }
+        else if(lastCounter.isWaitingView)
+        {
+            yield return StartCoroutine(AddViewAndTableList(lastCounter));
+        }
 
         RefreashInventoryView();
     }
@@ -60,6 +69,7 @@ public partial class Inventory : MonoBehaviour
     IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
     {
         table.AddItemCounter(newCounter);
+        newCounter.isWaitingView = false;
         yield return StartCoroutine(itemViewPooler.CheckCanUseObj());
         var itemView = itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);
         var transformView = itemView.GetComponent<RectTransform>();

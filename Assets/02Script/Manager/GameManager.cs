@@ -39,4 +39,10 @@ public class GameManager : MonoBehaviour
         character.controller = controller;
         controller.Character = character;
     }
+
+    public void SaveGame()
+    {
+        playerData.SetPlayerDataFromCharacter(controller.Character);
+        LoginManager.instance.SavePlayerDataToJson(playerData);
+    }
 }

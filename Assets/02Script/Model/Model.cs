@@ -127,4 +127,29 @@ public partial class Model : MonoBehaviour
             yield return new WaitForFixedUpdate();
         interrupt = 0;
     }
+
+    public void AddItem(int itemIndex, int count)
+    {
+        StartCoroutine(AddItemIntoInventory(itemIndex, count, 0));
+    }
+    public void AddItemWithGold(int itemIndex, int count, int gold)
+    {
+        StartCoroutine(AddItemIntoInventory(itemIndex, count, gold));
+    }
+
+    public void AddGold(int gold)
+    {
+        StartCoroutine(AddItemIntoInventory(-1, -1, gold));
+    }
+
+    int incven = 0;
+    IEnumerator AddItemIntoInventory(int itemIndex, int count, int gold)
+    {
+        yield return new WaitUntil(() => Inventory != null);
+
+        if(itemIndex >= 0)
+            Inventory.AddItem(itemIndex, count);
+
+        Inventory.AddGold(gold);
+    }
 }

@@ -12,7 +12,13 @@ public class TownNpc : Npc
     new void Start()
     {
         base.Start();
-/*        Inventory.AddItem(0, 20);
-        Inventory.AddItem(1, 5);*/
+
+        AddItem(0, 10);
+        AddItem(0, 5);
+        AddItem(0, 3);
+        AddItem(0, 5);
+        AddItem(0, 17);
+        AddItem(1, 10);
+        AddItem(1, 10);
     }
 }

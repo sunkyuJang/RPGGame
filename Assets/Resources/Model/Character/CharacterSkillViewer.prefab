@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1512132045154469343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4203755704479515682}
+  - component: {fileID: 391552255022726140}
+  - component: {fileID: 41866582081900107}
+  m_Layer: 5
+  m_Name: SkillPointText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4203755704479515682
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512132045154469343}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4752181648523878621}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 50}
+  m_Pivot: {x: 1, y: 1}
+--- !u!222 &391552255022726140
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512132045154469343}
+  m_CullTransparentMesh: 0
+--- !u!114 &41866582081900107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512132045154469343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 2
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\uC0AC\uC6A9\uAC00\uB2A5 \uD3EC\uC778\uD2B8"
 --- !u!1 &4752181646473629177
 GameObject:
   m_ObjectHideFlags: 0
@@ -53,7 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181646473629179}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181646473629178
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -256,7 +334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181646685134834}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181646685134845
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -364,7 +441,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181646718579594}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181646718579637
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -748,7 +824,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181647015055770}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181647015055749
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -856,7 +931,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181647244004433}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181647244004432
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1043,7 +1117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181647753906584}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181647753906587
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1151,7 +1224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillViewerImage: {fileID: 4752181647786693677}
-  characterSkiilViewer: {fileID: 4752181647953029111}
 --- !u!222 &4752181647786693676
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1648,12 +1720,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 971747ffb5f633f45bafa47500c113fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  physicSkillGroup: {fileID: 0}
-  MagicSkillGroup: {fileID: 0}
-  skillViewGroup: {fileID: 4752181648165447028}
   skillTreeViewer: {fileID: 4752181648523878610}
+  skillViewGroup: {fileID: 4752181648165447028}
+  skillPointText: {fileID: 41866582081900107}
   characterSkillDescriptionBox: {fileID: 4752181647889411462}
-  SkillNormalAttack: {fileID: 0}
 --- !u!1 &4752181648165447028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1804,6 +1874,7 @@ RectTransform:
   m_Children:
   - {fileID: 4752181646895375068}
   - {fileID: 4752181647874131146}
+  - {fileID: 4203755704479515682}
   m_Father: {fileID: 4752181647953029066}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -16,7 +16,19 @@ public partial class Inventory : MonoBehaviour
     void SetViewPosition()
     {
         Transform goldTransform = transform.GetChild(0);
-        if (!isPlayer) transform.localPosition = new Vector3(transform.localPosition.x * -1, transform.localPosition.y, transform.localPosition.z);
+        if (!isPlayer)
+        {
+            InventoryView.transform.localPosition
+                  = new Vector3(InventoryView.transform.localPosition.x * -1,
+                                  InventoryView.transform.localPosition.y,
+                                  InventoryView.transform.localPosition.z);
+        
+            inventroyDiscription.transform.localPosition
+                = new Vector3(inventroyDiscription.transform.localPosition.x * -1,
+                                  inventroyDiscription.transform.localPosition.y,
+                                  inventroyDiscription.transform.localPosition.z);
+        }
+        
     }
     public void ShowInventory()
     {

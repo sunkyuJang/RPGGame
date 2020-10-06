@@ -14,10 +14,14 @@ public partial class Character : Model
     public bool GetIsInField { get { return IsinField; } }
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
-
-    bool isStartFuncPassed = false;
-
+    bool IsStartFuncPassed { set; get; } = false;
     public float MonsterLocatorDetectTime = 3f;
+    public bool IsChacterReadyForUse { set; get; } = false;
+
+    PlayerData PlayerData { set; get; }
+    //forDialougue
+    public Dictionary<string, int> LastTimeTalkingWith { set; get; } = new Dictionary<string, int>();
+
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -29,8 +33,10 @@ public partial class Character : Model
     {
         base.Start();
         SetStateView();
-        isStartFuncPassed = true;
+        IsStartFuncPassed = true;
         StartCoroutine(DetectMonsterLocator());
+
+        AddGold(10000);
     }
 
     new private void FixedUpdate()
@@ -66,9 +72,15 @@ public partial class Character : Model
 
     public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
     {
-        yield return new WaitWhile(() => isStartFuncPassed == false);
+        yield return new WaitWhile(() => IsStartFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);
+        yield return new WaitUntil(() => skillListHandler.StartPass);
+
+        PlayerData = playerData;
         CharacterName = playerData.NickName;
+        transform.position = playerData.LastPosition;
+        level = playerData.level;
+
         for (int i = 0; i < playerData.itemKinds.Count; i++)
         {
             Inventory.AddItem
@@ -76,7 +88,46 @@ public partial class Character : Model
                 playerData.itemCounts[i]);
         }
 
-        level = playerData.level;
+
+        if (Inventory.HasItem)
+        {
+            for (int i = 0; i < 2; i++) // for wearing Item;
+            {
+                var lastItem = Inventory.itemViews[Inventory.itemViews.Count];
+                if (lastItem.ItemCounter.Data.GetItemType == ItemSheet.Param.ItemTypeEnum.Equipment)
+                    Inventory.UseItem(Inventory.itemViews[Inventory.itemViews.Count], false);
+                else
+                    break;
+            }
+        }
+
+        SkillPoint = level;
+        for (int i = 0; i < skillListHandler.skillDatas.Count; i++)
+        {
+            var nowSkillData = skillListHandler.skillDatas[i];
+            for (int j = 0; j < playerData.skillNames.Count; j++)
+            {
+                var nowSkillName = playerData.skillNames[j];
+                var nowIsLearnd = playerData.isLearnSkill[j];
+                if (nowSkillData.skillName_eng.Equals(nowSkillName))
+                {
+                    nowSkillData.isLearn = nowIsLearnd;
+                    if (nowIsLearnd)
+                        SkillPoint--;
+                }
+            }
+        }
+
+        if (playerData.namesTalkingwith.Count > 0) // dialogue 
+        { 
+            for(int i = 0; i < playerData.namesTalkingwith.Count; i++)
+            {
+                //print(playerData.namesTalkingwith[i]);
+                LastTimeTalkingWith.Add(playerData.namesTalkingwith[i], playerData.lastTalkingIndex[i]);
+            }
+        } 
+
+        CharacterSkiilViewer.RefreshSkillPointText();
     }
 
     IEnumerator DetectMonsterLocator()
@@ -100,7 +151,8 @@ public partial class Character : Model
 
     void OnDrawGizmos()
     {
+        //MonsterLocaterDetector
         Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position, transform.forward * 100f);
+        Gizmos.DrawLine(transform.position + Vector3.up /2, transform.position + Vector3.up / 2 + transform.forward * 100f);
     }
 }

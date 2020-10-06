@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterSkiilViewer : MonoBehaviour
 {
     public Character Character { set; get; }
+    public GameObject skillTreeViewer;
     public GameObject skillViewGroup;
+    public Text skillPointText;
     public List<SkillData> skillDatas { private set; get; } = new List<SkillData>();
     List<SkillViewer> skillViewers { set; get; } = new List<SkillViewer>();
-    public GameObject skillTreeViewer;
     public CharacterSkillDescriptionBox characterSkillDescriptionBox;
 
     public SkillData SkillNormalAttack { set; get; }
@@ -82,6 +85,10 @@ public class CharacterSkiilViewer : MonoBehaviour
             }
     }
 
+    public void RefreshSkillPointText()
+    {
+        skillPointText.text = "사용가능 포인트\r\n" + Character.SkillPoint;
+    }
     public SkillData GetSkillData(string name)
     {
         foreach (SkillData skillData in skillDatas)
@@ -117,12 +124,15 @@ public class CharacterSkiilViewer : MonoBehaviour
                 nowSkillViewer.skillData.isLearn = true;
                 nowSkillViewer.SetLearnedIcon();
                 ShowDescription(nowSkillViewer);
+                Character.SkillPoint--;
+                RefreshSkillPointText();
             }
             else
                 UseCharacterAlert("상위스킬을 먼저 배우셔야 합니다.", Color.red);
         }
         else
             UseCharacterAlert("스킬포인트가 부족합니다.", Color.red);
+
     }
 
     public void UseCharacterAlert(string text, Color color)

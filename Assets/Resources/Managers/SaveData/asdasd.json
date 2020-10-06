@@ -2,23 +2,47 @@
     "id": "asdasd",
     "pw": "asdasd",
     "NickName": "asdasd",
-    "isFirstStart": true,
-    "LastScene": "01Scene/InGameScene",
+    "isFirstStart": false,
+    "LastScene": "01Scene/IngameScene",
     "LastPosition": {
-        "x": 0.0,
+        "x": 7.344967842102051,
         "y": 0.0,
-        "z": 0.0
+        "z": -7.07584285736084
     },
+    "level": 0,
     "itemKinds": [
         0,
         1,
-4
+        0
     ],
     "itemCounts": [
         10,
-        5,
-1
+        10,
+        10
     ],
     "WearingItem": [],
-    "level": 0
+    "skillNames": [
+        "NormalAttack",
+        "LowSmash",
+        "BoostMorale",
+        "EarthQuake",
+        "FireBall",
+        "ChaosBoom",
+        "Curse"
+    ],
+    "isLearnSkill": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false
+    ],
+    "namesTalkingwith": [
+        "길버트"
+    ],
+    "lastTalkingIndex": [
+        20
+    ]
 }

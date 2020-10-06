@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using UnityEditorInternal;
+using System.Linq;
+using System.Net.NetworkInformation;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -31,7 +33,9 @@ public class DialogueManager : MonoBehaviour
             }
             return NextState.End;
         } }
-    
+
+
+    Dictionary<string, int> lastTimetalkingWith { set; get; } = new Dictionary<string, int>();
     private void Awake()
     {
         instance = this;
@@ -46,10 +50,24 @@ public class DialogueManager : MonoBehaviour
         {
             PlayerModel = playerModel;
             ScriptModel = model;
+
+            lastTimetalkingWith = playerModel.LastTimeTalkingWith;
+
             DialogueScript = model.Dialogue;
+            model.lastDialog = GetLastDialogueIndex();
             DialogueViewer.ShowDiaogue(model.name, DialogueScript[model.lastDialog].Script);
             SetNextDialogue();
         }
+    }
+
+    int GetLastDialogueIndex()
+    {
+        foreach (KeyValuePair<string, int> list in lastTimetalkingWith)
+            if (list.Key.Equals(ScriptModel.CharacterName))
+                return list.Value;
+
+        lastTimetalkingWith.Add(ScriptModel.CharacterName, 0);
+        return 0;
     }
 
     bool canSkipNext { set; get; } = true;
@@ -229,6 +247,13 @@ public class DialogueManager : MonoBehaviour
     }
     void IntoNomalUI()
     {
+        for (int i = 0; i < lastTimetalkingWith.Count; i++)
+            if (lastTimetalkingWith.Keys.ToList()[i].Equals(ScriptModel.CharacterName))
+            {
+                lastTimetalkingWith[ScriptModel.CharacterName] = ScriptModel.lastDialog;
+                break;
+            }
+
         DialogueSelecter.HideSelecter();
         DialogueViewer.gameObject.SetActive(false);
         PlayerModel.IntoNormalUI();
