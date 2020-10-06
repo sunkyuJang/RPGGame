@@ -34,4 +34,8 @@ public class BossHPBarViewer : MonoBehaviour, IStateViewerHandler
             NameText.text = BossMonster.CharacterName;
         gameObject.SetActive(shouldShow);
     }
+    GameObject IStateViewerHandler.GetGameObject()
+    {
+        return gameObject;
+    }
 }

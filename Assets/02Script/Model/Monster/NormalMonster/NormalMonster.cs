@@ -16,8 +16,7 @@ public class NormalMonster : Monster
     new protected void Start()
     {
         base.Start();
-        hpBarScrip = HPBar.GetComponent<NormalMonsterHPBarViewer>();
-        hpBarScrip.Monster = this;
+        hpBarScrip = iStateViewerHandler.GetGameObject().GetComponent<NormalMonsterHPBarViewer>();
     }
 
     new protected void FixedUpdate()

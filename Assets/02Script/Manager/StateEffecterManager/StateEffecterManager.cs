@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GLip;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Runtime.InteropServices;
@@ -6,12 +7,51 @@ using UnityEngine;
 
 public class StateEffecterManager : MonoBehaviour
 {
+    public static StateEffecterManager instance { set; get; }
+    public GameObject CharacterStateViewPrefab;
+    public GameObject NormalMonsterStatViewPrefab;
+    public GameObject BossMonsterStateViewPrefab;
+    
+    RectTransform StateViewGroupTransform { set; get; }
+
     public StateEffecterSheet sheet;
     public static List<StateEffecterSheet.Param> data { set; get; }
     public static List<Transform> nowRunningList { set; get; } = new List<Transform>();
 
-    private void Awake() => data = sheet.sheets[0].list;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            data = sheet.sheets[0].list;
 
+            StateViewGroupTransform = GPosition.GetNewRectTransformWithReset(GameManager.mainCanvas, "StateViewGroupTransform");
+        }
+    }
+
+    public IStateViewerHandler GetStateView(Model model)
+    {
+        IStateViewerHandler stateViewer = null;
+        if (model is Character)
+        {
+            var nowViewer = Instantiate(CharacterStateViewPrefab, StateViewGroupTransform).GetComponent<CharacterStateViewer>();
+            nowViewer.Character = model as Character;
+            stateViewer = nowViewer;
+        }
+        else if(model is NormalMonster)
+        {
+            var nowViewer = Instantiate(NormalMonsterStatViewPrefab, StateViewGroupTransform).GetComponent<NormalMonsterHPBarViewer>();
+            nowViewer.Monster = model as NormalMonster;
+            stateViewer = nowViewer;
+        }
+        else if(model is BossMonster)
+        {
+            var nowViewer = Instantiate(BossMonsterStateViewPrefab, StateViewGroupTransform).GetComponent<BossHPBarViewer>();
+            nowViewer.BossMonster = model as BossMonster;
+            stateViewer = nowViewer;
+        }
+        return stateViewer;
+    }
     static void EffectToModel(int index, bool isDeEffect, Model targetModel)
     {
         /*        int coroutineIndex = 0;

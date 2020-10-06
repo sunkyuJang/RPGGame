@@ -26,11 +26,6 @@ public class NormalMonsterHPBarViewer : MonoBehaviour, IStateViewerHandler
         HPBar.fillOrigin = (int)Image.OriginHorizontal.Left;
     }
 
-    private void FixedUpdate()
-    {
-        //ResizingHPBar();
-    }
-
     public bool CanShowingHPBar
     {
         get
@@ -38,24 +33,33 @@ public class NormalMonsterHPBarViewer : MonoBehaviour, IStateViewerHandler
             Vector3 HPBarPositionToScreen = Camera.main.WorldToScreenPoint(Monster.HpBarPositionGuide.transform.position);
             if (MinDist <= HPBarPositionToScreen.z && HPBarPositionToScreen.z < MaxDist)
             {
+                if (!gameObject.activeSelf)
+                    gameObject.SetActive(true);
                 return true;
             }
 
+            gameObject.SetActive(false);
             return false;
         }
     }
 
     public void ResizingHPBar()
     {
-        transform.position = Camera.main.WorldToScreenPoint(Monster.HpBarPositionGuide.transform.position);
-        if (transform.position.z >= DiminishingDist)
+        var nowPosition = Camera.main.WorldToScreenPoint(Monster.HpBarPositionGuide.transform.position);
+        transform.position = nowPosition;
+        if (nowPosition.z >= DiminishingDist)
         {
-            float rectSize = (transform.position.z - DiminishingDist) / (MaxDist - DiminishingDist);
+            float rectSize = (nowPosition.z - DiminishingDist) / (MaxDist - DiminishingDist);
             RectTransform.sizeDelta = new Vector2(OriginalWidth - (OriginalWidth * rectSize), OriginalHigth - (OriginalHigth * rectSize));
         }
     }
 
     void IStateViewerHandler.RefreshState() => HPBar.fillAmount = (float)Monster.nowHP / (float)Monster.HP;
 
-    void IStateViewerHandler.ShowObj(bool souldShow) { }
+    void IStateViewerHandler.ShowObj(bool souldShow) { gameObject.SetActive(souldShow); }
+
+    GameObject IStateViewerHandler.GetGameObject()
+    {
+        return gameObject;
+    }
 }

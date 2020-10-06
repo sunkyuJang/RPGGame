@@ -7,7 +7,6 @@ using UnityEngine;
 
 public partial class Model : MonoBehaviour
 {
-    public GameObject HPBar;
     protected IStateViewerHandler iStateViewerHandler { private set; get; }
     bool isIStateObjOn { set; get; }
     //public GameObject inventoryPrefab;
@@ -57,11 +56,12 @@ public partial class Model : MonoBehaviour
 
     protected void Start()
     {
-        if (HPBar != null)
+        iStateViewerHandler = StateEffecterManager.instance.GetStateView(this);
+        /*if (HPBar != null)
         {
             HPBar = Instantiate(HPBar, GameManager.mainCanvas);
             iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
-        }
+        }*/
     }
 
     protected void OnDisable()
@@ -94,14 +94,14 @@ public partial class Model : MonoBehaviour
     {
         if(iStateViewerHandler != null)
         {
-            if(!IsRunningTimeLine != HPBar.gameObject.activeSelf)
+            if(!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
             {
                 iStateViewerHandler.ShowObj(!IsRunningTimeLine);
             }
         }
     }
 
-    protected void RefreshedHPBar() { if (HPBar != null) iStateViewerHandler.RefreshState(); }
+    protected void RefreshedHPBar() { if (iStateViewerHandler != null) iStateViewerHandler.RefreshState(); }
 
     public IEnumerator WaitTillAnimator(string name, bool isWaitforStart)
     {

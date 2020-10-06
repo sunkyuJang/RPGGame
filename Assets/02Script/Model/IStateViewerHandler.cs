@@ -6,4 +6,5 @@ public interface IStateViewerHandler
 {
     void RefreshState();
     void ShowObj(bool souldShow);
+    GameObject GetGameObject();
 }

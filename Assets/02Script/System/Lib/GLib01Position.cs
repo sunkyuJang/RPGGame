@@ -193,6 +193,20 @@ namespace GLip
         public static Vector3 ReverceLeft(Vector3 vector3) { return new Vector3(vector3.x * -1, vector3.y, vector3.z); }
         public static Vector3 ReverceUp(Vector3 vector3) { return new Vector3(vector3.x, vector3.y * -1, vector3.z); }
         public static Vector3 ReverceFront(Vector3 vector3) { return new Vector3(vector3.x, vector3.y, vector3.z * -1); }
+
+        public static RectTransform GetNewRectTransformWithReset(RectTransform parent, string objName)
+        {
+            var rectTransform = new GameObject(objName).AddComponent<RectTransform>();
+            rectTransform.SetParent(parent);
+            rectTransform.anchoredPosition = parent.anchoredPosition;
+            rectTransform.localPosition = Vector2.zero;
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.sizeDelta = Vector2.one;
+            rectTransform.localScale = Vector2.one;
+
+            return rectTransform;
+        }
     }
 
 }

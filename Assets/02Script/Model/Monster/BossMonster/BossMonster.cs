@@ -29,7 +29,7 @@ public class BossMonster : Monster
     new private void Start()
     {
         base.Start();
-        BossHPBarViewer = HPBar.GetComponent<BossHPBarViewer>();
+        BossHPBarViewer = iStateViewerHandler.GetGameObject().GetComponent<BossHPBarViewer>();
         BossHPBarViewer.BossMonster = this;
         BossHPBarViewer.SetName(CharacterName);
     }

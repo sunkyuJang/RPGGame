@@ -13,7 +13,7 @@ public partial class Character : Model
     public GameObject skillViewPrefab;
     public QuickSlot QuickSlot { set; get; }
     public EquipmentView EquipmentView { set; get; }
-    public StateViewer StateViewer { set; get; }
+    public CharacterStateViewer StateViewer { set; get; }
     public CharacterSkiilViewer CharacterSkiilViewer { set; get; }
     public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView }
     void AwakeInUI()
@@ -54,7 +54,7 @@ public partial class Character : Model
 
     void SetStateView()
     {
-        StateViewer = HPBar.GetComponent<StateViewer>();
+        StateViewer = iStateViewerHandler.GetGameObject().GetComponent<CharacterStateViewer>();
         StateViewer.Character = this;
         iStateViewerHandler.RefreshState();
     }

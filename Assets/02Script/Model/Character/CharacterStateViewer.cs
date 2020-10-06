@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using GLip;
 using System.Dynamic;
 
-public class StateViewer : MonoBehaviour, IStateViewerHandler
+public class CharacterStateViewer : MonoBehaviour, IStateViewerHandler
 {
     public Character Character { set; get; }
     RectTransform rectTransform;
@@ -17,7 +17,6 @@ public class StateViewer : MonoBehaviour, IStateViewerHandler
         rectTransform = gameObject.GetComponent<RectTransform>();
         SetEachState(rectTransform.GetChild(0), ref hpBar, ref hpState);
         SetEachState(rectTransform.GetChild(1), ref mpBar, ref mpState);
-
     }
     void SetEachState(Transform _object, ref Image _image, ref Text _text)
     {
@@ -70,5 +69,10 @@ public class StateViewer : MonoBehaviour, IStateViewerHandler
     void IStateViewerHandler.ShowObj(bool souldShow)
     {
         gameObject.SetActive(souldShow);
+    }
+
+    GameObject IStateViewerHandler.GetGameObject()
+    {
+        return gameObject;
     }
 }

@@ -106,6 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f1ecf00328e1446893ce64736f5897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterStateViewPrefab: {fileID: 4055651439520164268, guid: 04d23717f7b0fff4d99cec87b3661f92,
+    type: 3}
+  NormalMonsterStatViewPrefab: {fileID: 3641087219154752630, guid: 4f5818613ea08a14d81e4d07009783cf,
+    type: 3}
+  BossMonsterStateViewPrefab: {fileID: 2574073645903671745, guid: ec07f22f9ecb05f49a01117c92c5f25b,
+    type: 3}
   sheet: {fileID: 11400000, guid: 5691b6b33cab4cb46b35a249ce0ba795, type: 2}
 --- !u!114 &19777578
 MonoBehaviour:
