@@ -51,12 +51,12 @@ public partial class Model : MonoBehaviour
             animatorController = Animator.runtimeAnimatorController;
 
         AwakeInAlert();
-        StartCoroutine(SetInventoryFromInventoryPoolerManager());
     }
 
     protected void Start()
     {
         iStateViewerHandler = StateEffecterManager.instance.GetStateView(this);
+        StartCoroutine(SetInventoryFromInventoryPoolerManager());
         /*if (HPBar != null)
         {
             HPBar = Instantiate(HPBar, GameManager.mainCanvas);

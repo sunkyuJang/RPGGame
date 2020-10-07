@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class TestScript : MonoBehaviour
 {
-    public GameObject obj;
+    private void Awake()
+    {
+        print("awake");
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        print("start");
     }
 
     //bool isAlreadyRunning = false;
     // Update is called once per frame
     void FixedUpdate()
     {
-        obj.transform.position += Vector3.left;
     }
 }
