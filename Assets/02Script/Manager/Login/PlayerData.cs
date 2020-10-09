@@ -49,12 +49,12 @@ public class PlayerData
         NickName = nickName;
         isFirstStart = true;
         LastPosition = Vector3.zero;
-        LastScene = GameManager.pathOfScenes + "IngameScene";
+        LastScene = "IngameScene";
     }
     public void SetPlayerDataFromCharacter(Character character)
     {
         isFirstStart = false;
-        LastScene = GameManager.pathOfScenes + SceneManager.GetActiveScene().name;
+        LastScene = SceneManager.GetActiveScene().name;
         LastPosition = character.transform.position;
         level = character.level;
 
@@ -98,11 +98,11 @@ public class PlayerData
             }
     }
 
-    public static PlayerData ConvertChatacterToPlayerData(Character character)
+    /*public static PlayerData ConvertChatacterToPlayerData(Character character)
     {
         var playerData = new PlayerData();
         playerData.isFirstStart = false;
-        playerData.LastScene = GameManager.pathOfScenes + SceneManager.GetActiveScene().name;
+        playerData.LastScene = SceneManager.GetActiveScene().name;
         playerData.LastPosition = character.transform.position;
         playerData.level = character.level;
 
@@ -130,5 +130,5 @@ public class PlayerData
   
 
         return playerData;
-    }
+    }*/
 }

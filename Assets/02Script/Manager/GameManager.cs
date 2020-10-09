@@ -32,7 +32,20 @@ public class GameManager : MonoBehaviour
     public void SetGameStart(PlayerData playerData)
     {
         this.playerData = playerData;
-        SceneManager.LoadSceneAsync(playerData.LastScene, LoadSceneMode.Single);
+        StartCoroutine(ProgressSetStartGame());
+
+    }
+
+    public IEnumerator ProgressSetStartGame()
+    {
+        yield return null;
+
+        LoadSceneManager.LoadScene(pathOfScenes + playerData.LastScene);
+        while (!SceneManager.GetActiveScene().name.Equals(playerData.LastScene))
+            yield return new WaitForFixedUpdate();
+;
+        controller.gameObject.SetActive(true);
+        //SceneManager.LoadSceneAsync(playerData.LastScene, LoadSceneMode.Single);
         var character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
         DontDestroyOnLoad(character.gameObject);
         StartCoroutine(character.SetCharacterWithPlayerData(playerData));

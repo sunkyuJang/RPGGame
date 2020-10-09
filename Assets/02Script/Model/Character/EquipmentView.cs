@@ -53,7 +53,7 @@ public class EquipmentView : MonoBehaviour
             if (confirmBox.NowState == ConfimBoxManager.State.Yes)
             {
                 var equipmentItem = EquipmentItems[index];
-                var View = Character.Inventory.itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
+                var View = Character.Inventory.itemViewPooler.GetObj<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
                 StateEffecterManager.EffectToModelByItem(View.ItemCounter, Character, true);
                 Character.Inventory.AddItem(equipmentItem);
                 Destroy(View.gameObject);

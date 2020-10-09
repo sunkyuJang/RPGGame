@@ -38,6 +38,10 @@ public class BossMonster : Monster
     {
         base.OnEnable();
     }
+    new protected void OnDisable()
+    {
+        base.OnDisable();
+    }
     new private void Update()
     {
         base.Update();

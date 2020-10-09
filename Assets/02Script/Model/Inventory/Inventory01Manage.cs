@@ -70,8 +70,10 @@ public partial class Inventory : MonoBehaviour
     {
         table.AddItemCounter(newCounter);
         newCounter.isWaitingView = false;
-        yield return StartCoroutine(itemViewPooler.CheckCanUseObj());
-        var itemView = itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);
+        var itemView = itemViewPooler.GetOneObj<ItemView>();
+        itemView.SetItemCounter(newCounter, this);
+/*        yield return StartCoroutine(itemViewPooler.CheckCanUseObj());
+        var itemView = itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);*/
         var transformView = itemView.GetComponent<RectTransform>();
         transformView.SetParent(itemViewGroup);
         transformView.localPosition = Vector3.zero;
@@ -79,6 +81,7 @@ public partial class Inventory : MonoBehaviour
         //itemView.GetComponent<RectTransform>().
         itemView.gameObject.SetActive(true);
         itemViews.Add(itemView);
+        yield return null;
     }
 
     public bool RemoveItem(int itemIndex, int removeCount)

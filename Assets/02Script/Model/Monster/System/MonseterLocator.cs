@@ -77,8 +77,10 @@ public class MonseterLocator : MonoBehaviour
                 nowCount = MonsterInArea.Count;
                 if (MonsterInArea.Count < maxCount)
                 {
-                    yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
-                    var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();
+                    
+/*                    yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
+                    var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();*/
+                    var nowMonster = MonsterPooler.GetOneObj<Monster>();
                     nowMonster.transform.parent = transform;
                     nowMonster.gameObject.SetActive(true);
                     LocatedMonster(nowMonster);
@@ -117,6 +119,11 @@ public class MonseterLocator : MonoBehaviour
         monster.RoamingArea = RoamingArea;
         monster.MonseterLocator = this;
         MonsterInArea.Add(monster);
+    }
+
+    public void MonsterReturn(GameObject monsterObj)
+    {
+        returnMonsterObj(monsterObj);
     }
 
     private void OnDrawGizmos()

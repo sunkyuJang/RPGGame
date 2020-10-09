@@ -59,8 +59,8 @@ public class SkillData : MonoBehaviour
     protected void Awake()
     {
         skillName_eng = gameObject.name.Substring(9);
-        skillPooling = new GameObject(skillName_eng + "pooler").GetComponent<Transform>();
-        skillPooling.position = Vector3.zero;
+/*        skillPooling = new GameObject(skillName_eng + "pooler").GetComponent<Transform>();
+        skillPooling.position = Vector3.zero;*/
 /*        for (int i = 0; i < hitBoxNum; i++)
         {
             SetHitBox();
@@ -69,10 +69,11 @@ public class SkillData : MonoBehaviour
     private void Start()
     {
         hitBoxPooler = ObjPoolerManager.instance.ReqeuestObjPooler(hitBox.gameObject);
-        hitBoxPooler.transform.SetParent(skillPooling);
+        //hitBoxPooler.transform.SetParent(skillPooling);
         hitBoxPooler.transform.position = Vector3.zero;
 
-        StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
+        hitBoxPooler.MakeReservation(hitBoxNum);
+        //StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
     }
 
     public void ActivateSkill()
@@ -107,9 +108,10 @@ public class SkillData : MonoBehaviour
 
     public HitBox GetHitBox()
     {
-        var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
+        //var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
+        var copy = hitBoxPooler.GetOneObj<HitBox>();
         copy.gameObject.SetActive(true);
-        copy.transform.SetParent(skillPooling);
+        //copy.transform.SetParent(skillPooling);
         copy.transform.forward = Model.transform.forward;
         copy.Collider.enabled = true;
         return copy;

@@ -19,6 +19,7 @@ public class SkillMovementChaosBoom : SkillMovement, ISkillMovement
 
         copy.transform.position = skillData.targetModel.transform.position + Vector3.up * 5f;
         copy.Rigidbody.velocity = Vector3.down * downSpeed;
+        copy.isImmediately = true;
 
         bool colliderTurnOn = true;
         copy.StartCountDown();

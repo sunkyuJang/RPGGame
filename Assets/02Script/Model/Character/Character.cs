@@ -93,7 +93,7 @@ public partial class Character : Model
         {
             for (int i = 0; i < 2; i++) // for wearing Item;
             {
-                var lastItem = Inventory.itemViews[Inventory.itemViews.Count];
+                var lastItem = Inventory.itemViews[Inventory.itemViews.Count - 1];
                 if (lastItem.ItemCounter.Data.GetItemType == ItemSheet.Param.ItemTypeEnum.Equipment)
                     Inventory.UseItem(Inventory.itemViews[Inventory.itemViews.Count], false);
                 else

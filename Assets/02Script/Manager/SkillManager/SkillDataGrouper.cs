@@ -34,7 +34,8 @@ public class SkillDataGrouper : MonoBehaviour
             nowTransform = new GameObject(skillData.Model.CharacterName).transform;
         
         nowTransform.position = Vector3.zero;
-        skillData.skillPooling.SetParent(nowTransform.Find("PoolerObj"));
+        skillData.hitBoxPooler.transform.SetParent(nowTransform);
+        //skillData.skillPooling.SetParent(nowTransform.Find("PoolerObj"));
 
         nowTransform.SetParent(group);
     }

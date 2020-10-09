@@ -7,21 +7,32 @@ public class ObjPooler : MonoBehaviour
     public GameObject comparePrefab;
     private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();
 
-    public List<GameObject> GetObj(int count) 
-    {
-        var list = new List<GameObject>();
-        for (int i = 0; i < count; i++)
-            list.Add(CreatedObjList.Dequeue());
-
-        return list;
-    }
-    public GameObject GetObj()
-    {
-        return CreatedObjList.Dequeue();
-    }
     public T GetObj<T>()
     {
         return CreatedObjList.Dequeue().GetComponent<T>();
+    }
+
+    public List<T> GetObj<T>(int count)
+    {
+        List<T> requestList = new List<T>();
+        if (isRunningOut(count))
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var nowObj = Instantiate(comparePrefab, transform);
+                nowObj.SetActive(false);
+                requestList.Add(nowObj.GetComponent<T>());
+            }
+        }
+        return requestList;
+    }
+    public T GetOneObj<T>()
+    {
+        if (isRunningOut(1))
+        {
+            return GetObj<T>(1)[0];
+        }
+        return GetObj<T>();
     }
 
     bool isRunningOut(int count) { return count > CreatedObjList.Count; }
@@ -65,9 +76,14 @@ public class ObjPooler : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var nowObj = Instantiate(comparePrefab, transform);
-            yield return new WaitForFixedUpdate();
             nowObj.SetActive(false);
             CreatedObjList.Enqueue(nowObj);
         }
+        yield return null;
+    }
+
+    public void MakeReservation(int count)
+    {
+        StartCoroutine(CreateObj(count));
     }
 }

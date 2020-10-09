@@ -64,6 +64,13 @@ public partial class Model : MonoBehaviour
         }*/
     }
 
+    protected void OnEnable()
+    {
+        nowHP = HP;
+        nowMP = MP;
+        RefreshedHPBar();
+    }
+
     protected void OnDisable()
     {
         StopAllCoroutines();

@@ -8,7 +8,6 @@ public class QuickSlot : MonoBehaviour
 {
     public Character Character { set; get; }
     private new Transform transform;
-    private Rect area;
     private List<Transform> lists = new List<Transform>();
     private List<RectTransform> childs = new List<RectTransform>();
     Sprite recoverIcon { set; get; }
@@ -17,7 +16,6 @@ public class QuickSlot : MonoBehaviour
     private void Awake()
     {
         transform = gameObject.transform;
-        area = GMath.GetRect(gameObject.GetComponent<RectTransform>());
         recoverIcon = transform.GetChild(0).GetComponent<Image>().sprite;
         for (int i = 0; i < 5; i++)
         {

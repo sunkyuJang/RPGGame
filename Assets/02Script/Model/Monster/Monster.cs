@@ -40,20 +40,21 @@ public class Monster : Model
     new protected void Start()
     {
         base.Start();
-        var position = GMath.ConvertV3xzToV2(transform.position);
+/*        var position = GMath.ConvertV3xzToV2(transform.position);
         var positionX = position.x - roamingVertical / 2;
         var positionY = position.y - roamingHorizontal / 2;
-        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(roamingVertical, roamingHorizontal));
+        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(roamingVertical, roamingHorizontal));*/
     }
 
-    protected void OnEnable()
+    new protected void OnEnable()
     {
+        base.OnEnable();
         NowState = ActionState.idle;
+        BeforeState = ActionState.non;
     }
 
     new protected void OnDisable()
     {
-        BeforeState = ActionState.non;
         base.OnDisable();
     }
 
@@ -278,7 +279,7 @@ public class Monster : Model
 
         float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         yield return new WaitForSeconds(waitTIme);
-        Destroy(gameObject);
+        MonseterLocator.MonsterReturn(gameObject);
         DropItem();
     }
 

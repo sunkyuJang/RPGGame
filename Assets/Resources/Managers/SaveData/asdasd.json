@@ -3,13 +3,13 @@
     "pw": "asdasd",
     "NickName": "asdasd",
     "isFirstStart": false,
-    "LastScene": "01Scene/IngameScene",
+    "LastScene": "IngameScene",
     "LastPosition": {
         "x": 7.344967842102051,
         "y": 0.0,
         "z": -7.07584285736084
     },
-    "level": 0,
+    "level": 10,
     "itemKinds": [
         0,
         1,
