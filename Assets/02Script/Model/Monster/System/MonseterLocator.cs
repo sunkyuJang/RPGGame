@@ -80,7 +80,7 @@ public class MonseterLocator : MonoBehaviour
                     
 /*                    yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
                     var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();*/
-                    var nowMonster = MonsterPooler.GetOneObj<Monster>();
+                    var nowMonster = MonsterPooler.GetObj<Monster>();
                     nowMonster.transform.parent = transform;
                     nowMonster.gameObject.SetActive(true);
                     LocatedMonster(nowMonster);

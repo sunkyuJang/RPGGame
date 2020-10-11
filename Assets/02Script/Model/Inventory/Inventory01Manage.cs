@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GLip;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
@@ -7,12 +8,12 @@ public partial class Inventory : MonoBehaviour
 {
     public void AddItem(int itemIndex, int addCounter, float probability)
     {
-        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probability), 0));
+        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(itemIndex), addCounter, probability), 0));
     }
 
     public void AddItem(int itemIndex, int addCounter)
     {
-        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex)), addCounter));
+        StartCoroutine(ProcessAddItem(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(itemIndex)), addCounter));
     }
 
     public void AddGold(int gold)
@@ -49,7 +50,7 @@ public partial class Inventory : MonoBehaviour
                 yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
         }
-        else if(lastCounter.isWaitingView)
+        else if(lastCounter.isWaitingNewItemView)
         {
             yield return StartCoroutine(AddViewAndTableList(lastCounter));
         }
@@ -69,16 +70,10 @@ public partial class Inventory : MonoBehaviour
     IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
     {
         table.AddItemCounter(newCounter);
-        newCounter.isWaitingView = false;
-        var itemView = itemViewPooler.GetOneObj<ItemView>();
-        itemView.SetItemCounter(newCounter, this);
-/*        yield return StartCoroutine(itemViewPooler.CheckCanUseObj());
-        var itemView = itemViewPooler.GetObj().GetComponent<ItemView>().SetItemCounter(newCounter, this);*/
-        var transformView = itemView.GetComponent<RectTransform>();
-        transformView.SetParent(itemViewGroup);
-        transformView.localPosition = Vector3.zero;
-        transformView.localScale = Vector3.one;
-        //itemView.GetComponent<RectTransform>().
+        newCounter.isWaitingNewItemView = false;
+        yield return new WaitUntil(() => ItemManager.Instance.IsItemViewPoolerReady);
+        var itemView = ItemManager.Instance.GetNewItemView(newCounter, this);
+        GPosition.GetRectTransformWithReset(rectTransform, itemView.GetComponent<RectTransform>());
         itemView.gameObject.SetActive(true);
         itemViews.Add(itemView);
         yield return null;
@@ -87,7 +82,7 @@ public partial class Inventory : MonoBehaviour
     public bool RemoveItem(int itemIndex, int removeCount)
     {
         List<ItemManager.ItemCounter> kindList;
-        if(table.GetSameKindTotalCount(ItemManager.GetitemData(itemIndex), out kindList) >= removeCount)
+        if(table.GetSameKindTotalCount(ItemManager.Instance.GetitemData(itemIndex), out kindList) >= removeCount)
         {
             while(removeCount > 0)
             {

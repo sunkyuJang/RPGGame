@@ -109,7 +109,7 @@ public class SkillData : MonoBehaviour
     public HitBox GetHitBox()
     {
         //var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
-        var copy = hitBoxPooler.GetOneObj<HitBox>();
+        var copy = hitBoxPooler.GetObj<HitBox>();
         copy.gameObject.SetActive(true);
         //copy.transform.SetParent(skillPooling);
         copy.transform.forward = Model.transform.forward;

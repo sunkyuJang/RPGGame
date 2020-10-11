@@ -53,10 +53,12 @@ public class QuestSheet_importer : AssetPostprocessor {
 					cell = row.GetCell(0); p.Name = (cell == null ? "" : cell.StringCellValue);
 					cell = row.GetCell(1); p.Index = (int)(cell == null ? 0 : cell.NumericCellValue);
 					cell = row.GetCell(2); p.DialogueIndex = (int)(cell == null ? 0 : cell.NumericCellValue);
-					cell = row.GetCell(3); p.NeedItem = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(4); p.NeedCount = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(5); p.RewardItem = (cell == null ? "" : cell.StringCellValue);
-					cell = row.GetCell(6); p.RewardCount = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(3); p.Title = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(4); p.Description = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(5); p.NeedItem = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(6); p.NeedCount = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(7); p.RewardItem = (cell == null ? "" : cell.StringCellValue);
+					cell = row.GetCell(8); p.RewardCount = (cell == null ? "" : cell.StringCellValue);
 						s.list.Add (p);
 					}
 					data.sheets.Add(s);

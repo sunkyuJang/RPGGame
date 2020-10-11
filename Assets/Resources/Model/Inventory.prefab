@@ -630,7 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9a5e7c46b58555409133b3c996910ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventoryView: {fileID: 3248374183519844107}
+  inventoryFrame: {fileID: 3248374183519844107}
   itemViewGroup: {fileID: 5639344178550252446}
   itemViewPrefab: {fileID: 5699057192033080352, guid: 76ee7f14bc9cf574b8561b08bce3b120,
     type: 3}

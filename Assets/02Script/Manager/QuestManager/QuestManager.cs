@@ -21,14 +21,11 @@ public class QuestManager : MonoBehaviour
         if (npc.HasQuest)
         {
             int processingIndex = 0;
+
             if (isAlreadyAccept(npc, out processingIndex))
-            {
                 nowQuest = ProcessingQuestList[processingIndex];
-            }
             else
-            {
                 nowQuest = new QuestTable(npc, npc.lastDialog);
-            }
         }
 
         return nowQuest;
@@ -59,39 +56,9 @@ public class QuestManager : MonoBehaviour
     public static bool CanClearQuest(Inventory requestPlayerInventory, QuestTable quest)
     {
         if (quest.ComfareItemList(requestPlayerInventory))
-        {
             return true;
-        }
-        return false;
-/*        QuestTable nowTable = null;
-        foreach(QuestTable table in ProcessingQuestList)
-        {
-            if (table.ComfareQuest(npcName, index))
-            {
-                nowTable = table;
-            }
-        }
-        if (nowTable == null)
-        {
-            foreach (QuestTable table in QuestTableList)
-            {
-                if (table.ComfareQuest(npcName, index))
-                {
-                    table.NowQuestIndex = index;
-                    QuestSheet.Param nowQuest = QuestList[table.GetQuestIndex()];
-                    table.RequireList = GetItemList(nowQuest.needItem, nowQuest.needCount);
-                    table.RewardList = GetItemList(nowQuest.rewardItem, nowQuest.rewardCount);
-                    ProcessingQuestList.Add(table);
-                    nowTable = table;
-                }
-            }
-        }
 
-        if(nowTable != null)
-        {
-            return nowTable.ComfareItemList(inventory);
-        }
-        return false;*/
+        return false;
     }
 
     private static List<ItemManager.ItemCounter> GetItemList(string requireItem, string itemCount)
@@ -101,12 +68,13 @@ public class QuestManager : MonoBehaviour
         string[] splitCounts = itemCount.Split(';');
         for (int i = 0; i < splitKinds.Length -1; i++)
         {
-            var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(int.Parse(splitKinds[i])));
+            var counter = new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(int.Parse(splitKinds[i])));
             counter.GetExcessCount(int.Parse(splitCounts[i]));
             itemList.Add(counter);
         }
         return itemList;
     }
+
     public class QuestTable
     {
         public Npc npc { private set; get; }

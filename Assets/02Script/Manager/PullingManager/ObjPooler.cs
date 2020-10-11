@@ -7,7 +7,7 @@ public class ObjPooler : MonoBehaviour
     public GameObject comparePrefab;
     private Queue<GameObject> CreatedObjList { set; get; } = new Queue<GameObject>();
 
-    public T GetObj<T>()
+    T GetObjFromCreateObjList<T>()
     {
         return CreatedObjList.Dequeue().GetComponent<T>();
     }
@@ -26,13 +26,13 @@ public class ObjPooler : MonoBehaviour
         }
         return requestList;
     }
-    public T GetOneObj<T>()
+    public T GetObj<T>()
     {
         if (isRunningOut(1))
         {
             return GetObj<T>(1)[0];
         }
-        return GetObj<T>();
+        return GetObjFromCreateObjList<T>();
     }
 
     bool isRunningOut(int count) { return count > CreatedObjList.Count; }

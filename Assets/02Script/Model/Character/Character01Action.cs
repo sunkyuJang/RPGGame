@@ -192,13 +192,13 @@ public partial class Character : Model
 
         while(BeforeState == ActionState.Trade)
         {
-            if(!Inventory.InventoryView.activeSelf || !TargetModel.Inventory.InventoryView.activeSelf)
+            if(!Inventory.inventoryFrame.activeSelf || !TargetModel.Inventory.inventoryFrame.activeSelf)
             {
                 controller.SetAllActive(true);
                 QuickSlot.gameObject.SetActive(true);
                 IntoNormalUI();
-                Inventory.InventoryView.SetActive(false);
-                TargetModel.Inventory.InventoryView.SetActive(false);
+                Inventory.inventoryFrame.SetActive(false);
+                TargetModel.Inventory.inventoryFrame.SetActive(false);
                 NowState = ActionState.Idle;
                 yield break;
             }

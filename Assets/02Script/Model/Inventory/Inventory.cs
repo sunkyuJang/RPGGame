@@ -9,7 +9,7 @@ using System.Net.NetworkInformation;
 public partial class Inventory : MonoBehaviour
 {
     Model Model { set; get; }
-    public GameObject InventoryView;
+    public GameObject inventoryFrame;
     public RectTransform rectTransform { private set; get; }
     Inventory TargetInventory { set; get; }
     public Transform itemViewGroup;
@@ -17,7 +17,6 @@ public partial class Inventory : MonoBehaviour
     public bool isPlayer { private set; get; }
 
     public GameObject itemViewPrefab;
-    public ObjPooler itemViewPooler{ set; get; }
     public List<ItemView> itemViews { private set; get; } = new List<ItemView>();
     public bool HasItem { get { return itemViews.Count > 0; } }
     public int length { set; get; }
@@ -26,8 +25,7 @@ public partial class Inventory : MonoBehaviour
     private void Awake()
     {
         table = new ItemCounterTable();
-        rectTransform = InventoryView.GetComponent<RectTransform>();
-        itemViewPooler = GetitemViewPooler;
+        rectTransform = inventoryFrame.GetComponent<RectTransform>();
     }
 
     public void SetTransformParent() 
@@ -38,7 +36,7 @@ public partial class Inventory : MonoBehaviour
         transform.GetComponent<RectTransform>().anchorMax = Vector2.one;
     }
 
-    ObjPooler GetitemViewPooler
+/*    ObjPooler GetitemViewPooler
     {
         get
         {
@@ -49,7 +47,7 @@ public partial class Inventory : MonoBehaviour
             viewPullingController.transform.SetParent(GameManager.mainCanvas);
             return viewPullingController;
         }
-    }
+    }*/
 
     Transform GetInventoryGroup
     {
@@ -83,7 +81,7 @@ public partial class Inventory : MonoBehaviour
         isPlayer = model is Character ? true : false;
         SetViewPosition();
         gameObject.name = model.CharacterName + gameObject.name;
-        InventoryView.SetActive(false);
+        inventoryFrame.SetActive(false);
     }
 
     public void ShowInventoryForTrade(Inventory targetInventory)

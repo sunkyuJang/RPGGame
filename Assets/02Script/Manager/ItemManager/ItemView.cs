@@ -28,6 +28,16 @@ public class ItemView : MonoBehaviour, IInputTracer
 
         return this;
     }
+
+    public ItemView SetItemCounter(ItemManager.ItemCounter counter)
+    {
+        ItemCounter = counter;
+        counter.View = this;
+        icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+        RefreshText();
+
+        return this;
+    }
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
@@ -75,34 +85,6 @@ public class ItemView : MonoBehaviour, IInputTracer
         inventory.HideDiscription();
         inventory.ItemDrop(this, copyPosition);
     }
-    /*public IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
-    {
-        Color readyColor = new Color(0, 0, 0, 0.7f);
-        var copy = Instantiate(gameObject, transform.parent).GetComponent<ItemView>();
-        copy.frame.position = frame.position;
-        icon.color -= readyColor;
-
-        while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
-        {
-            if(GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
-            {
-                inventory.ShowDiscription(this);
-            }
-            else
-            {
-                inventory.HideDiscription();
-            }
-
-            copy.frame.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
-            yield return new WaitForFixedUpdate();
-        }
-
-        var copyPosition = copy.frame.position;
-        Destroy(copy.gameObject);
-        icon.color += readyColor;
-        inventory.HideDiscription();
-        inventory.ItemDrop(this, copyPosition);
-    }*/
 
     public void Pressed()
     {

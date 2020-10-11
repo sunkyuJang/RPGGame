@@ -20,6 +20,8 @@ public class QuestSheet : ScriptableObject
 		public string Name;
 		public int Index;
 		public int DialogueIndex;
+		public string Title;
+		public string Description;
 		public string NeedItem;
 		public string NeedCount;
 		public string RewardItem;

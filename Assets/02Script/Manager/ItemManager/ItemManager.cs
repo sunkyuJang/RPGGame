@@ -3,32 +3,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using JetBrains.Annotations;
 using GLip;
-using UnityEditor;
-using System.Runtime.Remoting.Messaging;
+using UnityEngine.PlayerLoop;
 
 public partial class ItemManager : MonoBehaviour
 {
+    public static ItemManager Instance { set; get; }
     public ItemSheet sheet;
-    public static List<ItemSheet.Param> Data { set; get; }
-    public static GameObject ItemViewObj { set; get; }
+    public List<ItemSheet.Param> Data { set; get; }
 
-    private void Awake()
+    public GameObject ItemViewPrefab;
+    public ObjPooler ItemViewerPooler { set; get; }
+    public bool IsItemViewPoolerReady { get { return ItemViewerPooler != null; } }
+
+    void Awake()
     {
-        Data = sheet.sheets[0].list;
-        ItemViewObj = Resources.Load<GameObject>("ItemView");
+        if (Instance == null)
+        {
+            Instance = this;
+            Data = sheet.sheets[0].list;
+        }
+        else 
+            Destroy(gameObject);
     }
 
-    public static ItemSheet.Param GetitemData(int index) => Data[index];
-/*    public static ItemView GetNewItemView(ItemCounter itemCount, Inventory inventory)
+    private void Start()
     {
-        //ItemView itemView = Instantiate(ItemViewObj).GetComponent<ItemView>();
-        itemView.SetItemCounter(itemCount, inventory);
-        itemCount.View = itemView;
-        return itemView;
-    }*/
+        ItemViewerPooler = ObjPoolerManager.instance.ReqeuestObjPooler(ItemViewPrefab);
+        GPosition.GetRectTransformWithReset(gameObject.GetComponent<RectTransform>(), ItemViewerPooler.gameObject.AddComponent<RectTransform>());
+    }
+
+    public ItemSheet.Param GetitemData(int index) => Data[index];
+
+    public ItemView GetNewItemView(ItemCounter itemCounter)
+    {
+        var nowItemView = ItemViewerPooler.GetObj<ItemView>();
+        return nowItemView.SetItemCounter(itemCounter);
+    }
+    public ItemView GetNewItemView(ItemCounter itemCounter, Inventory inventory)
+    {
+        var nowItemView = ItemViewerPooler.GetObj<ItemView>();
+        return nowItemView.SetItemCounter(itemCounter, inventory);
+    }
+
+    public void ReturnItemView(ItemView itemView)
+    {
+        ItemViewerPooler.returnObj(itemView.gameObject);
+    }
+
     public class ItemCounter
     {
         public ItemSheet.Param Data { private set; get; }
@@ -37,7 +59,7 @@ public partial class ItemManager : MonoBehaviour
         public ItemCounter(ItemSheet.Param data) => Data = data;
         ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
         public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
-        public bool isWaitingView{ set; get; } = true;
+        public bool isWaitingNewItemView{ set; get; } = true;
         public ItemView View { set; get; }
         public int GetExcessCount(int addCount) 
         {

@@ -17,7 +17,7 @@ public class InventoryPoolerManager : MonoBehaviour
     {
         instance = this;
         inventoryPooler = ObjPoolerManager.instance.ReqeuestObjPooler(inventoryPrefab);
-        GPosition.GetNewRectTransformWithReset(gameObject.GetComponent<RectTransform>(), inventoryPooler.gameObject.AddComponent<RectTransform>());
+        GPosition.GetRectTransformWithReset(gameObject.GetComponent<RectTransform>(), inventoryPooler.gameObject.AddComponent<RectTransform>());
 /*        
         var rectTransform = inventoryPooler.gameObject.AddComponent<RectTransform>();
         rectTransform.SetParent(transform);

@@ -18,6 +18,11 @@ MonoBehaviour:
     - Name: "\uAE38\uBC84\uD2B8"
       Index: 0
       DialogueIndex: 15
+      Title: "\uAE38\uBC84\uD2B8\uC5D0\uAC8C \uC624\uB798\uB41C \uB3D9\uC804\uC744
+        \uAC00\uC838\uB2E4\uC8FC\uC790."
+      Description: "\uAE38\uBC84\uD2B8 \uC544\uC800\uC528\uAC00 \uB3C4\uC640\uB2EC\uB77C
+        \uD55C\uB2E4. \\r\\n \uC5BB\uC5B4\uBA39\uC740 \uAC83\uB3C4 \uC788\uC73C\uB2C8
+        \uC77C\uB2E8\uC740 \uB178\uB825\uD574\uBCF4\uC790."
       NeedItem: 2;
       NeedCount: 1;
       RewardItem: 0;

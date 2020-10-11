@@ -197,18 +197,11 @@ namespace GLip
         public static RectTransform GetNewRectTransformWithReset(RectTransform parent, string objName)
         {
             var rectTransform = new GameObject(objName).AddComponent<RectTransform>();
-            rectTransform.SetParent(parent);
-            rectTransform.anchoredPosition = parent.anchoredPosition;
-            rectTransform.localPosition = Vector2.zero;
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.anchorMax = Vector2.one;
-            rectTransform.sizeDelta = Vector2.one;
-            rectTransform.localScale = Vector2.one;
 
-            return rectTransform;
+            return GetRectTransformWithReset(parent, rectTransform);
         }
 
-        public static RectTransform GetNewRectTransformWithReset(RectTransform parent, RectTransform rectTransform)
+        public static RectTransform GetRectTransformWithReset(RectTransform parent, RectTransform rectTransform)
         {
             rectTransform.SetParent(parent);
             rectTransform.anchoredPosition = parent.anchoredPosition;

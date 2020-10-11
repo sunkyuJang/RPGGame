@@ -18,10 +18,10 @@ public partial class Inventory : MonoBehaviour
         Transform goldTransform = transform.GetChild(0);
         if (!isPlayer)
         {
-            InventoryView.transform.localPosition
-                  = new Vector3(InventoryView.transform.localPosition.x * -1,
-                                  InventoryView.transform.localPosition.y,
-                                  InventoryView.transform.localPosition.z);
+            inventoryFrame.transform.localPosition
+                  = new Vector3(inventoryFrame.transform.localPosition.x * -1,
+                                  inventoryFrame.transform.localPosition.y,
+                                  inventoryFrame.transform.localPosition.z);
         
             inventroyDiscription.transform.localPosition
                 = new Vector3(inventroyDiscription.transform.localPosition.x * -1,
@@ -32,7 +32,7 @@ public partial class Inventory : MonoBehaviour
     }
     public void ShowInventory()
     {
-        InventoryView.SetActive(true);
+        inventoryFrame.SetActive(true);
         RefreashInventoryView();
     }
 
@@ -56,7 +56,7 @@ public partial class Inventory : MonoBehaviour
             }
             else
             {
-                itemViewPooler.returnObj(itemView.gameObject);
+                ItemManager.Instance.ReturnItemView(itemView);
                 itemViews.RemoveAt(i);
                 i--;
             }
@@ -65,7 +65,7 @@ public partial class Inventory : MonoBehaviour
 
     public void HideInventory()
     {
-        InventoryView.SetActive(false);
+        inventoryFrame.SetActive(false);
         if (Model is Character) (Model as Character).IntoNormalUI();
     }
 

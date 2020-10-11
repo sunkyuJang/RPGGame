@@ -53,10 +53,10 @@ public class EquipmentView : MonoBehaviour
             if (confirmBox.NowState == ConfimBoxManager.State.Yes)
             {
                 var equipmentItem = EquipmentItems[index];
-                var View = Character.Inventory.itemViewPooler.GetObj<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
-                StateEffecterManager.EffectToModelByItem(View.ItemCounter, Character, true);
+                //var View = Character.Inventory.itemViewPooler.GetObj<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
+                StateEffecterManager.EffectToModelByItem(equipmentItem, Character, true);
                 Character.Inventory.AddItem(equipmentItem);
-                Destroy(View.gameObject);
+                ItemManager.Instance.ReturnItemView(EquipmentItems[index].View);
                 EquipmentItems[index] = null;
                 if(index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
                 else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
