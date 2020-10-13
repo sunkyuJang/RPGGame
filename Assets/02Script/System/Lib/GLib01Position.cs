@@ -184,6 +184,12 @@ namespace GLip
             else return Vector2.zero;
         }
 
+        public static Vector2 GetInputPosition()
+        {
+            if (Input.touches.Length > 0) return Input.touches[0].position;
+            else if (IsMouseStillPressed()) return Input.mousePosition;
+            return Vector2.zero;
+        }
         public static bool IsHoldPressedInput(bool isTouched, int touchID, bool isMouse)
         {
             if (isTouched) return IsTouchStillPressed(touchID);

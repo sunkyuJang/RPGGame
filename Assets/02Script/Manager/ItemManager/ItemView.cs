@@ -18,18 +18,20 @@ public class ItemView : MonoBehaviour, IInputTracer
 
     public ItemView SetItemCounter(ItemManager.ItemCounter counter, Inventory parentInventory)
     {
-        inventory = parentInventory;
         ItemCounter = counter;
         counter.View = this;
         icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
 
-        transform.SetParent(parentInventory.itemViewGroup);
-
+        if (parentInventory != null)
+        {
+            inventory = parentInventory;
+            transform.SetParent(parentInventory.itemViewGroup);
+        }
         return this;
     }
 
-    public ItemView SetItemCounter(ItemManager.ItemCounter counter)
+/*    public ItemView SetItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
         counter.View = this;
@@ -37,7 +39,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         RefreshText();
 
         return this;
-    }
+    }*/
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
@@ -68,11 +70,11 @@ public class ItemView : MonoBehaviour, IInputTracer
         {
             if(GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
             {
-                inventory.ShowDiscription(this);
+                ItemManager.Instance.ShowItemDescription(this);
             }
             else
             {
-                inventory.HideDiscription();
+                ItemManager.Instance.HideItemDescription();
             }
 
             copy.frame.position = isTouch ? (Vector3)Input.touches[touchID].position : Input.mousePosition;
@@ -82,7 +84,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         var copyPosition = copy.frame.position;
         Destroy(copy.gameObject);
         icon.color += readyColor;
-        inventory.HideDiscription();
+        ItemManager.Instance.HideItemDescription();
         inventory.ItemDrop(this, copyPosition);
     }
 

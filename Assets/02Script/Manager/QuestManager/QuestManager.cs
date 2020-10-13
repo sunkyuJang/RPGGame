@@ -50,6 +50,15 @@ public class QuestManager : MonoBehaviour
     public static void AcceptQuest(QuestTable quest) 
     {
         quest.isAccept = true;
+        for(int start = 0, max = 2; start < max; start++)
+        {
+            var itemCountList = start == 0 ? quest.RequireList : quest.RewardList;
+            
+            for(int i = 0; i < itemCountList.Count; i++)
+                ItemManager.Instance.GetNewItemView(itemCountList[i]);
+        
+        }
+        
         ProcessingQuestList.Add(quest); 
     }
     

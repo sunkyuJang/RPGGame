@@ -8,7 +8,6 @@ using JetBrains.Annotations;
 
 public partial class Inventory : MonoBehaviour
 {
-    public InventroyDiscription inventroyDiscription;
     public Text goldText;
     public double gold { set; get; } = 0;
     public void SetGold(double gold) { this.gold = gold; goldText.text = this.gold.ToString(); }
@@ -22,13 +21,7 @@ public partial class Inventory : MonoBehaviour
                   = new Vector3(inventoryFrame.transform.localPosition.x * -1,
                                   inventoryFrame.transform.localPosition.y,
                                   inventoryFrame.transform.localPosition.z);
-        
-            inventroyDiscription.transform.localPosition
-                = new Vector3(inventroyDiscription.transform.localPosition.x * -1,
-                                  inventroyDiscription.transform.localPosition.y,
-                                  inventroyDiscription.transform.localPosition.z);
         }
-        
     }
     public void ShowInventory()
     {
@@ -212,8 +205,5 @@ public partial class Inventory : MonoBehaviour
             }
         }
     }
-
-    public void ShowDiscription(ItemView itemView) => inventroyDiscription.Show(itemView);
-    public void HideDiscription() => inventroyDiscription.Hide();
 }
 

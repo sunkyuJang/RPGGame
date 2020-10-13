@@ -69,6 +69,8 @@ MonoBehaviour:
   sheet: {fileID: 11400000, guid: df5cc03788eac5c47b076c5188e59d96, type: 2}
   ItemViewPrefab: {fileID: 5699057192033080352, guid: 76ee7f14bc9cf574b8561b08bce3b120,
     type: 3}
+  itemDescriptionPrefab: {fileID: 839476375506933988, guid: 8cce83b2daf3ebc4f810f82c77383a27,
+    type: 3}
 --- !u!114 &322215185748847836
 MonoBehaviour:
   m_ObjectHideFlags: 0

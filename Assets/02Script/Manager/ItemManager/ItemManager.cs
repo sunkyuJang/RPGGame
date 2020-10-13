@@ -16,12 +16,16 @@ public partial class ItemManager : MonoBehaviour
     public ObjPooler ItemViewerPooler { set; get; }
     public bool IsItemViewPoolerReady { get { return ItemViewerPooler != null; } }
 
+    public GameObject itemDescriptionPrefab;
+    public ItemDescriptionBox ItemDescriptionBox { set; get; }
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             Data = sheet.sheets[0].list;
+            ItemDescriptionBox = Instantiate(itemDescriptionPrefab, transform.root).GetComponent<ItemDescriptionBox>();
         }
         else 
             Destroy(gameObject);
@@ -38,7 +42,7 @@ public partial class ItemManager : MonoBehaviour
     public ItemView GetNewItemView(ItemCounter itemCounter)
     {
         var nowItemView = ItemViewerPooler.GetObj<ItemView>();
-        return nowItemView.SetItemCounter(itemCounter);
+        return nowItemView.SetItemCounter(itemCounter, null);
     }
     public ItemView GetNewItemView(ItemCounter itemCounter, Inventory inventory)
     {
@@ -50,6 +54,9 @@ public partial class ItemManager : MonoBehaviour
     {
         ItemViewerPooler.returnObj(itemView.gameObject);
     }
+
+    public void ShowItemDescription(ItemView itemView) => ItemDescriptionBox.Show(itemView);
+    public void HideItemDescription() => ItemDescriptionBox.Hide();
 
     public class ItemCounter
     {
