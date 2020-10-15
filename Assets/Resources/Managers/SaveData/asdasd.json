@@ -5,21 +5,13 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 7.344967842102051,
+        "x": 7.526410102844238,
         "y": 0.0,
-        "z": -7.07584285736084
+        "z": -7.08181619644165
     },
-    "level": 10,
-    "itemKinds": [
-        0,
-        1,
-        0
-    ],
-    "itemCounts": [
-        10,
-        10,
-        10
-    ],
+    "level": 0,
+    "itemKinds": [],
+    "itemCounts": [],
     "WearingItem": [],
     "skillNames": [
         "NormalAttack",
@@ -43,6 +35,9 @@
         "길버트"
     ],
     "lastTalkingIndex": [
-        20
+        22
+    ],
+    "QuestIndexList": [
+        0
     ]
 }

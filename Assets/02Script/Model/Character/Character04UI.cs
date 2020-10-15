@@ -11,11 +11,13 @@ public partial class Character : Model
     public GameObject quickSlotPrefab;
     public GameObject equipmentPrefab;
     public GameObject skillViewPrefab;
+    public GameObject questViewPrefab;
     public QuickSlot QuickSlot { set; get; }
     public EquipmentView EquipmentView { set; get; }
     public CharacterStateViewer StateViewer { set; get; }
     public CharacterSkiilViewer CharacterSkiilViewer { set; get; }
-    public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView }
+    public QuestViewer QuestViewer { set; get; }
+    public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView, questViewer }
     void AwakeInUI()
     {
         QuickSlot = Instantiate(quickSlotPrefab, GameManager.mainCanvas).GetComponent<QuickSlot>();
@@ -24,6 +26,8 @@ public partial class Character : Model
         EquipmentView.SetCharacter(this);
         CharacterSkiilViewer = Instantiate(skillViewPrefab, GameManager.mainCanvas).GetComponent<CharacterSkiilViewer>();
         CharacterSkiilViewer.SetCharater(this);
+        QuestViewer = Instantiate(questViewPrefab, GameManager.mainCanvas).GetComponent<QuestViewer>();
+        QuestViewer.Character = this;
     }
 
     public void IntoNormalUI()
@@ -49,6 +53,7 @@ public partial class Character : Model
             case UIList.skillViewer: if (needShow) CharacterSkiilViewer.ShowSKillTree(); else CharacterSkiilViewer.HideSkillTree();  break;
             case UIList.stateView: StateViewer.gameObject.SetActive(needShow); break;
             case UIList.controller: controller.SetAllActive(needShow); break;
+            case UIList.questViewer: if (needShow) QuestViewer.ShowQuestList(ProcessingQuestList); else QuestViewer.HideQuestList(); break;
         }
     }
 

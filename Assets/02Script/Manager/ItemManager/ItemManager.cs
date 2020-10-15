@@ -52,6 +52,7 @@ public partial class ItemManager : MonoBehaviour
 
     public void ReturnItemView(ItemView itemView)
     {
+        itemView.ItemCounter = null;
         ItemViewerPooler.returnObj(itemView.gameObject);
     }
 

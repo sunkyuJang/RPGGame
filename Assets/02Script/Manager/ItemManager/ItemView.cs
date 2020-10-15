@@ -56,7 +56,10 @@ public class ItemView : MonoBehaviour, IInputTracer
         if (GPosition.IsContainInput(frame.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
         {
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
-            if (!inventory.isPlayer) { inventory.SetGold(ItemCounter.Data.Buy * ItemCounter.count); }
+            
+            if (inventory != null)
+                if (!inventory.isPlayer)
+                    inventory.SetGold(ItemCounter.Data.Buy * ItemCounter.count);
         }
     }
 
@@ -85,7 +88,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         Destroy(copy.gameObject);
         icon.color += readyColor;
         ItemManager.Instance.HideItemDescription();
-        inventory.ItemDrop(this, copyPosition);
+        if (inventory != null) inventory.ItemDrop(this, copyPosition);
     }
 
     public void Pressed()

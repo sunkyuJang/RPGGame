@@ -5,7 +5,6 @@ using UnityEngine;
 public class Npc : Model
 {
     public QuestSheet questSheet;
-    public int ClearQuestCount = 0;
     protected new void Awake()
     {
         base.Awake();
@@ -13,18 +12,5 @@ public class Npc : Model
     new void Start()
     {
         base.Start();
-    }
-    public bool HasQuest 
-    { 
-        get 
-        {
-            if (questSheet != null)
-            {
-                var questList = questSheet.sheets[0].list;
-                if (ClearQuestCount < questList.Count)
-                    return true;
-            }
-            return false; 
-        } 
     }
 }

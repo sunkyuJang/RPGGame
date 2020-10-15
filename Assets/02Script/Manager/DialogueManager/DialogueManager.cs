@@ -138,7 +138,7 @@ public class DialogueManager : MonoBehaviour
         states.Add(NextState.End);
         DialogueSelecter.ShowSelectors("대화를 끝낸다.");
         if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.ShowSelectors("거래를 한다"); }
-        if (npc.HasQuest) { states.Add(NextState.Quest); DialogueSelecter.ShowSelectors("퀘스트를 받는다"); }
+        if (QuestManager.NpcHasQuest(npc, PlayerModel)) { states.Add(NextState.Quest); DialogueSelecter.ShowSelectors("퀘스트를 진행한다"); }
         
         while (DialogueSelecter.selectNum < 0)
             yield return new WaitForFixedUpdate();
@@ -155,48 +155,50 @@ public class DialogueManager : MonoBehaviour
                 PlayerModel.SetActionState(Character.ActionState.Trade);
                 break;
             case NextState.Quest:
-                CheckQuest(npc);
+                DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[++ScriptModel.lastDialog].Script);
                 break;
         }
     }
-
     void CheckQuest(Npc npc)
     {
         canSkipNext = false;
-        var nowQuest = QuestManager.GetQuest(npc);
-        if (nowQuest.isAccept)
-        {
-            if (QuestManager.CanClearQuest(PlayerModel.Inventory, nowQuest))
-            {
+
+        int processingIndex = 0;
+        bool isAlreadyQuestAccept = QuestManager.isAlreadyAccept(npc, PlayerModel, out processingIndex);
+        var quest = QuestManager.GetQuest(npc, PlayerModel, processingIndex);
+
+        if (isAlreadyQuestAccept)
+            if (QuestManager.CanClearQuest(PlayerModel.Inventory, quest))
                 npc.lastDialog = npc.Dialogue[npc.lastDialog].GoTo;
-            }
             else
-            {
                 npc.lastDialog++;
-            }
-            canSkipNext = true;
-            DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
 
-        }
         else
-        {
-            if (GetNextState == NextState.End)
-            {
-                npc.lastDialog++;
-                canSkipNext = true;
-                DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
-
-            }
-            else if (GetNextState == NextState.Quest)
-            {
-                StartCoroutine(ComfirmQuest(nowQuest));
-            }
-        }
+            StartCoroutine(ConfirmQuest(quest));
     }
 
-    IEnumerator ComfirmQuest(QuestManager.QuestTable quest)
+    IEnumerator ConfirmQuest(QuestManager.QuestTable quest)
     {
-        while (DialogueViewer.IsStillShowing)
+        var list = new List<DialogueSheet.Param>();
+
+        for(int i = 1; i < 3; i++)
+        {
+            var nowIndex = ScriptModel.lastDialog + i;
+            DialogueSelecter.ShowSelectors(ScriptModel.Dialogue[nowIndex].Script);
+            list.Add(ScriptModel.Dialogue[nowIndex]);
+        }
+
+        yield return new WaitUntil(() => DialogueSelecter.selectNum > 0);
+
+        if (list[DialogueSelecter.selectNum].Type == "Yes")
+            QuestManager.AcceptQuest(quest, PlayerModel);
+
+        ScriptModel.lastDialog = list[DialogueSelecter.GetSelectNum].GoTo;
+        DialogueSelecter.HideSelecter();
+
+        canSkipNext = true;
+        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+/*        while (DialogueViewer.IsStillShowing)
             yield return new WaitForFixedUpdate();
 
         yield return new WaitForSeconds(0.5f);
@@ -234,7 +236,7 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
 
-        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);*/
     }
 
 

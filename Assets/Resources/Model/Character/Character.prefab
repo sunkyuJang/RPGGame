@@ -1455,7 +1455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3e8308b183ad67438e4cbdba60a13c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HPBar: {fileID: 4055651439520164268, guid: 04d23717f7b0fff4d99cec87b3661f92, type: 3}
   DialogueSheet: {fileID: 0}
   skillListHandler: {fileID: 2428217723802165257}
   SkillPoint: 0
@@ -1466,6 +1465,8 @@ MonoBehaviour:
   equipmentPrefab: {fileID: 3460815101524233634, guid: ad2248f8b076ae04eb443fd7fd283004,
     type: 3}
   skillViewPrefab: {fileID: 4752181647953029067, guid: 93240af75a770bd46a85bc50b11c155a,
+    type: 3}
+  questViewPrefab: {fileID: 727105731159576812, guid: fab1bfe45be204d45b1e1bc810f15947,
     type: 3}
 --- !u!54 &640382561905646710
 Rigidbody:

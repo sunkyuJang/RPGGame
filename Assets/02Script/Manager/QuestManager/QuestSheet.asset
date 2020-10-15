@@ -25,5 +25,5 @@ MonoBehaviour:
         \uC77C\uB2E8\uC740 \uB178\uB825\uD574\uBCF4\uC790."
       NeedItem: 2;
       NeedCount: 1;
-      RewardItem: 0;
-      RewardCount: 5;
+      RewardItem: 0;1;
+      RewardCount: 5;1;

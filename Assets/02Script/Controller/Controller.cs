@@ -64,6 +64,11 @@ public partial class Controller : MonoBehaviour
         SetAllActive(false);
         Character.ShowGameUI(Character.UIList.skillViewer, true);
     }
+    public void PressQuestKey()
+    {
+        SetAllActive(false);
+        Character.ShowGameUI(Character.UIList.questViewer, true);
+    }
 
     public void SetAllActive(bool active)
     {

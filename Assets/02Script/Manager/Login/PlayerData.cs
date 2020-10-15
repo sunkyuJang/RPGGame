@@ -41,6 +41,8 @@ public class PlayerData
     public List<string> namesTalkingwith = new List<string>();
     public List<int> lastTalkingIndex = new List<int>();
 
+    //QuestList
+    public List<int> QuestIndexList = new List<int>();
     PlayerData() { }
     public PlayerData(string id, string pw, string nickName)
     {
@@ -96,6 +98,14 @@ public class PlayerData
                 namesTalkingwith.Add(model.Key);
                 lastTalkingIndex.Add(model.Value);
             }
+
+        QuestIndexList.Clear();
+        var questIndexList = character.ProcessingQuestList;
+        if(questIndexList.Count > 0)
+        {
+            foreach (QuestManager.QuestTable questTable in questIndexList)
+                QuestIndexList.Add(questTable.data.Index);
+        }
     }
 
     /*public static PlayerData ConvertChatacterToPlayerData(Character character)

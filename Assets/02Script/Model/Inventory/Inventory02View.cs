@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using GLip;
 using System.IO;
 using JetBrains.Annotations;
+using UnityEngine.PlayerLoop;
 
 public partial class Inventory : MonoBehaviour
 {
@@ -42,10 +43,9 @@ public partial class Inventory : MonoBehaviour
             {
                 itemView.frame.localPosition = nextPosition;
                 nextPosition += new Vector2(interval + itemView.Area.width, 0);
+
                 if ((i + 1) % 4 == 0 && i != 0)
-                {
                     nextPosition = new Vector2(startPosition.x, nextPosition.y - (interval + itemView.Area.height));
-                }
             }
             else
             {
@@ -53,6 +53,7 @@ public partial class Inventory : MonoBehaviour
                 itemViews.RemoveAt(i);
                 i--;
             }
+
         }
     }
 
@@ -185,13 +186,9 @@ public partial class Inventory : MonoBehaviour
                 var nowGold = targetInventory.gold - cost;
                 if (nowGold >= 0)
                 {
-                    targetInventory.AddItem(itemView.ItemCounter);
+                    targetInventory.AddItem(itemView.ItemCounter.Data.Index, itemView.ItemCounter.count);
                     targetInventory.SetGold(nowGold);
-                    try
-                    {
-                        RemoveItem(itemView.ItemCounter);
-                    }
-                    catch { print("SomethingWrongInInventory02"); }
+                    RemoveItem(itemView.ItemCounter);
                 }
                 else 
                 {

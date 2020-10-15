@@ -8,8 +8,8 @@ using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
 public class DialogueSheet_importer : AssetPostprocessor {
-	private static readonly string filePath = "Assets/02Script/Manager/DialogueManager/DialogueSheet.xlsx";
-	private static readonly string exportPath = "Assets/02Script/Manager/DialogueManager/DialogueSheet.asset";
+	private static readonly string filePath = "Assets/Resources/Model/NPC/TownNPC/DialogueSheet.xlsx";
+	private static readonly string exportPath = "Assets/Resources/Model/NPC/TownNPC/DialogueSheet.asset";
 	private static readonly string[] sheetNames = { "Sheet1", };
 	
 	static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)

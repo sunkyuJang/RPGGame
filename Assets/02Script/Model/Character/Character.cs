@@ -22,6 +22,8 @@ public partial class Character : Model
     //forDialougue
     public Dictionary<string, int> LastTimeTalkingWith { set; get; } = new Dictionary<string, int>();
 
+    public List<QuestManager.QuestTable> ProcessingQuestList { set; get; } = new List<QuestManager.QuestTable>();
+
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -37,6 +39,7 @@ public partial class Character : Model
         StartCoroutine(DetectMonsterLocator());
 
         AddGold(10000);
+        AddItem(2, 1);
     }
 
     new private void FixedUpdate()
@@ -122,12 +125,15 @@ public partial class Character : Model
         { 
             for(int i = 0; i < playerData.namesTalkingwith.Count; i++)
             {
-                //print(playerData.namesTalkingwith[i]);
                 LastTimeTalkingWith.Add(playerData.namesTalkingwith[i], playerData.lastTalkingIndex[i]);
             }
         } 
-
         CharacterSkiilViewer.RefreshSkillPointText();
+
+        if(playerData.QuestIndexList.Count > 0) //processing QuestList
+            ProcessingQuestList = QuestManager.LoadAllProgressQuestTable(playerData.QuestIndexList, this);
+
+
     }
 
     IEnumerator DetectMonsterLocator()

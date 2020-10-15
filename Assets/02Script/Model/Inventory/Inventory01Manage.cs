@@ -30,7 +30,7 @@ public partial class Inventory : MonoBehaviour
 
         int overNum = lastCounter.GetExcessCount(addCounter);
         //if (lastCounter.View == null) { yield return StartCoroutine(AddViewAndTableList(lastCounter)); }
-        
+
         if (overNum > 0)
         {
             int carry = overNum / lastCounter.Data.Limit;
@@ -58,15 +58,13 @@ public partial class Inventory : MonoBehaviour
         RefreashInventoryView();
     }
 
-/*    public IEnumerator AddItemForMonster(int itemIndex, int addCounter, float probablility)
+    public void AddItem(ItemManager.ItemCounter counter)
     {
-        var counter = new ItemManager.ItemCounter(ItemManager.GetitemData(itemIndex), addCounter, probablility);
-        yield return StartCoroutine(itemViewPullingController.CheckCanUseObj());
-        var view = itemViewPullingController.GetObj().GetComponent<ItemView>(); //ItemManager.GetNewItemView(counter, this);
-        itemViews.Add(view.SetItemCounter(counter, this));
-    }*/
-    public void AddItem(ItemManager.ItemCounter counter) => AddItem(counter.Data.Index, counter.count);
-
+        if (counter.View != null) 
+            ItemManager.Instance.ReturnItemView(counter.View);
+        
+        AddItem(counter.Data.Index, counter.count);
+    }
     IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
     {
         table.AddItemCounter(newCounter);

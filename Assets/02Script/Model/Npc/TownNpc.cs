@@ -20,5 +20,8 @@ public class TownNpc : Npc
         AddItem(0, 17);
         AddItem(1, 10);
         AddItem(1, 10);
+        AddItem(0, 10);
+        AddItem(0, 10);
+        AddItem(0, 10);
     }
 }
