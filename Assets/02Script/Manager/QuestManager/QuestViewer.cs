@@ -45,6 +45,8 @@ public class QuestViewer : MonoBehaviour
     {
         descriptionBox.HideDescription();
         gameObject.SetActive(false);
+        foreach (QuestNameBtn questNameBtn in questNameBtns)
+            questNameBtn.gameObject.SetActive(false);
         Character.IntoNormalUI();
     }
 

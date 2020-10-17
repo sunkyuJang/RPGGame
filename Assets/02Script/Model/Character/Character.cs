@@ -77,6 +77,7 @@ public partial class Character : Model
     {
         yield return new WaitWhile(() => IsStartFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);
+        yield return new WaitUntil(() => EquipmentView != null);
         yield return new WaitUntil(() => skillListHandler.StartPass);
 
         PlayerData = playerData;
@@ -91,8 +92,15 @@ public partial class Character : Model
                 playerData.itemCounts[i]);
         }
 
-
-        if (Inventory.HasItem)
+        if(playerData.WearingItem.Count > 0)
+        {
+            foreach (int index in playerData.WearingItem)
+            {
+                var counter = new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(index), 1);
+                EquipmentView.SetEquipmetItem(ItemManager.Instance.GetNewItemView(counter));
+            }
+        }
+        /*if (Inventory.HasItem)
         {
             for (int i = 0; i < 2; i++) // for wearing Item;
             {
@@ -102,7 +110,7 @@ public partial class Character : Model
                 else
                     break;
             }
-        }
+        }*/
 
         SkillPoint = level;
         for (int i = 0; i < skillListHandler.skillDatas.Count; i++)

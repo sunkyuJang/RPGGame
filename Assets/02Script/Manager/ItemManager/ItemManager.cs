@@ -65,7 +65,7 @@ public partial class ItemManager : MonoBehaviour
         public int count { private set; get; }
         public float Probablilty { private set; get; }
         public ItemCounter(ItemSheet.Param data) => Data = data;
-        ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
+        public ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
         public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
         public bool isWaitingNewItemView{ set; get; } = true;
         public ItemView View { set; get; }

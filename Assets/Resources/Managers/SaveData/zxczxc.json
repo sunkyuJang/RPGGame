@@ -1,24 +1,28 @@
 {
-    "id": "asdasd",
-    "pw": "asdasd",
-    "NickName": "asdasd",
+    "id": "zxczxc",
+    "pw": "zxczxc",
+    "NickName": "zxczxc",
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 0.5576667785644531,
+        "x": -0.3716751039028168,
         "y": 0.0,
-        "z": 6.175737380981445
+        "z": 1.3807381391525269
     },
     "level": 0,
     "itemKinds": [
+        2,
         0,
         1
     ],
     "itemCounts": [
+        3,
         5,
         1
     ],
-    "WearingItem": [],
+    "WearingItem": [
+        3
+    ],
     "skillNames": [
         "NormalAttack",
         "LowSmash",

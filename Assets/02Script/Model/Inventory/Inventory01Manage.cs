@@ -123,7 +123,13 @@ public partial class Inventory : MonoBehaviour
                 if (confirmBox.NowState == ConfimBoxManager.State.Yes)
                 {
                     StateEffecterManager.EffectToModelByItem(itemView.ItemCounter, Model, false);
-                    if(nowType == ItemSheet.Param.ItemTypeEnum.Equipment) { (Model as Character).EquipmentView.SetEquipmetItem(itemView); }
+
+                    if (nowType == ItemSheet.Param.ItemTypeEnum.Equipment)
+                    {
+                        var copyConter = new ItemManager.ItemCounter(itemView.ItemCounter.Data);
+                        var copyView = ItemManager.Instance.GetNewItemView(copyConter);
+                        (Model as Character).EquipmentView.SetEquipmetItem(copyView);
+                    }
                     RemoveItem(itemView.ItemCounter.Data.Index, 1);
                 }
             }

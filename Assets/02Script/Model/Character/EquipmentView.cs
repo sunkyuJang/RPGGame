@@ -8,8 +8,8 @@ using TMPro;
 public class EquipmentView : MonoBehaviour
 {
     public Character Character { set; get; }
-    public ItemManager.ItemCounter[] EquipmentItems { private set; get; } = new ItemManager.ItemCounter[2];
-    public bool IsWearing { get { foreach (ItemManager.ItemCounter itemCounter in EquipmentItems) if (itemCounter == null) return false; return true; } }
+    public ItemView[] EquipmentItems { private set; get; } = new ItemView[2];
+    public bool IsWearing { get { foreach (ItemView View in EquipmentItems) if (View.ItemCounter == null) return false; return true; } }
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }
@@ -54,9 +54,9 @@ public class EquipmentView : MonoBehaviour
             {
                 var equipmentItem = EquipmentItems[index];
                 //var View = Character.Inventory.itemViewPooler.GetObj<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
-                StateEffecterManager.EffectToModelByItem(equipmentItem, Character, true);
-                Character.Inventory.AddItem(equipmentItem);
-                ItemManager.Instance.ReturnItemView(EquipmentItems[index].View);
+                StateEffecterManager.EffectToModelByItem(equipmentItem.ItemCounter, Character, true);
+                Character.Inventory.AddItem(equipmentItem.ItemCounter.Data.Index, 1);
+                ItemManager.Instance.ReturnItemView(equipmentItem);
                 EquipmentItems[index] = null;
                 if(index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
                 else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
@@ -68,20 +68,20 @@ public class EquipmentView : MonoBehaviour
     public void TouchedInWeapon() { StartCoroutine(OnTouched(0)); }
     public void TouchedInArmor() { StartCoroutine(OnTouched(1)); }
 
-    public void SetEquipmetItem(ItemView equipmentItem)
+    public void SetEquipmetItem(ItemView view)
     {
-        ItemSheet.Param data = equipmentItem.ItemCounter.Data;
+        var data = view.ItemCounter.Data;
         if (data.ItemType == "EquipmentWeapon")
         {
-            WeaponImage.sprite = equipmentItem.icon.sprite;
+            WeaponImage.sprite = view.icon.sprite;
             Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Dagger/Dagger"), WeaponTrans);
-            EquipmentItems[0] = equipmentItem.ItemCounter.CopyThis();
+            EquipmentItems[0] = view;
         }
         else
         {
-            ArmorImage.sprite = equipmentItem.icon.sprite;
+            ArmorImage.sprite = view.icon.sprite;
             ArmorTrans = Instantiate(Resources.Load<GameObject>("Model/Character/Equipment/Leather/WarriorMale"), Character.transform).transform;
-            EquipmentItems[1] = equipmentItem.ItemCounter.CopyThis();
+            EquipmentItems[1] = view;
         }
         LoadCharacterState();
     }

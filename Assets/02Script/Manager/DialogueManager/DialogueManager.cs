@@ -155,7 +155,8 @@ public class DialogueManager : MonoBehaviour
                 PlayerModel.SetActionState(Character.ActionState.Trade);
                 break;
             case NextState.Quest:
-                DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[++ScriptModel.lastDialog].Script);
+                CheckQuest(npc);
+                //DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[++ScriptModel.lastDialog].Script);
                 break;
         }
     }
@@ -165,16 +166,25 @@ public class DialogueManager : MonoBehaviour
 
         int processingIndex = 0;
         bool isAlreadyQuestAccept = QuestManager.isAlreadyAccept(npc, PlayerModel, out processingIndex);
-        var quest = QuestManager.GetQuest(npc, PlayerModel, processingIndex);
+        //var quest = QuestManager.GetQuest(npc, PlayerModel, processingIndex);
 
         if (isAlreadyQuestAccept)
-            if (QuestManager.CanClearQuest(PlayerModel.Inventory, quest))
+            if (QuestManager.CanClearQuest(PlayerModel, processingIndex))
                 npc.lastDialog = npc.Dialogue[npc.lastDialog].GoTo;
             else
                 npc.lastDialog++;
 
         else
-            StartCoroutine(ConfirmQuest(quest));
+            if (npc.Dialogue[npc.lastDialog].Type == "Quest")
+            {
+                StartCoroutine(ConfirmQuest(QuestManager.GetNewQuest(npc)));
+                return;
+            }
+        else
+            npc.lastDialog++;
+        
+        canSkipNext = true;
+        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
     IEnumerator ConfirmQuest(QuestManager.QuestTable quest)
@@ -188,7 +198,7 @@ public class DialogueManager : MonoBehaviour
             list.Add(ScriptModel.Dialogue[nowIndex]);
         }
 
-        yield return new WaitUntil(() => DialogueSelecter.selectNum > 0);
+        yield return new WaitUntil(() => DialogueSelecter.selectNum >= 0);
 
         if (list[DialogueSelecter.selectNum].Type == "Yes")
             QuestManager.AcceptQuest(quest, PlayerModel);

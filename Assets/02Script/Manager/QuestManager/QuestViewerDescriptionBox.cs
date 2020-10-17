@@ -46,8 +46,13 @@ public class QuestViewerDescriptionBox : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             var nowList = i == 0 ? requireTransform : rewardTransform;
-            foreach (Transform nowTransform in nowList)
+
+            for (int j = 0; j < nowList.childCount; j++)
+            {
+                var nowTransform = nowList.GetChild(j--);
                 nowTransform.SetParent(i == 0 ? Btn.requireItemGroup : Btn.rewardItemGroup);
+                nowTransform.gameObject.SetActive(true);
+            }
         }
     }
 

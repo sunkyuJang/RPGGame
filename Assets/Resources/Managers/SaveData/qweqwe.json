@@ -1,20 +1,22 @@
 {
-    "id": "asdasd",
-    "pw": "asdasd",
-    "NickName": "asdasd",
+    "id": "qweqwe",
+    "pw": "qweqwe",
+    "NickName": "qweqwe",
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 0.5576667785644531,
+        "x": 1.3033671379089356,
         "y": 0.0,
-        "z": 6.175737380981445
+        "z": 5.590898036956787
     },
     "level": 0,
     "itemKinds": [
+        2,
         0,
         1
     ],
     "itemCounts": [
+        1,
         5,
         1
     ],

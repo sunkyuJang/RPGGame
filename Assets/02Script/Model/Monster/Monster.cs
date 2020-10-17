@@ -292,7 +292,7 @@ public class Monster : Model
             {
                 if (probablility <= kind.ItemCounter.Probablilty)
                 {
-                    Character.Inventory.AddItem(kind.ItemCounter);
+                    Character.Inventory.AddItem(kind.ItemCounter.Data.Index, kind.ItemCounter.count);
                     Character.ShowAlert(kind.ItemCounter.Data.Name + "을 획득했습니다", Color.green);
                 }
             }

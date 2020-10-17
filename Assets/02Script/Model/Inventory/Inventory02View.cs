@@ -41,6 +41,7 @@ public partial class Inventory : MonoBehaviour
             var itemView = itemViews[i];
             if (itemView.ItemCounter != null)
             {
+                itemView.transform.localPosition = Vector2.zero;
                 itemView.frame.localPosition = nextPosition;
                 nextPosition += new Vector2(interval + itemView.Area.width, 0);
 

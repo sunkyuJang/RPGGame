@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Services;
@@ -41,7 +42,7 @@ public class QuestManager : MonoBehaviour
         return nowQuest;
     }    
     
-    public static QuestTable GetQuest(Npc npc, Character character, int processingIndex)
+/*    public static QuestTable GetQuest(Npc npc, Character character, int processingIndex)
     {
         QuestTable nowQuest = null;
 
@@ -51,6 +52,11 @@ public class QuestManager : MonoBehaviour
             nowQuest = new QuestTable(npc, npc.lastDialog);
 
         return nowQuest;
+    }*/
+
+    public static QuestTable GetNewQuest(Npc npc)
+    {
+        return new QuestTable(npc, npc.lastDialog);
     }
 
     public static List<QuestTable> LoadAllProgressQuestTable(List<int> questindexList, Character character)
@@ -88,12 +94,15 @@ public class QuestManager : MonoBehaviour
         
         character.ProcessingQuestList.Add(quest); 
     }
-    
-    public static bool CanClearQuest(Inventory requestPlayerInventory, QuestTable quest)
-    {
-        if (quest.ComfareItemList(requestPlayerInventory))
-            return true;
 
+    public static bool CanClearQuest(Character character, int processingIndex)
+    {
+        var nowQuestTable = character.ProcessingQuestList[processingIndex];
+        if (nowQuestTable.IsItemAllCorrect(character.Inventory))
+        {
+            character.ProcessingQuestList.RemoveAt(processingIndex);
+            return true;
+        }
         return false;
     }
 
@@ -139,7 +148,7 @@ public class QuestManager : MonoBehaviour
         }
         QuestSheet.Param GetMatchedQuestData(Npc npc, int dialogueIndex)
         {
-            foreach (QuestSheet.Param data in npc.questSheet.sheets[0].list)
+            foreach (QuestSheet.Param data in QuestList)
             {
                 if (data.DialogueIndex == dialogueIndex)
                 {
@@ -148,7 +157,7 @@ public class QuestManager : MonoBehaviour
             }
             return null;
         }
-        public bool ComfareItemList(Inventory inventory) 
+        public bool IsItemAllCorrect(Inventory inventory) 
         {
             int clearCount = 0;
             foreach(ItemManager.ItemCounter requireItem in RequireList)
@@ -165,8 +174,20 @@ public class QuestManager : MonoBehaviour
 
             if(clearCount == RequireList.Count)
             {
-                foreach(ItemManager.ItemCounter requireItem in RequireList) { inventory.RemoveItem(requireItem); }
-                foreach(ItemManager.ItemCounter rewardItem in RewardList) { inventory.AddItem(rewardItem); }
+                for(int i = 0; i < 2; i++)
+                {
+                    var nowList = i == 0 ? RequireList : RewardList;
+                    for(int j = 0; j < nowList.Count; j++)
+                    {
+                        var nowItemCount = nowList[j];
+                        if (i == 0)
+                            inventory.RemoveItem(nowItemCount);
+                        else
+                            inventory.AddItem(nowItemCount.Data.Index, nowItemCount.count);
+
+                        ItemManager.Instance.ReturnItemView(nowItemCount.View);
+                    }
+                }
                 return true;
             }
             return false;

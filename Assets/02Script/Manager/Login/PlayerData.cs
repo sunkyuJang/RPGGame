@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using UnityEngine;
@@ -71,12 +72,12 @@ public class PlayerData
 
         WearingItem.Clear();
         var equipmentView = character.EquipmentView;
-        if (equipmentView.IsWearing)
+        for(int i = 0; i < equipmentView.EquipmentItems.Length; i++)
         {
-            foreach (ItemManager.ItemCounter item in equipmentView.EquipmentItems)
+            var nowItem = equipmentView.EquipmentItems[i];
+            if(nowItem != null)
             {
-                itemKinds.Add(item.Data.Index);
-                itemCounts.Add(item.count);
+                WearingItem.Add(nowItem.ItemCounter.Data.Index);
             }
         }
 
