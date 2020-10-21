@@ -5,9 +5,9 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -0.3716751039028168,
-        "y": 0.0,
-        "z": 1.3807381391525269
+        "x": 500,
+        "y": 0.5,
+        "z": 500
     },
     "level": 0,
     "itemKinds": [
