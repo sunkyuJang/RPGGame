@@ -53,20 +53,28 @@ public class DialogueManager : MonoBehaviour
 
             lastTimetalkingWith = playerModel.LastTimeTalkingWith;
 
-            DialogueScript = model.Dialogue;
-            model.lastDialog = GetLastDialogueIndex();
-            DialogueViewer.ShowDiaogue(model.name, DialogueScript[model.lastDialog].Script);
+            DialogueScript = ScriptModel.Dialogue;
+            ScriptModel.lastDialog = GetLastDialogueIndex(GetLastTimeTalkingindex());
+            DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
             SetNextDialogue();
         }
     }
-
-    int GetLastDialogueIndex()
+    public int GetLastTimeTalkingindex()
     {
-        foreach (KeyValuePair<string, int> list in lastTimetalkingWith)
-            if (list.Key.Equals(ScriptModel.CharacterName))
-                return list.Value;
+        for (int i = 0; i < lastTimetalkingWith.Count; i++)
+            if (lastTimetalkingWith.Keys.ToList()[i] == ScriptModel.CharacterName)
+                return i;
 
-        lastTimetalkingWith.Add(ScriptModel.CharacterName, 0);
+        return -1;
+    }
+
+    public int GetLastDialogueIndex(int keyIndex)
+    {
+        if (keyIndex >= 0)
+            return lastTimetalkingWith.Values.ToList()[keyIndex];
+        else
+            lastTimetalkingWith.Add(ScriptModel.CharacterName, 0);
+
         return 0;
     }
 

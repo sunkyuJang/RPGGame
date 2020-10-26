@@ -39,18 +39,23 @@ public class GameManager : MonoBehaviour
     public IEnumerator ProgressSetStartGame()
     {
         yield return null;
+        
+        var character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
+        DontDestroyOnLoad(character.gameObject);
+        StartCoroutine(character.SetCharacterWithPlayerData(playerData));
+        //character.Rigidbody.useGravity = false;
+
+        controller.gameObject.SetActive(true);
+        character.controller = controller;
+        controller.Character = character;
+
+        yield return new WaitUntil(() => character.isCharacterReady);
 
         LoadSceneManager.LoadScene(pathOfScenes + playerData.LastScene);
         while (!SceneManager.GetActiveScene().name.Equals(playerData.LastScene))
             yield return new WaitForFixedUpdate();
-;
-        controller.gameObject.SetActive(true);
-        //SceneManager.LoadSceneAsync(playerData.LastScene, LoadSceneMode.Single);
-        var character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
-        DontDestroyOnLoad(character.gameObject);
-        StartCoroutine(character.SetCharacterWithPlayerData(playerData));
-        character.controller = controller;
-        controller.Character = character;
+
+        character.transform.position = playerData.LastPosition;
     }
 
     public void SaveGame()

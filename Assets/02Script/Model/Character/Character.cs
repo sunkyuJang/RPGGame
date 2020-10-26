@@ -4,26 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using GLip;
 using System.Linq;
+using JetBrains.Annotations;
 
 public partial class Character : Model
 {
     public Controller controller { set; get; }
     public int level { private set; get; }
     public int SkillPoint;
-    bool IsinField { set; get; } = true;
-    public bool GetIsInField { get { return IsinField; } }
+    public bool IsinField { set; get; } = true;
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     bool IsStartFuncPassed { set; get; } = false;
     public float MonsterLocatorDetectTime = 3f;
     public bool IsChacterReadyForUse { set; get; } = false;
-
+    
+    [SerializeField]
+    bool isOnTerrian;
+    float terrianCheckRadius { set; get; } = 0.1f;
     PlayerData PlayerData { set; get; }
     //forDialougue
     public Dictionary<string, int> LastTimeTalkingWith { set; get; } = new Dictionary<string, int>();
 
     public List<QuestManager.QuestTable> ProcessingQuestList { set; get; } = new List<QuestManager.QuestTable>();
+    public List<string> PassedTimeLineAssetName { set; get; } = new List<string>();
 
+    public bool isCharacterReady { private set; get; } = false;
     new void Awake()
     {
         SetInfo("temp",100, 100, 10, 10, 10);
@@ -46,6 +51,21 @@ public partial class Character : Model
     {
         base.FixedUpdate();
         FixedUpdateInAction();
+        CheckOnterrian();
+    }
+
+    void CheckOnterrian()
+    {
+        var colliders = Physics.OverlapSphere(transform.position, terrianCheckRadius, 1 << LayerMask.NameToLayer("Terrain"));
+        if (colliders.Length == 0)
+        {
+            transform.position += Physics.gravity * Time.fixedDeltaTime;
+            //var target = transform.position + Physics.gravity * Time.fixedDeltaTime;
+            //transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * 2f);
+            isOnTerrian = false;
+        }
+        else
+            isOnTerrian = true;
     }
 
     public void DoAnimator(AnimatorState action)
@@ -100,17 +120,6 @@ public partial class Character : Model
                 EquipmentView.SetEquipmetItem(ItemManager.Instance.GetNewItemView(counter));
             }
         }
-        /*if (Inventory.HasItem)
-        {
-            for (int i = 0; i < 2; i++) // for wearing Item;
-            {
-                var lastItem = Inventory.itemViews[Inventory.itemViews.Count - 1];
-                if (lastItem.ItemCounter.Data.GetItemType == ItemSheet.Param.ItemTypeEnum.Equipment)
-                    Inventory.UseItem(Inventory.itemViews[Inventory.itemViews.Count], false);
-                else
-                    break;
-            }
-        }*/
 
         SkillPoint = level;
         for (int i = 0; i < skillListHandler.skillDatas.Count; i++)
@@ -141,7 +150,11 @@ public partial class Character : Model
         if(playerData.QuestIndexList.Count > 0) //processing QuestList
             ProcessingQuestList = QuestManager.LoadAllProgressQuestTable(playerData.QuestIndexList, this);
 
+        if (playerData.TimeLineAssetName.Count > 0)
+            foreach (string name in playerData.TimeLineAssetName)
+                PassedTimeLineAssetName.Add(name);
 
+        isCharacterReady = true;
     }
 
     IEnumerator DetectMonsterLocator()
@@ -168,5 +181,8 @@ public partial class Character : Model
         //MonsterLocaterDetector
         Gizmos.color = Color.magenta;
         Gizmos.DrawLine(transform.position + Vector3.up /2, transform.position + Vector3.up / 2 + transform.forward * 100f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position, terrianCheckRadius);
     }
 }

@@ -31,7 +31,7 @@ public partial class Model : MonoBehaviour
     public int SPD { protected set; get; }
     public bool isSuper { protected set; get; }
 
-    public bool IsRunningTimeLine { get { return StaticManager.IsRunningTimeLine; } }
+    public bool IsRunningTimeLine { set; get; }
     protected int InventoryLength { set; get; }
     protected RuntimeAnimatorController animatorController { set; get; }
     public SkillListHandler skillListHandler;

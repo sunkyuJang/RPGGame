@@ -1,21 +1,19 @@
 {
     "id": "asdasd",
     "pw": "asdasd",
-    "NickName": "asdasd",
+    "NickName": "******",
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 0.5576667785644531,
+        "x": -42.0,
         "y": 0.0,
-        "z": 6.175737380981445
+        "z": 59.0
     },
     "level": 0,
     "itemKinds": [
-        0,
-        1
+        2
     ],
     "itemCounts": [
-        5,
         1
     ],
     "WearingItem": [],
@@ -41,7 +39,10 @@
         "길버트"
     ],
     "lastTalkingIndex": [
-        31
+        1
     ],
-    "QuestIndexList": []
+    "QuestIndexList": [],
+    "TimeLineAssetName": [
+        "FirstStartCutScene"
+    ]
 }

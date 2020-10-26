@@ -59,13 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.44705883}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.45490196}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: caf99ff1ad220464d8391c310e74bee4, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -90,6 +91,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: 
           m_MethodName: joypadPressed
           m_Mode: 1
           m_Arguments:
@@ -158,13 +160,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6156863}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 4805c9cd84c74c1499db7ac00aa7a3f1, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -232,11 +235,12 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.69411767}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 9aaee7d7003013840be90b564a65bd67, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -261,6 +265,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 4900685374006844414}
+          m_TargetAssemblyTypeName: 
           m_MethodName: Pressed
           m_Mode: 1
           m_Arguments:
@@ -323,6 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35483a6c28bbf3b4e9f2e4e9746abe42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 0}
   up: {fileID: 4900685372205095375}
   hold: {fileID: 1560304903981945060}
   down: {fileID: 4900685372192700715}

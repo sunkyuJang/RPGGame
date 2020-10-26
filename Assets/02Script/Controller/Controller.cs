@@ -46,8 +46,15 @@ public partial class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(Character != null)
-            CameraController.transform.position = Character.transform.position;
+        if (Character != null)
+        {
+            var characterPosition = Character.transform.position;
+            //CameraController.transform.position = Character.transform.position;
+            var yPosition = Mathf.Lerp(CameraController.transform.position.y, characterPosition.y, Time.fixedDeltaTime * 2f);
+            CameraController.transform.position
+                = new Vector3(characterPosition.x, yPosition, characterPosition.z); //Vector3.Lerp(CameraController.transform.position, Character.transform.position, Time.fixedDeltaTime + 2.5f);
+
+        }
     }
     public void PressInventoryKey()
     {

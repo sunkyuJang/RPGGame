@@ -17,7 +17,7 @@ public class StaticManager : MonoBehaviour
     public static void SetRunningTimeLine(TimeLineHandler timeLineHandler)
         => RunningTimeLine = timeLineHandler;
 
-    public static bool IsRunningTimeLine { get { return RunningTimeLine != null; } }
+    //public static bool IsRunningTimeLine { get { return RunningTimeLine != null; } }
     void Awake()
     {
         staticManager = this;

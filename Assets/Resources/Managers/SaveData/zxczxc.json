@@ -1,51 +1,22 @@
 {
     "id": "zxczxc",
-    "pw": "zxczxc",
-    "NickName": "zxczxc",
-    "isFirstStart": false,
+    "pw": "zxcxzc",
+    "NickName": "******",
+    "isFirstStart": true,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 500,
-        "y": 0.5,
-        "z": 500
+        "x": -42.0,
+        "y": 0.0,
+        "z": 59.0
     },
     "level": 0,
-    "itemKinds": [
-        2,
-        0,
-        1
-    ],
-    "itemCounts": [
-        3,
-        5,
-        1
-    ],
-    "WearingItem": [
-        3
-    ],
-    "skillNames": [
-        "NormalAttack",
-        "LowSmash",
-        "BoostMorale",
-        "EarthQuake",
-        "FireBall",
-        "ChaosBoom",
-        "Curse"
-    ],
-    "isLearnSkill": [
-        true,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false
-    ],
-    "namesTalkingwith": [
-        "길버트"
-    ],
-    "lastTalkingIndex": [
-        31
-    ],
-    "QuestIndexList": []
+    "itemKinds": [],
+    "itemCounts": [],
+    "WearingItem": [],
+    "skillNames": [],
+    "isLearnSkill": [],
+    "namesTalkingwith": [],
+    "lastTalkingIndex": [],
+    "QuestIndexList": [],
+    "TimeLineAssetName": []
 }

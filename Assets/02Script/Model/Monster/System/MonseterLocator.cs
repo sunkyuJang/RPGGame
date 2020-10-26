@@ -13,6 +13,7 @@ public class MonseterLocator : MonoBehaviour
     public float nowDistFromCharacter = 0f;
     public int vertical;
     public int horizontal;
+    public float height;
     public Color color;
     Rect RoamingArea { set; get; }
     List<Monster> MonsterInArea { set; get; } = new List<Monster>();
@@ -26,6 +27,7 @@ public class MonseterLocator : MonoBehaviour
         var positionX = position.x - vertical / 2;
         var positionY = position.y - horizontal / 2;
         RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(vertical, horizontal));
+        transform.GetComponent<BoxCollider>().size = new Vector3(RoamingArea.width, transform.position.y + height, RoamingArea.height);
     }
 
     private void Start()
@@ -129,7 +131,7 @@ public class MonseterLocator : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = color;
-        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(vertical, 1, horizontal));
+        Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(vertical, height, horizontal));
     }
 }
 /*public class MonseterLocator : MonoBehaviour

@@ -1,24 +1,20 @@
 {
     "id": "qweqwe",
     "pw": "qweqwe",
-    "NickName": "qweqwe",
+    "NickName": "******",
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 1.3033671379089356,
-        "y": 0.0,
-        "z": 5.590898036956787
+        "x": -25.03767967224121,
+        "y": 7.068302631378174,
+        "z": 107.90786743164063
     },
     "level": 0,
     "itemKinds": [
-        2,
-        0,
-        1
+        2
     ],
     "itemCounts": [
-        1,
-        5,
-        1
+        2
     ],
     "WearingItem": [],
     "skillNames": [
@@ -43,7 +39,10 @@
         "길버트"
     ],
     "lastTalkingIndex": [
-        31
+        11
     ],
-    "QuestIndexList": []
+    "QuestIndexList": [],
+    "TimeLineAssetName": [
+        "FirstStartCutScene"
+    ]
 }

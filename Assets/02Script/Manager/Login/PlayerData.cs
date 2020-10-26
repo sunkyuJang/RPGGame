@@ -44,6 +44,9 @@ public class PlayerData
 
     //QuestList
     public List<int> QuestIndexList = new List<int>();
+
+    //CutScene
+    public List<string> TimeLineAssetName = new List<string>();
     PlayerData() { }
     public PlayerData(string id, string pw, string nickName)
     {
@@ -51,7 +54,7 @@ public class PlayerData
         this.pw = pw;
         NickName = nickName;
         isFirstStart = true;
-        LastPosition = Vector3.zero;
+        LastPosition = new Vector3(-42f, 0, 59f);
         LastScene = "IngameScene";
     }
     public void SetPlayerDataFromCharacter(Character character)
@@ -103,10 +106,14 @@ public class PlayerData
         QuestIndexList.Clear();
         var questIndexList = character.ProcessingQuestList;
         if(questIndexList.Count > 0)
-        {
             foreach (QuestManager.QuestTable questTable in questIndexList)
                 QuestIndexList.Add(questTable.data.Index);
-        }
+
+        TimeLineAssetName.Clear();
+        var timeLineAssetList = character.PassedTimeLineAssetName;
+        if (character.PassedTimeLineAssetName.Count > 0)
+            foreach (string name in timeLineAssetList)
+                TimeLineAssetName.Add(name);
     }
 
     /*public static PlayerData ConvertChatacterToPlayerData(Character character)

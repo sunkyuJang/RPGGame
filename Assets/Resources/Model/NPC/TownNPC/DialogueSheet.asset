@@ -16,7 +16,7 @@ MonoBehaviour:
   - name: Sheet1
     list:
     - Index: 0
-      Type: None
+      Type: Exit
       GoTo: 0
       Script: "\uC774\uBD10, \uC5EC\uAE30 \uC774\uCABD\uC774\uC57C!"
     - Index: 1

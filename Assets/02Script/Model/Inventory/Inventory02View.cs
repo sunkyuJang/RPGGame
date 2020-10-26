@@ -12,7 +12,7 @@ public partial class Inventory : MonoBehaviour
     public Text goldText;
     public double gold { set; get; } = 0;
     public void SetGold(double gold) { this.gold = gold; goldText.text = this.gold.ToString(); }
-    Vector2 viewStartPoint { get { return new Vector2(-160f, 210f); } }
+    Vector2 viewStartPoint { get { return new Vector2(-165f, 210f); } }
     void SetViewPosition()
     {
         Transform goldTransform = transform.GetChild(0);

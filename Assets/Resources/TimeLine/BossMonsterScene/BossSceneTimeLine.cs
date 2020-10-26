@@ -5,12 +5,10 @@ using UnityEngine;
 public class BossSceneTimeLine : TimeLineHandler
 {
     public BossMonster bossMonster;
-    protected override void ToDo()
-    {
-        StartCoroutine(StartSequence());
-    }
 
-    IEnumerator StartSequence()
+    new protected void Awake() { base.Awake(); }
+
+    public override IEnumerator StartSequence()
     {
         while (!IsInterruptOccur)
             yield return new WaitForFixedUpdate();
