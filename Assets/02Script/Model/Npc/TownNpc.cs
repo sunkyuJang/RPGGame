@@ -9,19 +9,13 @@ public class TownNpc : Npc
         SetInfo("길버트" ,100, 100, 10, 10, 10);
         base.Awake();
     }
-    new void Start()
+    new void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
 
         AddItem(0, 10);
         AddItem(0, 5);
         AddItem(0, 3);
         AddItem(0, 5);
-        AddItem(0, 17);
-        AddItem(1, 10);
-        AddItem(1, 10);
-        AddItem(0, 10);
-        AddItem(0, 10);
-        AddItem(0, 10);
     }
 }

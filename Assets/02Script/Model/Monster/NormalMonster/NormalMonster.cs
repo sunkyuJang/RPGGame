@@ -12,10 +12,10 @@ public class NormalMonster : Monster
         base.Awake();
 
     }
-    // Start is called before the first frame update
-    new protected void Start()
+
+    new private void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         hpBarScrip = iStateViewerHandler.GetGameObject().GetComponent<NormalMonsterHPBarViewer>();
     }
     new protected void FixedUpdate()

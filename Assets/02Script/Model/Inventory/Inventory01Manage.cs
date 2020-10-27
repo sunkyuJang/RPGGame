@@ -140,4 +140,13 @@ public partial class Inventory : MonoBehaviour
             }
         }
     }
+
+    public void RemoveAllItem()
+    {
+        for (int i = itemViews.Count - 1; i >= 0; i--)
+        {
+            RemoveItem(itemViews[i].ItemCounter);
+        }
+        gold = 0;
+    }
 }

@@ -10,11 +10,6 @@ public class Slime : NormalMonster
         base.Awake();
 
     }
-    // Start is called before the first frame update
-    new void Start()
-    {
-        base.Start();
-    }
 
     // Update is called once per frame
     new void Update()
@@ -25,6 +20,7 @@ public class Slime : NormalMonster
     new protected void OnEnable()
     {
         base.OnEnable();
+        AddItem(0, 1, 0.8f, 100);
     }
 
     new private void OnDisable()

@@ -267,7 +267,7 @@ MonoBehaviour:
   joypad: {fileID: 5129829536917812286}
   actionpad: {fileID: 4896330238767864148}
   quickSlot: {fileID: 0}
-  saveBtn: {fileID: 768876183390264421}
+  menuBtn: {fileID: 768876183390264421}
   CameraControllerPrefab: {fileID: 134317638702113560, guid: c8d6b08302329bf43822e782c392f637,
     type: 3}
   characterSkiilViewer: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 768876183390264422}
   - component: {fileID: 768876183390264421}
   m_Layer: 5
-  m_Name: SaveKey
+  m_Name: MenuKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -391,7 +391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 768876183390264422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 768876183275153927}
+        m_TargetAssemblyTypeName: Controller, Assembly-CSharp
+        m_MethodName: PressMenuBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &768876184551538605
 GameObject:
   m_ObjectHideFlags: 0

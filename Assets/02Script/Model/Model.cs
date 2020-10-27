@@ -10,6 +10,7 @@ public partial class Model : MonoBehaviour
     protected IStateViewerHandler iStateViewerHandler { private set; get; }
     bool isIStateObjOn { set; get; }
     //public GameObject inventoryPrefab;
+    public ObjPooler InventoryPooler { private set; get; }
     public Inventory Inventory { private set; get; }
     public Transform Transform { private set; get; }
     public Rigidbody Rigidbody { private set; get; }
@@ -53,19 +54,11 @@ public partial class Model : MonoBehaviour
         AwakeInAlert();
     }
 
-    protected void Start()
+    protected void OnEnable()
     {
         iStateViewerHandler = StateEffecterManager.instance.GetStateView(this);
         StartCoroutine(SetInventoryFromInventoryPoolerManager());
-        /*if (HPBar != null)
-        {
-            HPBar = Instantiate(HPBar, GameManager.mainCanvas);
-            iStateViewerHandler = HPBar.GetComponent<IStateViewerHandler>();
-        }*/
-    }
 
-    protected void OnEnable()
-    {
         nowHP = HP;
         nowMP = MP;
         RefreshedHPBar();
@@ -74,14 +67,18 @@ public partial class Model : MonoBehaviour
     protected void OnDisable()
     {
         StopAllCoroutines();
+        Inventory.RemoveAllItem();
+        InventoryPooler.returnObj(Inventory.gameObject);
     }
     IEnumerator SetInventoryFromInventoryPoolerManager()
     {
+        print(Inventory == null);
         yield return new WaitUntil(() => InventoryPoolerManager.instance.inventoryPooler != null);
-        var inventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
-        yield return StartCoroutine(inventoryPooler.CheckCanUseObj());
-        Inventory = inventoryPooler.GetObj<Inventory>();
+        InventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
+        Inventory = InventoryPooler.GetObj<Inventory>();
+        print(Inventory.transform);
         Inventory.gameObject.SetActive(true);
+        Inventory.gameObject.name = CharacterName + "Inventory";
         Inventory.SetTransformParent();
         Inventory.SetDefault(this);
     }

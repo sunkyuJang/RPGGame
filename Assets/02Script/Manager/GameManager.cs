@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GLip;
 
 public class GameManager : MonoBehaviour
 {
     public GameObject CharacterPrefab;
+    public Character Character { set; get; }
     public GameObject SkillDataGroup;
+    public GameObject managerGroup;
     
     public static GameManager instance;
-    public PlayerData playerData;
     public static RectTransform mainCanvas;
     public Controller controller;
 
+    public List<GameObject> DestroyAfterIntoLoginScene { set; get; } = new List<GameObject>();
     public static string pathOfScenes { get { return "01Scene/"; } }
     private void Awake()
     {
@@ -31,36 +34,37 @@ public class GameManager : MonoBehaviour
 
     public void SetGameStart(PlayerData playerData)
     {
-        this.playerData = playerData;
-        StartCoroutine(ProgressSetStartGame());
-
+        GPosition.GetRectTransformWithReset(transform.GetComponent<RectTransform>(), PlayerDataManager.instance.transform.GetComponent<RectTransform>());
+        StartCoroutine(ProgressSetStartGame(playerData));
     }
-
-    public IEnumerator ProgressSetStartGame()
+    public IEnumerator ProgressSetStartGame(PlayerData playerData)
     {
         yield return null;
+
+        managerGroup.SetActive(true);
+
+        if (Character == null)
+        {
+            Character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
+            DontDestroyOnLoad(Character.gameObject);
+        }
+        else if (!Character.gameObject.activeSelf)
+            Character.gameObject.SetActive(true);
         
-        var character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
-        DontDestroyOnLoad(character.gameObject);
-        StartCoroutine(character.SetCharacterWithPlayerData(playerData));
-        //character.Rigidbody.useGravity = false;
+        StartCoroutine(Character.SetCharacterWithPlayerData(playerData));
+        Character.Rigidbody.useGravity = false;
 
         controller.gameObject.SetActive(true);
-        character.controller = controller;
-        controller.Character = character;
+        Character.controller = controller;
+        controller.Character = Character;
 
-        yield return new WaitUntil(() => character.isCharacterReady);
+        yield return new WaitUntil(() => Character.isCharacterReady);
 
         LoadSceneManager.LoadScene(pathOfScenes + playerData.LastScene);
         while (!SceneManager.GetActiveScene().name.Equals(playerData.LastScene))
             yield return new WaitForFixedUpdate();
 
-        character.transform.position = playerData.LastPosition;
-    }
-
-    public void SaveGame()
-    {
-        playerData.SetPlayerDataFromCharacter(controller.Character);
-        LoginManager.instance.SavePlayerDataToJson(playerData);
+        Character.transform.position = playerData.LastPosition;
+        Character.Rigidbody.useGravity = true;
     }
 }

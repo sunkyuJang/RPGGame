@@ -19,6 +19,11 @@ public class SkillDataGrouper : MonoBehaviour
             Destroy(gameObject);
     }
 
+    private void Start()
+    {
+        GameManager.instance.DestroyAfterIntoLoginScene.Add(gameObject);
+    }
+
     public void SetSkillDataParent(SkillData skillData)
     {
         Transform group = skillData.Model is Character ? CharacterGroup : MonsterGroup;

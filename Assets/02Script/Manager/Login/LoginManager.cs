@@ -11,6 +11,7 @@ using UnityEngine.UI;
 public class LoginManager : MonoBehaviour
 {
     public static LoginManager instance { set; get; }
+    public GameObject frame;
 
     public GameObject GameManagerPrefab;
     public Text title;
@@ -31,12 +32,15 @@ public class LoginManager : MonoBehaviour
     string loginText = "Login";
     string cancelText = "Cancel";
 
+    public string GetNowIDFieldText { get { return idField.textComponent.text; } }
+    public string GetNowPWFieldText { get { return pwField.text; } }
+    public string GetNowNickNameFieldText { get { return nickNameField.textComponent.text; } }
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
             SetSignUpBtnListener(true);
 
             SetLoginBtnListener(true);
@@ -114,16 +118,6 @@ public class LoginManager : MonoBehaviour
         return true;
     }
 
-    bool CheckAccountExsit
-    {
-        get
-        {
-            string id = idField.textComponent.text;
-            string pw = pwField.textComponent.text;
-
-            return File.Exists(PlayerData.path + id + ".json");
-        }
-    }
     public void CreatAccount()
     {
         title.gameObject.SetActive(false);
@@ -138,14 +132,13 @@ public class LoginManager : MonoBehaviour
     {
         if (CheckInfomation)
         {
-            if (CheckAccountExsit)
+            if (PlayerDataManager.instance.IsDataExist(GetNowIDFieldText))
             {
                 idField.text = "이미 존재하는 계정입니다.";
             }
             else
             {
-                var newData = new PlayerData(idField.textComponent.text, pwField.text, nickNameField.textComponent.text);
-                File.WriteAllText(newData.GetJsonPathWithAcc, JsonUtility.ToJson(newData, true));
+                PlayerDataManager.instance.CreatPlayerData(GetNowIDFieldText, GetNowPWFieldText, GetNowNickNameFieldText);
                 ClearAllTextField();
                 idField.text = "계정이 생성되었습니다.";
                 CancelCreatingAccount();
@@ -170,14 +163,17 @@ public class LoginManager : MonoBehaviour
 
     public void CheckAccount()
     {
-        if (CheckAccountExsit)
+        if (PlayerDataManager.instance.IsDataExist(GetNowIDFieldText))
         {
-            var data = JsonUtility.FromJson<PlayerData>(File.ReadAllText(PlayerData.path + idField.textComponent.text + ".json"));
-            if (data.pw == pwField.text)
+            var data = PlayerDataManager.instance.GetPlayerData(GetNowIDFieldText);
+            print(data.pw + "//" + GetNowPWFieldText);
+            if (PlayerDataManager.instance.IsPWCorrect(data, GetNowPWFieldText))
             {
-                var gameManager = Instantiate(GameManagerPrefab).GetComponent<GameManager>();
+                /*var gameManager = Instantiate(GameManagerPrefab).GetComponent<GameManager>();
                 gameManager.transform.position = Vector3.zero;
-                gameManager.SetGameStart(data);
+                gameManager.SetGameStart(data);*/
+                GameManager.instance.SetGameStart(data);
+                HideView();
             }
             else
             {
@@ -192,15 +188,20 @@ public class LoginManager : MonoBehaviour
         }
     }
 
-    public void SavePlayerDataToJson(PlayerData playerData)
-    {
-        File.WriteAllText(playerData.GetJsonPathWithAcc, JsonUtility.ToJson(playerData, true));
-    }
-
     void ClearAllTextField()
     {
         idField.text = "";
         pwField.text = "";
         nickNameField.text = "";
+    }
+
+    public void ShowView() 
+    {
+        frame.SetActive(true);
+    }
+
+    public void HideView()
+    {
+        frame.SetActive(false);
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using JetBrains.Annotations;
 using System.Runtime.Serialization;
 using UnityEngine.XR.WSA.Input;
+using System.Threading;
 
 public class Monster : Model
 {
@@ -36,14 +37,6 @@ public class Monster : Model
         NowState = ActionState.roaming;
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
-    }
-    new protected void Start()
-    {
-        base.Start();
-/*        var position = GMath.ConvertV3xzToV2(transform.position);
-        var positionX = position.x - roamingVertical / 2;
-        var positionY = position.y - roamingHorizontal / 2;
-        RoamingArea = new Rect(new Vector2(positionX, positionY), new Vector2(roamingVertical, roamingHorizontal));*/
     }
 
     new protected void OnEnable()
@@ -325,6 +318,20 @@ public class Monster : Model
         Animator.SetBool("Dead", false);
     }
 
+    public void AddItem(int index, int count, float probability, int gold)
+    {
+        StartCoroutine(AddItemIntoInventory(index, count, probability, gold));
+    }
+
+    IEnumerator AddItemIntoInventory(int index, int count, float probability, int gold)
+    {
+        yield return new WaitUntil(() => Inventory != null);
+
+        if (index >= 0)
+            Inventory.AddItem(index, count, probability);
+
+        Inventory.AddGold(gold);
+    }
 
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
     bool IsDetectedCharacter 

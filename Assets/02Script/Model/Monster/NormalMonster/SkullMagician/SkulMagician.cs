@@ -15,17 +15,11 @@ public class SkulMagician : NormalMonster
         SetInfo("허름한 마법사", 100, 25, 0, 100, 5);
         base.Awake();
     }
-    // Start is called before the first frame update
-    new void Start()
-    {
-        base.Start();
-
-        closeEnough = 6f;
-        farEnogh = 5f;
-    }
     new private void OnEnable()
     {
         base.OnEnable();
+        closeEnough = 6f;
+        farEnogh = 5f;
     }
 
     new void Update()

@@ -14,7 +14,7 @@ public partial class Character : Model
     public bool IsinField { set; get; } = true;
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
-    bool IsStartFuncPassed { set; get; } = false;
+    bool IsOnEnableFuncPassed { set; get; } = false;
     public float MonsterLocatorDetectTime = 3f;
     public bool IsChacterReadyForUse { set; get; } = false;
     
@@ -35,16 +35,21 @@ public partial class Character : Model
         base.Awake();
         AwakeInUI();
     }
-    // Start is called before the first frame update
-    new void Start()
+
+    private void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         SetStateView();
-        IsStartFuncPassed = true;
+        IsOnEnableFuncPassed = true;
         StartCoroutine(DetectMonsterLocator());
 
         AddGold(10000);
         AddItem(2, 1);
+    }
+
+    new private void OnDisable()
+    {
+        base.OnDisable();
     }
 
     new private void FixedUpdate()
@@ -60,8 +65,6 @@ public partial class Character : Model
         if (colliders.Length == 0)
         {
             transform.position += Physics.gravity * Time.fixedDeltaTime;
-            //var target = transform.position + Physics.gravity * Time.fixedDeltaTime;
-            //transform.position = Vector3.Lerp(transform.position, target, Time.fixedDeltaTime * 2f);
             isOnTerrian = false;
         }
         else
@@ -95,15 +98,35 @@ public partial class Character : Model
 
     public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
     {
-        yield return new WaitWhile(() => IsStartFuncPassed == false);
+        yield return new WaitWhile(() => IsOnEnableFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);
         yield return new WaitUntil(() => EquipmentView != null);
         yield return new WaitUntil(() => skillListHandler.StartPass);
+
+        print("isPass'");
 
         PlayerData = playerData;
         CharacterName = playerData.NickName;
         transform.position = playerData.LastPosition;
         level = playerData.level;
+
+        {//for recycle 
+            if (EquipmentView.IsWearing)
+                for (int i = 0; i < EquipmentView.EquipmentItems.Length; i++)
+                    if (EquipmentView.EquipmentItems[i] != null)
+                        EquipmentView.ReleaseWearItem(i);
+
+            Inventory.RemoveAllItem();
+
+            foreach (SkillData skillData in skillListHandler.skillDatas)
+                skillData.isLearn = false;
+
+            LastTimeTalkingWith.Clear();
+
+            ProcessingQuestList.Clear();
+
+            PassedTimeLineAssetName.Clear();
+        }
 
         for (int i = 0; i < playerData.itemKinds.Count; i++)
         {
@@ -111,6 +134,7 @@ public partial class Character : Model
                 (playerData.itemKinds[i],
                 playerData.itemCounts[i]);
         }
+
 
         if(playerData.WearingItem.Count > 0)
         {
@@ -155,6 +179,8 @@ public partial class Character : Model
                 PassedTimeLineAssetName.Add(name);
 
         isCharacterReady = true;
+
+        IntoNormalUI();
     }
 
     IEnumerator DetectMonsterLocator()

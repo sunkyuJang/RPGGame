@@ -34,4 +34,9 @@ public class ObjPoolerManager : MonoBehaviour
         ObjPoolers.Add(pooler);
         return pooler;
     }
+
+    private void OnDisable()
+    {
+        ObjPoolers.Clear();   
+    }
 }

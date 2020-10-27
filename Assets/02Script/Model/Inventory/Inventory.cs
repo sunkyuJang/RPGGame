@@ -36,19 +36,6 @@ public partial class Inventory : MonoBehaviour
         transform.GetComponent<RectTransform>().anchorMax = Vector2.one;
     }
 
-/*    ObjPooler GetitemViewPooler
-    {
-        get
-        {
-            var viewPullingController = ObjPoolerManager.instance.ReqeuestObjPooler(itemViewPrefab);
-            var viewRectTransform = viewPullingController.GetComponent<RectTransform>();
-            if(viewRectTransform == null)
-                viewPullingController.gameObject.AddComponent<RectTransform>();
-            viewPullingController.transform.SetParent(GameManager.mainCanvas);
-            return viewPullingController;
-        }
-    }*/
-
     Transform GetInventoryGroup
     {
         get
@@ -64,16 +51,6 @@ public partial class Inventory : MonoBehaviour
             return InventoryGroupTransform;
         }
     }
-/*    public static Inventory GetNew(int length, Model model) 
-    { 
-        Inventory inventory = Create.GetNewInCanvas<Inventory>();
-        inventory.length = length;
-        inventory.Model = model;
-        inventory.isPlayer = model is Character ? true : false;
-        inventory.SetViewPosition();
-        inventory.gameObject.SetActive(false);
-        return inventory;
-    }*/
 
     public void SetDefault(Model model)
     {

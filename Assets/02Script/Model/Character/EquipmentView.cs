@@ -9,7 +9,16 @@ public class EquipmentView : MonoBehaviour
 {
     public Character Character { set; get; }
     public ItemView[] EquipmentItems { private set; get; } = new ItemView[2];
-    public bool IsWearing { get { foreach (ItemView View in EquipmentItems) if (View.ItemCounter == null) return false; return true; } }
+    public bool IsWearing 
+    { 
+        get 
+        { 
+            foreach (ItemView View in EquipmentItems) 
+                if (View == null) 
+                    return false; 
+            return true; 
+        } 
+    }
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
     Transform ArmorTrans { set; get; }
@@ -52,17 +61,21 @@ public class EquipmentView : MonoBehaviour
             while (confirmBox.NowState == ConfimBoxManager.State.Waiting) { yield return new WaitForFixedUpdate(); }
             if (confirmBox.NowState == ConfimBoxManager.State.Yes)
             {
-                var equipmentItem = EquipmentItems[index];
-                //var View = Character.Inventory.itemViewPooler.GetObj<ItemView>().SetItemCounter(equipmentItem, Character.Inventory);
-                StateEffecterManager.EffectToModelByItem(equipmentItem.ItemCounter, Character, true);
-                Character.Inventory.AddItem(equipmentItem.ItemCounter.Data.Index, 1);
-                ItemManager.Instance.ReturnItemView(equipmentItem);
-                EquipmentItems[index] = null;
-                if(index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
-                else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
-                LoadCharacterState();
+                ReleaseWearItem(index);
             }
         }
+    }
+
+    public void ReleaseWearItem(int index)
+    {
+        var equipmentItem = EquipmentItems[index];
+        StateEffecterManager.EffectToModelByItem(equipmentItem.ItemCounter, Character, true);
+        Character.Inventory.AddItem(equipmentItem.ItemCounter.Data.Index, 1);
+        ItemManager.Instance.ReturnItemView(equipmentItem);
+        EquipmentItems[index] = null;
+        if (index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }
+        else { ArmorImage.sprite = null; Destroy(ArmorTrans.gameObject); }
+        LoadCharacterState();
     }
 
     public void TouchedInWeapon() { StartCoroutine(OnTouched(0)); }

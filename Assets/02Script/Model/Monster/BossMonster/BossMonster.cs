@@ -26,17 +26,12 @@ public class BossMonster : Monster
         base.Awake();
     }
 
-    new private void Start()
-    {
-        base.Start();
-        BossHPBarViewer = iStateViewerHandler.GetGameObject().GetComponent<BossHPBarViewer>();
-        BossHPBarViewer.BossMonster = this;
-        BossHPBarViewer.SetName(CharacterName);
-    }
-
     new protected void OnEnable()
     {
         base.OnEnable();
+        BossHPBarViewer = iStateViewerHandler.GetGameObject().GetComponent<BossHPBarViewer>();
+        BossHPBarViewer.BossMonster = this;
+        BossHPBarViewer.SetName(CharacterName);
     }
     new protected void OnDisable()
     {

@@ -8,8 +8,4 @@ public class Npc : Model
     {
         base.Awake();
     }
-    new void Start()
-    {
-        base.Start();
-    }
 }

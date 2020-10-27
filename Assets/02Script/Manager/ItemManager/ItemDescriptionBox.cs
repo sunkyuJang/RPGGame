@@ -11,11 +11,10 @@ public class ItemDescriptionBox : MonoBehaviour
     public Image icon;
     new public Text name;
     public Text description;
-    public Vector2 StartPosition;
-
-    private void Start()
+    public Vector2 StartPosition { set; get; } = new Vector2(-340f, 150f);
+    private void Awake()
     {
-        StartPosition = frame.transform.position;
+        print(frame.transform.position);
         gameObject.SetActive(false);
     }
 

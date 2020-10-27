@@ -13,7 +13,7 @@ public partial class Controller : MonoBehaviour
     public MovePad joypad;
     public ActionPad actionpad;
     public QuickSlot quickSlot;
-    public Button saveBtn;
+    public Button menuBtn;
 /*    public GameObject pauseKeyObj;
     public GameObject InventoryKeyObj;
     public GameObject EquipmentKeyObj;
@@ -30,7 +30,6 @@ public partial class Controller : MonoBehaviour
     {
         CreatCameraController();
         BtnGroupObj.SetActive(true);
-        saveBtn.onClick.AddListener(() => GameManager.instance.SaveGame());
     }
 
     void Start()
@@ -75,6 +74,12 @@ public partial class Controller : MonoBehaviour
     {
         SetAllActive(false);
         Character.ShowGameUI(Character.UIList.questViewer, true);
+    }
+    public void PressMenuBtn()
+    {
+        SetAllActive(false);
+        Character.IntoClearUI();
+        PlayerDataManager.instance.ShowView(this);
     }
 
     public void SetAllActive(bool active)
