@@ -22,6 +22,11 @@ public class SkulMagician : NormalMonster
         farEnogh = 5f;
     }
 
+    new private void OnDisable()
+    {
+        base.OnDisable();
+    }
+
     new void Update()
     {
         base.Update();

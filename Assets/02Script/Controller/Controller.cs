@@ -6,7 +6,7 @@ using GLip;
 
 public partial class Controller : MonoBehaviour
 {
-    public PlayerData playerData;
+    public PlayerData playerData { set; get; }
     public Character Character { set; get; }
 
     public GameObject BtnGroupObj;

@@ -61,7 +61,6 @@ public class ObjPooler : MonoBehaviour
     public void returnObj(GameObject gameObject)
     {
         gameObject.transform.SetParent(transform);
-        gameObject.SetActive(false);
         CreatedObjList.Enqueue(gameObject);
     }
 
@@ -85,5 +84,10 @@ public class ObjPooler : MonoBehaviour
     public void MakeReservation(int count)
     {
         StartCoroutine(CreateObj(count));
+    }
+
+    public void OnDisable()
+    {
+        ObjPoolerManager.instance.DistroyPooler(this);
     }
 }

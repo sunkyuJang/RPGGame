@@ -67,18 +67,21 @@ public partial class Model : MonoBehaviour
     protected void OnDisable()
     {
         StopAllCoroutines();
-        Inventory.RemoveAllItem();
-        InventoryPooler.returnObj(Inventory.gameObject);
+        if (Inventory != null)
+        {
+            Inventory.RemoveAllItem();
+            Inventory.gameObject.SetActive(false);
+            InventoryPooler.returnObj(Inventory.gameObject);
+        }
+        if (iStateViewerHandler != null)
+            Destroy(iStateViewerHandler.GetGameObject());
     }
     IEnumerator SetInventoryFromInventoryPoolerManager()
     {
-        print(Inventory == null);
         yield return new WaitUntil(() => InventoryPoolerManager.instance.inventoryPooler != null);
         InventoryPooler = InventoryPoolerManager.instance.inventoryPooler;
         Inventory = InventoryPooler.GetObj<Inventory>();
-        print(Inventory.transform);
         Inventory.gameObject.SetActive(true);
-        Inventory.gameObject.name = CharacterName + "Inventory";
         Inventory.SetTransformParent();
         Inventory.SetDefault(this);
     }

@@ -48,6 +48,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public void ShowView(Controller controller)
     {
+        gameObject.transform.SetAsLastSibling();
         Controller = controller;
         frame.SetActive(true);
     }

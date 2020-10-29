@@ -53,6 +53,7 @@ public partial class ItemManager : MonoBehaviour
     public void ReturnItemView(ItemView itemView)
     {
         itemView.ItemCounter = null;
+        itemView.gameObject.SetActive(false);
         ItemViewerPooler.returnObj(itemView.gameObject);
     }
 

@@ -5,17 +5,13 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -25.03767967224121,
-        "y": 7.068302631378174,
-        "z": 107.90786743164063
+        "x": 8.283878326416016,
+        "y": 5.960464477539063e-8,
+        "z": 40.194305419921878
     },
-    "level": 0,
-    "itemKinds": [
-        2
-    ],
-    "itemCounts": [
-        2
-    ],
+    "level": 10,
+    "itemKinds": [],
+    "itemCounts": [],
     "WearingItem": [],
     "skillNames": [
         "NormalAttack",
@@ -27,19 +23,19 @@
         "Curse"
     ],
     "isLearnSkill": [
-        true,
         false,
         false,
         false,
         false,
-        true,
+        false,
+        false,
         false
     ],
     "namesTalkingwith": [
         "길버트"
     ],
     "lastTalkingIndex": [
-        11
+        1
     ],
     "QuestIndexList": [],
     "TimeLineAssetName": [

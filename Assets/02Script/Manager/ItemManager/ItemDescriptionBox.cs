@@ -14,7 +14,6 @@ public class ItemDescriptionBox : MonoBehaviour
     public Vector2 StartPosition { set; get; } = new Vector2(-340f, 150f);
     private void Awake()
     {
-        print(frame.transform.position);
         gameObject.SetActive(false);
     }
 

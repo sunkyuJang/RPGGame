@@ -103,8 +103,6 @@ public partial class Character : Model
         yield return new WaitUntil(() => EquipmentView != null);
         yield return new WaitUntil(() => skillListHandler.StartPass);
 
-        print("isPass'");
-
         PlayerData = playerData;
         CharacterName = playerData.NickName;
         transform.position = playerData.LastPosition;

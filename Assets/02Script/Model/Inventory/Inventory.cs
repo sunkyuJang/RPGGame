@@ -57,7 +57,7 @@ public partial class Inventory : MonoBehaviour
         Model = model;
         isPlayer = model is Character ? true : false;
         SetViewPosition();
-        gameObject.name = model.CharacterName + gameObject.name;
+        gameObject.name = model.CharacterName + "inventory";
         inventoryFrame.SetActive(false);
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -35,8 +36,8 @@ public class ObjPoolerManager : MonoBehaviour
         return pooler;
     }
 
-    private void OnDisable()
+    public void DistroyPooler(ObjPooler objPooler)
     {
-        ObjPoolers.Clear();   
+        ObjPoolers.Remove(objPooler);
     }
 }

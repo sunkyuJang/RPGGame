@@ -79,9 +79,6 @@ public class MonseterLocator : MonoBehaviour
                 nowCount = MonsterInArea.Count;
                 if (MonsterInArea.Count < maxCount)
                 {
-                    
-/*                    yield return StartCoroutine(MonsterPooler.CheckCanUseObj(1));
-                    var nowMonster = MonsterPooler.GetObj().GetComponent<Monster>();*/
                     var nowMonster = MonsterPooler.GetObj<Monster>();
                     nowMonster.transform.parent = transform;
                     nowMonster.gameObject.SetActive(true);
@@ -100,7 +97,6 @@ public class MonseterLocator : MonoBehaviour
         for (int i = 0; i < MonsterInArea.Count; i++)
         {
             var nowMonster = MonsterInArea[i];
-            nowMonster.gameObject.SetActive(false);
             returnMonsterObj(nowMonster.gameObject);
         }
         MonsterInArea.Clear();
@@ -108,7 +104,10 @@ public class MonseterLocator : MonoBehaviour
 
     void returnMonsterObj(GameObject gameObject)
     {
-        MonsterPooler.returnObj(gameObject);
+        if (MonsterPooler == null)
+            Destroy(gameObject);
+        else
+            MonsterPooler.returnObj(gameObject);
     }
     void LocatedMonster(Monster monster)
     {
@@ -119,13 +118,23 @@ public class MonseterLocator : MonoBehaviour
                 Random.Range(RoamingArea.yMin, RoamingArea.yMax));
 
         monster.RoamingArea = RoamingArea;
-        monster.MonseterLocator = this;
+        monster.MonsterLocator = this;
         MonsterInArea.Add(monster);
     }
 
     public void MonsterReturn(GameObject monsterObj)
     {
         returnMonsterObj(monsterObj);
+    }
+    protected void OnDisable()
+    {
+        DestroyAllMonster();
+    }
+
+    protected void DestroyAllMonster()
+    {
+        for (int i = MonsterInArea.Count - 1; i >= 0; i--)
+            Destroy(MonsterInArea[i].gameObject);
     }
 
     private void OnDrawGizmos()

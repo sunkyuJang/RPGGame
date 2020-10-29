@@ -12,8 +12,7 @@ public class NormalMonster : Monster
         base.Awake();
 
     }
-
-    new private void OnEnable()
+    new protected void OnEnable()
     {
         base.OnEnable();
         hpBarScrip = iStateViewerHandler.GetGameObject().GetComponent<NormalMonsterHPBarViewer>();

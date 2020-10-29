@@ -166,7 +166,6 @@ public class LoginManager : MonoBehaviour
         if (PlayerDataManager.instance.IsDataExist(GetNowIDFieldText))
         {
             var data = PlayerDataManager.instance.GetPlayerData(GetNowIDFieldText);
-            print(data.pw + "//" + GetNowPWFieldText);
             if (PlayerDataManager.instance.IsPWCorrect(data, GetNowPWFieldText))
             {
                 /*var gameManager = Instantiate(GameManagerPrefab).GetComponent<GameManager>();

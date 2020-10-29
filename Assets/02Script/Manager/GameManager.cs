@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         Character.Rigidbody.useGravity = false;
 
         controller.gameObject.SetActive(true);
+        controller.SetPlayerData(playerData);
         Character.controller = controller;
         controller.Character = Character;
 

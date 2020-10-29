@@ -11,7 +11,7 @@ using System.Threading;
 
 public class Monster : Model
 {
-    public MonseterLocator MonseterLocator { set; get; }
+    public MonseterLocator MonsterLocator { set; get; }
     public float roamingHorizontal;
     public float roamingVertical;
     protected Character Character { set; get; }
@@ -44,6 +44,7 @@ public class Monster : Model
         base.OnEnable();
         NowState = ActionState.idle;
         BeforeState = ActionState.non;
+        
     }
 
     new protected void OnDisable()
@@ -272,7 +273,7 @@ public class Monster : Model
 
         float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         yield return new WaitForSeconds(waitTIme);
-        MonseterLocator.MonsterReturn(gameObject);
+        MonsterLocator.MonsterReturn(gameObject);
         DropItem();
     }
 
