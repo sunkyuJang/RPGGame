@@ -35,38 +35,40 @@ public class CharacterSkiilViewer : MonoBehaviour
     public void SetCharater(Character character)
     {
         Character = character;
-        StartCoroutine(SetSkillListHandler(character.skillListHandler));
+        //StartCoroutine(SetSkillListHandler(character.skillListHandler));
     }
 
-/*    void SkillTreeSet()
-    {
-        for (int i = 0; i < 2; i++)
+    /*    void SkillTreeSet()
         {
-            var group = i == 0 ? physicSkillGroup.transform : MagicSkillGroup.transform;
-            var count = group.childCount;
-
-            for (int j = 0; j < count; j++)
+            for (int i = 0; i < 2; i++)
             {
-                var skillData = group.GetChild(j).GetComponent<SkillData>();
-                skillData.Model = character;
-                SkillDataGrouper.instance.SetSkillDataParent(skillData);
+                var group = i == 0 ? physicSkillGroup.transform : MagicSkillGroup.transform;
+                var count = group.childCount;
 
-                for (int k = 0; k < skillViewers.Count; k++)
+                for (int j = 0; j < count; j++)
                 {
-                    var nowSkillViewer = skillViewers[k];
-                    if (skillData.skillName_eng == nowSkillViewer.gameObject.name)
+                    var skillData = group.GetChild(j).GetComponent<SkillData>();
+                    skillData.Model = character;
+                    SkillDataGrouper.instance.SetSkillDataParent(skillData);
+
+                    for (int k = 0; k < skillViewers.Count; k++)
                     {
-                        nowSkillViewer.skillData = skillData;
-                        nowSkillViewer.characterSkiilViewer = this;
-                        nowSkillViewer.MakeImage();
-                        skillViewers.RemoveAt(k);
-                        break;
+                        var nowSkillViewer = skillViewers[k];
+                        if (skillData.skillName_eng == nowSkillViewer.gameObject.name)
+                        {
+                            nowSkillViewer.skillData = skillData;
+                            nowSkillViewer.characterSkiilViewer = this;
+                            nowSkillViewer.MakeImage();
+                            skillViewers.RemoveAt(k);
+                            break;
+                        }
                     }
                 }
             }
-        }
-    }*/
-    IEnumerator SetSkillListHandler(SkillListHandler listHandler)
+        }*/
+
+    public void SetSKillListHandler(SkillListHandler skillListHandler) => StartCoroutine(ProcessSkillListHandler(skillListHandler));
+    public IEnumerator ProcessSkillListHandler(SkillListHandler listHandler)
     {
         yield return new WaitWhile(() => !listHandler.StartPass);
         var skillList = listHandler.skillDatas;

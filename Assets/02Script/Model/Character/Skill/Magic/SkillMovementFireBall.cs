@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SkillMovementFireBall : SkillMovement, ISkillMovement
 {
+    public float Speed = 3f;
     new void Start()
     {
         base.Start();
@@ -12,13 +14,14 @@ public class SkillMovementFireBall : SkillMovement, ISkillMovement
     public void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
-        yield return base.StartHitBoxMovement();
         var copy = skillData.GetHitBox();
 
-        copy.transform.position = skillData.Model.transform.position;
+        copy.transform.position = skillData.Model.transform.position + Vector3.up;
+        copy.transform.forward = skillData.Model.transform.forward;
+        copy.Rigidbody.velocity = copy.transform.forward * Speed; 
         copy.isImmediately = true;
 
-        //yield return copy.CheckObjCollideInTime();
+        print(copy.transform.position);
 
         copy.StartEffectTimeCountDown();
         while (copy.isEffectTimeLeft)

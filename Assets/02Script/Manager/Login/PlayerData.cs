@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.WSA.Input;
@@ -56,6 +57,8 @@ public class PlayerData
         isFirstStart = true;
         LastPosition = new Vector3(-42f, 0, 59f);
         LastScene = "IngameScene";
+        skillNames.Add("NormalAttack");
+        isLearnSkill.Add(true);
     }
     public void SetPlayerDataFromCharacter(Character character)
     {

@@ -167,7 +167,9 @@ public partial class Character : Model
                 LastTimeTalkingWith.Add(playerData.namesTalkingwith[i], playerData.lastTalkingIndex[i]);
             }
         } 
+
         CharacterSkiilViewer.RefreshSkillPointText();
+        CharacterSkiilViewer.SetSKillListHandler(skillListHandler);
 
         if(playerData.QuestIndexList.Count > 0) //processing QuestList
             ProcessingQuestList = QuestManager.LoadAllProgressQuestTable(playerData.QuestIndexList, this);

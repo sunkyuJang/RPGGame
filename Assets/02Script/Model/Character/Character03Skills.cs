@@ -62,13 +62,13 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
             nowTime += Time.fixedDeltaTime;
         }
-
+        Animator.SetBool(skill.gameObject.name, false);
         canAttacking = true;
     }
 
     void SetSkillAnimator(SkillData skill, bool isStart)
     {
-        Animator.SetTrigger(skill.gameObject.name);
+        Animator.SetBool(skill.gameObject.name, isStart);
         Animator.SetBool(skill.attackType == SkillData.AttackType.Physic ? "IsPhysic" : "IsMagic", isStart);
         if(isStart)
             DoAnimator(AnimatorState.Attak);

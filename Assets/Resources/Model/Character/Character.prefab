@@ -2275,6 +2275,11 @@ PrefabInstance:
       propertyPath: parentSkillData
       value: 
       objectReference: {fileID: 675955439923872824}
+    - target: {fileID: 1783316919029946420, guid: 03525e05bd2f828428709e7bddcbde06,
+        type: 3}
+      propertyPath: isLearn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5276386856572496280, guid: 03525e05bd2f828428709e7bddcbde06,
         type: 3}
       propertyPath: m_Name

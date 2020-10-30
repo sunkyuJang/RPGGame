@@ -83,7 +83,7 @@ MonoBehaviour:
   isSingleTarget: 1
   nowCheckedType: 0
   duringTime: 3
-  effectTime: 0
+  effectTime: 3
   dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitBox: {fileID: 5872860588705113133}
   HitBoxEffectObj: {fileID: 5872860588309603328}
-  effectorStartTime: 0
+  effectorStartTime: 1
 --- !u!136 &5872860588705113123
 CapsuleCollider:
   m_ObjectHideFlags: 0

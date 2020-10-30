@@ -37,7 +37,6 @@ public class SkillData : MonoBehaviour
     public Transform skillPooling { set; get; }
     public int hitBoxNum;
     public ObjPooler hitBoxPooler { private set; get; }
-    public Queue<HitBox> hitBoxes = new Queue<HitBox>();
 
     public Model targetModel;
 
@@ -108,10 +107,8 @@ public class SkillData : MonoBehaviour
 
     public HitBox GetHitBox()
     {
-        //var copy = hitBoxPooler.GetObj().GetComponent<HitBox>();
         var copy = hitBoxPooler.GetObj<HitBox>();
         copy.gameObject.SetActive(true);
-        //copy.transform.SetParent(skillPooling);
         copy.transform.forward = Model.transform.forward;
         copy.Collider.enabled = true;
         return copy;
@@ -119,18 +116,13 @@ public class SkillData : MonoBehaviour
 
     public HitBox GetHitBoxWithOutSetUp()
     {
-        return hitBoxes.Dequeue();
+        return hitBoxPooler.GetObj<HitBox>();
     }
 
     public void returnHitBox(HitBox hitBox)
     {
         hitBox.gameObject.SetActive(false);
         hitBoxPooler.returnObj(hitBox.gameObject);
-    }
-    public void returnHitBox(List<HitBox> hitBoxs)
-    {
-        foreach (HitBox hitBox in hitBoxes)
-            returnHitBox(hitBox);
     }
 }
 /*public class SkillData : MonoBehaviour

@@ -5,9 +5,9 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 8.283878326416016,
-        "y": 5.960464477539063e-8,
-        "z": 40.194305419921878
+        "x": 11.331713676452637,
+        "y": 0.0,
+        "z": 42.63173294067383
     },
     "level": 10,
     "itemKinds": [],
@@ -23,11 +23,11 @@
         "Curse"
     ],
     "isLearnSkill": [
+        true,
         false,
         false,
         false,
-        false,
-        false,
+        true,
         false,
         false
     ],

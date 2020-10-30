@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
   - component: {fileID: 8787166712924840248}
+  - component: {fileID: 8387634636509755091}
   m_Layer: 5
   m_Name: SkillDataCurse
   m_TagString: Untagged
@@ -58,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uC800\uC8FC"
   description: "\uC804\uBC29\uC758 \uC801\uC744 \uB300\uC0C1\uC73C\uB85C \uADF8 \uC8FC\uBCC0\uC5D0\uAC8C
     \uC800\uC8FC\uB97C \uAC74\uB2E4."
@@ -69,9 +71,20 @@ MonoBehaviour:
   CoolDown: 5
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 50e026e08dade384e9ee90ba858cf160, type: 3}
-  shouldLookAtEffectSheet: 0
+  shouldLookAtEffectSheet: 1
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 10
   targetModel: {fileID: 0}
+--- !u!114 &8387634636509755091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874629782710724800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54da177aa46c9ed469be15b67bb342e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
