@@ -68,4 +68,15 @@ public class GameManager : MonoBehaviour
         Character.transform.position = playerData.LastPosition;
         Character.Rigidbody.useGravity = true;
     }
+
+    public IEnumerator SetSceneChange(string sceneName, Character character, Vector3 poisition)
+    {
+        character.gameObject.SetActive(false);
+        LoadSceneManager.LoadScene(pathOfScenes + sceneName);
+
+        yield return new WaitUntil(() => LoadSceneManager.loadingComplete);
+        character.isReviver = false;
+        character.transform.position = poisition;
+        character.gameObject.SetActive(true);
+    }
 }

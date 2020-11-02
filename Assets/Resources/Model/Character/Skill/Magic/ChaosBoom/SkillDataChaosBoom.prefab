@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1783316919029946421}
   - component: {fileID: 1783316919029946420}
   m_Layer: 5
-  m_Name: SkillChaosBoom
+  m_Name: SkillDataChaosBoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,19 +72,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uCE74\uC624\uC2A4\uBD04"
   description: "\uC804\uBC29\uC5D0 \uD3ED\uBC1C\uD558\uB294 \uAD6C\uCCB4\uB97C \uB5A8\uC5B4\uB728\uB9B0\uB2E4."
   icon: {fileID: 21300000, guid: d8a0950034ce16f41968b16017885ea1, type: 3}
   isLearn: 1
   Length: 5
   attackType: 1
-  DamagePercentage: 100
+  DamagePercentage: 200
   CoolDown: 5
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 034630e1e6c09cc45af1b572002ad403, type: 3}
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 10
   targetModel: {fileID: 0}

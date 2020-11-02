@@ -20,141 +20,209 @@ MonoBehaviour:
       GoTo: 0
       Script: "\uC774\uBD10, \uC5EC\uAE30 \uC774\uCABD\uC774\uC57C!"
     - Index: 1
+      Type: None
+      GoTo: 0
+      Script: "\uB3C4\uB300\uCCB4 \uBB50\uAC00 \uC5B4\uB5BB\uAC8C \uB41C\uAC70\uC57C?"
+    - Index: 2
       Type: Select
       GoTo: 0
-      Script: "\uB108 \uAC19\uC740 \uC560\uAC00 \uC65C \uC774\uB7F0 \uC0B0\uC18D\uC5D0
-        \uC788\uB294\uAC70\uC57C?"
-    - Index: 2
-      Type: SelectSub
-      GoTo: 4
-      Script: "\uAE30\uC5B5\uC774 \uC5C6\uC5B4\uC694"
+      Script: "\uB108 \uBC29\uAE08 \uC800\uCABD\uC5D0\uC11C \uAC11\uC790\uAE30 \uB098\uD0C0\uB0AC\uB2E4\uACE0!"
     - Index: 3
       Type: SelectSub
-      GoTo: 5
-      Script: "\uB208\uC744 \uB5A0\uBCF4\uB2C8 \uC5EC\uAE30\uC608\uC694."
+      GoTo: 6
+      Script: "\uC800\uB3C4 \uC54C\uACE0 \uC2F6\uB124\uC694."
     - Index: 4
-      Type: Skip
-      GoTo: 6
-      Script: "\uBB50 \uAE30\uC5B5\uC774 \uC5C6\uB2E4\uACE0?"
+      Type: SelectSub
+      GoTo: 7
+      Script: "\uC885\uC885 \uC0DD\uAE30\uB294 \uC77C\uC774\uC8E0."
     - Index: 5
-      Type: Skip
-      GoTo: 6
-      Script: "\uB208\uC744 \uB728\uB2C8 \uC5EC\uAE30\uB77C\uACE0?"
+      Type: SelectSub
+      GoTo: 8
+      Script: .......
     - Index: 6
-      Type: None
-      GoTo: 0
-      Script: "\uC774\uB7F4 \uC218\uAC00...."
+      Type: Skip
+      GoTo: 9
+      Script: "\uADF8\uAC8C \uBB34\uC2A8 \uB9D0\uC774\uC57C? \uAE30\uC5B5\uC774 \uC5C6\uB2E4\uB294
+        \uAC70\uC57C?"
     - Index: 7
-      Type: None
-      GoTo: 0
-      Script: "... \uACE8\uCE58 \uC544\uD508\uAC78."
+      Type: Skip
+      GoTo: 9
+      Script: "\uBB34\uC2A8 \uC18C\uB9B4\uD558\uB294\uAC70\uC57C?! \uC0AC\uB78C\uC774\uB77C\uBA74
+        \uADF8\uB7F0 \uC77C\uC740 \uC885\uC885 \uC0DD\uAE30\uC9C0 \uC54A\uB294\uB2E4\uACE0!"
     - Index: 8
-      Type: None
-      GoTo: 0
-      Script: "\uC5EC\uAE30\uB294 \uB098\uD63C\uC790\uBC16\uC5D0 \uC5C6\uB294\uB370\uB2E4\uAC00
-        \uBC16\uC5D0\uB294 \uBAAC\uC2A4\uD130\uB4E4\uC774\u2026"
+      Type: Skip
+      GoTo: 9
+      Script: "\u2026 \uC800\uAE30, \uAD1C\uCC2E\uC544?"
     - Index: 9
       Type: None
       GoTo: 0
-      Script: "\uCE58\uB8CC\uBD80\uD130 \uD558\uACE0 \uC774\uC57C\uAE30 \uD558\uC790."
+      Script: "\uBB34\uC2A8 \uC77C\uC778\uC9C0 \uC815\uD655\uD788 \uBAA8\uB974\uACA0\uC9C0\uB9CC
+        \uC77C\uB2E8, \uB2F9\uC7A5\uC5D0 \uB208\uC5D0 \uBCF4\uC774\uB294 \uAC83\uBD80\uD130
+        \uD574\uACB0\uD558\uC790."
     - Index: 10
       Type: None
       GoTo: 0
-      Script: "\uD3EC\uC158\uC744 \uC880 \uC904\uD14C\uB2C8\uAE4C \uC0AC\uC6A9\uD574\uBD10."
+      Script: "\uC637\uC744 \uC904\uD14C\uB2C8\uAE4C \uC774\uAC83\uBD80\uD130 \uC77C\uB2E8
+        \uC774\uAC78 \uCC59\uACA8\uC785\uB3C4\uB85D \uD574."
     - Index: 11
       Type: End
-      GoTo: 12
-      Script: "\uD639\uC2DC \uBB50 \uD544\uC694\uD55C\uAC70 \uC788\uC5B4?"
+      GoTo: 0
+      Script: "\uD639\uC2DC \uBB50 \uB354 \uD544\uC694\uD55C\uAC70 \uC788\uC5B4?"
     - Index: 12
       Type: None
       GoTo: 0
-      Script: "\uC544, \uAC11\uC791\uC2A4\uB7FD\uC9C0\uB9CC \uBD80\uD0C1\uD558\uB098
-        \uD574\uB3C4 \uB420\uAE4C?"
+      Script: "\uB0B4\uAC00 \uBCF8\uAC78\uB85C \uBD24\uC744\uB54C, \uB108\uB294 \uBCF4\uD1B5
+        \uB0B4\uAE30\uAC00 \uC544\uB2CC\uAC70 \uAC19\uC544."
     - Index: 13
       Type: None
       GoTo: 0
-      Script: "\uC544\uAE4C\uB3C4 \uB9D0\uD588\uC9C0\uB9CC, \uC694 \uC55E\uC5D0 \uBAAC\uC2A4\uD130\uB4E4\uC774
-        \uC880 \uB4DD\uC2E4 \uAC70\uB9AC\uAC70\uB4E0."
+      Script: "\uB2E4\uB978 \uC0AC\uB78C\uB4E4\uC740 \uB208\uC740 \uC18D\uC5EC\uB3C4
+        \uB0B4 \uB208\uC740 \uBABB \uC18D\uC774\uC9C0!"
     - Index: 14
       Type: None
       GoTo: 0
-      Script: "\uB098\uB294 \uAC00\uC9C4\uAC8C \uC774 \uBB3C\uC57D\uB4E4 \uBC16\uC5D0
-        \uC5C6\uC5B4\uC11C \uB9D0\uC774\uC9C0."
+      Script: "\uADF8\uB798\uC11C \uB9D0\uC778\uB370, \uBC16\uC5D0 \uC788\uB294 \uBAAC\uC2A4\uD130\uB4E4\uC744
+        \uC880 \uCC98\uB9AC\uD574\uC8FC\uC9C0 \uC54A\uC744\uB798?"
     - Index: 15
-      Type: Quest
-      GoTo: 20
-      Script: "\uB124\uAC00 \uB300\uC2E0 \uCC98\uB9AC \uC880 \uD574\uC92C\uC73C\uBA74
-        \uD558\uB294\uB370 \uC5B4\uB54C?"
-    - Index: 16
-      Type: No
-      GoTo: 18
-      Script: "\uD798\uB4E4\uAC83 \uAC19\uC740\uB370\uC694..."
-    - Index: 17
-      Type: Yes
-      GoTo: 20
-      Script: "\uBE60\uB974\uAC8C \uCC98\uB9AC\uD558\uACE0 \uC62C\uAC8C\uC694!"
-    - Index: 18
       Type: None
       GoTo: 0
-      Script: "\uC544 \uADF8\uB807\uAD6C\uB098. \uC5B4\uCA54 \uC218 \uC5C6\uC9C0."
+      Script: "\uC808\uB300\uB85C \uB0B4\uAC00 \uBABB\uD574\uC11C \uADF8\uB7EC\uB294
+        \uAC83\uC740 \uC544\uB2C8\uACE0."
+    - Index: 16
+      Type: None
+      GoTo: 0
+      Script: "\uB108 \uC5ED\uC2DC \uC808\uB300\uB85C \uB098\uC5D0\uAC8C\uC11C \uACF5\uC9DC\uB85C
+        \uBC1B\uC740 \uAC83\uC5D0 \uB300\uD574\uC11C \uD638\uC758\uB97C \uBC30\uD480\uAC70\uB098
+        \uADF8\uB7F4 \uD544\uC694\uB294 \uC5C6\uC5B4."
+    - Index: 17
+      Type: Quest
+      GoTo: 19
+      Script: "\uC808\uB300\uB85C \uBD80\uB2F4\uAC00\uC9C0\uC9C0 \uB9D0\uB77C\uB2C8\uAE4C?"
+    - Index: 18
+      Type: No
+      GoTo: 20
+      Script: "\uAC70\uC808\uD558\uAC8C\uC694."
     - Index: 19
-      Type: Skip
-      GoTo: 11
-      Script: "\uD639\uC2DC\uB77C\uB3C4 \uB9C8\uC74C\uC774 \uBC14\uB00C\uBA74 \uB2E4\uC2DC
-        \uC774\uC57C\uAE30 \uD574\uC918."
+      Type: Yes
+      GoTo: 25
+      Script: "\uD798\uC368\uBCFC\uAC8C\uC694."
     - Index: 20
       Type: None
       GoTo: 0
-      Script: "\uC624 \uB2E4\uD589\uC774\uAD6C\uB9CC! \uB355\uBD84\uC5D0 \uD55C\uC2DC\uB984
-        \uB193\uACA0\uC5B4."
+      Script: "\u2026. \uB108 \uC880 \uC5FC\uCE58\uC5C6-"
     - Index: 21
       Type: None
       GoTo: 0
-      Script: "\uADF8\uB7FC \uBAAC\uC2A4\uD130\uB97C \uC7A1\uC544\uC11C, \uB140\uC11D\uB4E4\uC774
-        \uAC00\uC9C0\uACE0 \uC788\uB294 \uBAA9\uAC78\uC774\uB97C \uAC00\uC838\uB2E4\uC918."
+      Script: "\uC544\uB2C8\uC544\uB2C8, \uADF8\uB7F4 \uC218 \uC788\uC9C0."
     - Index: 22
-      Type: End
-      GoTo: 24
-      Script: "\uB09C \uC5EC\uAE30\uC11C \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC744\uAC8C."
-    - Index: 23
-      Type: Skip
-      GoTo: 22
-      Script: "\uAC71\uC815\uB9C8. \uBCF4\uC0C1\uC740 \uD655\uC2E4\uD788 \uD574\uC904\uD14C\uB2C8\uAE4C."
-    - Index: 24
       Type: None
       GoTo: 0
-      Script: "\uC624 \uAC00\uC838\uC654\uAD6C\uB098! \uC740\uADFC\uD788 \uC880 \uAC78\uB9B0\uAC70
-        \uAC19\uC9C0\uB9CC \uBB50 \uC0C1\uAD00\uC5C6\uACA0\uC9C0."
+      Script: "\uD655\uC2E4\uC774 \uB108 \uAC19\uC740 \uC544\uC774\uAC00 \uC0C1\uB300\uD558\uAE30\uC5D4
+        \uBB34\uB9AC\uAC00 \uC788\uC9C0."
+    - Index: 23
+      Type: None
+      GoTo: 0
+      Script: "\uC54C\uACA0\uC5B4. \uAD73\uC774 \uC2E0\uACBD \uC4F8 \uD544\uC694\uC5C6\uC9C0."
+    - Index: 24
+      Type: Skip
+      GoTo: 11
+      Script: "\uD3B4-\uC5B8\uD788 \uC26C\uACE0 \uC788\uC5B4."
     - Index: 25
       Type: None
       GoTo: 0
-      Script: "\uC790 \uC5EC\uAE30. \uCD94\uAC00\uC801\uC73C\uB85C \uC904\uD14C\uB2C8\uAE4C
-        \uAC00\uC838\uAC00."
+      Script: "\uC138\uC0C1\uC5D0 \uB2E4\uD589\uC774-"
     - Index: 26
       Type: None
       GoTo: 0
-      Script: "\uB2E4\uB978 \uC774\uC57C\uAE30\uB85C\u2026."
+      Script: "\uC544\uB2C8, \uB0B4 \uB9D0\uC740 \uB0B4\uAC00 \uD560 \uC218 \uC788\uB2E4\uB294
+        \uB370, \uAD73\uC774 \uB108\uAC00 \uD560 \uD544\uC694 \uC5C6\uB2E4\uB2C8\uAE4C?"
     - Index: 27
       Type: None
       GoTo: 0
-      Script: "\uC5EC\uAE30\uC11C \uC870\uAE08\uB354 \uB098\uAC00\uAC00\uBA74 \uC5C4\uCCAD
-        \uB369\uCE58\uD070 \uB140\uC11D\uC774 \uC788\uC744\uAC70\uC57C."
+      Script: "\uADF8\uB798\uB3C4 \uB108\uAC00 \uBC49\uC740 \uB9D0\uC740 \uCC45\uC784\uC838\uC57C\uACA0\uC9C0."
     - Index: 28
       Type: None
       GoTo: 0
-      Script: "\uC5EC\uAE30\uC5D0 \uC0AC\uB78C\uC774 \uC5C6\uC5B4\uC9C4 \uC774\uC720\uB3C4
-        \uADF8\uB140\uC11D \uB54C\uBB38\uC774\uAC70\uB4E0."
+      Script: "\uC774 \uB9C8\uC744\uC744 \uBE60\uC838\uB098\uAC00\uC11C \uC67C\uCABD\uC73C\uB85C
+        \uB3CC\uBA74 \uC2AC\uB77C\uC784\uC774\uB791 \uC2A4\uCEEC\uB9E4\uC9C0\uC158\uC744
+        \uB9CC\uB0A0 \uC218 \uC788\uC744\uAC70\uC57C."
     - Index: 29
       Type: None
       GoTo: 0
-      Script: "\uAD1C\uCC2E\uB2E4\uBA74\u2026"
+      Script: "\uC2A4\uCEEC \uB9E4\uC9C0\uC158\uC740 \uAE4C\uB2E4\uB85C\uC6B0\uB2C8\uAE4C,
+        \uC2AC\uB77C\uC784\uB9CC \uBA87\uB9C8\uB9AC \uC7A1\uC544\uC11C \uB3CC\uC544\uC640\uC918."
     - Index: 30
       Type: None
       GoTo: 0
-      Script: "\uC544\uB2C8\uC57C. \uB108 \uAC19\uC740 \uC5B4\uB9B0 \uC544\uC774\uC5D0\uAC90
-        \uC880 \uBB34\uB9AC\uD55C \uBD80\uD0C1\uC774\uC9C0 \uC2E0\uACBD\uC4F0\uC9C0\uB9C8."
+      Script: "\uADF8\uB0E5 \uB3CC\uC544\uC640\uB3C4 \uB108\uAC00 \uC7A1\uC558\uB2E4\uB294
+        \uAC83\uC744 \uD655\uC778\uD560 \uAE38\uC774 \uC5C6\uC73C\uB2C8\uAE4C\u2026"
     - Index: 31
+      Type: None
+      GoTo: 0
+      Script: "\uC2AC\uB77C\uC784\uC774 \uAC00\uC9C0\uACE0 \uC788\uB294 \uC624\uB798\uB41C
+        \uB3D9\uC804\uC744 5\uAC1C\uC815\uB3C4 \uAC00\uC838\uB2E4 \uC918."
+    - Index: 32
+      Type: End
+      GoTo: 34
+      Script: "\uADF8\uB7FC \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC744\uAC8C."
+    - Index: 33
+      Type: Skip
+      GoTo: 32
+      Script: "\uAC71\uC815\uB9C8, \uBCF4\uC0C1\uC740 \uD655\uC2E4\uD788 \uD574\uC904\uAC8C."
+    - Index: 34
+      Type: None
+      GoTo: 0
+      Script: "\uAC00\uC838\uC640 \uC92C\uAD6C\uB098! \uC815\uB9D0 \uACE0\uB9C8\uC6CC."
+    - Index: 35
+      Type: None
+      GoTo: 0
+      Script: "\uC800\uAE30 \uC788\uC796\uC544."
+    - Index: 36
+      Type: None
+      GoTo: 0
+      Script: "\uB108\uAC00 \uAC00\uACE0 \uB09C \uC774\uD6C4\uB85C \uCB49 \uC0DD\uAC01\uC744
+        \uD574\uBD24\uB294\uB370."
+    - Index: 37
+      Type: None
+      GoTo: 0
+      Script: "\uC5EC\uAE30\uB294 \uBB54\uAC00 \uC870\uAE08 \uC798\uBABB\uB41C\uAC70
+        \uAC19\uC544."
+    - Index: 38
+      Type: None
+      GoTo: 0
+      Script: "\uADF8\uB3C4 \uADF8\uB7F4\uAC8C \uC5EC\uAE34 \uB9C8\uC744\uC774\uC796\uC544?"
+    - Index: 39
+      Type: None
+      GoTo: 0
+      Script: "\uADF8\uB7F0\uB370 \uC0AC\uB78C\uC774\uB77C\uACE0\uB294 \uD55C\uBA85\uB3C4
+        \uBCF4\uC9C8 \uBABB\uD55C\uAC70 \uAC19\uC544."
+    - Index: 40
+      Type: None
+      GoTo: 0
+      Script: "\uADF8\uB7EC\uACE0 \uB354 \uC0DD\uAC01\uC744 \uD574\uBCF4\uB2C8\uAE4C\u2026"
+    - Index: 41
+      Type: None
+      GoTo: 0
+      Script: "\uB0B4\uAC00 \uC5B8\uC81C\uBD80\uD130 \uC5EC\uAE30\uC788\uC5C8\uB294\uC9C0\uB97C
+        \uC798 \uBAA8\uB974\uACA0\uC5B4."
+    - Index: 42
+      Type: None
+      GoTo: 0
+      Script: "\uC774 \uB9C8\uC744\uC740 \uC5B8\uC81C\uBD80\uD130 \uC0DD\uAE34\uAC70\uC9C0?"
+    - Index: 43
+      Type: None
+      GoTo: 0
+      Script: "\uB098\uB294 \uC65C \uB9C8\uC744\uC744 \uBE60\uC838\uB098\uAC08 \uC0DD\uAC01\uC744
+        \uBABB\uD558\uB294 \uAC70\uC9C0?"
+    - Index: 44
+      Type: None
+      GoTo: 0
+      Script: "\uB098\uB294 \uC815\uD655\uD788 \uB204\uAD6C\uC9C0?"
+    - Index: 45
+      Type: None
+      GoTo: 0
+      Script: "\uB098\uB294- \"Somethinkg Wrong in Talk Func in Gilbert Script.\""
+    - Index: 46
       Type: End
       GoTo: 0
-      Script: "\uBD80\uB514 \uB108\uAC00 \uAE30\uC5B5\uC744 \uB418\uCC3E\uC558\uC73C\uBA74
-        \uC88B\uACA0\uC5B4"
+      Script: "\uC624? \uC5B8\uC81C\uBD80\uD130 \uAC70\uAE30 \uC788\uC5C8\uC5B4?"

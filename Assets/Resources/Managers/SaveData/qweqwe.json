@@ -1,17 +1,21 @@
 {
     "id": "qweqwe",
     "pw": "qweqwe",
-    "NickName": "******",
+    "NickName": "qweqwe",
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 11.331713676452637,
+        "x": 0.44119253754615786,
         "y": 0.0,
-        "z": 42.63173294067383
+        "z": 0.04473876953125
     },
-    "level": 10,
-    "itemKinds": [],
-    "itemCounts": [],
+    "level": 7,
+    "itemKinds": [
+        5
+    ],
+    "itemCounts": [
+        1
+    ],
     "WearingItem": [],
     "skillNames": [
         "NormalAttack",
@@ -27,17 +31,21 @@
         false,
         false,
         false,
-        true,
+        false,
         false,
         false
     ],
     "namesTalkingwith": [
-        "길버트"
+        "길버트",
+        "수상한 남자"
     ],
     "lastTalkingIndex": [
+        1,
+        18
+    ],
+    "QuestIndexList": [
         1
     ],
-    "QuestIndexList": [],
     "TimeLineAssetName": [
         "FirstStartCutScene"
     ]

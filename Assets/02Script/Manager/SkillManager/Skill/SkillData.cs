@@ -102,6 +102,7 @@ public class SkillData : MonoBehaviour
     }
     public void SetDamage(Collider collider)
     {
+
         StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), Model.ATK + (DamagePercentage * (attackType == AttackType.Physic ? Model.ATK : Model.MP * 10) * 0.01f));
     }
 

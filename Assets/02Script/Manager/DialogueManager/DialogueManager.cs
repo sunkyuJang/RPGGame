@@ -89,11 +89,18 @@ public class DialogueManager : MonoBehaviour
         {
             if (canSkipNext)
             {
+                var list = ScriptModel.RequestDialogueToGiveItemAfterIndex();
+                if (list != null)
+                {
+                    foreach (ItemManager.ItemCounter itemCounter in list)
+                        PlayerModel.AddItem(itemCounter.Data.Index, itemCounter.count);
+                    list.Clear();
+                }
                 switch (GetNextState)
                 {
                     case NextState.None: 
                         ScriptModel.lastDialog++;
-                        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+                        DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
                     case NextState.Select: 
                         StartCoroutine(SelectScript());
@@ -103,7 +110,7 @@ public class DialogueManager : MonoBehaviour
                         break;
                     case NextState.Skip: 
                         ScriptModel.lastDialog = DialogueScript[ScriptModel.lastDialog].GoTo;
-                        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+                        DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
                     case NextState.Exit:
                         StartCoroutine(DoExit()); 
@@ -134,7 +141,7 @@ public class DialogueManager : MonoBehaviour
         selector.HideSelecter();
         ScriptModel.lastDialog = selectSub[selector.GetSelectNum].GoTo;
         canSkipNext = true;
-        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+        DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
     IEnumerator EndDialogue()
@@ -192,7 +199,7 @@ public class DialogueManager : MonoBehaviour
             npc.lastDialog++;
         
         canSkipNext = true;
-        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+        DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
     }
 
     IEnumerator ConfirmQuest(QuestManager.QuestTable quest)
@@ -215,7 +222,7 @@ public class DialogueManager : MonoBehaviour
         DialogueSelecter.HideSelecter();
 
         canSkipNext = true;
-        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);
+        DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
 /*        while (DialogueViewer.IsStillShowing)
             yield return new WaitForFixedUpdate();
 

@@ -44,7 +44,7 @@ public class Monster : Model
         base.OnEnable();
         NowState = ActionState.idle;
         BeforeState = ActionState.non;
-        
+        IsAlreadyDead = false;
     }
 
     new protected void OnDisable()
@@ -273,8 +273,9 @@ public class Monster : Model
 
         float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         yield return new WaitForSeconds(waitTIme);
-        MonsterLocator.MonsterReturn(gameObject);
+
         DropItem();
+        MonsterLocator.MonsterReturn(this);
     }
 
     void DropItem()

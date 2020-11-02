@@ -18,4 +18,16 @@ public class TownNpc : Npc
         AddItem(0, 3);
         AddItem(0, 5);
     }
+
+    public override List<ItemManager.ItemCounter> RequestDialogueToGiveItemAfterIndex()
+    {
+        List<ItemManager.ItemCounter> list = null;
+        if (lastDialog == 10)
+        {
+            list = new List<ItemManager.ItemCounter>();
+            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(3), 1));
+            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(4), 1));
+        }
+        return list;
+    }
 }

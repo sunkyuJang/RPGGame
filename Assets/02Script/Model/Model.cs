@@ -38,6 +38,8 @@ public partial class Model : MonoBehaviour
     public SkillListHandler skillListHandler;
 
     protected string SkillDataName = "SkillData";
+
+    public bool isReviver { set; get; } = true;
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
         CharacterName = _CharacterName; HP = _HP; nowHP = HP; MP = _MP; nowMP = MP; ATK = _ATK; DEF = _DEF; SPD = _SPD;
@@ -48,7 +50,7 @@ public partial class Model : MonoBehaviour
         Transform = gameObject.transform;
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        if(Animator != null)
+        if (Animator != null)
             animatorController = Animator.runtimeAnimatorController;
 
         AwakeInAlert();
@@ -59,9 +61,12 @@ public partial class Model : MonoBehaviour
         iStateViewerHandler = StateEffecterManager.instance.GetStateView(this);
         StartCoroutine(SetInventoryFromInventoryPoolerManager());
 
-        nowHP = HP;
-        nowMP = MP;
-        RefreshedHPBar();
+        if(isReviver)
+        {
+            nowHP = HP;
+            nowMP = MP;
+            RefreshedHPBar();
+        }
     }
 
     protected void OnDisable()
@@ -73,6 +78,7 @@ public partial class Model : MonoBehaviour
             Inventory.gameObject.SetActive(false);
             InventoryPooler.returnObj(Inventory.gameObject);
         }
+
         if (iStateViewerHandler != null)
             Destroy(iStateViewerHandler.GetGameObject());
     }
@@ -85,7 +91,7 @@ public partial class Model : MonoBehaviour
         Inventory.SetTransformParent();
         Inventory.SetDefault(this);
     }
-    public void SetTimeLineRunning(bool isRunning) 
+    public void SetTimeLineRunning(bool isRunning)
     {
         if (isRunning)
         {
@@ -99,9 +105,9 @@ public partial class Model : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        if(iStateViewerHandler != null)
+        if (iStateViewerHandler != null)
         {
-            if(!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
+            if (!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
             {
                 iStateViewerHandler.ShowObj(!IsRunningTimeLine);
             }
@@ -113,14 +119,14 @@ public partial class Model : MonoBehaviour
     public IEnumerator WaitTillAnimator(string name, bool isWaitforStart)
     {
 
-        while (isWaitforStart ? !NowAnimatorInfo.IsName(name) 
-            : NowAnimatorInfo.IsName(name)) 
+        while (isWaitforStart ? !NowAnimatorInfo.IsName(name)
+            : NowAnimatorInfo.IsName(name))
             yield return new WaitForFixedUpdate();
     }
     public IEnumerator WaitTillTimeEnd(float time)
     {
         float elapsedTime = 0f;
-        while(elapsedTime <= time)
+        while (elapsedTime <= time)
         {
             elapsedTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
@@ -154,9 +160,13 @@ public partial class Model : MonoBehaviour
     {
         yield return new WaitUntil(() => Inventory != null);
 
-        if(itemIndex >= 0)
+        if (itemIndex >= 0)
             Inventory.AddItem(itemIndex, count);
 
         Inventory.AddGold(gold);
+    }
+    public virtual List<ItemManager.ItemCounter> RequestDialogueToGiveItemAfterIndex()
+    {
+        return null;
     }
 }

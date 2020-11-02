@@ -36,15 +36,12 @@ public partial class Character : Model
         AwakeInUI();
     }
 
-    private void OnEnable()
+    new private void OnEnable()
     {
         base.OnEnable();
         SetStateView();
         IsOnEnableFuncPassed = true;
         StartCoroutine(DetectMonsterLocator());
-
-        AddGold(10000);
-        AddItem(2, 1);
     }
 
     new private void OnDisable()
@@ -170,6 +167,7 @@ public partial class Character : Model
 
         CharacterSkiilViewer.RefreshSkillPointText();
         CharacterSkiilViewer.SetSKillListHandler(skillListHandler);
+        EquipmentView.LoadCharacterState();
 
         if(playerData.QuestIndexList.Count > 0) //processing QuestList
             ProcessingQuestList = QuestManager.LoadAllProgressQuestTable(playerData.QuestIndexList, this);
@@ -180,6 +178,8 @@ public partial class Character : Model
 
         isCharacterReady = true;
 
+
+        AddItem(5,1);
         IntoNormalUI();
     }
 

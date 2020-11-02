@@ -59,6 +59,7 @@ public class PlayerData
         LastScene = "IngameScene";
         skillNames.Add("NormalAttack");
         isLearnSkill.Add(true);
+        level = 7;
     }
     public void SetPlayerDataFromCharacter(Character character)
     {

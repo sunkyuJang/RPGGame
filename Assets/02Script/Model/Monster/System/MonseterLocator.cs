@@ -122,9 +122,11 @@ public class MonseterLocator : MonoBehaviour
         MonsterInArea.Add(monster);
     }
 
-    public void MonsterReturn(GameObject monsterObj)
+    public void MonsterReturn(Monster monster)
     {
-        returnMonsterObj(monsterObj);
+        monster.gameObject.SetActive(false);
+        MonsterInArea.Remove(monster);
+        returnMonsterObj(monster.gameObject);
     }
     protected void OnDisable()
     {

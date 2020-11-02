@@ -66,3 +66,13 @@ MonoBehaviour:
       Buy: 0
       Sell: 0
       EffecterIndex: 3
+    - Index: 5
+      Name: "\uAC00\uACF5\uB41C \uAE08\uC18D"
+      Name_eng: MachinedMatal
+      ItemType: Key
+      Description: "\uD2B9\uC774\uD55C \uC0DD\uAE40\uC0C8\uB85C \uAC00\uACF5\uB41C
+        \uAE08\uC18D\uC774\uB2E4. \uC5B4\uB518\uAC00\uC5D0 \uC4F0\uC77C\uC9C0\uB3C4?"
+      Limit: 1
+      Buy: 0
+      Sell: 0
+      EffecterIndex: -1

@@ -8,9 +8,7 @@ public class Slime : NormalMonster
     {
         SetInfo("허접한 슬라임", 100, 0, 15, 100, 5);
         base.Awake();
-
     }
-
     // Update is called once per frame
     new void Update()
     {
@@ -21,6 +19,7 @@ public class Slime : NormalMonster
     {
         base.OnEnable();
         AddItem(0, 1, 0.8f, 100);
+        AddItem(2, 1, 0.8f, 100);
     }
 
     new private void OnDisable()

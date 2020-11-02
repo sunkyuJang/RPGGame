@@ -59,20 +59,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uACF5\uACA9"
   description: "\uC804\uBC29\uC758 \uC801\uC744 \uD0C0\uACA9\uD55C\uB2E4."
   icon: {fileID: 21300000, guid: 72efa47df09fd19418f4f7b8edb8ac19, type: 3}
   isLearn: 1
   Length: 2
   attackType: 0
-  DamagePercentage: 0
+  DamagePercentage: 100
   CoolDown: 2
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 2bf83210595fdfd498a16c95c4c53cf6, type: 3}
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 3
   targetModel: {fileID: 0}
 --- !u!114 &1794784111784510448

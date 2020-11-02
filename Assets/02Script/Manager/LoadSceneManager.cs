@@ -10,6 +10,8 @@ public class LoadSceneManager : MonoBehaviour
     public static LoadSceneManager instance { set; get; }
     public static string loadSecenName { set; get; }
     public Image progressBar;
+
+    public static bool loadingComplete{private set; get;} = true;
     public void Awake()
     {
         if(instance = null)
@@ -21,6 +23,7 @@ public class LoadSceneManager : MonoBehaviour
     }
     public static void LoadScene(string sceneName)
     {
+        loadingComplete = false;
         loadSecenName = sceneName;
         SceneManager.LoadScene("LoadingScene");
     }
@@ -56,5 +59,7 @@ public class LoadSceneManager : MonoBehaviour
                 }
             }
         }
+
+        loadingComplete = true;
     }
 }

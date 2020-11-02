@@ -6,12 +6,6 @@ public class NormalMonster : Monster
 {
     protected NormalMonsterHPBarViewer hpBarScrip { private set; get; }
     public GameObject HpBarPositionGuide;
-
-    new protected void Awake()
-    {
-        base.Awake();
-
-    }
     new protected void OnEnable()
     {
         base.OnEnable();

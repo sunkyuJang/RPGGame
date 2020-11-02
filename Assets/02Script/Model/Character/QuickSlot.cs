@@ -62,7 +62,6 @@ public class QuickSlot : MonoBehaviour
             }
             else if (skillViewer != null)
             {
-                print(skillViewer.skillData.hitBoxPooler);
                 Character.ReservedSkill = skillViewer.skillData;
                 Character.SetActionState(Character.ActionState.Attack);
             }

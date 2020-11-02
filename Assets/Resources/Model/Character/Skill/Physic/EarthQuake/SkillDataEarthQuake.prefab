@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uC5B4\uC2A4\uD018\uC774\uD06C"
   description: "\uC804\uBC29\uC744 \uD5A5\uD574\uC11C \uC9C0\uC9C4\uBB3C\uACB0\uC744
     \uC77C\uC73C\uD0A8\uB2E4."
@@ -66,14 +67,13 @@ MonoBehaviour:
   isLearn: 0
   Length: 15
   attackType: 0
-  DamagePercentage: 100
+  DamagePercentage: 200
   CoolDown: 5
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 1243bc97db73fb7448084c4550b0d55c, type: 3}
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 15
   targetModel: {fileID: 0}
 --- !u!114 &5167993523351947152
