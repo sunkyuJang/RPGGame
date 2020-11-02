@@ -21,7 +21,7 @@ public partial class Character : Model
     [SerializeField]
     bool isOnTerrian;
     float terrianCheckRadius { set; get; } = 0.1f;
-    PlayerData PlayerData { set; get; }
+    public PlayerData PlayerData { set; get; }
     //forDialougue
     public Dictionary<string, int> LastTimeTalkingWith { set; get; } = new Dictionary<string, int>();
 
@@ -93,7 +93,10 @@ public partial class Character : Model
         Animator.SetBool("IsAttack", false);
     }
 
-    public IEnumerator SetCharacterWithPlayerData(PlayerData playerData)
+    public void SetCharacterWithPlayerData(PlayerData data){
+        StartCoroutine(ProcessSetCharacterWithPlayerData(data));
+    }
+    public IEnumerator ProcessSetCharacterWithPlayerData(PlayerData playerData)
     {
         yield return new WaitWhile(() => IsOnEnableFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);

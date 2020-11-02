@@ -11,7 +11,7 @@ public class SkillListHandler : MonoBehaviour
     public Transform magicalGroup;
 
     public bool StartPass = false;
-    private IEnumerator Start()
+    private void Start()
     {
         var model = transform.parent.GetComponent<Model>();
         var group = physicalGroup;
@@ -22,8 +22,7 @@ public class SkillListHandler : MonoBehaviour
             {
                 var nowSkillData = nowTransform.GetComponent<SkillData>();
                 nowSkillData.Model = model;
-                while (nowSkillData.hitBoxPooler == null)
-                    yield return new WaitForFixedUpdate();
+                nowSkillData.SetPooler();
                 //yield return new WaitUntil(() => nowSkillData.hitBoxPooler != null);
                 SkillDataGrouper.instance.SetSkillDataParent(nowSkillData);
                 skillDatas.Add(nowSkillData);

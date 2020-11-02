@@ -1,0 +1,26 @@
+{
+    "id": "asdasd",
+    "pw": "asdasd",
+    "NickName": "asdasd",
+    "isFirstStart": true,
+    "LastScene": "IngameScene",
+    "LastPosition": {
+        "x": -42.0,
+        "y": 0.0,
+        "z": 59.0
+    },
+    "level": 7,
+    "itemKinds": [],
+    "itemCounts": [],
+    "WearingItem": [],
+    "skillNames": [
+        "NormalAttack"
+    ],
+    "isLearnSkill": [
+        true
+    ],
+    "namesTalkingwith": [],
+    "lastTalkingIndex": [],
+    "QuestIndexList": [],
+    "TimeLineAssetName": []
+}

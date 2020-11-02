@@ -10,21 +10,24 @@ public class LoadSceneManager : MonoBehaviour
     public static LoadSceneManager instance { set; get; }
     public static string loadSecenName { set; get; }
     public Image progressBar;
-
-    public static bool loadingComplete{private set; get;} = true;
+    static Character Character { set; get; } = null;
+    static Vector3 Position{set;get;}
+    public static bool loadingComplete { private set; get; } = true;
     public void Awake()
     {
-        if(instance = null)
+        if (instance = null)
             instance = this;
     }
     public void Start()
     {
-        StartCoroutine(LoadScene());    
+        StartCoroutine(LoadScene());
     }
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName, Character character, Vector3 position)
     {
         loadingComplete = false;
         loadSecenName = sceneName;
+        Character = character;
+        Position = position;
         SceneManager.LoadScene("LoadingScene");
     }
 
@@ -34,6 +37,8 @@ public class LoadSceneManager : MonoBehaviour
 
         AsyncOperation op = SceneManager.LoadSceneAsync(loadSecenName);
         op.allowSceneActivation = false;
+
+        yield return new WaitUntil(() => Character.isCharacterReady);
 
         float timer = 0.0f;
 
@@ -55,11 +60,18 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     op.allowSceneActivation = true;
+
+                    Character.transform.position = Position;
+
+                    Character = null;
+                    Position = Vector3.zero;
+                    loadingComplete = true;
+                    
                     yield break;
                 }
             }
         }
 
-        loadingComplete = true;
+
     }
 }

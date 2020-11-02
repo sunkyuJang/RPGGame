@@ -6,7 +6,6 @@ using GLip;
 
 public partial class Controller : MonoBehaviour
 {
-    public PlayerData playerData { set; get; }
     public Character Character { set; get; }
 
     public GameObject BtnGroupObj;
@@ -36,11 +35,6 @@ public partial class Controller : MonoBehaviour
     {
         joypad.controller = this;
         actionpad.controller = this;
-    }
-
-    public void SetPlayerData(PlayerData playerData)
-    {
-        this.playerData = playerData;
     }
 
     private void FixedUpdate()

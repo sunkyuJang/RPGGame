@@ -154,8 +154,6 @@ public partial class Model : MonoBehaviour
     {
         StartCoroutine(AddItemIntoInventory(-1, -1, gold));
     }
-
-    int incven = 0;
     IEnumerator AddItemIntoInventory(int itemIndex, int count, int gold)
     {
         yield return new WaitUntil(() => Inventory != null);

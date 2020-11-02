@@ -8,10 +8,10 @@ public class SceneChanger : MonoBehaviour
     public Vector3 nextScenePosition;
 
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.CompareTag("Character")){
-            LoadSceneManager.LoadScene(nextSceneName);
+    // private void OnTriggerEnter(Collider other) {
+    //     if(other.CompareTag("Character")){
+    //         LoadSceneManager.LoadScene(nextSceneName);
             
-        }
-    } 
+    //     }
+    // } 
 }

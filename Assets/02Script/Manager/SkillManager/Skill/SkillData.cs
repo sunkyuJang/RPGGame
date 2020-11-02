@@ -65,14 +65,11 @@ public class SkillData : MonoBehaviour
             SetHitBox();
         }*/
     }
-    private void Start()
+    public void SetPooler()
     {
         hitBoxPooler = ObjPoolerManager.instance.ReqeuestObjPooler(hitBox.gameObject);
-        //hitBoxPooler.transform.SetParent(skillPooling);
         hitBoxPooler.transform.position = Vector3.zero;
-
-        hitBoxPooler.MakeReservation(hitBoxNum);
-        //StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
+        StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
     }
 
     public void ActivateSkill()

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDataManager : MonoBehaviour
 {
+    public GameObject CharacterPrefab;
     public static PlayerDataManager instance { private set; get; }
     public string PlayerDataPath { private set; get; }
 
@@ -55,8 +56,16 @@ public class PlayerDataManager : MonoBehaviour
 
     public void SavePlayerDataToJson()
     {
-        Controller.playerData.SetPlayerDataFromCharacter(Controller.Character);
-        File.WriteAllText(Controller.playerData.GetJsonPathWithAcc, JsonUtility.ToJson(Controller.playerData, true));
+        var character = Controller.Character;
+        character.PlayerData.SetPlayerDataFromCharacter(character);
+        File.WriteAllText(character.PlayerData.GetJsonPathWithAcc, JsonUtility.ToJson(character.PlayerData, true));
+    }
+
+    public Character LoadCharater(PlayerData data){
+        var character = Instantiate(CharacterPrefab, Vector3.zero, Quaternion.identity).GetComponent<Character>();
+        DontDestroyOnLoad(character);
+        character.SetCharacterWithPlayerData(data);
+        return character;
     }
 
     public void PressedReturnMainScreenBtn()

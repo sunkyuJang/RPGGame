@@ -7,8 +7,8 @@ using GLip;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject CharacterPrefab;
-    public Character Character { set; get; }
+    //public GameObject CharacterPrefab;
+    public Character Character { set; get; } = null;
     public GameObject SkillDataGroup;
     public GameObject managerGroup;
     
@@ -35,48 +35,46 @@ public class GameManager : MonoBehaviour
     public void SetGameStart(PlayerData playerData)
     {
         GPosition.GetRectTransformWithReset(transform.GetComponent<RectTransform>(), PlayerDataManager.instance.transform.GetComponent<RectTransform>());
-        StartCoroutine(ProgressSetStartGame(playerData));
-    }
-    public IEnumerator ProgressSetStartGame(PlayerData playerData)
-    {
-        yield return null;
-
         managerGroup.SetActive(true);
 
-        if (Character == null)
-        {
-            Character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
-            DontDestroyOnLoad(Character.gameObject);
+        if(Character == null){
+            Character = PlayerDataManager.instance.LoadCharater(playerData);
+            Character.controller = controller;
+            controller.Character = Character;
+            controller.gameObject.SetActive(true);
         }
-        else if (!Character.gameObject.activeSelf)
-            Character.gameObject.SetActive(true);
+        else{
+            Character.SetCharacterWithPlayerData(playerData);
+        }
+
+        LoadSceneManager.LoadScene(playerData.LastScene, Character, playerData.LastPosition);
+
+        //StartCoroutine(ProgressSetStartGame(playerData));
+    }
+    // public IEnumerator ProgressSetStartGame(PlayerData playerData)
+    // {
+    //     if (Character == null)
+    //     {
+    //         Character = Instantiate(CharacterPrefab, playerData.LastPosition, Quaternion.identity).GetComponent<Character>();
+    //         DontDestroyOnLoad(Character.gameObject);
+    //     }
+    //     else if (!Character.gameObject.activeSelf)
+    //         Character.gameObject.SetActive(true);
         
-        StartCoroutine(Character.SetCharacterWithPlayerData(playerData));
-        Character.Rigidbody.useGravity = false;
+    //     StartCoroutine(Character.SetCharacterWithPlayerData(playerData));
+    //     Character.Rigidbody.useGravity = false;
 
-        controller.gameObject.SetActive(true);
-        controller.SetPlayerData(playerData);
-        Character.controller = controller;
-        controller.Character = Character;
+    //     controller.gameObject.SetActive(true);
+    //     Character.controller = controller;
+    //     controller.Character = Character;
 
-        yield return new WaitUntil(() => Character.isCharacterReady);
+    //     yield return new WaitUntil(() => Character.isCharacterReady);
 
-        LoadSceneManager.LoadScene(pathOfScenes + playerData.LastScene);
-        while (!SceneManager.GetActiveScene().name.Equals(playerData.LastScene))
-            yield return new WaitForFixedUpdate();
+    //     LoadSceneManager.LoadScene(pathOfScenes + playerData.LastScene);
+    //     while (!SceneManager.GetActiveScene().name.Equals(playerData.LastScene))
+    //         yield return new WaitForFixedUpdate();
 
-        Character.transform.position = playerData.LastPosition;
-        Character.Rigidbody.useGravity = true;
-    }
-
-    public IEnumerator SetSceneChange(string sceneName, Character character, Vector3 poisition)
-    {
-        character.gameObject.SetActive(false);
-        LoadSceneManager.LoadScene(pathOfScenes + sceneName);
-
-        yield return new WaitUntil(() => LoadSceneManager.loadingComplete);
-        character.isReviver = false;
-        character.transform.position = poisition;
-        character.gameObject.SetActive(true);
-    }
+    //     Character.transform.position = playerData.LastPosition;
+    //     Character.Rigidbody.useGravity = true;
+    // }
 }
