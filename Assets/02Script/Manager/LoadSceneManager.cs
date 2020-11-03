@@ -11,8 +11,7 @@ public class LoadSceneManager : MonoBehaviour
     public static string loadSecenName { set; get; }
     public Image progressBar;
     static Character Character { set; get; } = null;
-    static Vector3 Position{set;get;}
-    public static bool loadingComplete { private set; get; } = true;
+    static Vector3 Position { set; get; }
     public void Awake()
     {
         if (instance = null)
@@ -24,7 +23,7 @@ public class LoadSceneManager : MonoBehaviour
     }
     public static void LoadScene(string sceneName, Character character, Vector3 position)
     {
-        loadingComplete = false;
+        character.IntoClearUI();
         loadSecenName = sceneName;
         Character = character;
         Position = position;
@@ -60,13 +59,15 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     op.allowSceneActivation = true;
+                    if (!Character.controller.gameObject.activeSelf)
+                        Character.controller.gameObject.SetActive(true);
 
+                    Character.IntoNormalUI();
                     Character.transform.position = Position;
 
                     Character = null;
                     Position = Vector3.zero;
-                    loadingComplete = true;
-                    
+
                     yield break;
                 }
             }

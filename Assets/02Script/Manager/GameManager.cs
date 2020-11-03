@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public Character Character { set; get; } = null;
     public GameObject SkillDataGroup;
     public GameObject managerGroup;
-    
+
     public static GameManager instance;
     public static RectTransform mainCanvas;
     public Controller controller;
@@ -37,19 +37,18 @@ public class GameManager : MonoBehaviour
         GPosition.GetRectTransformWithReset(transform.GetComponent<RectTransform>(), PlayerDataManager.instance.transform.GetComponent<RectTransform>());
         managerGroup.SetActive(true);
 
-        if(Character == null){
+        if (Character == null)
+        {
             Character = PlayerDataManager.instance.LoadCharater(playerData);
             Character.controller = controller;
             controller.Character = Character;
-            controller.gameObject.SetActive(true);
         }
-        else{
+        else
+        {
             Character.SetCharacterWithPlayerData(playerData);
         }
 
         LoadSceneManager.LoadScene(playerData.LastScene, Character, playerData.LastPosition);
-
-        //StartCoroutine(ProgressSetStartGame(playerData));
     }
     // public IEnumerator ProgressSetStartGame(PlayerData playerData)
     // {
@@ -60,7 +59,7 @@ public class GameManager : MonoBehaviour
     //     }
     //     else if (!Character.gameObject.activeSelf)
     //         Character.gameObject.SetActive(true);
-        
+
     //     StartCoroutine(Character.SetCharacterWithPlayerData(playerData));
     //     Character.Rigidbody.useGravity = false;
 

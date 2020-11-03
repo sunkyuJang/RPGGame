@@ -10,8 +10,9 @@ public class BossSceneTimeLine : TimeLineHandler
 
     public override IEnumerator StartSequence()
     {
-        while (!IsInterruptOccur)
-            yield return new WaitForFixedUpdate();
+        bossMonster.IsRunningTimeLine = true;
+
+        yield return new WaitUntil(() => IsInterruptOccur);
 
         DialogueManager.instance.ShowDialogue(Character, bossMonster.GetComponent<Model>());
 
@@ -25,7 +26,9 @@ public class BossSceneTimeLine : TimeLineHandler
             }
         }
 
-        bossMonster.transform.parent = transform.parent;
-        SetIsTimeLineStart(false);
+        bossMonster.transform.parent = transform.root.parent;
+        bossMonster.IsRunningTimeLine = false;
+        EndSequence();
+        //SetIsTimeLineStart(false);
     }
 }

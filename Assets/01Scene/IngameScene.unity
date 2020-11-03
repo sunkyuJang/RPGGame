@@ -5015,7 +5015,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 4.1237e-41, z: 0, w: 0.0000000028230716}
+  m_BoundingSphereOverride: {x: 0, y: 2.1328e-41, z: 0, w: 0.000000002787468}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -7313,6 +7313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1229845067}
   - component: {fileID: 1229845068}
+  - component: {fileID: 1229845069}
   m_Layer: 8
   m_Name: IntoBossSceneObj
   m_TagString: Untagged
@@ -7348,6 +7349,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1229845069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229845066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0a5da8bdbac4247ab6c3d85c201cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextSceneName: BossScene
+  nextScenePosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &1263882413
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -38,8 +38,6 @@ public partial class Model : MonoBehaviour
     public SkillListHandler skillListHandler;
 
     protected string SkillDataName = "SkillData";
-
-    public bool isReviver { set; get; } = true;
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
         CharacterName = _CharacterName; HP = _HP; nowHP = HP; MP = _MP; nowMP = MP; ATK = _ATK; DEF = _DEF; SPD = _SPD;
@@ -61,12 +59,9 @@ public partial class Model : MonoBehaviour
         iStateViewerHandler = StateEffecterManager.instance.GetStateView(this);
         StartCoroutine(SetInventoryFromInventoryPoolerManager());
 
-        if(isReviver)
-        {
-            nowHP = HP;
-            nowMP = MP;
-            RefreshedHPBar();
-        }
+        nowHP = HP;
+        nowMP = MP;
+        RefreshedHPBar();
     }
 
     protected void OnDisable()

@@ -7,11 +7,11 @@ public class SceneChanger : MonoBehaviour
     public string nextSceneName;
     public Vector3 nextScenePosition;
 
-
-    // private void OnTriggerEnter(Collider other) {
-    //     if(other.CompareTag("Character")){
-    //         LoadSceneManager.LoadScene(nextSceneName);
-            
-    //     }
-    // } 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Character"))
+        {
+            LoadSceneManager.LoadScene(nextSceneName, other.transform.GetComponent<Character>(), nextScenePosition);
+        }
+    }
 }

@@ -17,7 +17,7 @@ public partial class Character : Model
     bool IsOnEnableFuncPassed { set; get; } = false;
     public float MonsterLocatorDetectTime = 3f;
     public bool IsChacterReadyForUse { set; get; } = false;
-    
+
     [SerializeField]
     bool isOnTerrian;
     float terrianCheckRadius { set; get; } = 0.1f;
@@ -31,8 +31,8 @@ public partial class Character : Model
     public bool isCharacterReady { private set; get; } = false;
     new void Awake()
     {
-        SetInfo("temp",100, 100, 10, 10, 10);
         base.Awake();
+        SetInfo("temp", 100, 100, 10, 10, 10);
         AwakeInUI();
     }
 
@@ -93,11 +93,14 @@ public partial class Character : Model
         Animator.SetBool("IsAttack", false);
     }
 
-    public void SetCharacterWithPlayerData(PlayerData data){
+    public void SetCharacterWithPlayerData(PlayerData data)
+    {
         StartCoroutine(ProcessSetCharacterWithPlayerData(data));
     }
     public IEnumerator ProcessSetCharacterWithPlayerData(PlayerData playerData)
     {
+        isCharacterReady = false;
+
         yield return new WaitWhile(() => IsOnEnableFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);
         yield return new WaitUntil(() => EquipmentView != null);
@@ -134,7 +137,7 @@ public partial class Character : Model
         }
 
 
-        if(playerData.WearingItem.Count > 0)
+        if (playerData.WearingItem.Count > 0)
         {
             foreach (int index in playerData.WearingItem)
             {
@@ -161,18 +164,18 @@ public partial class Character : Model
         }
 
         if (playerData.namesTalkingwith.Count > 0) // dialogue 
-        { 
-            for(int i = 0; i < playerData.namesTalkingwith.Count; i++)
+        {
+            for (int i = 0; i < playerData.namesTalkingwith.Count; i++)
             {
                 LastTimeTalkingWith.Add(playerData.namesTalkingwith[i], playerData.lastTalkingIndex[i]);
             }
-        } 
+        }
 
         CharacterSkiilViewer.RefreshSkillPointText();
         CharacterSkiilViewer.SetSKillListHandler(skillListHandler);
         EquipmentView.LoadCharacterState();
 
-        if(playerData.QuestIndexList.Count > 0) //processing QuestList
+        if (playerData.QuestIndexList.Count > 0) //processing QuestList
             ProcessingQuestList = QuestManager.LoadAllProgressQuestTable(playerData.QuestIndexList, this);
 
         if (playerData.TimeLineAssetName.Count > 0)
@@ -181,8 +184,7 @@ public partial class Character : Model
 
         isCharacterReady = true;
 
-
-        AddItem(5,1);
+        AddItem(5, 1);
         IntoNormalUI();
     }
 
@@ -209,7 +211,7 @@ public partial class Character : Model
     {
         //MonsterLocaterDetector
         Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position + Vector3.up /2, transform.position + Vector3.up / 2 + transform.forward * 100f);
+        Gizmos.DrawLine(transform.position + Vector3.up / 2, transform.position + Vector3.up / 2 + transform.forward * 100f);
 
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, terrianCheckRadius);
