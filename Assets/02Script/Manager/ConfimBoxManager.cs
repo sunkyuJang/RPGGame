@@ -8,6 +8,10 @@ public class ConfimBoxManager : MonoBehaviour
     public GameObject confirmBoxPrefabObj;
     private RectTransform rectTransform;
     private Text script;
+
+    Button YesBtn { set; get; }
+    Button NoBtn { set; get; }
+
     public enum State { Yes, No, Waiting }
     public State NowState { private set; get; }
     public bool isPressed { set; get; }
@@ -21,12 +25,28 @@ public class ConfimBoxManager : MonoBehaviour
         script = confirmBoxPrefabObj.transform.GetChild(0).GetComponent<Text>();
         isPressed = false;
         isYes = false;
-        confirmBoxPrefabObj.transform.Find("Yes").GetComponent<Button>().onClick.AddListener(PreseedYes);
-        confirmBoxPrefabObj.transform.Find("No").GetComponent<Button>().onClick.AddListener(PressedNo);
+        YesBtn = confirmBoxPrefabObj.transform.Find("BtnSpacing").Find("Yes").GetComponent<Button>();
+        YesBtn.onClick.AddListener(PreseedYes);
+        NoBtn = confirmBoxPrefabObj.transform.Find("BtnSpacing").Find("No").GetComponent<Button>();
+        NoBtn.onClick.AddListener(PressedNo);
+
         confirmBoxPrefabObj.SetActive(false);
     }
-    public void ShowComfirmBox(string _script) 
+    public void ShowComfirmBox(string _script)
     {
+        YesBtn.gameObject.SetActive(true);
+        NoBtn.gameObject.SetActive(true);
+        confirmBoxPrefabObj.transform.SetAsLastSibling();
+        script.text = _script;
+        confirmBoxPrefabObj.SetActive(true);
+        rectTransform.SetAsLastSibling();
+        NowState = State.Waiting;
+    }
+
+    public void ShowConfirmBoxSimple(string _script)
+    {
+        YesBtn.gameObject.SetActive(true);
+        NoBtn.gameObject.SetActive(false);
         confirmBoxPrefabObj.transform.SetAsLastSibling();
         script.text = _script;
         confirmBoxPrefabObj.SetActive(true);

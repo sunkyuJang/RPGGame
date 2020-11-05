@@ -234,7 +234,7 @@ public partial class Character : Model
         DoAnimator(AnimatorState.Dead);
         NowState = ActionState.Idle;
 
-        ConfimBoxManager.instance.ShowComfirmBox()
+        ConfimBoxManager.instance.ShowConfirmBoxSimple("체력을 모두 소진하였습니다. \r\n안전장소로 돌아갑니다.");
 
         yield break;
     }

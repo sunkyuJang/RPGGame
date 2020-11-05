@@ -59,6 +59,14 @@ public class PlayerDataManager : MonoBehaviour
         var character = Controller.Character;
         character.PlayerData.SetPlayerDataFromCharacter(character);
         File.WriteAllText(character.PlayerData.GetJsonPathWithAcc, JsonUtility.ToJson(character.PlayerData, true));
+
+        StartCoroutine(ConfirmToSaveData());
+    }
+
+    IEnumerator ConfirmToSaveData()
+    {
+        ConfimBoxManager.instance.ShowConfirmBoxSimple("데이터를 저장하였습니다");
+        yield return new WaitUntil(() => ConfimBoxManager.instance.NowState == ConfimBoxManager.State.Yes);
     }
 
     public Character LoadCharater(PlayerData data)
