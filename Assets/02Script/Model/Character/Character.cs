@@ -12,6 +12,7 @@ public partial class Character : Model
     public int level { private set; get; }
     public int SkillPoint;
     public bool IsinField { set; get; } = true;
+    public Dictionary<string, Vector3> LastSafeZone = new Dictionary<string, Vector3>();
     public enum AnimatorState { Idle, Running, Battle, GetHit, Attak, Dead }
     public AnimatorState NowAnimatorState { set; get; } = AnimatorState.Idle;
     bool IsOnEnableFuncPassed { set; get; } = false;
@@ -49,10 +50,12 @@ public partial class Character : Model
         base.OnDisable();
     }
 
+    private void Update()
+    {
+        UpdateInAction();
+    }
     new private void FixedUpdate()
     {
-        base.FixedUpdate();
-        FixedUpdateInAction();
         CheckOnterrian();
     }
 
@@ -109,6 +112,10 @@ public partial class Character : Model
         PlayerData = playerData;
         CharacterName = playerData.NickName;
         transform.position = playerData.LastPosition;
+
+        LastSafeZone.Clear();
+        LastSafeZone.Add(playerData.safeScene, playerData.SafePosition);
+
         level = playerData.level;
 
         {//for recycle 

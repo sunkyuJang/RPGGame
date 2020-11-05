@@ -9,15 +9,16 @@ public class BossMonster : Monster
     public BossHPBarViewer BossHPBarViewer { set; get; }
 
     enum SkillType { NormalAttack, Stinger, SeedBoom, OverDrive }
-    SkillData skillNormalAttack { get { return skillListHandler.skillDatas[0]; } }
-    SkillData skillOverDrive { get { return skillListHandler.skillDatas[1]; } }
-    SkillData skillSeedBoom { get { return skillListHandler.skillDatas[2]; } }
-    SkillData skillStinger { get { return skillListHandler.skillDatas[3]; } }
-/*    List<bool> canAttackList = new List<bool>();
-    bool canDoAttack { set { killMovements[0] = value; } get { return canAttackList[0]; } }
-    bool canStinger { set { canAttackList[1] = value; } get { return canAttackList[1]; } }
-    bool canSeedBoom { set { canAttackList[2] = value; } get { return canAttackList[2]; } }
-    bool canOverDirve { set { canAttackList[3] = value; } get { return canAttackList[3]; } }*/
+    List<SkillData> skills { set; get; } = new List<SkillData>();
+    SkillData skillNormalAttack { get { return skillListHandler.GetSkillData("NormalAttackForBossMonster"); } }
+    SkillData skillOverDrive { get { return skillListHandler.GetSkillData("OverDrive"); } }
+    SkillData skillSeedBoom { get { return skillListHandler.GetSkillData("SeedBoom"); } }
+    SkillData skillStinger { get { return skillListHandler.GetSkillData("Stinger"); } }
+    /*    List<bool> canAttackList = new List<bool>();
+        bool canDoAttack { set { killMovements[0] = value; } get { return canAttackList[0]; } }
+        bool canStinger { set { canAttackList[1] = value; } get { return canAttackList[1]; } }
+        bool canSeedBoom { set { canAttackList[2] = value; } get { return canAttackList[2]; } }
+        bool canOverDirve { set { canAttackList[3] = value; } get { return canAttackList[3]; } }*/
     bool canMove { set; get; } = true;
     bool canLookAt { set; get; } = true;
     new private void Awake()
@@ -26,6 +27,15 @@ public class BossMonster : Monster
         base.Awake();
     }
 
+    IEnumerator Start()
+    {
+        yield return new WaitUntil(() => skillListHandler.StartPass);
+
+        skills.Add(skillNormalAttack);
+        skills.Add(skillOverDrive);
+        skills.Add(skillSeedBoom);
+        skills.Add(skillStinger);
+    }
     new protected void OnEnable()
     {
         base.OnEnable();
@@ -62,49 +72,17 @@ public class BossMonster : Monster
                     NowState = ActionState.following;
         }
     }
-/*    //oldBattle
-    protected override IEnumerator DoBattle()
-    {
-        DoAnimator(ActionState.battle);
-        while (BeforeState == ActionState.battle)
-        {
-            if(canLookAt)
-                transform.LookAt(Character.transform.position);
-
-            yield return new WaitForFixedUpdate();
-
-            if (!IsCloseEnoughWithChracter && canMove)
-                NowState = ActionState.following;
-
-            else
-            {
-
-                if (canAttack)
-                {
-                    NowState = ActionState.attack;
-                }
-            }
-        }
-
-        yield break;
-    }*/
-/*    protected override IEnumerator DoAttack()
-    {
-        SelectNextAttack();
-        yield break;
-    }*/
 
     bool isAllSkillRunning()
     {
         if (canAttack)
         {
-            for (int i = 0; i < skillListHandler.skillDatas.Count; i++)
+            for (int i = 0; i < skills.Count; i++)
             {
-                if (skillListHandler.skillDatas[i].IsReachedTarget)
+                if (!skills[i].isCoolDown)
                 {
-                    if (!skillListHandler.skillDatas[i].isCoolDown)
+                    if (skills[i].IsReachedTarget)
                     {
-                        print(skillListHandler.skillDatas[i].gameObject.name + "//" + skillListHandler.skillDatas[i].isCoolDown);
                         canAttack = false;
                         canMove = false;
                         NowState = ActionState.attack;
@@ -125,66 +103,71 @@ public class BossMonster : Monster
         return true;
     }
 
-    int counto;
     protected IEnumerator DoNormalAttack()
     {
-        DoSkillAnimation(SkillType.NormalAttack);
+        DoSkillAnimation(SkillType.NormalAttack, true);
         skillNormalAttack.ActivateSkill();
         yield return new WaitForFixedUpdate();
 
         yield return StartCoroutine(WaitTillAnimator("NormalAttack", true));
-        
+
+        DoSkillAnimation(SkillType.NormalAttack, false);
         yield return StartCoroutine(WaitAttackEnd(SkillType.NormalAttack));
     }
 
-    protected IEnumerator DoStinger() 
+    protected IEnumerator DoStinger()
     {
 
         canLookAt = false;
         skillStinger.ActivateSkill();
-        DoSkillAnimation(SkillType.Stinger);
+        DoSkillAnimation(SkillType.Stinger, true);
         yield return new WaitForFixedUpdate();
-       
+
         yield return StartCoroutine(WaitTillAnimator("Stinger", true));
 
+        DoSkillAnimation(SkillType.Stinger, false);
         yield return StartCoroutine(WaitAttackEnd(SkillType.Stinger));
     }
-    
-    protected IEnumerator DoSeedBoom() 
+
+    protected IEnumerator DoSeedBoom()
     {
 
         canLookAt = false;
-        DoSkillAnimation(SkillType.SeedBoom);
+        DoSkillAnimation(SkillType.SeedBoom, true);
         skillSeedBoom.ActivateSkill();
         yield return new WaitForFixedUpdate();
-        
+
         yield return StartCoroutine(WaitTillAnimator("SeedBoom", true));
+        DoSkillAnimation(SkillType.SeedBoom, false);
 
         yield return StartCoroutine(WaitAttackEnd(SkillType.SeedBoom));
     }
-    
-    protected IEnumerator DoOverDrive() 
+
+    protected IEnumerator DoOverDrive()
     {
 
         canLookAt = false;
-        DoSkillAnimation(SkillType.OverDrive);
+        DoSkillAnimation(SkillType.OverDrive, true);
         skillOverDrive.ActivateSkill();
         yield return new WaitForFixedUpdate();
-        
+
         yield return StartCoroutine(WaitTillAnimator("OverDrive", true));
 
+        DoSkillAnimation(SkillType.OverDrive, false);
         yield return StartCoroutine(WaitAttackEnd(SkillType.OverDrive));
     }
 
-    void DoSkillAnimation(SkillType type)
+    void DoSkillAnimation(SkillType type, bool IsOn)
     {
-        DoAnimator(ActionState.attack);
+        if (IsOn)
+            DoAnimator(ActionState.attack);
+
         switch (type)
         {
-            case SkillType.NormalAttack: Animator.SetInteger("AttackNum", 0); break;
-            case SkillType.Stinger: Animator.SetInteger("AttackNum", 1); break;
-            case SkillType.SeedBoom: Animator.SetInteger("AttackNum", 2); break;
-            case SkillType.OverDrive: Animator.SetInteger("AttackNum", 3); break;
+            case SkillType.NormalAttack: Animator.SetBool("NormalAttack", IsOn); break;
+            case SkillType.Stinger: Animator.SetBool("Stinger", IsOn); break;
+            case SkillType.SeedBoom: Animator.SetBool("SeedBoom", IsOn); break;
+            case SkillType.OverDrive: Animator.SetBool("OverDrive", IsOn); break;
         }
     }
 
@@ -199,31 +182,31 @@ public class BossMonster : Monster
             case SkillType.NormalAttack:
                 yield return StartCoroutine(WaitTillAnimator("NormalAttack", false));
                 //canAttack = true;
-/*                yield return StartCoroutine(WaitTillTimeEnd(3f));
-                canDoAttack = true;*/
+                /*                yield return StartCoroutine(WaitTillTimeEnd(3f));
+                                canDoAttack = true;*/
                 break;
-            case SkillType.Stinger: 
+            case SkillType.Stinger:
                 yield return StartCoroutine(WaitTillAnimator("Stinger", false));
                 //StartCoroutine(StartOtherAttackAfter(1f));
                 canLookAt = true;
                 //canAttack = true;
-/*                yield return StartCoroutine(WaitTillTimeEnd(4f));
-                canStinger = true;*/
+                /*                yield return StartCoroutine(WaitTillTimeEnd(4f));
+                                canStinger = true;*/
                 break;
-            case SkillType.SeedBoom: 
+            case SkillType.SeedBoom:
                 yield return StartCoroutine(WaitTillAnimator("SeedBoom", false));
                 //StartCoroutine(StartOtherAttackAfter(1f));
                 //canAttack = true;
-/*                yield return StartCoroutine(WaitTillTimeEnd(5f));
-                canSeedBoom = true;*/
+                /*                yield return StartCoroutine(WaitTillTimeEnd(5f));
+                                canSeedBoom = true;*/
                 break;
-            case SkillType.OverDrive: 
+            case SkillType.OverDrive:
                 yield return StartCoroutine(WaitTillAnimator("OverDrive", false));
                 canLookAt = true;
-/*              StartCoroutine(StartOtherAttackAfter(1f));
-                canAttack = true;
-                yield return StartCoroutine(WaitTillTimeEnd(5f));
-                canOverDirve = true;*/
+                /*              StartCoroutine(StartOtherAttackAfter(1f));
+                                canAttack = true;
+                                yield return StartCoroutine(WaitTillTimeEnd(5f));
+                                canOverDirve = true;*/
                 break;
         }
         canAttack = true;

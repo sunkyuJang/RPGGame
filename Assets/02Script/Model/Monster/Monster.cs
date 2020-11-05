@@ -11,7 +11,7 @@ using System.Threading;
 
 public class Monster : Model
 {
-    public MonseterLocator MonsterLocator { set; get; }
+    public MonseterLocator MonsterLocator { set; get; } = null;
     public float roamingHorizontal;
     public float roamingVertical;
     protected Character Character { set; get; }
@@ -38,13 +38,22 @@ public class Monster : Model
         BeforeState = ActionState.idle;
         FXStartPoint = HitFXStartPoint.transform;
     }
-
     new protected void OnEnable()
     {
         base.OnEnable();
         NowState = ActionState.idle;
         BeforeState = ActionState.non;
         IsAlreadyDead = false;
+
+        if (MonsterLocator == null)
+        {
+            RoamingArea = new Rect(
+                transform.position.x - roamingHorizontal / 2,
+                transform.position.z - roamingVertical / 2,
+                roamingHorizontal,
+                roamingVertical
+                );
+        }
     }
 
     new protected void OnDisable()
@@ -65,12 +74,16 @@ public class Monster : Model
     {
         if (IsRunningTimeLine)
             NowState = ActionState.TimeLine;
+
+        if (IsRunningTimeLine == iStateViewerHandler.GetGameObject().activeSelf)
+            iStateViewerHandler.ShowObj(!IsRunningTimeLine);
+
         SelectedNextAction();
     }
 
     new protected void FixedUpdate()
     {
-        base.FixedUpdate();
+        //base.FixedUpdate();
     }
 
     protected void SelectedNextAction()
@@ -78,6 +91,7 @@ public class Monster : Model
         if (NowState != BeforeState)
         {
             BeforeState = NowState;
+            Rigidbody.velocity = Vector3.zero;
             switch (NowState)
             {
                 case ActionState.idle: StartCoroutine(DoIdle()); break;
@@ -97,7 +111,7 @@ public class Monster : Model
         DoAnimator(ActionState.idle);
         if (IsRunningTimeLine)
         {
-            while(IsRunningTimeLine)
+            while (IsRunningTimeLine)
                 yield return new WaitForFixedUpdate();
 
             NowState = ActionState.idle;
@@ -169,13 +183,13 @@ public class Monster : Model
         DoAnimator(ActionState.battle);
         while (BeforeState == ActionState.battle)
         {
-            transform.LookAt(Character.transform.position);
+            transform.LookAt(Character.transform.position + Vector3.up * 0.5f);
             yield return new WaitForFixedUpdate();
 
             if (!IsCloseEnoughWithChracter)
                 NowState = ActionState.following;
 
-            if(canAttack)
+            if (canAttack)
                 NowState = ActionState.attack;
         }
     }
@@ -224,8 +238,8 @@ public class Monster : Model
             NowState = ActionState.dead;
         else if (!IsActionStateAre(ActionState.attack) && canGetHit)
             NowState = ActionState.getHit;
-        
-        if(HitFX != null)
+
+        if (HitFX != null)
             StartCoroutine(ControllHitFX(HitFX, isFXStartFromGround));
     }
 
@@ -250,7 +264,7 @@ public class Monster : Model
 
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
-        
+
         NowState = ActionState.battle;
         canGetHit = true;
         yield break;
@@ -264,7 +278,7 @@ public class Monster : Model
 
         while (!NowAnimatorInfo.IsName("GetHit"))
             yield return new WaitForEndOfFrame();
-        
+
         DoAnimator(ActionState.dead);
         Rigidbody.velocity = Vector3.zero;
 
@@ -336,19 +350,19 @@ public class Monster : Model
     }
 
     bool IsOutRoamingArea { get { return !RoamingArea.Contains(GMath.ConvertV3xzToV2(transform.position)); } }
-    bool IsDetectedCharacter 
-    { 
-        get 
+    bool IsDetectedCharacter
+    {
+        get
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, sightRadius, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore);
-            foreach(Collider collider in colliders)
+            foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("Character"))
                 {
                     Character = collider.GetComponent<Character>();
                     Vector3 CharacterDirection = Character.transform.position - transform.position;
                     float fowardToCharacterRad = Vector3.Angle(transform.forward, CharacterDirection) * Mathf.Deg2Rad;
-                    if(fowardToCharacterRad <= SigthLimitRad)
+                    if (fowardToCharacterRad <= SigthLimitRad)
                     {
                         RaycastHit hit = new RaycastHit();
                         if (Physics.Raycast(transform.position + Vector3.up, CharacterDirection, out hit, Vector3.Distance(transform.position, Character.transform.position)))
@@ -362,17 +376,21 @@ public class Monster : Model
                 }
             }
 
-            return false; 
-        } 
+            return false;
+        }
     }
-    protected virtual bool IsCloseEnoughWithChracter { get {
+    protected virtual bool IsCloseEnoughWithChracter
+    {
+        get
+        {
             return Vector3.Distance(Character.transform.position, transform.position) <= closeEnough;
-        } }
+        }
+    }
     protected void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1,1,1, 0.5f);
+        Gizmos.color = new Color(1, 1, 1, 0.5f);
         Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(roamingVertical, 1, roamingHorizontal));
-        Gizmos.color = new Color(1,0,0, 0.5f);
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawWireSphere(transform.position, sightRadius);
 
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);

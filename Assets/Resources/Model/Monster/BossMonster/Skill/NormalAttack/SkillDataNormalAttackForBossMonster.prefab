@@ -59,11 +59,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: 
   description: 
   icon: {fileID: 0}
   isLearn: 0
-  Length: 1
+  Length: 2
   attackType: 0
   DamagePercentage: 50
   CoolDown: 3
@@ -72,7 +73,6 @@ MonoBehaviour:
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 0
   targetModel: {fileID: 0}
 --- !u!114 &-7484203473236597834

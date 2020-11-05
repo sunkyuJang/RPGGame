@@ -29,9 +29,9 @@ public partial class Character : Model
     float SigthDegLimit { get { return 30f; } }
     public Model TargetModel { private set; get; }
     List<Collider> SurroundingObj { set; get; }
-    Collider[] GetSurroundingObj() 
-    { 
-        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore); 
+    Collider[] GetSurroundingObj()
+    {
+        return Physics.OverlapSphere(transform.position, SigthLength, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore);
     }
     Model GetNearestModel(List<Collider> colliders)
     {
@@ -41,12 +41,12 @@ public partial class Character : Model
         {
             try
             {
-                if (collider.Equals(gameObject.GetComponent<Collider>())) 
+                if (collider.Equals(gameObject.GetComponent<Collider>()))
                     continue;
                 else
                 {
                     float Dist = Vector3.Distance(transform.position, collider.transform.position);
-                    if(Dist < beforeDist)
+                    if (Dist < beforeDist)
                     {
                         nearest = collider.GetComponent<Model>();
                         beforeDist = Dist;
@@ -88,15 +88,10 @@ public partial class Character : Model
     public SkillData ReservedSkill { set; get; }
 
 
-    void FixedUpdateInAction()
+    void UpdateInAction()
     {
         //switch
         DoNextAction();
-
-        /*        if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    StartCoroutine(AutoAttack());
-                }*/
     }
 
     void DoNextAction()
@@ -121,7 +116,8 @@ public partial class Character : Model
 
     IEnumerator AutoAttack()
     {
-        while (!Input.GetKeyDown(KeyCode.K)){
+        while (!Input.GetKeyDown(KeyCode.K))
+        {
             SetActionState(ActionState.Action);
             yield return new WaitForFixedUpdate();
         }
@@ -134,17 +130,17 @@ public partial class Character : Model
 
         yield return new WaitForFixedUpdate();
     }
-    IEnumerator DoRunning() 
+    IEnumerator DoRunning()
     {
         DoAnimator(AnimatorState.Running);
-        while(BeforeState == ActionState.Running)
+        while (BeforeState == ActionState.Running)
         {
             transform.rotation = Quaternion.Euler(Rotation);
             Rigidbody.velocity = transform.forward * SPD;
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator DoAction() 
+    IEnumerator DoAction()
     {
         if (BeforeState == ActionState.Action)
         {
@@ -190,9 +186,9 @@ public partial class Character : Model
         Inventory.ShowInventoryForTrade(TargetModel.Inventory);
         TargetModel.Inventory.ShowInventoryForTrade(Inventory);
 
-        while(BeforeState == ActionState.Trade)
+        while (BeforeState == ActionState.Trade)
         {
-            if(!Inventory.inventoryFrame.activeSelf || !TargetModel.Inventory.inventoryFrame.activeSelf)
+            if (!Inventory.inventoryFrame.activeSelf || !TargetModel.Inventory.inventoryFrame.activeSelf)
             {
                 controller.SetAllActive(true);
                 QuickSlot.gameObject.SetActive(true);
@@ -219,7 +215,7 @@ public partial class Character : Model
             NowState = ActionState.GetHit;
     }
 
-    IEnumerator DoGetHit() 
+    IEnumerator DoGetHit()
     {
         canGetHit = false;
 
@@ -229,14 +225,17 @@ public partial class Character : Model
 
         NowState = ActionState.Idle;
         canGetHit = true;
-    }    
-    
+    }
+
     bool isAlreadyDead { set; get; }
-    IEnumerator DoDead() 
+    IEnumerator DoDead()
     {
         isAlreadyDead = true;
         DoAnimator(AnimatorState.Dead);
         NowState = ActionState.Idle;
+
+        ConfimBoxManager.instance.ShowComfirmBox()
+
         yield break;
     }
 

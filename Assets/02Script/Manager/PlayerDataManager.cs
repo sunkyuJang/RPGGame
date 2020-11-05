@@ -61,7 +61,8 @@ public class PlayerDataManager : MonoBehaviour
         File.WriteAllText(character.PlayerData.GetJsonPathWithAcc, JsonUtility.ToJson(character.PlayerData, true));
     }
 
-    public Character LoadCharater(PlayerData data){
+    public Character LoadCharater(PlayerData data)
+    {
         var character = Instantiate(CharacterPrefab, Vector3.zero, Quaternion.identity).GetComponent<Character>();
         DontDestroyOnLoad(character);
         character.SetCharacterWithPlayerData(data);

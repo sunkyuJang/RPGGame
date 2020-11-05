@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5874629782710724804}
   - component: {fileID: -8480955356375523699}
   m_Layer: 5
-  m_Name: SkillDataForm 1
+  m_Name: SkillDataSeedBoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,11 +58,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: 
   description: 
   icon: {fileID: 0}
   isLearn: 0
-  Length: 0
+  Length: 10
   attackType: 0
   DamagePercentage: 100
   CoolDown: 10
@@ -71,6 +72,5 @@ MonoBehaviour:
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 10
   targetModel: {fileID: 0}

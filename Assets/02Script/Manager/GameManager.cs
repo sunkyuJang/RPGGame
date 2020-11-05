@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Character.gameObject.SetActive(true);
             Character.SetCharacterWithPlayerData(playerData);
         }
 

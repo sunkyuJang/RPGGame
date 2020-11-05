@@ -98,16 +98,16 @@ public partial class Model : MonoBehaviour
         }
     }
 
-    protected void FixedUpdate()
-    {
-        if (iStateViewerHandler != null)
-        {
-            if (!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
-            {
-                iStateViewerHandler.ShowObj(!IsRunningTimeLine);
-            }
-        }
-    }
+    // protected void FixedUpdate()
+    // {
+    //     if (iStateViewerHandler != null)
+    //     {
+    //         if (!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
+    //         {
+    //             iStateViewerHandler.ShowObj(!IsRunningTimeLine);
+    //         }
+    //     }
+    // }
 
     protected void RefreshedHPBar() { if (iStateViewerHandler != null) iStateViewerHandler.RefreshState(); }
 

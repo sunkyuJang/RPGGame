@@ -23,14 +23,18 @@ public partial class Model : MonoBehaviour
     {
         var limitDist = text.transform.position.y + 50f;
 
-        if(AlertBoxTexts.Count > 1)
+        if (AlertBoxTexts.Count > 1)
         {
             var beforeText = AlertBoxTexts[AlertBoxTexts.Count - 2];
             text.gameObject.SetActive(false);
 
-            while (beforeText.transform.position.y < limitDist - 10)
+            while (beforeText != null)
+            {
+                if (beforeText.transform.position.y >= limitDist - 10)
+                    break;
                 yield return new WaitForFixedUpdate();
-            
+            }
+
             text.gameObject.SetActive(true);
         }
 
@@ -43,7 +47,7 @@ public partial class Model : MonoBehaviour
 
         Destroy(text.gameObject);
         yield return new WaitForFixedUpdate();
-        
+
         if (AlertBoxTexts[AlertBoxTexts.Count - 1] == null)
             AlertBoxTexts.Clear();
     }

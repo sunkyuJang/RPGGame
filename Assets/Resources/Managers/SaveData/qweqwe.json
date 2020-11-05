@@ -5,16 +5,22 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 0.44119253754615786,
+        "x": 0.40205544233322146,
+        "y": 1.7881393432617188e-7,
+        "z": 0.7020637392997742
+    },
+    "safeScene": "IngameScene",
+    "SafePosition": {
+        "x": -12.5,
         "y": 0.0,
-        "z": 0.04473876953125
+        "z": -25.0
     },
     "level": 7,
     "itemKinds": [
-        5
+        0
     ],
     "itemCounts": [
-        1
+        5
     ],
     "WearingItem": [],
     "skillNames": [
@@ -41,11 +47,9 @@
     ],
     "lastTalkingIndex": [
         1,
-        18
+        25
     ],
-    "QuestIndexList": [
-        1
-    ],
+    "QuestIndexList": [],
     "TimeLineAssetName": [
         "FirstStartCutScene"
     ]

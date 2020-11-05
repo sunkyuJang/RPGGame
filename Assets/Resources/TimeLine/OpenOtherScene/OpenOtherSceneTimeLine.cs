@@ -8,7 +8,8 @@ public class OpenOtherSceneTimeLine : TimeLineHandler
     public override IEnumerator StartSequence()
     {
         yield return new WaitUntil(() => interrupt == 1);
-        fence.transform.Rotate(new Vector3(0.825f, 420, 358.512f));
+
+        //fence.transform.Rotate(new Vector3(0.825f, 420, 358.512f));
 
         Character.PassedTimeLineAssetName.Remove(gameObject.name);
 

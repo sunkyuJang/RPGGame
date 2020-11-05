@@ -12,7 +12,7 @@ public class TimeLineHandler : MonoBehaviour
     public TimelineAsset playable;
     public Character Character { set; get; }
     public Transform lookAtCharacterCameraGroup;
-    public List<CinemachineVirtualCamera> lookAtCharacterCameras = new List<CinemachineVirtualCamera>(); 
+    public List<CinemachineVirtualCamera> lookAtCharacterCameras = new List<CinemachineVirtualCamera>();
     public PlayableDirector playableDirector { set; get; }
     public int interrupt = 0;
     bool isAlreadyRunning { set; get; }
@@ -23,7 +23,7 @@ public class TimeLineHandler : MonoBehaviour
         playableDirector.playableAsset = playable;
         playableDirector.Stop();
 
-        if(lookAtCharacterCameraGroup != null)
+        if (lookAtCharacterCameraGroup != null)
             foreach (Transform transform in lookAtCharacterCameraGroup)
                 lookAtCharacterCameras.Add(transform.GetComponent<CinemachineVirtualCamera>());
     }
@@ -44,6 +44,7 @@ public class TimeLineHandler : MonoBehaviour
             {
                 Character.PassedTimeLineAssetName.Add(gameObject.name);
                 Character.IntoClearUI();
+                Character.SetActionState(Character.ActionState.TimeLine);
                 Character.IsRunningTimeLine = true;
                 if (lookAtCharacterCameraGroup != null)
                 {
@@ -66,7 +67,7 @@ public class TimeLineHandler : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(IsInterruptOccur) playableDirector.time = 1f;
+        if (IsInterruptOccur) playableDirector.time = 1f;
     }
     public void ToDo() { StartCoroutine(StartSequence()); }
 
@@ -85,5 +86,6 @@ public class TimeLineHandler : MonoBehaviour
         Character.IsRunningTimeLine = false;
         Character.IntoNormalUI();
         gameObject.SetActive(false);
+        playableDirector.Stop();
     }
 }

@@ -13,10 +13,10 @@ public partial class Controller : MonoBehaviour
     public ActionPad actionpad;
     public QuickSlot quickSlot;
     public Button menuBtn;
-/*    public GameObject pauseKeyObj;
-    public GameObject InventoryKeyObj;
-    public GameObject EquipmentKeyObj;
-    public GameObject skillTreeKeyObj;*/
+    /*    public GameObject pauseKeyObj;
+        public GameObject InventoryKeyObj;
+        public GameObject EquipmentKeyObj;
+        public GameObject skillTreeKeyObj;*/
 
     public GameObject CameraControllerPrefab;
     CameraController CameraController { set; get; }
@@ -54,8 +54,8 @@ public partial class Controller : MonoBehaviour
         SetAllActive(false);
         Character.ShowGameUI(Character.UIList.inventory, true);
     }
-    public void PressStateKey() 
-    { 
+    public void PressStateKey()
+    {
         SetAllActive(false);
         Character.ShowGameUI(Character.UIList.equipment, true);
     }
@@ -85,11 +85,17 @@ public partial class Controller : MonoBehaviour
         CameraController = Instantiate(CameraControllerPrefab).GetComponent<CameraController>();
         DontDestroyOnLoad(CameraController.gameObject);
     }
-    
-    public void MoveCharacter(bool isPressed, float radian) 
+
+    public void MoveCharacter(bool isPressed, float radian)
         => Character.Move(isPressed, radian + CameraController.GetRadianFromFront());
-    public void RotateCamera(float raidan) 
+    public void RotateCamera(float raidan)
         => CameraController.RotateCamera(raidan);
     public void DoCharacterAtion()
         => Character.SetActionState(Character.ActionState.Action);
+
+    public void ResetJoystick()
+    {
+        joypad.up.transform.position = joypad.down.transform.position;
+        actionpad.up.transform.position = actionpad.down.transform.position;
+    }
 }

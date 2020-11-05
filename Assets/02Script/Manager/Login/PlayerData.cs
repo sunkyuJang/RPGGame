@@ -25,16 +25,17 @@ public class PlayerData
     public bool isFirstStart;
     public string LastScene;
     public Vector3 LastPosition;
-    
+    public string safeScene;
+    public Vector3 SafePosition;
     public int level;
-    
+
     //item
     public List<int> itemKinds = new List<int>();
     public List<int> itemCounts = new List<int>();
-    
+
     //Equipment
     public List<int> WearingItem;
-    
+
     //skills
     public List<string> skillNames = new List<string>();
     public List<bool> isLearnSkill = new List<bool>();
@@ -57,6 +58,8 @@ public class PlayerData
         isFirstStart = true;
         LastPosition = new Vector3(-42f, 0, 59f);
         LastScene = "IngameScene";
+        safeScene = "IngameScene";
+        SafePosition = new Vector3(-12.5f, 0f, -25f);
         skillNames.Add("NormalAttack");
         isLearnSkill.Add(true);
         level = 7;
@@ -66,6 +69,14 @@ public class PlayerData
         isFirstStart = false;
         LastScene = SceneManager.GetActiveScene().name;
         LastPosition = character.transform.position;
+
+        for (int i = 0; i < character.LastSafeZone.Count; i++)
+        {
+            var zone = character.LastSafeZone;
+            safeScene = zone.Keys.ToList()[i];
+            SafePosition = zone.Values.ToList()[i];
+        }
+
         level = character.level;
 
         itemKinds.Clear();
@@ -79,10 +90,10 @@ public class PlayerData
 
         WearingItem.Clear();
         var equipmentView = character.EquipmentView;
-        for(int i = 0; i < equipmentView.EquipmentItems.Length; i++)
+        for (int i = 0; i < equipmentView.EquipmentItems.Length; i++)
         {
             var nowItem = equipmentView.EquipmentItems[i];
-            if(nowItem != null)
+            if (nowItem != null)
             {
                 WearingItem.Add(nowItem.ItemCounter.Data.Index);
             }
@@ -109,7 +120,7 @@ public class PlayerData
 
         QuestIndexList.Clear();
         var questIndexList = character.ProcessingQuestList;
-        if(questIndexList.Count > 0)
+        if (questIndexList.Count > 0)
             foreach (QuestManager.QuestTable questTable in questIndexList)
                 QuestIndexList.Add(questTable.data.Index);
 

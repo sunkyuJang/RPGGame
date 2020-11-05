@@ -11,6 +11,8 @@ public class SceneChanger : MonoBehaviour
     {
         if (other.CompareTag("Character"))
         {
+            var Character = other.GetComponent<Character>();
+            Character.controller.ResetJoystick();
             LoadSceneManager.LoadScene(nextSceneName, other.transform.GetComponent<Character>(), nextScenePosition);
         }
     }

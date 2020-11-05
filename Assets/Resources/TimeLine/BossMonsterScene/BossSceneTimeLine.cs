@@ -18,14 +18,13 @@ public class BossSceneTimeLine : TimeLineHandler
 
         while (DialogueManager.instance.DialogueViewer.gameObject.activeSelf)
         {
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
             if (IsInterruptOccur)
             {
                 playableDirector.time = 7.5f;
                 interrupt = 0;
             }
         }
-
         bossMonster.transform.parent = transform.root.parent;
         bossMonster.IsRunningTimeLine = false;
         EndSequence();

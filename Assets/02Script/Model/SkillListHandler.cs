@@ -6,7 +6,13 @@ using UnityEngine;
 public class SkillListHandler : MonoBehaviour
 {
     public List<SkillData> skillDatas { private set; get; } = new List<SkillData>();
-
+    public SkillData GetSkillData(string skillDataName)
+    {
+        foreach (SkillData data in skillDatas)
+            if (data.skillName_eng.Equals(skillDataName))
+                return data;
+        return null;
+    }
     public Transform physicalGroup;
     public Transform magicalGroup;
 
@@ -15,7 +21,7 @@ public class SkillListHandler : MonoBehaviour
     {
         var model = transform.parent.GetComponent<Model>();
         var group = physicalGroup;
-        
+
         for (int i = 0; i < 2; i++)
         {
             foreach (Transform nowTransform in group)

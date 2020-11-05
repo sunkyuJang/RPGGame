@@ -41,7 +41,7 @@ public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
 
         hitBox.StartCountDown();
         bool canMaintainState = true;
-        while (canMaintainState || !hitBox.isCollide)
+        while (canMaintainState && !hitBox.isCollide)
         {
             hitBox.transform.position = hitBox.transform.position + firstShotDirction + downAcceleration;
             downAcceleration += downAcceleration * Time.fixedDeltaTime;
@@ -54,10 +54,11 @@ public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
 
         canMaintainState = true;
         float degree = 0f;
-        while (canMaintainState || !hitBox.isCollide)
+        var center = model.transform.position;
+        while (canMaintainState && !hitBox.isCollide)
         {
             yield return new WaitForFixedUpdate();
-            hitBox.transform.RotateAround(model.transform.position, Vector3.up, degree);
+            hitBox.transform.RotateAround(center, Vector3.up, degree);
             degree = 50f * Time.fixedDeltaTime;
 
             if (!hitBox.isTimeLeft)
