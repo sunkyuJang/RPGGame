@@ -83,6 +83,7 @@ public partial class Character : Model
                 case AnimatorState.Battle: Animator.SetBool("IsBattle", true); break;
                 case AnimatorState.GetHit: Animator.SetBool("IsGetHit", true); break;
                 case AnimatorState.Attak: Animator.SetBool("IsAttack", true); break;
+                case AnimatorState.Dead: Animator.SetBool("IsDead", true); break;
             }
             NowAnimatorState = action;
         }
@@ -94,6 +95,7 @@ public partial class Character : Model
         Animator.SetBool("IsBattle", false);
         Animator.SetBool("IsGetHit", false);
         Animator.SetBool("IsAttack", false);
+        Animator.SetBool("IsDead", false);
     }
 
     public void SetCharacterWithPlayerData(PlayerData data)

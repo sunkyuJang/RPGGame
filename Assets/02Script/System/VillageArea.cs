@@ -13,6 +13,7 @@ public class VillageArea : MonoBehaviour
         {
             var character = other.GetComponent<Character>();
             character.IsinField = false;
+            character.LastSafeZone.Clear();
             character.LastSafeZone.Add(SceneManager.GetActiveScene().name, responeZone.position);
             other.GetComponent<Character>().IsinField = false;
         }

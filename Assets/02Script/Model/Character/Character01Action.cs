@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using GLip;
 
 public partial class Character : Model
@@ -107,6 +109,7 @@ public partial class Character : Model
                 case ActionState.Talk: StartCoroutine(DoTalk()); break;
                 case ActionState.Trade: StartCoroutine(DoTrade()); break;
                 case ActionState.GetHit: StartCoroutine(DoGetHit()); break;
+                case ActionState.Dead: StartCoroutine(DoDead()); break;
                 case ActionState.Attack: StartCoroutine(DoAttack()); break;
                 case ActionState.TimeLine: StartCoroutine(DoIdle()); break;
                     //case ActionState.Dead: StartCoroutine(DoDead()); break;
@@ -132,12 +135,15 @@ public partial class Character : Model
     }
     IEnumerator DoRunning()
     {
-        DoAnimator(AnimatorState.Running);
-        while (BeforeState == ActionState.Running)
+        if (!NowAnimatorInfo.IsName("Dead"))
         {
-            transform.rotation = Quaternion.Euler(Rotation);
-            Rigidbody.velocity = transform.forward * SPD;
-            yield return new WaitForFixedUpdate();
+            DoAnimator(AnimatorState.Running);
+            while (BeforeState == ActionState.Running)
+            {
+                transform.rotation = Quaternion.Euler(Rotation);
+                Rigidbody.velocity = transform.forward * SPD;
+                yield return new WaitForFixedUpdate();
+            }
         }
     }
     IEnumerator DoAction()
@@ -220,11 +226,18 @@ public partial class Character : Model
         canGetHit = false;
 
         DoAnimator(AnimatorState.GetHit);
-        while (!NowAnimatorInfo.IsName("GetHit"))
-            yield return new WaitForFixedUpdate();
 
-        NowState = ActionState.Idle;
-        canGetHit = true;
+        if (nowHP > 0)
+        {
+            yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
+            NowState = ActionState.Idle;
+            canGetHit = true;
+        }
+        else
+            NowState = ActionState.Dead;
+        // while (!NowAnimatorInfo.IsName("GetHit"))
+        //     yield return new WaitForFixedUpdate();
+
     }
 
     bool isAlreadyDead { set; get; }
@@ -232,10 +245,26 @@ public partial class Character : Model
     {
         isAlreadyDead = true;
         DoAnimator(AnimatorState.Dead);
-        NowState = ActionState.Idle;
+
+        // yield return new Wa
 
         ConfimBoxManager.instance.ShowConfirmBoxSimple("체력을 모두 소진하였습니다. \r\n안전장소로 돌아갑니다.");
 
+        yield return new WaitUntil(() => ConfimBoxManager.instance.NowState == ConfimBoxManager.State.Yes);
+
+        var lastSafeZone = LastSafeZone.Keys.ToList()[0];
+        LoadSceneManager.LoadScene(GameManager.pathOfScenes + lastSafeZone, this, LastSafeZone.Values.ToList()[0]);
+        // if (lastSafeZone != SceneManager.GetActiveScene().name)
+        // else
+        // {
+        //     transform.position = LastSafeZone.Values.ToList()[0];
+        // }
+
+        nowHP = HP;
+        nowMP = MP;
+        RefreshedHPBar();
+
+        NowState = ActionState.Idle;
         yield break;
     }
 

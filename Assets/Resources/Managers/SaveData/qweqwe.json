@@ -5,23 +5,29 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 3.342346429824829,
+        "x": -22.50532341003418,
         "y": 0.0,
-        "z": 4.11830997467041
+        "z": 45.56079864501953
     },
     "safeScene": "IngameScene",
     "SafePosition": {
-        "x": -12.5,
-        "y": 0.0,
-        "z": -25.0
+        "x": -24.399993896484376,
+        "y": 7.068271636962891,
+        "z": 105.9000244140625
     },
     "level": 7,
     "itemKinds": [
         0,
+        5,
+        5,
+        5,
         5
     ],
     "itemCounts": [
         5,
+        1,
+        1,
+        1,
         1
     ],
     "WearingItem": [],

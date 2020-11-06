@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5874629782710724804}
   - component: {fileID: -8480955356375523699}
   m_Layer: 5
-  m_Name: SkillData
+  m_Name: SkillDataHeavyFlame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,19 +58,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uD5E4\uBE44\uD50C\uB808\uC784"
   description: 
   icon: {fileID: 0}
   isLearn: 0
   Length: 5
   attackType: 1
-  DamagePercentage: 0
+  DamagePercentage: 100
   CoolDown: 3
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 2fc0a78f0b16b0c41be2bd1cf7decb64, type: 3}
   shouldLookAtEffectSheet: 0
   EffectSheetNum: 0
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 5
   targetModel: {fileID: 0}
