@@ -26,7 +26,16 @@ public class LoadSceneManager : MonoBehaviour
         character.IntoClearUI();
         loadSecenName = sceneName;
         Character = character;
+        Character.controller.ResetJoystick();
+        character.IntoClearUI();
         Position = position;
+        SceneManager.LoadScene("LoadingScene");
+    }
+
+    public static void LoadScene(string sceneName)
+    {
+        Character = null;
+        loadSecenName = sceneName;
         SceneManager.LoadScene("LoadingScene");
     }
 
@@ -37,7 +46,8 @@ public class LoadSceneManager : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(loadSecenName);
         op.allowSceneActivation = false;
 
-        yield return new WaitUntil(() => Character.isCharacterReady);
+        if (Character != null)
+            yield return new WaitUntil(() => Character.isCharacterReady);
 
         float timer = 0.0f;
 
@@ -59,12 +69,14 @@ public class LoadSceneManager : MonoBehaviour
                 if (progressBar.fillAmount == 1.0f)
                 {
                     op.allowSceneActivation = true;
-                    if (!Character.controller.gameObject.activeSelf)
-                        Character.controller.gameObject.SetActive(true);
+                    if (Character != null)
+                    {
+                        if (!Character.controller.gameObject.activeSelf)
+                            Character.controller.gameObject.SetActive(true);
 
-                    Character.IntoNormalUI();
-                    Character.transform.position = Position;
-
+                        Character.IntoNormalUI();
+                        Character.transform.position = Position;
+                    }
                     Character = null;
                     Position = Vector3.zero;
 

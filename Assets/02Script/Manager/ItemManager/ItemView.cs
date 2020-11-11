@@ -31,15 +31,15 @@ public class ItemView : MonoBehaviour, IInputTracer
         return this;
     }
 
-/*    public ItemView SetItemCounter(ItemManager.ItemCounter counter)
-    {
-        ItemCounter = counter;
-        counter.View = this;
-        icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
-        RefreshText();
+    /*    public ItemView SetItemCounter(ItemManager.ItemCounter counter)
+        {
+            ItemCounter = counter;
+            counter.View = this;
+            icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
+            RefreshText();
 
-        return this;
-    }*/
+            return this;
+        }*/
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
@@ -47,7 +47,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         RefreshText();
     }
     public void RefreshText() { itemname.text = ItemCounter.Data.Name; count.text = ItemCounter.count.ToString(); }
-    public void UseThis() => StartCoroutine(inventory.UseItem(this, false));
+    public void UseThis() => inventory.UseItem(this, false);
     public void SelectedIcon()
     {
         bool isTouch = false;
@@ -56,7 +56,7 @@ public class ItemView : MonoBehaviour, IInputTracer
         if (GPosition.IsContainInput(frame.GetComponent<RectTransform>(), out isTouch, out touchID, out isMouse))
         {
             StartCoroutine(TraceInput(isTouch, touchID, isMouse));
-            
+
             if (inventory != null)
                 if (!inventory.isPlayer)
                     inventory.SetGold(ItemCounter.Data.Buy * ItemCounter.count);
@@ -71,7 +71,7 @@ public class ItemView : MonoBehaviour, IInputTracer
 
         while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
         {
-            if(GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
+            if (GPosition.IsContainInput(Area, isTouch, touchID, isMouse))
             {
                 ItemManager.Instance.ShowItemDescription(this);
             }
@@ -95,35 +95,4 @@ public class ItemView : MonoBehaviour, IInputTracer
     {
         throw new System.NotImplementedException();
     }
-
-/*    class ItemViewDiscritionBox
-    {
-        ItemView View { set; get; }
-        Transform Transform { set; get; }
-        Image Icon { set; get; }
-        Text NameText { set; get; }
-        Text DiscriptionText { set; get; }
-
-        public ItemViewDiscritionBox(Transform transform, ItemView view)
-        {
-            View = view;
-            Transform = transform;
-            Icon = transform.Find("ShowImage").GetComponent<Image>();
-            NameText = transform.Find("NameTextBox").GetComponent<Text>();
-            DiscriptionText = transform.Find("DiscriptionTextBox").GetComponent<Text>();
-        }
-
-        public void SetDiscription()
-        {
-            Icon.sprite = View.Icon.sprite;
-            NameText.text = View.Name.text;
-            DiscriptionText.text = View.ItemCounter.Data.Description;
-            if (!View.inventory.isPlayer)
-                Transform.position = GPosition.ReverceLeft(Transform.position);
-            Transform.gameObject.SetActive(false);
-        }
-
-        public void ShowDiscription() => Transform.gameObject.SetActive(true);
-        public void HideDiscriprtion() => Transform.gameObject.SetActive(false);
-    }*/
 }

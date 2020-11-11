@@ -14,25 +14,46 @@ public class SkillMovementNormalAttackForBossMonster : SkillMovement, ISkillMove
     {
         yield return base.StartHitBoxMovement();
 
-        var copy = skillData.GetHitBox();
 
-        copy.transform.position = skillData.Model.transform.position + Vector3.up + skillData.Model.transform.forward * skillData.Length;
         for (int i = 1, max = 3; i <= max; i++)
         {
             yield return StartCoroutine(model.WaitTillInterrupt(1));
-            copy.Collider.enabled = true;
+            var copy = skillData.GetHitBox();
+            copy.transform.position = skillData.Model.transform.position + Vector3.up + skillData.Model.transform.forward * skillData.Length;
 
-            yield return copy.CheckObjCollideInTime();
-            if (copy.isCollide)
-            {
-                var target = copy.GetTarget(skillData.Model.transform.position);
-                skillData.SetDamage(target);
-                copy.Collider.enabled = false;
-            }
+            StartCoroutine(ProcessEachHitBox(copy));
+
+            // copy.isImmediately = true;
+            // copy.Collider.enabled = true;
+
+            // yield return copy.CheckObjCollideInTime();
+            // if (copy.isCollide)
+            // {
+            //     var target = copy.GetTarget(skillData.Model.transform.position);
+            //     skillData.SetDamage(target);
+            //     copy.Collider.enabled = false;
+            // }
+
+
         }
 
-        skillData.returnHitBox(copy);
+        // skillData.returnHitBox(copy);
 
         yield return null;
+    }
+
+    IEnumerator ProcessEachHitBox(HitBox copy)
+    {
+        copy.isImmediately = true;
+        StartCoroutine(copy.CheckObjCollideInTime());
+        if (copy.isCollide)
+        {
+            var target = copy.GetTarget(skillData.Model.transform.position);
+            skillData.SetDamage(target);
+        }
+
+        yield return new WaitWhile(() => copy.isTimeLeft);
+        print(true);
+        skillData.returnHitBox(copy);
     }
 }

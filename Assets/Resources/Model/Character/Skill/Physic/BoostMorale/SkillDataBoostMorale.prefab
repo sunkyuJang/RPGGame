@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Model: {fileID: 0}
+  skillName_eng: 
   skillName_kor: "\uAC00\uD638"
   description: "\uC790\uC2E0\uC740 10\uCD08\uAC04 \uACF5\uACA9\uACFC \uBC29\uC5B4\uB97C
     50% \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
@@ -66,6 +67,7 @@ MonoBehaviour:
   isLearn: 0
   Length: 0
   attackType: 0
+  ManaCost: 15
   DamagePercentage: 0
   CoolDown: 5
   nowCoolDown: 0
@@ -73,7 +75,6 @@ MonoBehaviour:
   shouldLookAtEffectSheet: 1
   EffectSheetNum: 4
   parentSkillData: {fileID: 0}
-  skillpulling: {fileID: 0}
   hitBoxNum: 3
   targetModel: {fileID: 0}
 --- !u!114 &3426405943227214639

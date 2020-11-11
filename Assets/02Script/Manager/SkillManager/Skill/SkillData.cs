@@ -21,12 +21,13 @@ public class SkillData : MonoBehaviour
     public float Length;
     public enum AttackType { Physic, Magic }
     public AttackType attackType;
+    public int ManaCost;
     public float DamagePercentage;
     public float CoolDown;
 
     [SerializeField]
-    private float nowCoolDown;
-    
+    public float nowCoolDown;
+
     public bool isCoolDown { get { return nowCoolDown != 0f; } }
     public HitBox hitBox;
     public bool shouldLookAtEffectSheet;
@@ -41,9 +42,9 @@ public class SkillData : MonoBehaviour
     public Model targetModel;
 
     public ISkillMovement skillMovement;
-    public bool IsReachedTarget 
-    { 
-        get 
+    public bool IsReachedTarget
+    {
+        get
         {
             var closeCollider = GPosition.GetClosedCollider(Model.transform, Length, 30f, hitBox.GetTargetModelTag);
             if (closeCollider != null)
@@ -53,17 +54,17 @@ public class SkillData : MonoBehaviour
             }
             else
                 return false;
-        } 
+        }
     }
     protected void Awake()
     {
         skillName_eng = gameObject.name.Substring(9);
-/*        skillPooling = new GameObject(skillName_eng + "pooler").GetComponent<Transform>();
-        skillPooling.position = Vector3.zero;*/
-/*        for (int i = 0; i < hitBoxNum; i++)
-        {
-            SetHitBox();
-        }*/
+        /*        skillPooling = new GameObject(skillName_eng + "pooler").GetComponent<Transform>();
+                skillPooling.position = Vector3.zero;*/
+        /*        for (int i = 0; i < hitBoxNum; i++)
+                {
+                    SetHitBox();
+                }*/
     }
     public void SetPooler()
     {
@@ -83,7 +84,7 @@ public class SkillData : MonoBehaviour
     IEnumerator StartCoolDown()
     {
         nowCoolDown = CoolDown;
-        while(nowCoolDown >= 0f)
+        while (nowCoolDown >= 0f)
         {
             yield return new WaitForFixedUpdate();
             nowCoolDown -= Time.fixedDeltaTime;
@@ -92,17 +93,16 @@ public class SkillData : MonoBehaviour
     }
     public void SetDamage(List<Collider> colliders)
     {
-        foreach(Collider collider in colliders)
+        foreach (Collider collider in colliders)
         {
             SetDamage(collider);
         }
     }
     public void SetDamage(Collider collider)
     {
-
-        StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), Model.ATK + (DamagePercentage * (attackType == AttackType.Physic ? Model.ATK : Model.MP * 10) * 0.01f));
+        var damege = (attackType == AttackType.Physic ? Model.ATK : Model.MP * 0.1f) * DamagePercentage * 0.01f;
+        StateEffecterManager.EffectToModelBySkill(this, collider.GetComponent<Model>(), damege);
     }
-
     public HitBox GetHitBox()
     {
         var copy = hitBoxPooler.GetObj<HitBox>();
@@ -119,9 +119,20 @@ public class SkillData : MonoBehaviour
 
     public void returnHitBox(HitBox hitBox)
     {
+        //        StartCoroutine(ReturnHitBotAfterAudio(hitBox));
         hitBox.gameObject.SetActive(false);
         hitBoxPooler.returnObj(hitBox.gameObject);
     }
+
+    // IEnumerator ReturnHitBotAfterAudio(HitBox hitBox)
+    // {
+    //     var audioSource = hitBox.GetComponent<AudioSource>();
+    //     if (hitBox.isSingleTarget)
+    //         yield return new WaitWhile(() => audioSource.isPlaying);
+
+    //     hitBox.gameObject.SetActive(false);
+    //     hitBoxPooler.returnObj(hitBox.gameObject);
+    // }
 }
 /*public class SkillData : MonoBehaviour
 {

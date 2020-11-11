@@ -81,8 +81,10 @@ MonoBehaviour:
   targetModel: 1
   isSingleTarget: 1
   nowCheckedType: 0
-  duringTime: 0
-  effectTime: 0
+  duringTime: 2
+  nowDuringTime: 0
+  effectTime: 2
+  nowEffectTime: 0
   dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:

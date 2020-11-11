@@ -17,7 +17,7 @@ public class Joypad : MonoBehaviour
     protected Rect upRect;
     protected Rect downRect;
     protected Rect holdRect;
-    
+
     public float radian;
 
     public bool isPressed { set; get; }
@@ -46,7 +46,7 @@ public class Joypad : MonoBehaviour
     public virtual IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
-        float limit = downTransform.rect.width * 0.5f;
+        float limit = downTransform.rect.width * 0.01f;
         Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
 
         while (GPosition.IsHoldPressedInput(isTouch, touchID, isMouse))
@@ -55,9 +55,9 @@ public class Joypad : MonoBehaviour
             float dist = Vector2.Distance(inputPosition, centerPosition);
             Vector2 nowNomal = (inputPosition - centerPosition).normalized;
 
-            if(dist < limit) { upTransform.position = inputPosition; }
+            if (dist < limit) { upTransform.position = inputPosition; }
             else { upTransform.position = centerPosition + nowNomal * limit; }
-            
+
             radian = Mathf.Atan2(nowNomal.x, nowNomal.y);
             yield return new WaitForFixedUpdate();
         }

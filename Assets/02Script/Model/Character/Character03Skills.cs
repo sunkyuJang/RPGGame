@@ -6,55 +6,61 @@ using UnityEngine;
 public partial class Character : Model
 {
     public bool canAttacking = true;
-    public bool isHitTriggerActivate { private set; get; }
-    public void HitTrigger(int i) { isHitTriggerActivate = i == 0 ? false : true; }
-
+    public bool isManaEnough(SkillData skill) { return nowMP - skill.ManaCost >= 0; }
     void ActivateSkill(SkillData skill)
     {
         if (IsinField)
         {
+            print("isInField");
             if (canAttacking)
             {
-                if (!skill.isCoolDown)
+                print("canAttack");
+                if (isManaEnough(skill))
                 {
-                    if (skill.IsReachedTarget)
+                    print("isManaEnough");
+                    if (!skill.isCoolDown)
                     {
-                        StartCoroutine(DeActivateSkill(skill));
-                        return;
+                        print("isCoolDown");
+                        if (skill.IsReachedTarget)
+                        {
+                            print("isReached");
+                            StartCoroutine(DeActivateSkill(skill));
+                            return;
+                        }
+                        else
+                            ShowAlert("주변에 대상이 없습니다.", Color.red);
                     }
                     else
-                        ShowAlert("주변에 대상이 없습니다.", Color.red);
+                        ShowAlert("쿨타임이 남았습니다", Color.red);
                 }
                 else
-                    ShowAlert("쿨타임이 남았습니다", Color.red);
+                    ShowAlert("마나가 모자릅니다.", Color.red);
             }
         }
+
+        NowState = ActionState.Idle;
     }
 
     public IEnumerator DeActivateSkill(SkillData skill)
     {
         canAttacking = false;
         canGetHit = false;
+        nowMP -= skill.ManaCost;
+        RefreshedHPBar();
 
         SetSkillAnimator(skill, true);
-        yield return new WaitForFixedUpdate();
 
-        while (!isHitTriggerActivate)
-        {
-            //print("isHitTriggerActivate Stuck");
-            yield return new WaitForFixedUpdate();
-        }
+        yield return StartCoroutine(WaitTillInterrupt(1));
 
         skill.ActivateSkill();
 
         var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-        //print(lestTime);
+        print("lestTime");
 
         SetSkillAnimator(skill, false);
 
         NowState = ActionState.Idle;
         canGetHit = true;
-        HitTrigger(0);
 
         float nowTime = -0.5f;
         while (nowTime < lestTime)
@@ -62,6 +68,7 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
             nowTime += Time.fixedDeltaTime;
         }
+        print("nowTime");
         Animator.SetBool(skill.gameObject.name, false);
         canAttacking = true;
     }
@@ -70,7 +77,7 @@ public partial class Character : Model
     {
         Animator.SetBool(skill.gameObject.name, isStart);
         Animator.SetBool(skill.attackType == SkillData.AttackType.Physic ? "IsPhysic" : "IsMagic", isStart);
-        if(isStart)
+        if (isStart)
             DoAnimator(AnimatorState.Attak);
     }
 }

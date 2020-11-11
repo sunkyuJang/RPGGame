@@ -18,22 +18,25 @@ public class SkillMovementFireBall : SkillMovement, ISkillMovement
 
         copy.transform.position = skillData.Model.transform.position + Vector3.up;
         copy.transform.forward = skillData.Model.transform.forward;
-        copy.Rigidbody.velocity = copy.transform.forward * Speed; 
+        copy.Rigidbody.velocity = copy.transform.forward * Speed;
         copy.isImmediately = true;
 
-        print(copy.transform.position);
+        yield return StartCoroutine(copy.CheckObjCollideInTime());
 
-        copy.StartEffectTimeCountDown();
-        while (copy.isEffectTimeLeft)
+        if (copy.isCollide)
         {
-            yield return new WaitForFixedUpdate();
-            if (copy.isCollide)
-            {
-                print(true);
-                var target = copy.GetTarget(skillData.Model.transform.position);
-                skillData.SetDamage(target);
-            }
+            var target = copy.GetTarget(skillData.Model.transform.position);
+            skillData.SetDamage(target);
         }
+        // while (copy.isEffectTimeLeft)
+        // {
+        //     yield return new WaitForFixedUpdate();
+        //     if (copy.isCollide)
+        //     {
+        //         var target = copy.GetTarget(skillData.Model.transform.position);
+        //         skillData.SetDamage(target);
+        //     }
+        // }
 
         skillData.returnHitBox(copy);
 

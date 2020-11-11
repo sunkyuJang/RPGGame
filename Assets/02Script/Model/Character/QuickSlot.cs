@@ -64,7 +64,20 @@ public class QuickSlot : MonoBehaviour
             {
                 Character.ReservedSkill = skillViewer.skillData;
                 Character.SetActionState(Character.ActionState.Attack);
+                StartCoroutine(CountingSkillCoolDown(num, skillViewer.skillData));
             }
+        }
+    }
+
+    IEnumerator CountingSkillCoolDown(int slotNum, SkillData data)
+    {
+        yield return new WaitWhile(() => data.nowCoolDown == 0);
+        var icon = childs[slotNum].GetComponent<Image>();
+        icon.fillAmount = 0f;
+        while (data.isCoolDown)
+        {
+            yield return new WaitForFixedUpdate();
+            icon.fillAmount = (data.CoolDown - data.nowCoolDown) / data.CoolDown;
         }
     }
 
@@ -84,7 +97,7 @@ public class QuickSlot : MonoBehaviour
         }
         return -1;
     }
-    public void SetSlot(Transform targetTrasform, Sprite icon, int _num) 
+    public void SetSlot(Transform targetTrasform, Sprite icon, int _num)
     {
         lists.RemoveAt(_num);
         lists.Insert(_num, targetTrasform);

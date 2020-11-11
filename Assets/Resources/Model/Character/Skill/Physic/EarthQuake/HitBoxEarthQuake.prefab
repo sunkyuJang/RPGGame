@@ -192,6 +192,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6964379831723060803, guid: 714ca40ffc6c5634fb2290839c742ea6,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: a48301f0f15853a4db9e2035e648313d, type: 3}
+    - target: {fileID: 6964379831723060803, guid: 714ca40ffc6c5634fb2290839c742ea6,
+        type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7822522892638755025, guid: 714ca40ffc6c5634fb2290839c742ea6,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -49,6 +49,7 @@ public class PlayerData
 
     //CutScene
     public List<string> TimeLineAssetName = new List<string>();
+
     PlayerData() { }
     public PlayerData(string id, string pw, string nickName)
     {

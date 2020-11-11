@@ -8,6 +8,4 @@ public class Npc : Model
     {
         base.Awake();
     }
-
-
 }

@@ -90,7 +90,9 @@ public class PlayerDataManager : MonoBehaviour
         {
             Controller.Character.gameObject.SetActive(false);
             frame.SetActive(false);
-            SceneManager.LoadSceneAsync(GameManager.pathOfScenes + "LoginScene");
+            LoadSceneManager.LoadScene(GameManager.pathOfScenes + "LoginScene");
+            //LoadSceneManager.LoadScene(GameManager.pathOfScenes + "LoginScene", Controller.Character, Vector3.down);
+            //SceneManager.LoadSceneAsync(GameManager.pathOfScenes + "LoginScene");
             LoginManager.instance.ShowView();
         }
     }

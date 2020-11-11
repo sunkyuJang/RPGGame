@@ -73,7 +73,7 @@ public partial class Inventory : MonoBehaviour
                 if (itemView.IsContainInputPosition(dropPosition))
                 {
                     //usingItem
-                    StartCoroutine(UseItem(itemView, true));
+                    UseItem(itemView, true);
                 }
                 else
                 {
@@ -85,13 +85,16 @@ public partial class Inventory : MonoBehaviour
             {
                 var Character = Model as Character;
 
-                var slotNum = Character.QuickSlot.IsIn(dropPosition);
-                if (slotNum >= 0)
+                if (itemView.ItemCounter.Data.GetItemType == ItemSheet.Param.ItemTypeEnum.Active)
                 {
-                    //registQuickSlot
-                    Character.QuickSlot.SetSlot(itemView.transform, itemView.icon.sprite, slotNum);
+                    var slotNum = Character.QuickSlot.IsIn(dropPosition);
+                    if (slotNum >= 0)
+                    {
+                        //registQuickSlot
+                        Character.QuickSlot.SetSlot(itemView.transform, itemView.icon.sprite, slotNum);
+                    }
                 }
-                else if(TargetInventory != null)
+                else if (TargetInventory != null)
                 {
                     if (TargetInventory.Area.Contains(dropPosition))
                     {
@@ -103,8 +106,9 @@ public partial class Inventory : MonoBehaviour
         }
         else
         {
-            //Buy item
-            StartCoroutine(TradeItem(itemView, TargetInventory, true));
+            if (TargetInventory.Area.Contains(dropPosition))
+                //Buy item
+                StartCoroutine(TradeItem(itemView, TargetInventory, true));
         }
     }
     void SwapItem(ItemView itemView, Vector2 dropPosition)
@@ -112,9 +116,9 @@ public partial class Inventory : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapBoxAll(dropPosition, itemView.frame.GetComponent<BoxCollider2D>().size, 0f);
 
         dropPosition -= new Vector2(transform.position.x, transform.position.y);
-        var itemViewCollider = itemView.frame.GetComponent<BoxCollider2D>(); 
+        var itemViewCollider = itemView.frame.GetComponent<BoxCollider2D>();
         Collider2D targetCollider = null;
-        if(colliders.Length > 0)
+        if (colliders.Length > 0)
         {
             float closeDist = 1000f;
             foreach (Collider2D collider in colliders)
@@ -179,7 +183,7 @@ public partial class Inventory : MonoBehaviour
         while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
             yield return new WaitForFixedUpdate();
 
-        if(confirmBox.NowState == ConfimBoxManager.State.Yes)
+        if (confirmBox.NowState == ConfimBoxManager.State.Yes)
         {
             if (isBuying) // !isPlayer
             {
@@ -191,9 +195,9 @@ public partial class Inventory : MonoBehaviour
                     targetInventory.SetGold(nowGold);
                     RemoveItem(itemView.ItemCounter);
                 }
-                else 
+                else
                 {
-                    (targetInventory.Model as Character).ShowAlert("잔액이 모자릅니다.", Color.red); 
+                    (targetInventory.Model as Character).ShowAlert("잔액이 모자릅니다.", Color.red);
                 }
             }
             else

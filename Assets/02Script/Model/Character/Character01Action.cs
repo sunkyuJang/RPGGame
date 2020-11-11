@@ -86,6 +86,7 @@ public partial class Character : Model
         {
             NowState = actionState;
         }
+        print(NowState + "//" + BeforeState);
     }
     public SkillData ReservedSkill { set; get; }
 
@@ -140,6 +141,12 @@ public partial class Character : Model
             DoAnimator(AnimatorState.Running);
             while (BeforeState == ActionState.Running)
             {
+                if (ConfimBoxManager.instance.confirmBoxPrefabObj.activeSelf)
+                {
+                    Rigidbody.velocity = Vector3.zero;
+                    NowState = ActionState.Idle;
+                    break;
+                }
                 transform.rotation = Quaternion.Euler(Rotation);
                 Rigidbody.velocity = transform.forward * SPD;
                 yield return new WaitForFixedUpdate();
@@ -210,6 +217,7 @@ public partial class Character : Model
 
     IEnumerator DoAttack()
     {
+        print("InAttack");
         ActivateSkill(ReservedSkill);
         yield break;
     }
@@ -226,15 +234,17 @@ public partial class Character : Model
         canGetHit = false;
 
         DoAnimator(AnimatorState.GetHit);
+        yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
 
         if (nowHP > 0)
         {
-            yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
             NowState = ActionState.Idle;
             canGetHit = true;
         }
         else
-            NowState = ActionState.Dead;
+        {
+            yield return StartCoroutine(DoDead());
+        }
         // while (!NowAnimatorInfo.IsName("GetHit"))
         //     yield return new WaitForFixedUpdate();
 
@@ -244,7 +254,10 @@ public partial class Character : Model
     IEnumerator DoDead()
     {
         isAlreadyDead = true;
+        Rigidbody.velocity = Vector3.zero;
         DoAnimator(AnimatorState.Dead);
+
+        IntoClearUI();
 
         // yield return new Wa
 
@@ -263,6 +276,7 @@ public partial class Character : Model
         nowHP = HP;
         nowMP = MP;
         RefreshedHPBar();
+        IntoNormalUI();
 
         NowState = ActionState.Idle;
         yield break;

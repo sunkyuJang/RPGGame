@@ -6,7 +6,7 @@ public class Slime : NormalMonster
 {
     new private void Awake()
     {
-        SetInfo("허접한 슬라임", 100, 0, 15, 100, 5);
+        SetInfo("허접한 슬라임", 100, 0, 15, 10, 5);
         base.Awake();
     }
     // Update is called once per frame
@@ -42,7 +42,7 @@ public class Slime : NormalMonster
         canAttack = false;
         canGetHit = false;
         DoAnimator(ActionState.attack);
-        
+
         yield return StartCoroutine(WaitTillAnimator("NomalAttack", true));
 
         var nowSkill = GetSkillData(SkillDataName + "NormalAttack");

@@ -5,9 +5,9 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -22.50532341003418,
+        "x": 23.24505615234375,
         "y": 0.0,
-        "z": 45.56079864501953
+        "z": 7.2886962890625
     },
     "safeScene": "IngameScene",
     "SafePosition": {
@@ -19,14 +19,10 @@
     "itemKinds": [
         0,
         5,
-        5,
-        5,
         5
     ],
     "itemCounts": [
         5,
-        1,
-        1,
         1,
         1
     ],
@@ -42,9 +38,9 @@
     ],
     "isLearnSkill": [
         true,
+        true,
         false,
-        false,
-        false,
+        true,
         false,
         false,
         false

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5874629782710724803}
   - component: {fileID: 5874629782710724804}
   - component: {fileID: 7232021261138976467}
-  - component: {fileID: -4705056717310163651}
+  - component: {fileID: 8153196067011891088}
   m_Layer: 5
   m_Name: SkillDataLowSmash
   m_TagString: Untagged
@@ -66,6 +66,7 @@ MonoBehaviour:
   isLearn: 0
   Length: 2
   attackType: 0
+  ManaCost: 10
   DamagePercentage: 150
   CoolDown: 3
   nowCoolDown: 0
@@ -75,7 +76,7 @@ MonoBehaviour:
   parentSkillData: {fileID: 0}
   hitBoxNum: 3
   targetModel: {fileID: 0}
---- !u!114 &-4705056717310163651
+--- !u!114 &8153196067011891088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,6 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874629782710724800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2aebf45565b5f488f858f2e4b195e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8199e2bd51468864a812166613c4f086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

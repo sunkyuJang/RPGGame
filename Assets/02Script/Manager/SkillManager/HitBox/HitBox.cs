@@ -22,16 +22,13 @@ public class HitBox : MonoBehaviour
     public enum CheckedType { inTime, inDist }
     public CheckedType nowCheckedType;
     public float duringTime;
-    float nowDuringTime;
+    public float nowDuringTime;
     public bool isTimeLeft { get { return nowDuringTime > 0f; } }
 
     public float effectTime;
-    float nowEffectTime;
+    public float nowEffectTime;
     public bool isEffectTimeLeft { get { return nowEffectTime > 0f; } }
-
-    public float dist;
-    float nowDist;
-    public bool isDistOver { get { return nowDist > dist; } }
+    //public bool isDistOver { get { return nowDist > dist; } }
 
     public void Awake()
     {
@@ -40,7 +37,7 @@ public class HitBox : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(targetModel == TargetModel.All)
+        if (targetModel == TargetModel.All)
             enteredColliders.Add(other);
         else
         {
@@ -60,11 +57,11 @@ public class HitBox : MonoBehaviour
         var colliderList = GetMultiTargetColiders();
         var dist = 10000f;
         Collider closeOne = null;
-        for(int i = 0; i < colliderList.Count; i++)
+        for (int i = 0; i < colliderList.Count; i++)
         {
             var nowCollider = colliderList[i];
             var nowDist = Vector3.Distance(centerPosition, nowCollider.transform.position);
-            if(nowDist < dist)
+            if (nowDist < dist)
             {
                 dist = nowDist;
                 closeOne = nowCollider;
@@ -75,57 +72,70 @@ public class HitBox : MonoBehaviour
 
     public List<Collider> GetTarget(Vector3 centerPosition)
     {
-        List<Collider> target= new List<Collider>();
-        
+        List<Collider> target = new List<Collider>();
+
         if (isSingleTarget)
             target.Add(GetSingleTargetColiders(centerPosition));
         else
-            foreach(Collider collider in GetMultiTargetColiders())
+            foreach (Collider collider in GetMultiTargetColiders())
                 target.Add(collider);
-        
+
         enteredColliders.Clear();
         return target;
     }
 
     public IEnumerator CheckObjCollideInTime()
     {
+        StartCoroutine(StartCountingEffectTime());
         nowCheckedType = CheckedType.inTime;
         nowDuringTime = duringTime;
         while (isTimeLeft)
         {
             yield return new WaitForFixedUpdate();
             nowDuringTime -= Time.fixedDeltaTime;
-            if (isCollide) 
-            {
-                break; 
-            }
-        }
-    }
-
-    public IEnumerator CheckObjCollideInDist(Vector3 center, float dist)
-    {
-        this.dist = dist;
-        nowDist = Vector3.Distance(transform.position, center);
-        while(nowDist < dist)
-        {
-            yield return new WaitForFixedUpdate();
-            if (isCollide) 
+            if (isCollide)
             {
                 break;
             }
         }
+        nowDuringTime = 0;
     }
 
-    public bool isWorks
+    public IEnumerator StartCountingEffectTime()
     {
-        get 
-        { 
-            if (nowCheckedType == CheckedType.inTime)
-                return isCollide && !isTimeLeft;
-            else
-                return isCollide && !isDistOver;
+        nowEffectTime = effectTime;
+        while (isEffectTimeLeft)
+        {
+            yield return new WaitForFixedUpdate();
+            nowEffectTime -= Time.fixedDeltaTime;
         }
+        nowEffectTime = 0;
     }
+
+    // public IEnumerator CheckObjCollideInDist(Vector3 center, float dist)
+    // {
+    //     this.dist = dist;
+    //     nowDist = Vector3.Distance(transform.position, center);
+    //     while (nowDist < dist)
+    //     {
+    //         yield return new WaitForFixedUpdate();
+    //         if (isCollide)
+    //         {
+    //             break;
+    //         }
+    //     }
+    // }
+
+    // public bool isWorks
+    // {
+    //     get
+    //     {
+    //         if (nowCheckedType == CheckedType.inTime)
+    //             return isCollide && !isTimeLeft;
+    //         else
+    //             return isCollide && !isDistOver;
+    //     }
+    // }
 
     public void StartCountDown()
     {

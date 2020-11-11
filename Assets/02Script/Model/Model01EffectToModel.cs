@@ -9,7 +9,7 @@ public partial class Model : MonoBehaviour
 
     public void SetEffect(StateEffecterSheet.Param data, bool isDeEffect)
     {
-        for(int i = 0; i < StateSavers.Count; i++)
+        for (int i = 0; i < StateSavers.Count; i++)
         {
             var nowState = StateSavers[i];
             if (nowState.data == data)
@@ -23,7 +23,7 @@ public partial class Model : MonoBehaviour
 
         var StateSaver = new StateSaver(data);
         StateSaver.coroutine = StartCoroutine(isDeEffect ? GetProcessDeincreaseEffect(data, StateSaver) : GetProcessIncreaseEffect(data, StateSaver));
-        if(data.During > 0)
+        if (data.During > 0)
             StateSavers.Add(StateSaver);
     }
 
@@ -31,6 +31,9 @@ public partial class Model : MonoBehaviour
     {
         nowHP += (int)(HP * (data.nowHp / HP));
         nowMP += (int)(MP * (data.nowMp / MP));
+
+        nowHP = nowHP < HP ? nowHP : HP;
+        nowMP = nowMP < MP ? nowMP : MP;
 
         ATK += data.ATK_point;
         DEF += data.DEF_point;
@@ -44,7 +47,7 @@ public partial class Model : MonoBehaviour
         DEF += saver.increasePercentageDEF;
         SPD += saver.increasePercentageSPD;
 
-        if(this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
+        if (this is Character) { (this as Character).EquipmentView.LoadCharacterState(); }
 
         if (data.During > 0)
         {
@@ -63,7 +66,7 @@ public partial class Model : MonoBehaviour
             ATK -= saver.increasePercentageATK;
             DEF -= saver.increasePercentageDEF;
             SPD -= saver.increasePercentageSPD;
-            
+
             StateSavers.Remove(saver);
         }
 
@@ -75,6 +78,9 @@ public partial class Model : MonoBehaviour
     {
         nowHP -= (int)(HP * (data.nowHp / HP));
         nowMP -= (int)(MP * (data.nowMp / MP));
+
+        nowHP = nowHP > 0 ? nowHP : 1;
+        nowMP = nowMP > 0 ? nowMP : 0;
 
         ATK -= data.ATK_point;
         DEF -= data.DEF_point;
@@ -103,11 +109,11 @@ public partial class Model : MonoBehaviour
             ATK += data.ATK_point;
             DEF += data.DEF_point;
             SPD += data.SPD_point;
-                
+
             ATK += saver.increasePercentageATK;
             DEF += saver.increasePercentageDEF;
             SPD += saver.increasePercentageSPD;
-            
+
             StateSavers.Remove(saver);
         }
 

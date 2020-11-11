@@ -83,7 +83,8 @@ MonoBehaviour:
   isSingleTarget: 1
   nowCheckedType: 0
   duringTime: 1
-  effectTime: 1
+  nowDuringTime: 0
+  effectTime: 1.5
   dist: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:

@@ -8,11 +8,11 @@ public class SkulMagician : NormalMonster
 {
     public GameObject HitBox;
     public GameObject HitBoxFX;
-    
+
     public float farEnogh { set; get; }
     new private void Awake()
     {
-        SetInfo("허름한 마법사", 100, 25, 0, 100, 5);
+        SetInfo("허름한 마법사", 100, 250, 0, 10, 5);
         base.Awake();
     }
     new private void OnEnable()

@@ -9,6 +9,8 @@ public class HitBoxEffect : MonoBehaviour
     public GameObject HitBoxEffectObj;
     public enum EffectorStartTime { Start, Immediately, Hit, EndMove }
     public EffectorStartTime effectorStartTime;
+    // public enum SoundProcessAfterCollision { LeaveUntillEnd, RemoveImmediately }
+    // public SoundProcessAfterCollision soundProcessAfterCollision;
     bool isBeforeEffectDrawing { get { return !HitBoxEffectObj.activeSelf; } }
 
     private void Start()

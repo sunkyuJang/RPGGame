@@ -183,7 +183,7 @@ public class Monster : Model
         DoAnimator(ActionState.battle);
         while (BeforeState == ActionState.battle)
         {
-            transform.LookAt(Character.transform.position + Vector3.up * 0.5f);
+            transform.LookAt(Character.transform.position);
             yield return new WaitForFixedUpdate();
 
             if (!IsCloseEnoughWithChracter)

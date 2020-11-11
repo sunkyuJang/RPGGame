@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 0a6f95e19a015584a930d31dac9f27ba
 ModelImporter:
-  serializedVersion: 19300
+  serializedVersion: 20101
   internalIDToNameTable:
   - first:
       74: -203655887218126122
@@ -60,7 +60,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.4827909
-        functionName: HitTrigger
+        functionName: Interrupt
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -82,11 +82,13 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -96,6 +98,9 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:

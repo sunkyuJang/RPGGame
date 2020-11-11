@@ -24,7 +24,7 @@ public class ItemDescriptionBox : MonoBehaviour
         gameObject.SetActive(true);
         icon.sprite = itemView.icon.sprite;
         name.text = itemView.ItemCounter.Data.Name;
-        description.text = itemView.ItemCounter.Data.Description;
+        description.text = "<" + itemView.ItemCounter.Data.ItemType + ">\r\n" + itemView.ItemCounter.Data.Description;
     }
 
     public void Hide()

@@ -23,7 +23,7 @@ public class BossMonster : Monster
     bool canLookAt { set; get; } = true;
     new private void Awake()
     {
-        SetInfo("보스", 1000, 1000, 10, 10, 10);
+        SetInfo("보스", 1000, 100, 10, 10, 10);
         base.Awake();
     }
 

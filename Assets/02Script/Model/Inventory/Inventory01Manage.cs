@@ -20,7 +20,7 @@ public partial class Inventory : MonoBehaviour
     {
         SetGold(this.gold + gold);
     }
-    
+
     public IEnumerator ProcessAddItem(ItemManager.ItemCounter itemCounter, int addCounter)
     {
         ItemManager.ItemCounter newCounter = itemCounter;
@@ -50,7 +50,7 @@ public partial class Inventory : MonoBehaviour
                 yield return StartCoroutine(AddViewAndTableList(newCounter));
             }
         }
-        else if(lastCounter.isWaitingNewItemView)
+        else if (lastCounter.isWaitingNewItemView)
         {
             yield return StartCoroutine(AddViewAndTableList(lastCounter));
         }
@@ -60,9 +60,9 @@ public partial class Inventory : MonoBehaviour
 
     public void AddItem(ItemManager.ItemCounter counter)
     {
-        if (counter.View != null) 
+        if (counter.View != null)
             ItemManager.Instance.ReturnItemView(counter.View);
-        
+
         AddItem(counter.Data.Index, counter.count);
     }
     IEnumerator AddViewAndTableList(ItemManager.ItemCounter newCounter)
@@ -80,9 +80,9 @@ public partial class Inventory : MonoBehaviour
     public bool RemoveItem(int itemIndex, int removeCount)
     {
         List<ItemManager.ItemCounter> kindList;
-        if(table.GetSameKindTotalCount(ItemManager.Instance.GetitemData(itemIndex), out kindList) >= removeCount)
+        if (table.GetSameKindTotalCount(ItemManager.Instance.GetitemData(itemIndex), out kindList) >= removeCount)
         {
-            while(removeCount > 0)
+            while (removeCount > 0)
             {
                 var nowCounter = kindList[kindList.Count - 1];
                 removeCount = nowCounter.RemoveCountWithOverFlow(removeCount);
@@ -101,7 +101,12 @@ public partial class Inventory : MonoBehaviour
     }
     public bool RemoveItem(ItemManager.ItemCounter counter) => RemoveItem(counter.Data.Index, counter.count);
 
-    public IEnumerator UseItem(ItemView itemView, bool useComfirmBox)
+    public void UseItem(ItemView itemView, bool useComfirmBox)
+    {
+        StartCoroutine(ProcessUseItem(itemView, useComfirmBox));
+    }
+
+    IEnumerator ProcessUseItem(ItemView itemView, bool useComfirmBox)
     {
         ItemSheet.Param.ItemTypeEnum nowType = itemView.ItemCounter.Data.GetItemType;
         var character = Model as Character;

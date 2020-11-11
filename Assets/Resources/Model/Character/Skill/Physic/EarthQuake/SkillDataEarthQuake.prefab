@@ -67,6 +67,7 @@ MonoBehaviour:
   isLearn: 0
   Length: 15
   attackType: 0
+  ManaCost: 20
   DamagePercentage: 200
   CoolDown: 5
   nowCoolDown: 0

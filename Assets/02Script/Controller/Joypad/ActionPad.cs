@@ -6,16 +6,16 @@ public class ActionPad : Joypad, IInputTracer
 {
     public bool ShouldCameraMove { private set; get; }
     public int IsMovingLeft { get { return upTransform.position.x - downTransform.position.x < 0f ? -1 : 1; } }
-    public float CameraSpeed 
-    { 
-        get 
+    public float CameraSpeed
+    {
+        get
         {
             if (upTransform.position.x > (downRect.xMax - downRect.width * 0.25f)
                 && upTransform.position.x < (downRect.xMin + downRect.width * 0.25f))
                 return 2f;
             else
                 return 1f;
-        } 
+        }
     }
 
     new private void Awake()
@@ -26,7 +26,7 @@ public class ActionPad : Joypad, IInputTracer
     public override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
-        float limit = downTransform.rect.width * 0.5f;
+        float limit = downTransform.rect.width * 0.3f;
         Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
 
         float TimeCount = 0f;
@@ -46,9 +46,9 @@ public class ActionPad : Joypad, IInputTracer
             TimeCount += Time.fixedDeltaTime;
         }
 
-        if(TimeCount < 0.5f)
+        if (TimeCount < 0.5f)
             controller.DoCharacterAtion();
-    
+
         isPressed = false;
         upTransform.position = downTransform.position;
     }

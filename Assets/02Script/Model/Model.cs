@@ -40,7 +40,14 @@ public partial class Model : MonoBehaviour
     protected string SkillDataName = "SkillData";
     protected void SetInfo(string _CharacterName, int _HP, int _MP, int _ATK, int _DEF, int _SPD)
     {
-        CharacterName = _CharacterName; HP = _HP; nowHP = HP; MP = _MP; nowMP = MP; ATK = _ATK; DEF = _DEF; SPD = _SPD;
+        CharacterName = _CharacterName;
+        HP = _HP;
+        nowHP = HP;
+        MP = _MP;
+        nowMP = MP;
+        ATK = _ATK;
+        DEF = _DEF;
+        SPD = _SPD;
     }
 
     protected void Awake()
@@ -53,6 +60,8 @@ public partial class Model : MonoBehaviour
 
         AwakeInAlert();
     }
+
+    //protected virtual IEnumerator EffectAfterDialogue() { yield return null; }
 
     protected void OnEnable()
     {
@@ -97,17 +106,6 @@ public partial class Model : MonoBehaviour
             Animator.runtimeAnimatorController = animatorController;
         }
     }
-
-    // protected void FixedUpdate()
-    // {
-    //     if (iStateViewerHandler != null)
-    //     {
-    //         if (!IsRunningTimeLine != iStateViewerHandler.GetGameObject().activeSelf)
-    //         {
-    //             iStateViewerHandler.ShowObj(!IsRunningTimeLine);
-    //         }
-    //     }
-    // }
 
     protected void RefreshedHPBar() { if (iStateViewerHandler != null) iStateViewerHandler.RefreshState(); }
 
