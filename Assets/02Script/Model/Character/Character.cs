@@ -108,6 +108,7 @@ public partial class Character : Model
         yield return new WaitWhile(() => IsOnEnableFuncPassed == false);
         yield return new WaitUntil(() => Inventory != null);
         yield return new WaitUntil(() => EquipmentView != null);
+        yield return new WaitUntil(() => CharacterSkiilViewer != null);
         yield return new WaitUntil(() => skillListHandler.StartPass);
 
         PlayerData = playerData;
@@ -123,12 +124,11 @@ public partial class Character : Model
             if (EquipmentView.IsWearing)
                 for (int i = 0; i < EquipmentView.EquipmentItems.Length; i++)
                     if (EquipmentView.EquipmentItems[i] != null)
-                        EquipmentView.ReleaseWearItem(i);
+                        EquipmentView.ReleaseWearItem(i, false);
 
             Inventory.RemoveAllItem();
 
-            foreach (SkillData skillData in skillListHandler.skillDatas)
-                skillData.isLearn = false;
+            CharacterSkiilViewer.SetAllLearnFalse();
 
             LastTimeTalkingWith.Clear();
 
@@ -150,7 +150,11 @@ public partial class Character : Model
             foreach (int index in playerData.WearingItem)
             {
                 var counter = new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(index), 1);
-                EquipmentView.SetEquipmetItem(ItemManager.Instance.GetNewItemView(counter));
+
+                Inventory.WearItem(counter, true);
+                // Inventory.AddItem((index), 1);
+                // Inventory.UseItem(Inventory.itemViews[Inventory.itemViews.Count - 1], false);
+                //EquipmentView.SetEquipmetItem(ItemManager.Instance.GetNewItemView(counter));
             }
         }
 

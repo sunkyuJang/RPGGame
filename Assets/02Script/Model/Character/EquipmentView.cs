@@ -9,15 +9,15 @@ public class EquipmentView : MonoBehaviour
 {
     public Character Character { set; get; }
     public ItemView[] EquipmentItems { private set; get; } = new ItemView[2];
-    public bool IsWearing 
-    { 
-        get 
-        { 
-            foreach (ItemView View in EquipmentItems) 
-                if (View == null) 
-                    return false; 
-            return true; 
-        } 
+    public bool IsWearing
+    {
+        get
+        {
+            foreach (ItemView View in EquipmentItems)
+                if (View == null)
+                    return false;
+            return true;
+        }
     }
     RectTransform Transform { set; get; }
     Transform WeaponTrans { set; get; }
@@ -29,14 +29,14 @@ public class EquipmentView : MonoBehaviour
     Text CharacterName { set; get; }
     Text HP { set; get; }
     Text MP { set; get; }
-    Text ATK{ set; get; }
-    Text DEF{ set; get; }
+    Text ATK { set; get; }
+    Text DEF { set; get; }
     Text SPD { set; get; }
 
-    public void HideObject() 
-    { 
-        Character.IntoNormalUI(); 
-        gameObject.SetActive(false); 
+    public void HideObject()
+    {
+        Character.IntoNormalUI();
+        gameObject.SetActive(false);
     }
 
     public void Awake()
@@ -61,16 +61,17 @@ public class EquipmentView : MonoBehaviour
             while (confirmBox.NowState == ConfimBoxManager.State.Waiting) { yield return new WaitForFixedUpdate(); }
             if (confirmBox.NowState == ConfimBoxManager.State.Yes)
             {
-                ReleaseWearItem(index);
+                ReleaseWearItem(index, true);
             }
         }
     }
 
-    public void ReleaseWearItem(int index)
+    public void ReleaseWearItem(int index, bool needAddItemToInventroy)
     {
         var equipmentItem = EquipmentItems[index];
         StateEffecterManager.EffectToModelByItem(equipmentItem.ItemCounter, Character, true);
-        Character.Inventory.AddItem(equipmentItem.ItemCounter.Data.Index, 1);
+        if (needAddItemToInventroy)
+            Character.Inventory.AddItem(equipmentItem.ItemCounter.Data.Index, 1);
         ItemManager.Instance.ReturnItemView(equipmentItem);
         EquipmentItems[index] = null;
         if (index == 0) { WeaponImage.sprite = null; Destroy(WeaponTrans.GetChild(0).gameObject); }

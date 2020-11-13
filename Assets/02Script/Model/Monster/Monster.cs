@@ -234,7 +234,7 @@ public class Monster : Model
 
     public void GetHit(GameObject HitFX, bool isFXStartFromGround)
     {
-        if (nowHP <= 0f && !IsAlreadyDead)
+        if (!IsAlreadyDead && nowHP <= 0)
             NowState = ActionState.dead;
         else if (!IsActionStateAre(ActionState.attack) && canGetHit)
             NowState = ActionState.getHit;
@@ -262,15 +262,20 @@ public class Monster : Model
         canGetHit = false;
         DoAnimator(ActionState.getHit);
 
-        while (!NowAnimatorInfo.IsName("GetHit"))
-            yield return new WaitForEndOfFrame();
+        yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
+
+        if (nowHP <= 0)
+            StartCoroutine(DoDead());
+
+        // while (!NowAnimatorInfo.IsName("GetHit"))
+        //     yield return new WaitForEndOfFrame();
 
         NowState = ActionState.battle;
         canGetHit = true;
         yield break;
     }
 
-    bool IsAlreadyDead { set; get; }
+    protected bool IsAlreadyDead { set; get; }
     protected virtual IEnumerator DoDead()
     {
         IsAlreadyDead = true;

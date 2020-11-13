@@ -80,7 +80,7 @@ MonoBehaviour:
   Length: 5
   attackType: 1
   ManaCost: 20
-  DamagePercentage: 200
+  DamagePercentage: 2000
   CoolDown: 5
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: 034630e1e6c09cc45af1b572002ad403, type: 3}

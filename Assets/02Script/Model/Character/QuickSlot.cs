@@ -111,4 +111,18 @@ public class QuickSlot : MonoBehaviour
             gameObject.SetActive(isOn);
         }
     }
+
+    private void OnEnable()
+    {
+        int i = 0;
+        foreach (Transform nowTransform in childs)
+        {
+            SkillViewer viewer = nowTransform.GetComponent<SkillViewer>();
+            if (viewer != null)
+            {
+                StartCoroutine(CountingSkillCoolDown(i, viewer.skillData));
+            }
+            i++;
+        }
+    }
 }

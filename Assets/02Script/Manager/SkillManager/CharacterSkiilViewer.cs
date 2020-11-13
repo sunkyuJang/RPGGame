@@ -20,16 +20,21 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     private void Awake()
     {
-        foreach (Transform transform in skillViewGroup.transform)
-            skillViewers.Add(transform.GetComponent<SkillViewer>());
+        SetSkillViewer();
     }
 
     private void Start()
     {
-//        SkillTreeSet();
+        //        SkillTreeSet();
 
         skillTreeViewer.SetActive(false);
         characterSkillDescriptionBox.gameObject.SetActive(false);
+    }
+
+    void SetSkillViewer()
+    {
+        foreach (Transform transform in skillViewGroup.transform)
+            skillViewers.Add(transform.GetComponent<SkillViewer>());
     }
 
     public void SetCharater(Character character)
@@ -85,11 +90,13 @@ public class CharacterSkiilViewer : MonoBehaviour
                         SkillNormalAttack = nowSkillData;
                 }
             }
+
+        SetSkillViewer();
     }
 
     public void RefreshSkillPointText()
     {
-        skillPointText.text = "사용가능 포인트\r\n" + Character.SkillPoint;
+        skillPointText.text = "사용가능 포인트" + Character.SkillPoint;
     }
     public SkillData GetSkillData(string name)
     {
@@ -104,7 +111,7 @@ public class CharacterSkiilViewer : MonoBehaviour
     {
         if (!characterSkillDescriptionBox.gameObject.activeSelf)
             characterSkillDescriptionBox.gameObject.SetActive(true);
-        
+
         nowSkillViewer = viewer;
         characterSkillDescriptionBox.ShowDescription(viewer.skillData);
     }
@@ -135,6 +142,18 @@ public class CharacterSkiilViewer : MonoBehaviour
         else
             UseCharacterAlert("스킬포인트가 부족합니다.", Color.red);
 
+    }
+
+    public void SetAllLearnFalse()
+    {
+        foreach (SkillViewer viewer in skillViewers)
+        {
+            if (viewer.skillData != null)
+            {
+                viewer.skillData.isLearn = false;
+                viewer.SetLearnedIcon();
+            }
+        }
     }
 
     public void UseCharacterAlert(string text, Color color)

@@ -25,6 +25,14 @@ public class LoadSceneManager : MonoBehaviour
     public static void LoadScene(string sceneName, Character character, Vector3 position)
     {
         loadSecenName = sceneName;
+
+        if (SceneManager.GetActiveScene().name != "LoginScene")
+            if (!loadSecenName.Equals(SceneManager.GetActiveScene().name))
+            {
+                SkillDataGrouper.instance.DestroySkillHitBox();
+                print(true);
+            }
+
         Character = character;
         Character.Controller.ResetJoystick();
         character.IntoClearUI();
@@ -35,15 +43,30 @@ public class LoadSceneManager : MonoBehaviour
     public static void LoadingSceneFirstGameStart(PlayerData data)
     {
         loadSecenName = data.LastScene;
+
+        if (SceneManager.GetActiveScene().name != "LoginScene")
+            if (!loadSecenName.Equals(SceneManager.GetActiveScene().name))
+            {
+                SkillDataGrouper.instance.DestroySkillHitBox();
+                print(true);
+            }
+
         Position = data.LastPosition;
         PlayerData = data;
         SceneManager.LoadScene("LoadingScene");
     }
 
-    public static void LoadScene(string sceneName)
+    public static void LoadLoginScene(string sceneName)
     {
         Character = null;
         loadSecenName = sceneName;
+
+        if (SceneManager.GetActiveScene().name != "LoginScene")
+            if (!loadSecenName.Equals(SceneManager.GetActiveScene().name))
+            {
+                SkillDataGrouper.instance.DestroySkillHitBox();
+            }
+
         SceneManager.LoadScene("LoadingScene");
     }
 

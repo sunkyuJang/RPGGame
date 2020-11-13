@@ -264,6 +264,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 15.747457
       objectReference: {fileID: 0}
+    - target: {fileID: 1742386338784034, guid: c4257b1ff5051f54b840755100909099, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 4065500198795634, guid: c4257b1ff5051f54b840755100909099, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

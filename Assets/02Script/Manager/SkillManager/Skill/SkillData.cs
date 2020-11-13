@@ -59,16 +59,11 @@ public class SkillData : MonoBehaviour
     protected void Awake()
     {
         skillName_eng = gameObject.name.Substring(9);
-        /*        skillPooling = new GameObject(skillName_eng + "pooler").GetComponent<Transform>();
-                skillPooling.position = Vector3.zero;*/
-        /*        for (int i = 0; i < hitBoxNum; i++)
-                {
-                    SetHitBox();
-                }*/
     }
     public void SetPooler()
     {
         hitBoxPooler = ObjPoolerManager.instance.ReqeuestObjPooler(hitBox.gameObject);
+        hitBoxPooler.name = skillName_eng;
         hitBoxPooler.transform.position = Vector3.zero;
         StartCoroutine(hitBoxPooler.CheckCanUseObj(hitBoxNum));
     }

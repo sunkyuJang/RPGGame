@@ -130,20 +130,28 @@ public partial class Inventory : MonoBehaviour
                     StateEffecterManager.EffectToModelByItem(itemView.ItemCounter, Model, false);
 
                     if (nowType == ItemSheet.Param.ItemTypeEnum.Equipment)
-                    {
-                        var copyConter = new ItemManager.ItemCounter(itemView.ItemCounter.Data);
-                        var copyView = ItemManager.Instance.GetNewItemView(copyConter);
-                        (Model as Character).EquipmentView.SetEquipmetItem(copyView);
-                    }
+                        WearItem(new ItemManager.ItemCounter(itemView.ItemCounter.Data), false);
+
                     RemoveItem(itemView.ItemCounter.Data.Index, 1);
                 }
             }
             else
             {
                 StateEffecterManager.EffectToModelByItem(itemView.ItemCounter, Model, false);
+                if (nowType == ItemSheet.Param.ItemTypeEnum.Equipment)
+                    WearItem(new ItemManager.ItemCounter(itemView.ItemCounter.Data), false);
                 RemoveItem(itemView.ItemCounter.Data.Index, 1);
             }
         }
+    }
+
+    public void WearItem(ItemManager.ItemCounter itemCounter, bool needEffectByItem)
+    {
+        var copyConter = new ItemManager.ItemCounter(itemCounter.Data);
+        var copyView = ItemManager.Instance.GetNewItemView(copyConter);
+        (Model as Character).EquipmentView.SetEquipmetItem(copyView);
+        if (needEffectByItem)
+            StateEffecterManager.EffectToModelByItem(itemCounter, Model, false);
     }
 
     public void RemoveAllItem()

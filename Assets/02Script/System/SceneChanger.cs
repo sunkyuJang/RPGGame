@@ -12,6 +12,7 @@ public class SceneChanger : MonoBehaviour
         if (other.CompareTag("Character"))
         {
             var Character = other.GetComponent<Character>();
+            Character.Rigidbody.velocity = Vector3.zero;
             LoadSceneManager.LoadScene(nextSceneName, other.transform.GetComponent<Character>(), nextScenePosition);
         }
     }

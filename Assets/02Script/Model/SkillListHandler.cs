@@ -29,7 +29,6 @@ public class SkillListHandler : MonoBehaviour
                 var nowSkillData = nowTransform.GetComponent<SkillData>();
                 nowSkillData.Model = model;
                 nowSkillData.SetPooler();
-                //yield return new WaitUntil(() => nowSkillData.hitBoxPooler != null);
                 SkillDataGrouper.instance.SetSkillDataParent(nowSkillData);
                 skillDatas.Add(nowSkillData);
             }

@@ -2854,6 +2854,8 @@ MonoBehaviour:
   roamingHorizontal: 0
   roamingVertical: 0
   HitFXStartPoint: {fileID: 2610633207962561199}
+  ingameSceneChangerPrefab: {fileID: 1791520032230429238, guid: 8ed35d1ecd45bc54089692cdf31f2f06,
+    type: 3}
 --- !u!136 &3682187146763113398
 CapsuleCollider:
   m_ObjectHideFlags: 0

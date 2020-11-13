@@ -33,8 +33,6 @@ public class SkillMovementNormalAttackForBossMonster : SkillMovement, ISkillMove
             //     skillData.SetDamage(target);
             //     copy.Collider.enabled = false;
             // }
-
-
         }
 
         // skillData.returnHitBox(copy);

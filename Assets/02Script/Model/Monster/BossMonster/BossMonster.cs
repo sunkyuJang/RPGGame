@@ -7,7 +7,7 @@ using GLip;
 public class BossMonster : Monster
 {
     public BossHPBarViewer BossHPBarViewer { set; get; }
-
+    public GameObject ingameSceneChangerPrefab;
     enum SkillType { NormalAttack, Stinger, SeedBoom, OverDrive }
     List<SkillData> skills { set; get; } = new List<SkillData>();
     SkillData skillNormalAttack { get { return skillListHandler.GetSkillData("NormalAttackForBossMonster"); } }
@@ -23,7 +23,7 @@ public class BossMonster : Monster
     bool canLookAt { set; get; } = true;
     new private void Awake()
     {
-        SetInfo("보스", 1000, 100, 10, 10, 10);
+        SetInfo("보스", 1000, 100, 30, 10, 10);
         base.Awake();
     }
 
@@ -55,6 +55,27 @@ public class BossMonster : Monster
     new private void FixedUpdate()
     {
         base.FixedUpdate();
+    }
+    protected override IEnumerator DoDead()
+    {
+        IsAlreadyDead = true;
+        DoAnimator(ActionState.getHit);
+
+        while (!NowAnimatorInfo.IsName("GetHit"))
+            yield return new WaitForEndOfFrame();
+
+        DoAnimator(ActionState.dead);
+        Rigidbody.velocity = Vector3.zero;
+
+        while (!NowAnimatorInfo.IsName("Dead"))
+            yield return new WaitForEndOfFrame();
+
+        float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+        yield return new WaitForSeconds(waitTIme);
+
+        Instantiate(ingameSceneChangerPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+        //MonsterLocator.MonsterReturn(this);
     }
 
     protected override IEnumerator DoBattle()
