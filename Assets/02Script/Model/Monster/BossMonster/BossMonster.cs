@@ -131,7 +131,6 @@ public class BossMonster : Monster
 
     protected IEnumerator DoSeedBoom()
     {
-
         canLookAt = false;
         DoSkillAnimation(SkillType.SeedBoom, true);
         skillSeedBoom.ActivateSkill();

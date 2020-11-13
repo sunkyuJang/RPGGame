@@ -11,6 +11,7 @@ public class LoadSceneManager : MonoBehaviour
     public static string loadSecenName { set; get; }
     public Image progressBar;
     static Character Character { set; get; } = null;
+    static PlayerData PlayerData { set; get; } = null;
     static Vector3 Position { set; get; }
     public void Awake()
     {
@@ -23,12 +24,19 @@ public class LoadSceneManager : MonoBehaviour
     }
     public static void LoadScene(string sceneName, Character character, Vector3 position)
     {
-        character.IntoClearUI();
         loadSecenName = sceneName;
         Character = character;
-        Character.controller.ResetJoystick();
+        Character.Controller.ResetJoystick();
         character.IntoClearUI();
         Position = position;
+        SceneManager.LoadScene("LoadingScene");
+    }
+
+    public static void LoadingSceneFirstGameStart(PlayerData data)
+    {
+        loadSecenName = data.LastScene;
+        Position = data.LastPosition;
+        PlayerData = data;
         SceneManager.LoadScene("LoadingScene");
     }
 
@@ -46,8 +54,14 @@ public class LoadSceneManager : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(loadSecenName);
         op.allowSceneActivation = false;
 
+        if (PlayerData != null)
+            Character = PlayerDataManager.instance.LoadCharater(PlayerData);
+
         if (Character != null)
+        {
+            Character.gameObject.SetActive(true);
             yield return new WaitUntil(() => Character.isCharacterReady);
+        }
 
         float timer = 0.0f;
 
@@ -71,13 +85,15 @@ public class LoadSceneManager : MonoBehaviour
                     op.allowSceneActivation = true;
                     if (Character != null)
                     {
-                        if (!Character.controller.gameObject.activeSelf)
-                            Character.controller.gameObject.SetActive(true);
+                        // if (!Character.Controller.gameObject.activeSelf)
+                        //     Character.Controller.gameObject.SetActive(true);
 
                         Character.IntoNormalUI();
                         Character.transform.position = Position;
+                        GameManager.instance.Character = Character;
                     }
                     Character = null;
+                    PlayerData = null;
                     Position = Vector3.zero;
 
                     yield break;

@@ -27,7 +27,7 @@ public partial class ItemManager : MonoBehaviour
             Data = sheet.sheets[0].list;
             ItemDescriptionBox = Instantiate(itemDescriptionPrefab, transform.root).GetComponent<ItemDescriptionBox>();
         }
-        else 
+        else
             Destroy(gameObject);
     }
 
@@ -42,6 +42,7 @@ public partial class ItemManager : MonoBehaviour
     public ItemView GetNewItemView(ItemCounter itemCounter)
     {
         var nowItemView = ItemViewerPooler.GetObj<ItemView>();
+        nowItemView.frame.localPosition = Vector3.zero;
         return nowItemView.SetItemCounter(itemCounter, null);
     }
     public ItemView GetNewItemView(ItemCounter itemCounter, Inventory inventory)
@@ -68,9 +69,9 @@ public partial class ItemManager : MonoBehaviour
         public ItemCounter(ItemSheet.Param data) => Data = data;
         public ItemCounter(ItemSheet.Param data, int count) { Data = data; this.count = count; }
         public ItemCounter(ItemSheet.Param data, int count, float probablility) { Data = data; this.count = count; Probablilty = probablility; }
-        public bool isWaitingNewItemView{ set; get; } = true;
+        public bool isWaitingNewItemView { set; get; } = true;
         public ItemView View { set; get; }
-        public int GetExcessCount(int addCount) 
+        public int GetExcessCount(int addCount)
         {
             var nowCount = count + addCount;
 
@@ -98,7 +99,7 @@ public partial class ItemManager : MonoBehaviour
 
         void ViewRefreash()
         {
-            if(View != null)
+            if (View != null)
             {
                 View.RefreshText();
             }

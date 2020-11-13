@@ -22,20 +22,21 @@ public class QuestViewerDescriptionBox : MonoBehaviour
 
     void SetItemViewPerent()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
             var nowList = i == 0 ? Btn.requireItemGroup : Btn.rewardItemGroup;
-/*            foreach (Transform nowTransform in nowList)
-            {
-                print(nowList.childCount);
-                nowTransform.SetParent(i == 0 ? requireTransform : rewardTransform);
-                nowTransform.gameObject.SetActive(true);
-            }*/
+            /*            foreach (Transform nowTransform in nowList)
+                        {
+                            print(nowList.childCount);
+                            nowTransform.SetParent(i == 0 ? requireTransform : rewardTransform);
+                            nowTransform.gameObject.SetActive(true);
+                        }*/
 
-            for(int j = 0; j < nowList.childCount; j++)
+            for (int j = 0; j < nowList.childCount; j++)
             {
                 var nowTransform = nowList.GetChild(j--);
                 nowTransform.SetParent(i == 0 ? requireTransform : rewardTransform);
+                //nowTransform.GetComponent<ItemView>().frame.transform.localPosition = Vector3.zero;
                 nowTransform.gameObject.SetActive(true);
             }
         }

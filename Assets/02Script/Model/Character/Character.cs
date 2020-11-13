@@ -8,7 +8,6 @@ using JetBrains.Annotations;
 
 public partial class Character : Model
 {
-    public Controller controller { set; get; }
     public int level { private set; get; }
     public int SkillPoint;
     public bool IsinField { set; get; } = true;

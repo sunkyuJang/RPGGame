@@ -85,7 +85,7 @@ MonoBehaviour:
   duringTime: 1
   nowDuringTime: 0
   effectTime: 1.5
-  dist: 0
+  nowEffectTime: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +216,16 @@ PrefabInstance:
     - target: {fileID: 1875662779555967484, guid: 372f20d561d421543b85ac3bd0e3fd38,
         type: 3}
       propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8755451849317797186, guid: 372f20d561d421543b85ac3bd0e3fd38,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 8755451849317797186, guid: 372f20d561d421543b85ac3bd0e3fd38,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -89,10 +89,10 @@ public class PlayerDataManager : MonoBehaviour
         if (ConfimBoxManager.instance.NowState == ConfimBoxManager.State.Yes)
         {
             Controller.Character.gameObject.SetActive(false);
+            Controller.Character.transform.position = Vector3.zero;
             frame.SetActive(false);
             LoadSceneManager.LoadScene(GameManager.pathOfScenes + "LoginScene");
-            //LoadSceneManager.LoadScene(GameManager.pathOfScenes + "LoginScene", Controller.Character, Vector3.down);
-            //SceneManager.LoadSceneAsync(GameManager.pathOfScenes + "LoginScene");
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().name == "LoginScene");
             LoginManager.instance.ShowView();
         }
     }

@@ -5,9 +5,9 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": 23.24505615234375,
-        "y": 0.0,
-        "z": 7.2886962890625
+        "x": -0.6247833967208862,
+        "y": -5.960464477539063e-8,
+        "z": -6.167804718017578
     },
     "safeScene": "IngameScene",
     "SafePosition": {
@@ -19,14 +19,23 @@
     "itemKinds": [
         0,
         5,
+        5,
+        5,
+        5,
         5
     ],
     "itemCounts": [
         5,
         1,
+        1,
+        1,
+        1,
         1
     ],
-    "WearingItem": [],
+    "WearingItem": [
+        3,
+        4
+    ],
     "skillNames": [
         "NormalAttack",
         "LowSmash",
@@ -50,7 +59,7 @@
         "수상한 남자"
     ],
     "lastTalkingIndex": [
-        1,
+        11,
         25
     ],
     "QuestIndexList": [],

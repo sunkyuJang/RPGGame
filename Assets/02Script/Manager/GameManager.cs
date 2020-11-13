@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
     public static RectTransform mainCanvas;
-    public Controller controller;
-
     public List<GameObject> DestroyAfterIntoLoginScene { set; get; } = new List<GameObject>();
     public static string pathOfScenes { get { return "01Scene/"; } }
     private void Awake()
@@ -39,17 +37,14 @@ public class GameManager : MonoBehaviour
 
         if (Character == null)
         {
-            Character = PlayerDataManager.instance.LoadCharater(playerData);
-            Character.controller = controller;
-            controller.Character = Character;
+            LoadSceneManager.LoadingSceneFirstGameStart(playerData);
         }
         else
         {
             Character.gameObject.SetActive(true);
             Character.SetCharacterWithPlayerData(playerData);
+            LoadSceneManager.LoadScene(playerData.LastScene, Character, playerData.LastPosition);
         }
-
-        LoadSceneManager.LoadScene(playerData.LastScene, Character, playerData.LastPosition);
     }
     // public IEnumerator ProgressSetStartGame(PlayerData playerData)
     // {

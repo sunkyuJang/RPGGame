@@ -52,8 +52,7 @@ public class SkillMovementNormalAttackForBossMonster : SkillMovement, ISkillMove
             skillData.SetDamage(target);
         }
 
-        yield return new WaitWhile(() => copy.isTimeLeft);
-        print(true);
+        yield return new WaitWhile(() => copy.isEffectTimeLeft);
         skillData.returnHitBox(copy);
     }
 }

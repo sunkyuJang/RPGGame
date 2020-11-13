@@ -20,22 +20,30 @@ public class SkillMovementStingerForBossMonster : SkillMovement, ISkillMovement
         yield return StartCoroutine(model.WaitTillInterrupt(1));
 
         var copy = skillData.GetHitBox();
+        copy.isImmediately = true;
+
+        yield return StartCoroutine(model.WaitTillInterrupt(1));
+        copy.HitBoxEffectObj.GetComponent<AudioSource>().Play();
         model.Rigidbody.velocity = model.transform.forward * startSpeed;
         var startPoint = model.transform.position;
         var nowLength = 0f;
+
         while (startSpeed > 0f)
         {
             yield return new WaitForFixedUpdate();
             copy.transform.position = model.transform.position + model.transform.forward + Vector3.up;
             nowLength = Vector3.Distance(startPoint, model.transform.position);
+
             if (nowLength > skillData.Length * 0.5f)
                 model.Rigidbody.velocity = model.transform.forward * startSpeed--;
 
             if (copy.isCollide)
                 skillData.SetDamage(copy.GetTarget(copy.transform.position));
         }
-
         startSpeed = 15f;
+
+        yield return new WaitWhile(() => copy.isEffectTimeLeft);
+
         skillData.returnHitBox(copy);
         yield return null;
     }

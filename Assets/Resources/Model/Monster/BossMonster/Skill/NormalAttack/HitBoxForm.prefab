@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 63b4155ef41540f4685302a83db73e5e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.496
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -87,7 +87,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   duringTime: 1
   nowDuringTime: 0
   effectTime: 1
-  dist: 0
+  nowEffectTime: 0
 --- !u!114 &5872860588705113135
 MonoBehaviour:
   m_ObjectHideFlags: 0

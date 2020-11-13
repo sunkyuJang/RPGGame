@@ -8,10 +8,12 @@ using UnityEngine;
 
 public partial class Character : Model
 {
+    public GameObject controllerPrefab;
     public GameObject quickSlotPrefab;
     public GameObject equipmentPrefab;
     public GameObject skillViewPrefab;
     public GameObject questViewPrefab;
+    public Controller Controller { set; get; }
     public QuickSlot QuickSlot { set; get; }
     public EquipmentView EquipmentView { set; get; }
     public CharacterStateViewer StateViewer { set; get; }
@@ -20,6 +22,8 @@ public partial class Character : Model
     public enum UIList { controller, quickSlot, inventory, equipment, skillViewer, stateView, questViewer }
     void AwakeInUI()
     {
+        Controller = Instantiate(controllerPrefab, GameManager.mainCanvas).GetComponent<Controller>();
+        Controller.Character = this;
         QuickSlot = Instantiate(quickSlotPrefab, GameManager.mainCanvas).GetComponent<QuickSlot>();
         QuickSlot.Character = this;
         EquipmentView = Instantiate(equipmentPrefab, GameManager.mainCanvas).GetComponent<EquipmentView>();
@@ -50,9 +54,9 @@ public partial class Character : Model
             case UIList.quickSlot: QuickSlot.gameObject.SetActive(needShow); break;
             case UIList.inventory: if (needShow) Inventory.ShowInventory(); else Inventory.HideInventory(); break;
             case UIList.equipment: EquipmentView.gameObject.SetActive(needShow); break;
-            case UIList.skillViewer: if (needShow) CharacterSkiilViewer.ShowSKillTree(); else CharacterSkiilViewer.HideSkillTree();  break;
+            case UIList.skillViewer: if (needShow) CharacterSkiilViewer.ShowSKillTree(); else CharacterSkiilViewer.HideSkillTree(); break;
             case UIList.stateView: StateViewer.gameObject.SetActive(needShow); break;
-            case UIList.controller: controller.SetAllActive(needShow); break;
+            case UIList.controller: Controller.SetAllActive(needShow); break;
             case UIList.questViewer: if (needShow) QuestViewer.ShowQuestList(ProcessingQuestList); else QuestViewer.HideQuestList(); break;
         }
     }
