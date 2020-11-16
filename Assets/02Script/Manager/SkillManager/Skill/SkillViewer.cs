@@ -16,8 +16,8 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     public CharacterSkiilViewer characterSkiilViewer { set; get; }
     GameObject copy;
 
-/*    GraphicRaycaster graphicRaycaster;
-    PointerEventData ped;*/
+    /*    GraphicRaycaster graphicRaycaster;
+        PointerEventData ped;*/
     private void Awake()
     {
         RectTransform = GetComponent<RectTransform>();
@@ -32,7 +32,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
     }
     public void SetSkillData(SkillData skillData)
     {
-        this.skillData = skillData; 
+        this.skillData = skillData;
         skillViewerImage.sprite = skillData.icon;
 
         copy = new GameObject(gameObject.name + "copy");
@@ -51,7 +51,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         else
             skillViewerImage.color = new Color(255f, 255f, 255f, 0.5f);
     }
-    public void Pressed() 
+    public void Pressed()
     {
         bool isTouch;
         int touchId = 0;
@@ -59,7 +59,7 @@ public class SkillViewer : MonoBehaviour, IInputTracer
         if (GPosition.IsContainInput(RectTransform, out isTouch, out touchId, out isMouse))
         {
             characterSkiilViewer.ShowDescription(this);
-            if(skillData.isLearn)
+            if (skillData.isLearn)
                 StartCoroutine(TraceInput(isTouch, touchId, isMouse));
         }
         else
@@ -79,13 +79,13 @@ public class SkillViewer : MonoBehaviour, IInputTracer
             yield return new WaitForFixedUpdate();
         }
 
-/*        ped.position = copy.transform.position;
-        graphicRaycaster.Raycast(ped, results);
-        foreach (RaycastResult result in results)
-        {
-            print(result.gameObject.name);
-        }
-*/
+        /*        ped.position = copy.transform.position;
+                graphicRaycaster.Raycast(ped, results);
+                foreach (RaycastResult result in results)
+                {
+                    print(result.gameObject.name);
+                }
+        */
 
         var quickSlot = characterSkiilViewer.Character.QuickSlot;
         var quickSlotNum = quickSlot.IsIn(copy.transform.position);

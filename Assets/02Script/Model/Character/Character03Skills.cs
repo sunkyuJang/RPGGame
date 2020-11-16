@@ -11,19 +11,14 @@ public partial class Character : Model
     {
         if (IsinField)
         {
-            print("isInField");
             if (canAttacking)
             {
-                print("canAttack");
                 if (isManaEnough(skill))
                 {
-                    print("isManaEnough");
                     if (!skill.isCoolDown)
                     {
-                        print("isCoolDown");
                         if (skill.IsReachedTarget)
                         {
-                            print("isReached");
                             StartCoroutine(DeActivateSkill(skill));
                             return;
                         }

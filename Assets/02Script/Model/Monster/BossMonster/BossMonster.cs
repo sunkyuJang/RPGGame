@@ -74,6 +74,7 @@ public class BossMonster : Monster
         yield return new WaitForSeconds(waitTIme);
 
         Instantiate(ingameSceneChangerPrefab, transform.position, Quaternion.identity);
+        SkillDataGrouper.instance.DestroySkillHitBox();
         Destroy(gameObject);
         //MonsterLocator.MonsterReturn(this);
     }

@@ -135,6 +135,8 @@ public partial class Character : Model
             ProcessingQuestList.Clear();
 
             PassedTimeLineAssetName.Clear();
+
+            QuickSlot.ResetQuickSlot();
         }
 
         for (int i = 0; i < playerData.itemKinds.Count; i++)
@@ -193,6 +195,11 @@ public partial class Character : Model
         if (playerData.TimeLineAssetName.Count > 0)
             foreach (string name in playerData.TimeLineAssetName)
                 PassedTimeLineAssetName.Add(name);
+
+        if (playerData.QuickSlotList.Count > 0)
+        {
+            QuickSlot.SetQuickSlotList(playerData.QuickSlotList);
+        }
 
         isCharacterReady = true;
 

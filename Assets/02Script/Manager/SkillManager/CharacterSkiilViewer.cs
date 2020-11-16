@@ -18,6 +18,7 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     SkillViewer nowSkillViewer;
 
+    public bool IsSkillViewerReady { private set; get; } = false;
     private void Awake()
     {
         SetSkillViewer();
@@ -35,6 +36,8 @@ public class CharacterSkiilViewer : MonoBehaviour
     {
         foreach (Transform transform in skillViewGroup.transform)
             skillViewers.Add(transform.GetComponent<SkillViewer>());
+
+        IsSkillViewerReady = true;
     }
 
     public void SetCharater(Character character)
@@ -96,13 +99,13 @@ public class CharacterSkiilViewer : MonoBehaviour
 
     public void RefreshSkillPointText()
     {
-        skillPointText.text = "사용가능 포인트" + Character.SkillPoint;
+        skillPointText.text = "사용가능 포인트:" + Character.SkillPoint;
     }
-    public SkillData GetSkillData(string name)
+    public SkillViewer GetSkillViewer(string name)
     {
-        foreach (SkillData skillData in skillDatas)
-            if (skillData.skillName_eng == name)
-                return skillData;
+        foreach (SkillViewer skillViewer in skillViewers)
+            if (skillViewer.skillData.skillName_eng == name)
+                return skillViewer;
 
         return null;
     }

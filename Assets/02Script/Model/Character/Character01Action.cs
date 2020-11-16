@@ -86,7 +86,6 @@ public partial class Character : Model
         {
             NowState = actionState;
         }
-        print(NowState + "//" + BeforeState);
     }
     public SkillData ReservedSkill { set; get; }
 

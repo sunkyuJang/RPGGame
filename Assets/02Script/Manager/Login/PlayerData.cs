@@ -5,10 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Policy;
-using System.Text;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.WSA.Input;
@@ -49,6 +45,8 @@ public class PlayerData
 
     //CutScene
     public List<string> TimeLineAssetName = new List<string>();
+
+    public List<string> QuickSlotList = new List<string>();
 
     PlayerData() { }
     public PlayerData(string id, string pw, string nickName)
@@ -130,6 +128,9 @@ public class PlayerData
         if (character.PassedTimeLineAssetName.Count > 0)
             foreach (string name in timeLineAssetList)
                 TimeLineAssetName.Add(name);
+
+        QuickSlotList.Clear();
+        QuickSlotList = character.QuickSlot.GetQuickSlotList();
     }
 
     /*public static PlayerData ConvertChatacterToPlayerData(Character character)

@@ -4,10 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GLip;
-using UnityEngine.UIElements;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using UnityEditorInternal;
 using System.Linq;
 using System.Net.NetworkInformation;
 
@@ -18,9 +14,11 @@ public class DialogueManager : MonoBehaviour
     public DialogueSelecter DialogueSelecter { set; get; }
     public Character PlayerModel { set; get; }
     public Model ScriptModel { set; get; }
-    public List<DialogueSheet.Param> DialogueScript { set; get; } 
-    enum NextState { None, Select, Quest, ComfirmBox, End, Exit, Trade, Skip}
-    NextState GetNextState { get
+    public List<DialogueSheet.Param> DialogueScript { set; get; }
+    enum NextState { None, Select, Quest, ComfirmBox, End, Exit, Trade, Skip }
+    NextState GetNextState
+    {
+        get
         {
             switch (DialogueScript[ScriptModel.lastDialog].Type)
             {
@@ -32,7 +30,8 @@ public class DialogueManager : MonoBehaviour
                 case "Exit": return NextState.Exit;
             }
             return NextState.End;
-        } }
+        }
+    }
 
 
     Dictionary<string, int> lastTimetalkingWith { set; get; } = new Dictionary<string, int>();
@@ -46,7 +45,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowDialogue(Character playerModel, Model model)
     {
-        if(model.HasDialogue)
+        if (model.HasDialogue)
         {
             PlayerModel = playerModel;
             ScriptModel = model;
@@ -98,25 +97,25 @@ public class DialogueManager : MonoBehaviour
                 }
                 switch (GetNextState)
                 {
-                    case NextState.None: 
+                    case NextState.None:
                         ScriptModel.lastDialog++;
                         DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
-                    case NextState.Select: 
+                    case NextState.Select:
                         StartCoroutine(SelectScript());
                         break;
                     case NextState.End:
-                        StartCoroutine(EndDialogue()); 
+                        StartCoroutine(EndDialogue());
                         break;
-                    case NextState.Skip: 
+                    case NextState.Skip:
                         ScriptModel.lastDialog = DialogueScript[ScriptModel.lastDialog].GoTo;
                         DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
                         break;
                     case NextState.Exit:
-                        StartCoroutine(DoExit()); 
+                        StartCoroutine(DoExit());
                         break;
-                    case NextState.Quest: 
-                        CheckQuest((ScriptModel as Npc)); 
+                    case NextState.Quest:
+                        CheckQuest((ScriptModel as Npc));
                         break;
                 }
             }
@@ -128,14 +127,14 @@ public class DialogueManager : MonoBehaviour
         var selector = DialogueViewer.dialogueSelecter;
         List<DialogueSheet.Param> selectSub = new List<DialogueSheet.Param>();
         var nowIndex = ScriptModel.lastDialog + 1;
-        while(GetScriptByIndex(nowIndex).Type == "SelectSub")
+        while (GetScriptByIndex(nowIndex).Type == "SelectSub")
         {
             var nowScript = GetScriptByIndex(nowIndex++);
             selector.ShowSelectors(nowScript.Script);
             selectSub.Add(nowScript);
         }
 
-        while(selector.selectNum < 0)
+        while (selector.selectNum < 0)
             yield return new WaitForFixedUpdate();
 
         selector.HideSelecter();
@@ -154,7 +153,7 @@ public class DialogueManager : MonoBehaviour
         DialogueSelecter.ShowSelectors("대화를 끝낸다.");
         if (npc.Inventory.HasItem) { states.Add(NextState.Trade); DialogueSelecter.ShowSelectors("거래를 한다"); }
         if (QuestManager.NpcHasQuest(npc, PlayerModel)) { states.Add(NextState.Quest); DialogueSelecter.ShowSelectors("퀘스트를 진행한다"); }
-        
+
         while (DialogueSelecter.selectNum < 0)
             yield return new WaitForFixedUpdate();
 
@@ -191,13 +190,13 @@ public class DialogueManager : MonoBehaviour
 
         else
             if (npc.Dialogue[npc.lastDialog].Type == "Quest")
-            {
-                StartCoroutine(ConfirmQuest(QuestManager.GetNewQuest(npc)));
-                return;
-            }
+        {
+            StartCoroutine(ConfirmQuest(QuestManager.GetNewQuest(npc)));
+            return;
+        }
         else
             npc.lastDialog++;
-        
+
         canSkipNext = true;
         DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
     }
@@ -206,7 +205,7 @@ public class DialogueManager : MonoBehaviour
     {
         var list = new List<DialogueSheet.Param>();
 
-        for(int i = 1; i < 3; i++)
+        for (int i = 1; i < 3; i++)
         {
             var nowIndex = ScriptModel.lastDialog + i;
             DialogueSelecter.ShowSelectors(ScriptModel.Dialogue[nowIndex].Script);
@@ -223,45 +222,45 @@ public class DialogueManager : MonoBehaviour
 
         canSkipNext = true;
         DialogueViewer.ShowDiaogue(ScriptModel.CharacterName, DialogueScript[ScriptModel.lastDialog].Script);
-/*        while (DialogueViewer.IsStillShowing)
-            yield return new WaitForFixedUpdate();
+        /*        while (DialogueViewer.IsStillShowing)
+                    yield return new WaitForFixedUpdate();
 
-        yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.5f);
 
-        var npc = ScriptModel as Npc;
-        string comfirmText = "퀘스트를 수락하시겠습니까? \r\n\r\n";
+                var npc = ScriptModel as Npc;
+                string comfirmText = "퀘스트를 수락하시겠습니까? \r\n\r\n";
 
-        comfirmText += "요구사항: ";
-        foreach (ItemManager.ItemCounter counter in quest.RequireList)
-        {
-            comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
-        }
+                comfirmText += "요구사항: ";
+                foreach (ItemManager.ItemCounter counter in quest.RequireList)
+                {
+                    comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
+                }
 
-        comfirmText += "\r\n보상: ";
-        foreach (ItemManager.ItemCounter counter in quest.RewardList)
-        {
-            comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
-        }
+                comfirmText += "\r\n보상: ";
+                foreach (ItemManager.ItemCounter counter in quest.RewardList)
+                {
+                    comfirmText += counter.Data.Name + "X" + counter.count + "\r\n";
+                }
 
-        var confirmBox = ConfimBoxManager.instance;
-        confirmBox.ShowComfirmBox(comfirmText);
+                var confirmBox = ConfimBoxManager.instance;
+                confirmBox.ShowComfirmBox(comfirmText);
 
-        while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
-            yield return new WaitForFixedUpdate();
+                while (confirmBox.NowState == ConfimBoxManager.State.Waiting)
+                    yield return new WaitForFixedUpdate();
 
-        canSkipNext = true;
-        switch (confirmBox.NowState)
-        {
-            case ConfimBoxManager.State.Yes:
-                QuestManager.AcceptQuest(quest);
-                npc.lastDialog = GetScriptByIndex(npc.lastDialog).GoTo;
-                break;
-            case ConfimBoxManager.State.No:
-                npc.lastDialog++;
-                break;
-        }
+                canSkipNext = true;
+                switch (confirmBox.NowState)
+                {
+                    case ConfimBoxManager.State.Yes:
+                        QuestManager.AcceptQuest(quest);
+                        npc.lastDialog = GetScriptByIndex(npc.lastDialog).GoTo;
+                        break;
+                    case ConfimBoxManager.State.No:
+                        npc.lastDialog++;
+                        break;
+                }
 
-        DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);*/
+                DialogueViewer.ShowDiaogue(ScriptModel.name, DialogueScript[ScriptModel.lastDialog].Script);*/
     }
 
 

@@ -54,9 +54,9 @@ public class MonseterLocator : MonoBehaviour
 
     bool CanMonsterLocatorWorks()
     {
-        if(Characters.Count > 0)
+        if (Characters.Count > 0)
         {
-            for(int i = 0; i < Characters.Count; i++)
+            for (int i = 0; i < Characters.Count; i++)
             {
                 var nowCharacter = Characters[i];
                 var dist = Vector3.Distance(transform.position, nowCharacter.transform.position);
@@ -71,7 +71,7 @@ public class MonseterLocator : MonoBehaviour
     }
     IEnumerator DoNext()
     {
-        while(true)
+        while (true)
         {
             if (canMonsterLocatorWorks)
             {
@@ -87,7 +87,7 @@ public class MonseterLocator : MonoBehaviour
             }
             else
                 if (MonsterInArea.Count > 0)
-                    returnAllMonsterObj();
+                returnAllMonsterObj();
 
             yield return new WaitForSeconds(responeTime);
         }

@@ -44,6 +44,7 @@ public class Monster : Model
         NowState = ActionState.idle;
         BeforeState = ActionState.non;
         IsAlreadyDead = false;
+        canAttack = true;
 
         if (MonsterLocator == null)
         {
@@ -88,6 +89,7 @@ public class Monster : Model
 
     protected void SelectedNextAction()
     {
+        print(NowState);
         if (NowState != BeforeState)
         {
             BeforeState = NowState;
@@ -295,6 +297,7 @@ public class Monster : Model
 
         DropItem();
         MonsterLocator.MonsterReturn(this);
+        StopAllCoroutines();
     }
 
     void DropItem()

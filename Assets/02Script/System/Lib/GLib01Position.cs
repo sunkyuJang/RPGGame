@@ -21,7 +21,7 @@ namespace GLip
                 {
                     var nowCollider = list[i];
                     var nowDist = Vector3.Distance(centerTransform.position, nowCollider.transform.position);
-                    if(nowDist < dist)
+                    if (nowDist < dist)
                     {
                         dist = nowDist;
                         closeOne = nowCollider;
@@ -37,12 +37,12 @@ namespace GLip
             List<Collider> newList = new List<Collider>();
             foreach (Collider nowCollider in list)
             {
-                    Vector3 directionFromCenterToCollider = nowCollider.transform.position - centerTransform.position;
-                    float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
-                    if (angleFromCenterToCollider <= castFOVRad)
-                    {
-                        newList.Add(nowCollider);
-                    }
+                Vector3 directionFromCenterToCollider = nowCollider.transform.position - centerTransform.position;
+                float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
+                if (angleFromCenterToCollider <= castFOVRad)
+                {
+                    newList.Add(nowCollider);
+                }
             }
             return newList;
         }
@@ -59,7 +59,7 @@ namespace GLip
         public static List<Collider> SelectColliderInFOV(List<Collider> colliders, string targetTag, Transform centerTransform, float castFOVRad)
         {
             List<Collider> newList = new List<Collider>();
-            foreach(Collider nowCollider in colliders)
+            foreach (Collider nowCollider in colliders)
             {
                 if (nowCollider.CompareTag(targetTag))
                 {
@@ -73,33 +73,24 @@ namespace GLip
             }
             return newList;
         }
-        public static bool IsAClosedThanBFromCenter(Vector3 center, Vector3 positionA, Vector3 positionB) 
+        public static bool IsAClosedThanBFromCenter(Vector3 center, Vector3 positionA, Vector3 positionB)
         {
-            return Vector3.Distance(center, positionA) < Vector3.Distance(center, positionB); 
+            return Vector3.Distance(center, positionA) < Vector3.Distance(center, positionB);
         }
 
         public static bool IsContainTouch(RectTransform rectTransform, out int index)
         {
-            index = 0;
             Rect rect = GMath.GetRect(rectTransform);
-            for(int i = 0; i < Input.touches.Length; i++)
-            {
-                if (rect.Contains(Input.touches[i].position))
-                {
-                    index = i;
-                    return true;
-                }
-            }
-            return false;
+            return IsContainTouch(rect, out index);
         }
         public static bool IsContainTouch(Rect rect, out int index)
         {
             index = 0;
-            for(int i = 0; i < Input.touches.Length; i++)
+            for (int i = 0; i < Input.touches.Length; i++)
             {
                 if (rect.Contains(Input.touches[i].position))
                 {
-                    index = i;
+                    index = Input.touches[i].fingerId;
                     return true;
                 }
             }
@@ -109,14 +100,20 @@ namespace GLip
         {
             Rect rect = GMath.GetRect(rectTransform);
             return rect.Contains(Input.mousePosition);
-        } 
+        }
         public static bool IsContainMousePosition(Rect rect)
         {
             return rect.Contains(Input.mousePosition);
         }
         public static bool IsTouchStillPressed(int touchId)
         {
-            return Input.GetTouch(touchId).phase != TouchPhase.Ended;
+            for (int i = 0; i < Input.touches.Length; i++)
+            {
+                var nowTouch = Input.touches[i].fingerId;
+                if (nowTouch.Equals(touchId))
+                    return true;
+            }
+            return false;//Input.GetTouch(touchId).phase != TouchPhase.Ended;
         }
 
         public static bool IsMouseStillPressed()
@@ -127,13 +124,12 @@ namespace GLip
         public static bool IsContainInput(RectTransform rectTransform, out bool isTouch, out int touchId, out bool isMouse)
         {
             isTouch = false;
-            touchId = 0;
             isMouse = false;
 
-            if(IsContainTouch(rectTransform, out touchId)) 
+            if (IsContainTouch(rectTransform, out touchId))
             {
                 isTouch = true;
-                return true; 
+                return true;
             }
             else if (IsContainMousePosition(rectTransform))
             {
@@ -163,7 +159,6 @@ namespace GLip
         public static bool IsContainInput(Rect rect, bool isTouch, int touchId, bool isMouse)
         {
             isTouch = false;
-            touchId = 0;
             isMouse = false;
 
             if (IsContainTouch(rect, out touchId))
@@ -179,7 +174,15 @@ namespace GLip
 
         public static Vector2 GetInputPosition(bool isTouch, int touchId, bool isMouse)
         {
-            if (isTouch) return Input.touches[touchId].position;
+            if (isTouch)
+            {
+                foreach (Touch touch in Input.touches)
+                {
+                    if (touch.fingerId.Equals(touchId))
+                        return touch.position;
+                }
+                return Vector2.zero;
+            }
             else if (isMouse) return Input.mousePosition;
             else return Vector2.zero;
         }

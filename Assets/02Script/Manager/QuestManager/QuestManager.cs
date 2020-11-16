@@ -22,7 +22,7 @@ public class QuestManager : MonoBehaviour
         foreach (QuestTable questTable in character.ProcessingQuestList)
             if (npc.CharacterName.Equals(questTable.data.Name))
                 return true;
-        
+
         for (int i = npc.lastDialog; i < npc.Dialogue.Count; i++)
             if (npc.Dialogue[i++].Type == "Quest")
                 return true;
@@ -40,19 +40,17 @@ public class QuestManager : MonoBehaviour
             nowQuest = new QuestTable(npc, npc.lastDialog);
 
         return nowQuest;
-    }    
-    
-/*    public static QuestTable GetQuest(Npc npc, Character character, int processingIndex)
-    {
-        QuestTable nowQuest = null;
+    }
 
-        if (processingIndex >= 0)
-            nowQuest = character.ProcessingQuestList[processingIndex];
-        else
-            nowQuest = new QuestTable(npc, npc.lastDialog);
-
-        return nowQuest;
-    }*/
+    /*    public static QuestTable GetQuest(Npc npc, Character character, int processingIndex)
+        {
+            QuestTable nowQuest = null;
+            if (processingIndex >= 0)
+                nowQuest = character.ProcessingQuestList[processingIndex];
+            else
+                nowQuest = new QuestTable(npc, npc.lastDialog);
+            return nowQuest;
+        }*/
 
     public static QuestTable GetNewQuest(Npc npc)
     {
@@ -72,7 +70,7 @@ public class QuestManager : MonoBehaviour
     }
     public static bool isAlreadyAccept(Npc npc, Character character, out int processingIndex)
     {
-        for (int i = 0; i < character.ProcessingQuestList.Count; i++) 
+        for (int i = 0; i < character.ProcessingQuestList.Count; i++)
             if (character.ProcessingQuestList[i].data.Name.Equals(npc.CharacterName))
             {
                 processingIndex = i;
@@ -82,17 +80,17 @@ public class QuestManager : MonoBehaviour
         processingIndex = -1;
         return false;
     }
-    public static void AcceptQuest(QuestTable quest, Character character) 
+    public static void AcceptQuest(QuestTable quest, Character character)
     {
-        for(int start = 0, max = 2; start < max; start++)
+        for (int start = 0, max = 2; start < max; start++)
         {
             var itemCountList = start == 0 ? quest.RequireList : quest.RewardList;
-            
-            for(int i = 0; i < itemCountList.Count; i++)
+
+            for (int i = 0; i < itemCountList.Count; i++)
                 ItemManager.Instance.GetNewItemView(itemCountList[i]);
         }
-        
-        character.ProcessingQuestList.Add(quest); 
+
+        character.ProcessingQuestList.Add(quest);
     }
 
     public static bool CanClearQuest(Character character, int processingIndex)
@@ -111,7 +109,7 @@ public class QuestManager : MonoBehaviour
         List<ItemManager.ItemCounter> itemList = new List<ItemManager.ItemCounter>();
         string[] splitKinds = requireItem.Split(';');
         string[] splitCounts = itemCount.Split(';');
-        for (int i = 0; i < splitKinds.Length -1; i++)
+        for (int i = 0; i < splitKinds.Length - 1; i++)
         {
             var counter = new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(int.Parse(splitKinds[i])));
             counter.GetExcessCount(int.Parse(splitCounts[i]));
@@ -125,7 +123,7 @@ public class QuestManager : MonoBehaviour
         public QuestSheet.Param data { private set; get; }
         public List<ItemManager.ItemCounter> RequireList { set; get; }
         public List<ItemManager.ItemCounter> RewardList { set; get; }
-        
+
         public QuestTable(Npc npc, int dialogueIndex)
         {
             data = GetMatchedQuestData(npc, dialogueIndex);
@@ -157,10 +155,10 @@ public class QuestManager : MonoBehaviour
             }
             return null;
         }
-        public bool IsItemAllCorrect(Inventory inventory) 
+        public bool IsItemAllCorrect(Inventory inventory)
         {
             int clearCount = 0;
-            foreach(ItemManager.ItemCounter requireItem in RequireList)
+            foreach (ItemManager.ItemCounter requireItem in RequireList)
             {
                 if (inventory.table.GetSameKindTotalCount(requireItem.Data) >= requireItem.count)
                 {
@@ -172,12 +170,12 @@ public class QuestManager : MonoBehaviour
                 }
             }
 
-            if(clearCount == RequireList.Count)
+            if (clearCount == RequireList.Count)
             {
-                for(int i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     var nowList = i == 0 ? RequireList : RewardList;
-                    for(int j = 0; j < nowList.Count; j++)
+                    for (int j = 0; j < nowList.Count; j++)
                     {
                         var nowItemCount = nowList[j];
                         if (i == 0)

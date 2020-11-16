@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using GLip;
-using System.Runtime.Remoting.Messaging;
 
 public class ItemView : MonoBehaviour, IInputTracer
 {

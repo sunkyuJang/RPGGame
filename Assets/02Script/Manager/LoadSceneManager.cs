@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -113,7 +112,10 @@ public class LoadSceneManager : MonoBehaviour
 
                         Character.IntoNormalUI();
                         Character.transform.position = Position;
+                        Character.Rigidbody.velocity = Vector3.zero;
+                        Character.SetActionState(Character.ActionState.Idle);
                         GameManager.instance.Character = Character;
+
                     }
                     Character = null;
                     PlayerData = null;

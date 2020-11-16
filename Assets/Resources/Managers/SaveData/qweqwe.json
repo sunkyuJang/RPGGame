@@ -5,39 +5,24 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -0.6247864365577698,
+        "x": -42.0,
         "y": 0.0,
-        "z": -6.167816162109375
+        "z": 59.0
     },
     "safeScene": "IngameScene",
     "SafePosition": {
-        "x": -24.399993896484376,
-        "y": 7.068271636962891,
-        "z": 105.9000244140625
+        "x": -12.5,
+        "y": 0.0,
+        "z": -25.0
     },
     "level": 7,
     "itemKinds": [
-        0,
-        5,
-        5,
-        5,
-        5,
-        5,
         5
     ],
     "itemCounts": [
-        5,
-        1,
-        1,
-        1,
-        1,
-        1,
         1
     ],
-    "WearingItem": [
-        3,
-        4
-    ],
+    "WearingItem": [],
     "skillNames": [
         "NormalAttack",
         "LowSmash",
@@ -49,23 +34,28 @@
     ],
     "isLearnSkill": [
         true,
-        true,
         false,
-        true,
-        true,
-        true,
+        false,
+        false,
+        false,
+        false,
         false
     ],
     "namesTalkingwith": [
-        "길버트",
-        "수상한 남자"
+        "길버트"
     ],
     "lastTalkingIndex": [
-        11,
-        25
+        1
     ],
     "QuestIndexList": [],
     "TimeLineAssetName": [
         "FirstStartCutScene"
+    ],
+    "QuickSlotList": [
+        "null",
+        "null",
+        "null",
+        "null",
+        "null"
     ]
 }

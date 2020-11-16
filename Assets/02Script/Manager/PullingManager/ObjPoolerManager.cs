@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -14,7 +13,7 @@ public class ObjPoolerManager : MonoBehaviour
     private void Awake()
     {
         if(instance == null)
-            instance = this;
+             instance = this;
         else
             Destroy(gameObject);
     }

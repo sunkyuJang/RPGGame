@@ -12,7 +12,7 @@ public class QuickSlot : MonoBehaviour
     private List<RectTransform> childs = new List<RectTransform>();
     Sprite recoverIcon { set; get; }
     public bool IsActive { set; get; }
-
+    public enum SlotState { Item, Skill, Non }
     private void Awake()
     {
         transform = gameObject.transform;
@@ -22,6 +22,15 @@ public class QuickSlot : MonoBehaviour
             Transform nowChild = transform.GetChild(i);
             lists.Add(null);
             childs.Add(nowChild.GetComponent<RectTransform>());
+        }
+    }
+
+    public void ResetQuickSlot()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            lists[i] = null;
+            childs[i].GetComponent<Image>().sprite = recoverIcon;
         }
     }
 
@@ -162,6 +171,62 @@ public class QuickSlot : MonoBehaviour
 
             i++;
 
+        }
+    }
+
+    public List<string> GetQuickSlotList()
+    {
+        List<string> quickSlotList = new List<string>();
+        for (int i = 0; i < 5; i++)
+        {
+            string state = "";
+            var nowSlot = lists[i];
+            SkillViewer skillViewer = null;
+            ItemView itemView = null;
+            if (nowSlot != null)
+            {
+                skillViewer = nowSlot.GetComponent<SkillViewer>();
+                itemView = nowSlot.GetComponent<ItemView>();
+            }
+
+            if (skillViewer != null)
+                state += "skill;" + skillViewer.skillData.skillName_eng;
+
+            else if (itemView != null)
+                state += "item;" + itemView.ItemCounter.Data.Index;
+
+            else
+                state += "null";
+
+            quickSlotList.Add(state);
+        }
+
+        return quickSlotList;
+    }
+
+    public void SetQuickSlotList(List<string> state)
+    {
+        StartCoroutine(ProcessQuickSlotList(state));
+    }
+
+    public IEnumerator ProcessQuickSlotList(List<string> state)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            var nowState = state[i];
+            string[] detail = nowState.Split(';');
+            if (detail[0].Equals("skill"))
+            {
+                yield return new WaitUntil(() => Character.CharacterSkiilViewer.IsSkillViewerReady);
+                var skillViewer = Character.CharacterSkiilViewer.GetSkillViewer(detail[1]);
+                SetSlot(skillViewer.transform, skillViewer.skillData.icon, i);
+            }
+            else if (detail[0].Equals("item"))
+            {
+                var itemCounter = Character.Inventory.table.GetLastPositionItemCounter(ItemManager.Instance.GetitemData(int.Parse(detail[1])));
+                yield return new WaitUntil(() => itemCounter.View != null);
+                SetSlot(itemCounter.View.transform, itemCounter.View.icon.sprite, i);
+            }
         }
     }
 }
