@@ -15,8 +15,10 @@ public class TownNpc : Npc
 
         AddItem(0, 10);
         AddItem(0, 5);
+        AddItem(1, 2);
         AddItem(0, 3);
         AddItem(0, 5);
+        AddItem(1, 2);
     }
 
     public override List<ItemManager.ItemCounter> RequestDialogueToGiveItemAfterIndex()
@@ -27,6 +29,8 @@ public class TownNpc : Npc
             list = new List<ItemManager.ItemCounter>();
             list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(3), 1));
             list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(4), 1));
+            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(0), 5));
+            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(1), 5));
         }
         return list;
     }

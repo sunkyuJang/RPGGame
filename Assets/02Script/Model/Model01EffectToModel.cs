@@ -52,10 +52,10 @@ public partial class Model : MonoBehaviour
         if (data.During > 0)
         {
             RefreshedHPBar();
-            saver.time = 0f;
-            while (saver.time <= data.During)
+            saver.time = (float)data.During;
+            while (saver.time > 0)
             {
-                saver.time += Time.fixedDeltaTime;
+                saver.time -= Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
 
@@ -99,10 +99,10 @@ public partial class Model : MonoBehaviour
         if (data.During > 0)
         {
             RefreshedHPBar();
-            saver.time = 0;
-            while (saver.time <= data.During)
+            saver.time = (float)data.During;
+            while (saver.time > 0)
             {
-                saver.time += Time.fixedDeltaTime;
+                saver.time -= Time.fixedDeltaTime;
                 yield return new WaitForFixedUpdate();
             }
 

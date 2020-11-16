@@ -26,7 +26,7 @@ public class ActionPad : Joypad, IInputTracer
     public override IEnumerator TraceInput(bool isTouch, int touchID, bool isMouse)
     {
         isPressed = true;
-        float limit = downTransform.rect.width * 0.3f;
+        float limit = downTransform.rect.width * 0.5f;
         Vector2 centerPosition = new Vector2(downTransform.position.x, downTransform.position.y);
 
         float TimeCount = 0f;

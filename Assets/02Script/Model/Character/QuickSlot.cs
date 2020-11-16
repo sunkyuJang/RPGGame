@@ -45,6 +45,7 @@ public class QuickSlot : MonoBehaviour
                 ItemSheet.Param data = itemView.ItemCounter.Data;
                 Inventory inventory = itemView.inventory;
                 itemView.UseThis();
+                StartCoroutine(CountingItemCoolDown(num, itemView));
 
                 if (itemView.ItemCounter == null)
                 {
@@ -80,6 +81,36 @@ public class QuickSlot : MonoBehaviour
             icon.fillAmount = (data.CoolDown - data.nowCoolDown) / data.CoolDown;
         }
     }
+
+    public IEnumerator CountingItemCoolDown(int slotNum, ItemView view)
+    {
+        var icon = childs[slotNum].GetComponent<Image>();
+        Model.StateSaver saver = null;
+        if (view.ItemCounter.Data.EffecterIndex >= 0)
+        {
+            while (saver == null)
+            {
+                yield return new WaitForFixedUpdate();
+                foreach (Model.StateSaver nowSaver in Character.StateSavers)
+                {
+                    if (nowSaver.data.Index == view.ItemCounter.Data.EffecterIndex)
+                    {
+                        saver = nowSaver;
+                        break;
+                    }
+                }
+            }
+        }
+
+        while (saver != null)
+        {
+            yield return new WaitForFixedUpdate();
+            icon.fillAmount = (float)((saver.data.During - (double)saver.time) / saver.data.During);
+        }
+
+        icon.fillAmount = 1;
+    }
+
 
     public int IsIn(Vector2 _position)
     {
@@ -122,7 +153,15 @@ public class QuickSlot : MonoBehaviour
             {
                 StartCoroutine(CountingSkillCoolDown(i, viewer.skillData));
             }
+
+            ItemView itemView = nowTransform.GetComponent<ItemView>();
+            if (itemView != null)
+            {
+                StartCoroutine(CountingItemCoolDown(i, itemView));
+            }
+
             i++;
+
         }
     }
 }

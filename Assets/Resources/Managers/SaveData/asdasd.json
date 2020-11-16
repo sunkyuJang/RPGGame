@@ -2,31 +2,63 @@
     "id": "asdasd",
     "pw": "asdasd",
     "NickName": "asdasd",
-    "isFirstStart": true,
+    "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -42.0,
-        "y": 0.0,
-        "z": 59.0
+        "x": -25.577491760253908,
+        "y": 7.068303108215332,
+        "z": 106.94795227050781
     },
     "safeScene": "IngameScene",
     "SafePosition": {
-        "x": -12.5,
-        "y": 0.0,
-        "z": -25.0
+        "x": -24.399993896484376,
+        "y": 7.068271636962891,
+        "z": 105.9000244140625
     },
     "level": 7,
-    "itemKinds": [],
-    "itemCounts": [],
+    "itemKinds": [
+        5,
+        3,
+        4,
+        0,
+        1
+    ],
+    "itemCounts": [
+        1,
+        1,
+        1,
+        5,
+        5
+    ],
     "WearingItem": [],
     "skillNames": [
-        "NormalAttack"
+        "NormalAttack",
+        "LowSmash",
+        "BoostMorale",
+        "EarthQuake",
+        "FireBall",
+        "ChaosBoom",
+        "Curse"
     ],
     "isLearnSkill": [
-        true
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
     ],
-    "namesTalkingwith": [],
-    "lastTalkingIndex": [],
-    "QuestIndexList": [],
-    "TimeLineAssetName": []
+    "namesTalkingwith": [
+        "길버트"
+    ],
+    "lastTalkingIndex": [
+        32
+    ],
+    "QuestIndexList": [
+        0
+    ],
+    "TimeLineAssetName": [
+        "FirstStartCutScene"
+    ]
 }
