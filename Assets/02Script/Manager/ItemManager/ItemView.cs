@@ -42,6 +42,7 @@ public class ItemView : MonoBehaviour, IInputTracer
     public void SwapItemCounter(ItemManager.ItemCounter counter)
     {
         ItemCounter = counter;
+        counter.View = this;
         icon.sprite = Resources.Load<Sprite>("Item/" + ItemCounter.Data.ItemType + "/" + ItemCounter.Data.Name_eng);
         RefreshText();
     }

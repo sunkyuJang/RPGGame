@@ -66,7 +66,8 @@ MonoBehaviour:
   isLearn: 0
   Length: 2
   attackType: 0
-  DamagePercentage: 50
+  ManaCost: 0
+  DamagePercentage: 150
   CoolDown: 3
   nowCoolDown: 0
   hitBox: {fileID: 5872860588705113133, guid: c63d66e3af848f546a38606be074fbff, type: 3}

@@ -53,22 +53,27 @@ public class QuickSlot : MonoBehaviour
             {
                 ItemSheet.Param data = itemView.ItemCounter.Data;
                 Inventory inventory = itemView.inventory;
+
                 itemView.UseThis();
-                StartCoroutine(CountingItemCoolDown(num, itemView));
 
                 if (itemView.ItemCounter == null)
                 {
                     var kind = inventory.table.GetSameKind(data);
+                    var icon = childs[num].GetComponent<Image>();
                     if (kind == null)
                     {
                         childs[num].GetComponent<Image>().sprite = recoverIcon;
                         lists[num] = null;
+                        icon.fillAmount = 1;
                     }
                     else
                     {
                         lists[num] = kind[kind.Count - 1].View.transform;
                     }
+
                 }
+                else
+                    StartCoroutine(CountingItemCoolDown(num, data));
             }
             else if (skillViewer != null)
             {
@@ -91,18 +96,18 @@ public class QuickSlot : MonoBehaviour
         }
     }
 
-    public IEnumerator CountingItemCoolDown(int slotNum, ItemView view)
+    public IEnumerator CountingItemCoolDown(int slotNum, ItemSheet.Param usingItem)
     {
         var icon = childs[slotNum].GetComponent<Image>();
         Model.StateSaver saver = null;
-        if (view.ItemCounter.Data.EffecterIndex >= 0)
+        if (usingItem.EffecterIndex >= 0)
         {
             while (saver == null)
             {
                 yield return new WaitForFixedUpdate();
                 foreach (Model.StateSaver nowSaver in Character.StateSavers)
                 {
-                    if (nowSaver.data.Index == view.ItemCounter.Data.EffecterIndex)
+                    if (nowSaver.data.Index == usingItem.EffecterIndex)
                     {
                         saver = nowSaver;
                         break;
@@ -166,7 +171,7 @@ public class QuickSlot : MonoBehaviour
             ItemView itemView = nowTransform.GetComponent<ItemView>();
             if (itemView != null)
             {
-                StartCoroutine(CountingItemCoolDown(i, itemView));
+                StartCoroutine(CountingItemCoolDown(i, itemView.ItemCounter.Data));
             }
 
             i++;

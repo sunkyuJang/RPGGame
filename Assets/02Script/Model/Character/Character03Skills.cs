@@ -50,7 +50,6 @@ public partial class Character : Model
         skill.ActivateSkill();
 
         var lestTime = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
-        print("lestTime");
 
         SetSkillAnimator(skill, false);
 
@@ -63,7 +62,6 @@ public partial class Character : Model
             yield return new WaitForFixedUpdate();
             nowTime += Time.fixedDeltaTime;
         }
-        print("nowTime");
         Animator.SetBool(skill.gameObject.name, false);
         canAttacking = true;
     }

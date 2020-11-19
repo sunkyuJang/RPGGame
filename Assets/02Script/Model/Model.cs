@@ -1,8 +1,5 @@
-﻿using GLip;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Schema;
-using UnityEditor.Animations;
 using UnityEngine;
 
 public partial class Model : MonoBehaviour

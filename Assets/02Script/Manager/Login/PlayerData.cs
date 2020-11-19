@@ -1,13 +1,7 @@
-﻿using GLip;
-using JetBrains.Annotations;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.WSA.Input;
 
 public class PlayerData
 {
@@ -21,11 +15,15 @@ public class PlayerData
     public bool isFirstStart;
     public string LastScene;
     public Vector3 LastPosition;
+    public Vector3 LastForward;
+    public Vector3 LastCameraForward;
+    public bool WasStandingField;
     public string safeScene;
     public Vector3 SafePosition;
     public int level;
 
     //item
+    public int Gold = 0;
     public List<int> itemKinds = new List<int>();
     public List<int> itemCounts = new List<int>();
 
@@ -56,18 +54,26 @@ public class PlayerData
         NickName = nickName;
         isFirstStart = true;
         LastPosition = new Vector3(-42f, 0, 59f);
+        LastForward = Vector3.zero;
+        LastCameraForward = Vector3.zero;
+        WasStandingField = false;
+
         LastScene = "IngameScene";
         safeScene = "IngameScene";
         SafePosition = new Vector3(-12.5f, 0f, -25f);
         skillNames.Add("NormalAttack");
         isLearnSkill.Add(true);
         level = 7;
+        Gold = 1000;
     }
     public void SetPlayerDataFromCharacter(Character character)
     {
         isFirstStart = false;
         LastScene = SceneManager.GetActiveScene().name;
         LastPosition = character.transform.position;
+        LastForward = character.transform.forward;
+        LastCameraForward = character.Controller.CameraController.transform.forward;
+        WasStandingField = character.IsinField;
 
         for (int i = 0; i < character.LastSafeZone.Count; i++)
         {

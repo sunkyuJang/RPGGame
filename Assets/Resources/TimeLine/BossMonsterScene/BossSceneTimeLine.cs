@@ -27,6 +27,7 @@ public class BossSceneTimeLine : TimeLineHandler
         }
         bossMonster.transform.parent = transform.root.parent;
         bossMonster.IsRunningTimeLine = false;
+        Character.PassedTimeLineAssetName.Remove(gameObject.name);
         EndSequence();
         //SetIsTimeLineStart(false);
     }

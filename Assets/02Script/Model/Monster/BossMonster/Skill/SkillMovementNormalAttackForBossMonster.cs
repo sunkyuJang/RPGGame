@@ -43,7 +43,7 @@ public class SkillMovementNormalAttackForBossMonster : SkillMovement, ISkillMove
     IEnumerator ProcessEachHitBox(HitBox copy)
     {
         copy.isImmediately = true;
-        StartCoroutine(copy.CheckObjCollideInTime());
+        yield return StartCoroutine(copy.CheckObjCollideInTime());
         if (copy.isCollide)
         {
             var target = copy.GetTarget(skillData.Model.transform.position);

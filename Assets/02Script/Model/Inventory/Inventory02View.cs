@@ -125,7 +125,7 @@ public partial class Inventory : MonoBehaviour
             {
                 if (itemViewCollider != collider.transform)
                 {
-                    var nowDist = Vector2.Distance(collider.transform.position, dropPosition);
+                    var nowDist = Vector2.Distance(collider.transform.localPosition, dropPosition);
                     if (nowDist < closeDist)
                     {
                         closeDist = nowDist;

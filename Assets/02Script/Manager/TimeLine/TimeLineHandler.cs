@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.PlayerLoop;
 using UnityEngine.Timeline;
 using Cinemachine;
-using UnityEditorInternal;
 
 public class TimeLineHandler : MonoBehaviour
 {

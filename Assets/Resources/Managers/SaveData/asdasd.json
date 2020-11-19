@@ -1,0 +1,86 @@
+{
+    "id": "asdasd",
+    "pw": "asdasd",
+    "NickName": "asdasd",
+    "isFirstStart": false,
+    "LastScene": "IngameScene",
+    "LastPosition": {
+        "x": 4.487791538238525,
+        "y": 0.0,
+        "z": 1.3401768207550049
+    },
+    "LastForward": {
+        "x": 0.0424664132297039,
+        "y": 0.0,
+        "z": -0.9990981817245483
+    },
+    "LastCameraForward": {
+        "x": 0.13915039598941804,
+        "y": 0.0,
+        "z": -0.9902712106704712
+    },
+    "WasStandingField": true,
+    "safeScene": "IngameScene",
+    "SafePosition": {
+        "x": -24.399993896484376,
+        "y": 7.068271636962891,
+        "z": 105.9000244140625
+    },
+    "level": 7,
+    "Gold": 1000,
+    "itemKinds": [
+        0,
+        1,
+        6,
+        2,
+        0
+    ],
+    "itemCounts": [
+        10,
+        8,
+        2,
+        1,
+        7
+    ],
+    "WearingItem": [
+        3,
+        4
+    ],
+    "skillNames": [
+        "NormalAttack",
+        "LowSmash",
+        "BoostMorale",
+        "EarthQuake",
+        "FireBall",
+        "ChaosBoom",
+        "Curse"
+    ],
+    "isLearnSkill": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+    ],
+    "namesTalkingwith": [
+        "길버트",
+        "수상한 남자"
+    ],
+    "lastTalkingIndex": [
+        46,
+        25
+    ],
+    "QuestIndexList": [],
+    "TimeLineAssetName": [
+        "FirstStartCutScene"
+    ],
+    "QuickSlotList": [
+        "item;1",
+        "item;6",
+        "skill;EarthQuake",
+        "skill;Curse",
+        "skill;ChaosBoom"
+    ]
+}

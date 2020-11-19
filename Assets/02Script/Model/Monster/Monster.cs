@@ -1,20 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GLip;
-using UnityEditor;
-using UnityEngine.UIElements;
-using JetBrains.Annotations;
-using System.Runtime.Serialization;
-using UnityEngine.XR.WSA.Input;
-using System.Threading;
 
 public class Monster : Model
 {
     public MonseterLocator MonsterLocator { set; get; } = null;
     public float roamingHorizontal;
     public float roamingVertical;
-    protected Character Character { set; get; }
+    public Character Character { set; get; }
     public Rect RoamingArea { set; get; }
     protected enum ActionState { roaming, following, battle, attack, getHit, dead, idle, skill, TimeLine, non }
     protected bool isAttacking { set; get; }
@@ -45,6 +38,7 @@ public class Monster : Model
         BeforeState = ActionState.non;
         IsAlreadyDead = false;
         canAttack = true;
+        canGetHit = true;
 
         if (MonsterLocator == null)
         {
@@ -82,14 +76,13 @@ public class Monster : Model
         SelectedNextAction();
     }
 
-    new protected void FixedUpdate()
+    protected void FixedUpdate()
     {
-        //base.FixedUpdate();
+
     }
 
     protected void SelectedNextAction()
     {
-        print(NowState);
         if (NowState != BeforeState)
         {
             BeforeState = NowState;
@@ -264,10 +257,9 @@ public class Monster : Model
         canGetHit = false;
         DoAnimator(ActionState.getHit);
 
-        yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
-
-        if (nowHP <= 0)
-            StartCoroutine(DoDead());
+        float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
+        yield return new WaitForSeconds(waitTIme);
+        //yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
 
         // while (!NowAnimatorInfo.IsName("GetHit"))
         //     yield return new WaitForEndOfFrame();

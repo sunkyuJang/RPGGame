@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using GLip;
-using UnityEditor.Callbacks;
-using System.Net.NetworkInformation;
-
 public partial class Inventory : MonoBehaviour
 {
     Model Model { set; get; }
@@ -13,7 +8,7 @@ public partial class Inventory : MonoBehaviour
     public RectTransform rectTransform { private set; get; }
     Inventory TargetInventory { set; get; }
     public Transform itemViewGroup;
-    public Rect Area { get { return GMath.GetRect(rectTransform); } }
+    public Rect Area { get { return GMath.GetRect(inventoryFrame.GetComponent<RectTransform>()); } }
     public bool isPlayer { private set; get; }
 
     public GameObject itemViewPrefab;
@@ -28,7 +23,7 @@ public partial class Inventory : MonoBehaviour
         rectTransform = inventoryFrame.GetComponent<RectTransform>();
     }
 
-    public void SetTransformParent() 
+    public void SetTransformParent()
     {
         transform.SetParent(GetInventoryGroup);
         var rectTransform = transform.GetComponent<RectTransform>();
@@ -114,10 +109,10 @@ public partial class Inventory : MonoBehaviour
         public void InsertItemCounter(ItemManager.ItemCounter nowCounter, int insertNum)
         {
             var kind = GetSameKind(nowCounter.Data);
-            if (kind == null) AddItemCounter(nowCounter); 
-            else kind.Insert(insertNum, nowCounter); 
+            if (kind == null) AddItemCounter(nowCounter);
+            else kind.Insert(insertNum, nowCounter);
         }
-        public void RemoveItemCounter(ItemManager.ItemCounter nowCounter) 
+        public void RemoveItemCounter(ItemManager.ItemCounter nowCounter)
         {
             var kind = GetSameKind(nowCounter.Data);
             kind.Remove(nowCounter);

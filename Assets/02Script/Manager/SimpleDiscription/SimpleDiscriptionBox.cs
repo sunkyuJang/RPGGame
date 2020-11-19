@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Channels;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using GLip;
 
@@ -11,7 +7,7 @@ public class SimpleDiscriptionBox : MonoBehaviour
     public static SimpleDiscriptionBox instance { set; get; }
     public GameObject frame;
     public GameObject imageFrame;
-    
+
     public Image icon;
     public GameObject emptyForSpace;
     public Button btn;
@@ -38,7 +34,7 @@ public class SimpleDiscriptionBox : MonoBehaviour
         switch (form)
         {
             case Form.Text:
-                imageFrame.SetActive(false); 
+                imageFrame.SetActive(false);
                 break;
             case Form.withImage:
                 imageFrame.SetActive(true);

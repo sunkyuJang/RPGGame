@@ -29,7 +29,6 @@ public class LoadSceneManager : MonoBehaviour
             if (!loadSecenName.Equals(SceneManager.GetActiveScene().name))
             {
                 SkillDataGrouper.instance.DestroySkillHitBox();
-                print(true);
             }
 
         Character = character;

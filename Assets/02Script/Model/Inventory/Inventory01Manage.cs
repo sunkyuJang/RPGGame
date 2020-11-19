@@ -1,7 +1,6 @@
 ﻿using GLip;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public partial class Inventory : MonoBehaviour
@@ -99,7 +98,8 @@ public partial class Inventory : MonoBehaviour
         }
         return false;
     }
-    public bool RemoveItem(ItemManager.ItemCounter counter) => RemoveItem(counter.Data.Index, counter.count);
+    public bool RemoveItem(ItemManager.ItemCounter counter)
+        => RemoveItem(counter.Data.Index, counter.count);
 
     public void UseItem(ItemView itemView, bool useComfirmBox)
     {

@@ -1,0 +1,45 @@
+{
+    "id": "zxczxc",
+    "pw": "zxczxc",
+    "NickName": "zxczxc",
+    "isFirstStart": true,
+    "LastScene": "IngameScene",
+    "LastPosition": {
+        "x": -42.0,
+        "y": 0.0,
+        "z": 59.0
+    },
+    "LastForward": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "LastCameraForward": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "WasStandingField": false,
+    "safeScene": "IngameScene",
+    "SafePosition": {
+        "x": -12.5,
+        "y": 0.0,
+        "z": -25.0
+    },
+    "level": 7,
+    "Gold": 1000,
+    "itemKinds": [],
+    "itemCounts": [],
+    "WearingItem": [],
+    "skillNames": [
+        "NormalAttack"
+    ],
+    "isLearnSkill": [
+        true
+    ],
+    "namesTalkingwith": [],
+    "lastTalkingIndex": [],
+    "QuestIndexList": [],
+    "TimeLineAssetName": [],
+    "QuickSlotList": []
+}

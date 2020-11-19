@@ -138,7 +138,7 @@ public partial class Character : Model
         if (!NowAnimatorInfo.IsName("Dead"))
         {
             DoAnimator(AnimatorState.Running);
-            while (BeforeState == ActionState.Running)
+            while (BeforeState == ActionState.Running && nowHP > 0)
             {
                 if (ConfimBoxManager.instance.confirmBoxPrefabObj.activeSelf)
                 {
@@ -150,6 +150,9 @@ public partial class Character : Model
                 Rigidbody.velocity = transform.forward * SPD;
                 yield return new WaitForFixedUpdate();
             }
+
+            if (nowHP <= 0)
+                StartCoroutine(DoDead());
         }
     }
     IEnumerator DoAction()
@@ -216,7 +219,6 @@ public partial class Character : Model
 
     IEnumerator DoAttack()
     {
-        print("InAttack");
         ActivateSkill(ReservedSkill);
         yield break;
     }
@@ -278,6 +280,7 @@ public partial class Character : Model
         IntoNormalUI();
 
         NowState = ActionState.Idle;
+        isAlreadyDead = false;
         yield break;
     }
 

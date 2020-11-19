@@ -104,6 +104,7 @@ public class MonseterLocator : MonoBehaviour
 
     void returnMonsterObj(GameObject gameObject)
     {
+        gameObject.SetActive(false);
         if (MonsterPooler == null)
             Destroy(gameObject);
         else

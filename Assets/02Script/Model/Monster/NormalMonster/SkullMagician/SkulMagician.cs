@@ -56,14 +56,22 @@ public class SkulMagician : NormalMonster
             else
             {
                 if (canAttack)
+                {
                     NowState = ActionState.attack;
+                }
                 else
                 {
                     if (!NowAnimatorInfo.IsName("NomalAttack"))
+                    {
                         if (!IsFarEnoughWithCharacter)
+                        {
                             Rigidbody.velocity = transform.forward * (-SPD);
+                        }
                         else
+                        {
                             Rigidbody.velocity = Vector3.zero;
+                        }
+                    }
                 }
             }
         }
@@ -83,7 +91,6 @@ public class SkulMagician : NormalMonster
 
         NowState = ActionState.battle;
         canGetHit = true;
-        yield return StartCoroutine(WaitTillAnimator("NomalAttack", false));
 
         while (nowAttack.isCoolDown)
             yield return new WaitForFixedUpdate();

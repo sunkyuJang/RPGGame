@@ -19,7 +19,7 @@ public partial class Controller : MonoBehaviour
         public GameObject skillTreeKeyObj;*/
 
     public GameObject CameraControllerPrefab;
-    CameraController CameraController { set; get; }
+    public CameraController CameraController { set; get; }
 
     public CharacterSkiilViewer characterSkiilViewer;
 

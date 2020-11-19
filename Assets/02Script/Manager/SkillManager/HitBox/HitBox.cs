@@ -43,6 +43,7 @@ public class HitBox : MonoBehaviour
         {
             if (other.CompareTag(GetTargetModelTag))
             {
+                print("isIn");
                 enteredColliders.Add(other);
             }
         }

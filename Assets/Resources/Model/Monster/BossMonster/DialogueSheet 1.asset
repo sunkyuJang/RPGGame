@@ -18,27 +18,24 @@ MonoBehaviour:
     - Index: 0
       Type: None
       GoTo: 0
-      Script: "\uB108\uC600\uAD6C\uB098."
+      Script: "\uC548\uB155, \uB098?"
     - Index: 1
       Type: None
       GoTo: 0
-      Script: "\uC774 \uB9D0\uB3C4 \uC548 \uB418\uB294 \uC138\uACC4\uC5D0\uC11C \uD63C\uC790
-        \uC0B4\uC544 \uC788\uB294 \uAC8C."
+      Script: "\uB108\uB294 \uC5EC\uAE30\uC11C \uBA87\uBC88\uC744 \uC8FD\uC5C8\uC744\uAE4C?"
     - Index: 2
       Type: None
       GoTo: 0
-      Script: "\uC544\uB2C8\uBA74 \uC8FD\uC740 \uCC44\uB85C \uC6C0\uC9C1\uC774\uB294
-        \uAC74\uAC00?"
+      Script: "\uB098\uB294 \uC5EC\uAE30\uC11C \uBA87\uBC88\uC744 \uC8FD\uC5C8\uC744\uAE4C?"
     - Index: 3
       Type: Select
       GoTo: 1
-      Script: "\uC5EC\uAE30\uC5D0\uC11C \uD0DC\uC5B4\uB098\uACE0 \uC8FD\uC744 \uB098\uB85C\uC11C\uB294
-        \uC54C \uC218 \uC5C6\uC9C0\uB9CC, \uD55C \uAC00\uC9C0 \uBD84\uBA85\uD55C
-        \uAC8C \uC788\uC9C0."
+      Script: "\uB108\uC640 \uB098\uB294 \uACB0\uAD6D \uC5EC\uAE30\uAC00 \uB9C8\uC9C0\uB9C9\uC774\uC57C.
+        \uADF8\uB807\uC9C0\uB9CC \uAC71\uC815\uD558\uC9C0 \uC54A\uC544\uB3C4 \uB3FC."
     - Index: 4
       Type: SelectSub
       GoTo: 6
-      Script: "\uADF8\uAC8C \uBB50\uC9C0?"
+      Script: "\uADF8\uB9CC\uD574!"
     - Index: 5
       Type: SelectSub
       GoTo: 6
@@ -46,8 +43,8 @@ MonoBehaviour:
     - Index: 6
       Type: None
       GoTo: 0
-      Script: "\uC774 \uBB34\uC758\uBBF8\uD55C \uC2F8\uC6C0\uC744 \uB05D\uC73C\uB85C-"
+      Script: "\uC774 \uC774\uD6C4\uB85C \uC6B0\uB9AC\uB4E4\uC740-."
     - Index: 7
       Type: Exit
       GoTo: 1
-      Script: "\uC138\uACC4\uB294 \uC5C6\uC5B4\uC9C4\uB2E4."
+      Script: "\uC7AC\uD65C\uC6A9\uB420\uAC70\uC57C."

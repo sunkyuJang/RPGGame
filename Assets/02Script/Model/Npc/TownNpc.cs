@@ -30,7 +30,7 @@ public class TownNpc : Npc
             list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(3), 1));
             list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(4), 1));
             list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(0), 5));
-            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(1), 5));
+            list.Add(new ItemManager.ItemCounter(ItemManager.Instance.GetitemData(6), 5));
         }
         return list;
     }

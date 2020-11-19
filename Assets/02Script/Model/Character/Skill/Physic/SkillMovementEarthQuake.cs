@@ -20,7 +20,7 @@ public class SkillMovementEarthQuake : SkillMovement, ISkillMovement
         for (int i = 0, max = 5; i < max; i++)
         {
             var copy = skillData.GetHitBox();
-            StartCoroutine(copy.StartCountingEffectTime());
+            StartCoroutine(copy.CheckObjCollideInTime());
             copy.transform.position = startPosition + startDirection * i * skillData.Length / max;
             StartCoroutine(EachBoxMove(copy));
             yield return new WaitForSeconds(0.3f);
@@ -31,9 +31,7 @@ public class SkillMovementEarthQuake : SkillMovement, ISkillMovement
     {
         // copy.transform.position = skillData.Model.transform.position + skillData.Model.transform.forward * count * dist;
         copy.isImmediately = true;
-
-        copy.StartCountDown();
-        while (copy.isTimeLeft)
+        while (copy.isEffectTimeLeft)
         {
             if (copy.isCollide)
             {

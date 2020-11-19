@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using UnityEngine;
-using GLip;
 
 public class BossMonster : Monster
 {
@@ -23,7 +21,7 @@ public class BossMonster : Monster
     bool canLookAt { set; get; } = true;
     new private void Awake()
     {
-        SetInfo("보스", 1000, 100, 30, 10, 10);
+        SetInfo("보스", 500, 500, 25, 10, 10);
         base.Awake();
     }
 
@@ -73,7 +71,8 @@ public class BossMonster : Monster
         float waitTIme = NowAnimatorInfo.length - (NowAnimatorInfo.normalizedTime * NowAnimatorInfo.length);
         yield return new WaitForSeconds(waitTIme);
 
-        Instantiate(ingameSceneChangerPrefab, transform.position, Quaternion.identity);
+        var sceneChanger = Instantiate(ingameSceneChangerPrefab);
+        sceneChanger.transform.position = transform.position;
         SkillDataGrouper.instance.DestroySkillHitBox();
         Destroy(gameObject);
         //MonsterLocator.MonsterReturn(this);

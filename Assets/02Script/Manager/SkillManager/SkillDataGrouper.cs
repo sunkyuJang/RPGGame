@@ -31,7 +31,7 @@ public class SkillDataGrouper : MonoBehaviour
         var needNewGroup = true;
 
         foreach (Transform sameName in group)
-            if (sameName.name == skillData.Model.CharacterName)
+            if (sameName.name == skillData.Model.gameObject.name)
             {
                 nowTransform = sameName;
                 needNewGroup = false;

@@ -114,6 +114,9 @@ public partial class Character : Model
         PlayerData = playerData;
         CharacterName = playerData.NickName;
         transform.position = playerData.LastPosition;
+        transform.forward = playerData.LastForward;
+        Controller.CameraController.transform.forward = playerData.LastCameraForward;
+        IsinField = playerData.WasStandingField;
 
         LastSafeZone.Clear();
         LastSafeZone.Add(playerData.safeScene, playerData.SafePosition);
@@ -145,6 +148,8 @@ public partial class Character : Model
                 (playerData.itemKinds[i],
                 playerData.itemCounts[i]);
         }
+
+        Inventory.gold = PlayerData.Gold;
 
 
         if (playerData.WearingItem.Count > 0)
@@ -196,6 +201,7 @@ public partial class Character : Model
             foreach (string name in playerData.TimeLineAssetName)
                 PassedTimeLineAssetName.Add(name);
 
+        ShowGameUI(UIList.quickSlot, true);
         if (playerData.QuickSlotList.Count > 0)
         {
             QuickSlot.SetQuickSlotList(playerData.QuickSlotList);
@@ -203,7 +209,8 @@ public partial class Character : Model
 
         isCharacterReady = true;
 
-        AddItem(5, 1);
+        StartCoroutine(DoIdle());
+
         IntoNormalUI();
     }
 

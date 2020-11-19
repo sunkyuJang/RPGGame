@@ -49,8 +49,8 @@ MonoBehaviour:
       Name_eng: Dagger
       ItemType: EquipmentWeapon
       Description: "\uD574\uACE8 \uBAA8\uC591\uC774 \uC2E0\uACBD\uC4F0\uC774\uB294
-        \uAC80\uC774\uB2E4. \uC544\uC800\uC528\uAC00 \uB370\uC2A4\uBA54\uD0C8\uC5D0
-        \uC2EC\uCDE8\uC5D0 \uC788\uB294 \uAC83\uC740 \uC544\uB2D0\uAE4C?"
+        \uAC80\uC774\uB2E4. \uC544\uC800\uC528\uC758 \uC13C\uC2A4\uB97C \uC774\uD574\uD558\uAE30
+        \uD798\uB4E4\uB2E4."
       Limit: 1
       Buy: 0
       Sell: 0
@@ -60,8 +60,7 @@ MonoBehaviour:
       Name_eng: Leather
       ItemType: EquipmentArmor
       Description: "\uAC00\uC8FD\uC73C\uB85C \uB41C \uAC11\uC637\uC774\uB77C\uACE0
-        \uD55C\uB2E4. \uC544\uBB34\uB9AC \uBD10\uB3C4 \uCC9C\uC778\uAC70 \uAC19\uC740\uB370
-        \uAE30\uBD84 \uD0D3\uC778\uAC00 \uBCF4\uB2E4."
+        \uD55C\uB2E4. \uB9CC\uC800\uBCF4\uBA74 \uCC9C\uC73C\uB85C \uB9CC\uB4E4\uC5B4\uC838\uC788\uB2E4."
       Limit: 1
       Buy: 0
       Sell: 0
@@ -76,3 +75,12 @@ MonoBehaviour:
       Buy: 0
       Sell: 0
       EffecterIndex: -1
+    - Index: 6
+      Name: "\uC791\uC740 MP\uD3EC\uC158"
+      Name_eng: MPPotionSmall
+      ItemType: Active
+      Description: "\uC804\uCCB4 MP\uC758 10%\uB97C \uD68C\uBCF5\uD55C\uB2E4."
+      Limit: 10
+      Buy: 100
+      Sell: 50
+      EffecterIndex: 6

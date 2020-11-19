@@ -5,24 +5,42 @@
     "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -42.0,
+        "x": 10.916260719299317,
         "y": 0.0,
-        "z": 59.0
+        "z": 44.417724609375
     },
+    "LastForward": {
+        "x": 0.9998930096626282,
+        "y": 0.0,
+        "z": -0.014627814292907715
+    },
+    "LastCameraForward": {
+        "x": 0.9271852374076843,
+        "y": 0.0,
+        "z": 0.374603271484375
+    },
+    "WasStandingField": true,
     "safeScene": "IngameScene",
     "SafePosition": {
-        "x": -12.5,
-        "y": 0.0,
-        "z": -25.0
+        "x": -24.399993896484376,
+        "y": 7.068271636962891,
+        "z": 105.9000244140625
     },
     "level": 7,
+    "Gold": 1000,
     "itemKinds": [
-        5
-    ],
-    "itemCounts": [
+        3,
+        0,
         1
     ],
-    "WearingItem": [],
+    "itemCounts": [
+        1,
+        5,
+        5
+    ],
+    "WearingItem": [
+        4
+    ],
     "skillNames": [
         "NormalAttack",
         "LowSmash",
@@ -34,9 +52,9 @@
     ],
     "isLearnSkill": [
         true,
+        true,
         false,
-        false,
-        false,
+        true,
         false,
         false,
         false
@@ -45,14 +63,16 @@
         "길버트"
     ],
     "lastTalkingIndex": [
-        1
+        32
     ],
-    "QuestIndexList": [],
+    "QuestIndexList": [
+        0
+    ],
     "TimeLineAssetName": [
         "FirstStartCutScene"
     ],
     "QuickSlotList": [
-        "null",
+        "skill;EarthQuake",
         "null",
         "null",
         "null",
