@@ -135,17 +135,17 @@ public partial class Model : MonoBehaviour
     }
     public void GetHit(float damage, GameObject HitFX, bool isFXStartFromGround)
     {
-        // if (nowHP > 0)
-        // {
-        //     damage -= DEF;
-        //     damage = damage > 0 ? damage : 0;
-        //     nowHP -= (int)damage;
+        if (nowHP > 0)
+        {
+            damage -= DEF;
+            damage = damage > 0 ? damage : 0;
+            nowHP -= (int)damage;
 
-        //     ShowAlert(((int)damage).ToString(), Color.red);
-        //     if (this is Monster) { (this as Monster).GetHit(HitFX, isFXStartFromGround); }
-        //     else if (this is Character) { (this as Character).GetHit(); }
-        //     RefreshedHPBar();
-        // }
+            ShowAlert(((int)damage).ToString(), Color.red);
+            if (this is Monster) { (this as Monster).GetHit(HitFX, isFXStartFromGround); }
+            else if (this is Character) { (this as Character).GetHit(); }
+            RefreshedHPBar();
+        }
     }
 
     public class StateSaver

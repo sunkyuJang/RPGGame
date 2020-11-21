@@ -4,7 +4,7 @@ using UnityEngine;
 using GLip;
 using System;
 
-public class SkulMagician : NormalMonster
+public class SkullMagician : NormalMonster
 {
     public GameObject HitBox;
     public GameObject HitBoxFX;

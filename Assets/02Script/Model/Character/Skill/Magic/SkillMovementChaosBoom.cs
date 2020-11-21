@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillMovementChaosBoom : SkillMovement, ISkillMovement
+public class SkillMovementChaosBoom : SkillMovement
 {
     public float downSpeed = 1f;
     new public void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;
     }
 
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         yield return base.StartHitBoxMovement();

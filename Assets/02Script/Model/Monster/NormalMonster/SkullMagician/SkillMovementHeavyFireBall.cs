@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using GLip;
 
-public class SkillMovementHeavyFireBall : SkillMovement, ISkillMovement
+public class SkillMovementHeavyFireBall : SkillMovement
 {
     public float upperDegree = 75f;
     public float totalSpeed = 0.45f;
     new private void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;//(ISkillMovement)this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
 
     new public IEnumerator StartHitBoxMovement()
     {

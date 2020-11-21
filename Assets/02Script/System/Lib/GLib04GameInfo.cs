@@ -6,7 +6,7 @@ namespace GLip
 {
     class GGameInfo
     {
-        public enum LayerMasksList { ImmovableObj = 8, Floor = 9 }
+        public enum LayerMasksList { ImmovableObj = 8, Floor = 9, Character = 11 }
 
     }
 }

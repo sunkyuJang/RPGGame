@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillMovementNormalAttack : SkillMovement, ISkillMovement
+public class SkillMovementNormalAttack : SkillMovement
 {
     new void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;//(ISkillMovement)this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         yield return base.StartHitBoxMovement();

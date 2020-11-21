@@ -27,23 +27,6 @@ namespace GLip
             }
             return closeOne;
         }
-
-        public static List<Collider> GetAllCollidersInFOV(Transform centerTransform, float castRad, float castFOVRad)
-        {
-            var list = GetNearByObj(centerTransform.position, castRad);
-            List<Collider> newList = new List<Collider>();
-            foreach (Collider nowCollider in list)
-            {
-                Vector3 directionFromCenterToCollider = nowCollider.transform.position - centerTransform.position;
-                float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
-                if (angleFromCenterToCollider <= castFOVRad)
-                {
-                    newList.Add(nowCollider);
-                }
-            }
-            return newList;
-        }
-
         public static List<Collider> GetSelectedColliderInFOV(Transform centerTransform, float castRad, float castFOVRad, string targetTag)
         {
             var list = GetNearByObj(centerTransform.position, castRad);
@@ -70,6 +53,23 @@ namespace GLip
             }
             return newList;
         }
+
+        public static List<Collider> GetAllCollidersInFOV(Transform centerTransform, float castRad, float castFOVRad)
+        {
+            var list = GetNearByObj(centerTransform.position, castRad);
+            List<Collider> newList = new List<Collider>();
+            foreach (Collider nowCollider in list)
+            {
+                Vector3 directionFromCenterToCollider = nowCollider.transform.position - centerTransform.position;
+                float angleFromCenterToCollider = Vector3.Angle(centerTransform.forward, directionFromCenterToCollider);
+                if (angleFromCenterToCollider <= castFOVRad)
+                {
+                    newList.Add(nowCollider);
+                }
+            }
+            return newList;
+        }
+
         public static bool IsAClosedThanBFromCenter(Vector3 center, Vector3 positionA, Vector3 positionB)
         {
             return Vector3.Distance(center, positionA) < Vector3.Distance(center, positionB);

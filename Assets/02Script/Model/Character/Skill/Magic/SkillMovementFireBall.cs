@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class SkillMovementFireBall : SkillMovement, ISkillMovement
+public class SkillMovementFireBall : SkillMovement
 {
     public float Speed = 3f;
     new void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        // skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         var copy = skillData.GetHitBox();

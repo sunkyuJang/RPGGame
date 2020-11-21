@@ -10,7 +10,6 @@ public class MonseterLocator : MonoBehaviour
     public int nowCount;
     public float responeTime;
     public float resetDist = 100f;
-    public float nowDistFromCharacter = 0f;
     public int vertical;
     public int horizontal;
     public float height;

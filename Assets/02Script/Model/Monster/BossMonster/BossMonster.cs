@@ -88,40 +88,42 @@ public class BossMonster : Monster
                 transform.LookAt(Character.transform.position);
             yield return new WaitForFixedUpdate();
 
-            if (isAllSkillRunning())
+            if (isAllSkillRunning)
                 if (!IsCloseEnoughWithChracter && canMove)
                     NowState = ActionState.following;
         }
     }
 
-    bool isAllSkillRunning()
+    bool isAllSkillRunning
     {
-        if (canAttack)
+        get
         {
-            for (int i = 0; i < skills.Count; i++)
+            if (canAttack)
             {
-                if (!skills[i].isCoolDown)
+                for (int i = 0; i < skills.Count; i++)
                 {
-                    if (skills[i].IsReachedTarget)
+                    if (!skills[i].isCoolDown)
                     {
-                        canAttack = false;
-                        canMove = false;
-                        NowState = ActionState.attack;
-                        Rigidbody.velocity = Vector3.zero;
-                        switch (i)
+                        if (skills[i].IsReachedTarget)
                         {
-                            case 0: StartCoroutine(DoNormalAttack()); break;
-                            case 1: StartCoroutine(DoOverDrive()); break;
-                            case 2: StartCoroutine(DoSeedBoom()); break;
-                            case 3: StartCoroutine(DoStinger()); break;
+                            canAttack = false;
+                            canMove = false;
+                            NowState = ActionState.attack;
+                            Rigidbody.velocity = Vector3.zero;
+                            switch (i)
+                            {
+                                case 0: StartCoroutine(DoNormalAttack()); break;
+                                case 1: StartCoroutine(DoOverDrive()); break;
+                                case 2: StartCoroutine(DoSeedBoom()); break;
+                                case 3: StartCoroutine(DoStinger()); break;
+                            }
+                            return false;
                         }
-                        return false;
                     }
                 }
             }
+            return true;
         }
-
-        return true;
     }
 
     protected IEnumerator DoNormalAttack()

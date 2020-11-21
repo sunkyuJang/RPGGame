@@ -12,8 +12,8 @@ public class ObjPoolerManager : MonoBehaviour
 
     private void Awake()
     {
-        if(instance == null)
-             instance = this;
+        if (instance == null)
+            instance = this;
         else
             Destroy(gameObject);
     }
@@ -33,10 +33,5 @@ public class ObjPoolerManager : MonoBehaviour
         pooler.comparePrefab = requestPrefab;
         ObjPoolers.Add(pooler);
         return pooler;
-    }
-
-    public void DistroyPooler(ObjPooler objPooler)
-    {
-        ObjPoolers.Remove(objPooler);
     }
 }

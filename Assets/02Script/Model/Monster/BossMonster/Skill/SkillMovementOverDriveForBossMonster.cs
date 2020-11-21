@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillMovementOverDriveForBossMonster : SkillMovement, ISkillMovement
+public class SkillMovementOverDriveForBossMonster : SkillMovement
 {
     new void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        // skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         yield return base.StartHitBoxMovement();
@@ -22,11 +23,11 @@ public class SkillMovementOverDriveForBossMonster : SkillMovement, ISkillMovemen
         copy.Rigidbody.velocity = copy.transform.forward * 10f;
         var StartPosition = copy.transform.position;
         var nowLength = 0f;
-        while(nowLength < skillData.Length)
+        while (nowLength < skillData.Length)
         {
             yield return new WaitForFixedUpdate();
             nowLength = Vector3.Distance(StartPosition, copy.transform.position);
-            if (copy.isCollide) 
+            if (copy.isCollide)
                 skillData.SetDamage(copy.GetTarget(model.transform.position));
         }
 

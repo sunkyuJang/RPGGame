@@ -70,8 +70,6 @@ public class LoadSceneManager : MonoBehaviour
 
     IEnumerator LoadScene()
     {
-        yield return null;
-
         AsyncOperation op = SceneManager.LoadSceneAsync(loadSecenName);
         op.allowSceneActivation = false;
 
@@ -124,7 +122,5 @@ public class LoadSceneManager : MonoBehaviour
                 }
             }
         }
-
-
     }
 }

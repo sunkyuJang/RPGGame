@@ -2,44 +2,81 @@
     "id": "zxczxc",
     "pw": "zxczxc",
     "NickName": "zxczxc",
-    "isFirstStart": true,
+    "isFirstStart": false,
     "LastScene": "IngameScene",
     "LastPosition": {
-        "x": -42.0,
-        "y": 0.0,
-        "z": 59.0
+        "x": 3.759572982788086,
+        "y": 1.7881393432617188e-7,
+        "z": 0.5883058309555054
     },
     "LastForward": {
-        "x": 0.0,
+        "x": -0.3252485990524292,
         "y": 0.0,
-        "z": 0.0
+        "z": -0.9456285238265991
     },
     "LastCameraForward": {
-        "x": 0.0,
+        "x": 0.4694516658782959,
         "y": 0.0,
-        "z": 0.0
+        "z": -0.8829584121704102
     },
-    "WasStandingField": false,
+    "WasStandingField": true,
     "safeScene": "IngameScene",
     "SafePosition": {
-        "x": -12.5,
-        "y": 0.0,
-        "z": -25.0
+        "x": -24.399993896484376,
+        "y": 7.068271636962891,
+        "z": 105.9000244140625
     },
     "level": 7,
     "Gold": 1000,
-    "itemKinds": [],
-    "itemCounts": [],
-    "WearingItem": [],
+    "itemKinds": [
+        0,
+        6
+    ],
+    "itemCounts": [
+        10,
+        5
+    ],
+    "WearingItem": [
+        3,
+        4
+    ],
     "skillNames": [
-        "NormalAttack"
+        "NormalAttack",
+        "LowSmash",
+        "BoostMorale",
+        "EarthQuake",
+        "FireBall",
+        "ChaosBoom",
+        "Curse"
     ],
     "isLearnSkill": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
         true
     ],
-    "namesTalkingwith": [],
-    "lastTalkingIndex": [],
-    "QuestIndexList": [],
-    "TimeLineAssetName": [],
-    "QuickSlotList": []
+    "namesTalkingwith": [
+        "길버트",
+        "수상한 남자"
+    ],
+    "lastTalkingIndex": [
+        32,
+        25
+    ],
+    "QuestIndexList": [
+        0
+    ],
+    "TimeLineAssetName": [
+        "FirstStartCutScene"
+    ],
+    "QuickSlotList": [
+        "item;6",
+        "skill;BoostMorale",
+        "skill;EarthQuake",
+        "skill;ChaosBoom",
+        "skill;Curse"
+    ]
 }

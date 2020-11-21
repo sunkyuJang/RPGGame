@@ -41,7 +41,7 @@ public class SkillData : MonoBehaviour
 
     public Model targetModel;
 
-    public ISkillMovement skillMovement;
+    public SkillMovement skillMovement;
     public bool IsReachedTarget
     {
         get

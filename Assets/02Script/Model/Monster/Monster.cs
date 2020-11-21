@@ -354,7 +354,7 @@ public class Monster : Model
     {
         get
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, sightRadius, (int)GGameInfo.LayerMasksList.Floor, QueryTriggerInteraction.Ignore);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, sightRadius, 1 << (int)GGameInfo.LayerMasksList.Character);
             foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("Character"))
@@ -375,7 +375,6 @@ public class Monster : Model
                     }
                 }
             }
-
             return false;
         }
     }
@@ -388,13 +387,13 @@ public class Monster : Model
     }
     protected void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 1, 1, 0.5f);
+        Gizmos.color = Color.red - new Color(0, 0, 0, 0.7f);
         Gizmos.DrawCube(transform.position + Vector3.up * 0.5f, new Vector3(roamingVertical, 1, roamingHorizontal));
-        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, sightRadius);
 
         Vector2[] vectors = GMath.MoveToRad(GetNowAngle, SigthLimitRad, sightRadius);
-        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.red);
-        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[1]), Color.red);
+        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[0]), Color.blue);
+        Debug.DrawRay(transform.position, GMath.ConvertV2ToV3xz(vectors[1]), Color.blue);
     }
 }

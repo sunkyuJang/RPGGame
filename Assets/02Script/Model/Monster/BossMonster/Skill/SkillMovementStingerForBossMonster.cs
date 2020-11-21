@@ -5,15 +5,15 @@ using GLip;
 using System.Runtime.CompilerServices;
 using UnityEngine.UIElements;
 
-public class SkillMovementStingerForBossMonster : SkillMovement, ISkillMovement
+public class SkillMovementStingerForBossMonster : SkillMovement
 {
     public float startSpeed = 15f;
     new void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         //yield return base.StartHitBoxMovement();

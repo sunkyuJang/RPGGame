@@ -47,27 +47,10 @@ public class ObjPooler : MonoBehaviour
         }
         yield return null;
     }
-    public IEnumerator CheckCanUseObj()
-    {
-        var count = 1;
-        if (isRunningOut(count))
-        {
-            count -= CreatedObjList.Count;
-            StartCoroutine(CreateObj(count));
-            yield return StartCoroutine(CreateObj(count));
-        }
-        yield return null;
-    }
     public void returnObj(GameObject gameObject)
     {
         gameObject.transform.SetParent(transform);
         CreatedObjList.Enqueue(gameObject);
-    }
-
-    public void returnObj(List<GameObject> gameObjects)
-    {
-        for (int i = 0; i < gameObjects.Count; i++)
-            CreatedObjList.Enqueue(gameObjects[i]);
     }
 
     IEnumerator CreateObj(int count)
@@ -79,15 +62,5 @@ public class ObjPooler : MonoBehaviour
             CreatedObjList.Enqueue(nowObj);
         }
         yield return null;
-    }
-
-    public void MakeReservation(int count)
-    {
-        StartCoroutine(CreateObj(count));
-    }
-
-    public void OnDisable()
-    {
-        ObjPoolerManager.instance.DistroyPooler(this);
     }
 }

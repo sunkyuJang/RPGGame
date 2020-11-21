@@ -10,6 +10,8 @@ public class SkillMovement : MonoBehaviour
         skillData = GetComponent<SkillData>();
     }
 
+    public virtual void StartMove() { }
+
     protected IEnumerator StartHitBoxMovement()
     {
         yield return StartCoroutine(skillData.hitBoxPooler.CheckCanUseObj(skillData.hitBoxNum));

@@ -4,14 +4,15 @@ using UnityEngine;
 using GLip;
 using System.Runtime.CompilerServices;
 
-public class SkillMovementSeedBoomForBossMonster : SkillMovement, ISkillMovement
+public class SkillMovementSeedBoomForBossMonster : SkillMovement
 {
     new void Start()
     {
         base.Start();
-        skillData.skillMovement = (ISkillMovement)this;
+        // skillData.skillMovement = (ISkillMovement)this;
+        skillData.skillMovement = this;
     }
-    public void StartMove() => StartCoroutine(StartHitBoxMovement());
+    public override void StartMove() => StartCoroutine(StartHitBoxMovement());
     new public IEnumerator StartHitBoxMovement()
     {
         yield return base.StartHitBoxMovement();
