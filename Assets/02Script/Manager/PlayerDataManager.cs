@@ -19,7 +19,8 @@ public class PlayerDataManager : MonoBehaviour
         {
             instance = this;
             frame.SetActive(false);
-            PlayerDataPath = Application.dataPath + "/Resources/Managers/SaveData/";
+            PlayerDataPath = Application.persistentDataPath;
+            Directory.CreateDirectory(PlayerDataPath + "/SaveData");
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -44,7 +45,7 @@ public class PlayerDataManager : MonoBehaviour
     public void CreatPlayerData(string id, string pw, string nickName)
     {
         var newData = new PlayerData(id, pw, nickName);
-        File.WriteAllText(newData.GetJsonPathWithAcc, JsonUtility.ToJson(newData, true));
+        File.WriteAllText(PlayerDataPath + newData.id + ".json", JsonUtility.ToJson(newData, true));
     }
 
     public void ShowView(Controller controller)
@@ -58,7 +59,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         var character = Controller.Character;
         character.PlayerData.SetPlayerDataFromCharacter(character);
-        File.WriteAllText(character.PlayerData.GetJsonPathWithAcc, JsonUtility.ToJson(character.PlayerData, true));
+        File.WriteAllText(PlayerDataPath + character.PlayerData.id + ".json", JsonUtility.ToJson(character.PlayerData, true));
 
         StartCoroutine(ConfirmToSaveData());
     }

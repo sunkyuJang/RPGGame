@@ -32,6 +32,7 @@ public class MonseterLocator : MonoBehaviour
     private void Start()
     {
         MonsterPooler = ObjPoolerManager.instance.ReqeuestObjPooler(requestMonster);
+        print(MonsterPooler);
         StartCoroutine(DoNext());
     }
 

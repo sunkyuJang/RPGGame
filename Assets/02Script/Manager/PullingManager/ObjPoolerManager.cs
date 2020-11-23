@@ -22,7 +22,13 @@ public class ObjPoolerManager : MonoBehaviour
     {
         foreach (ObjPooler controller in ObjPoolers)
             if (controller.comparePrefab.Equals(requestPrefab))
-                return controller;
+                if (controller == null)
+                {
+                    ObjPoolers.Remove(controller);
+                    break;
+                }
+                else
+                    return controller;
 
         return CreatObjPooler(requestPrefab);
     }

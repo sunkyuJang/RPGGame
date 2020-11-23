@@ -9,9 +9,6 @@ public class PlayerData
     public string pw;
     public string NickName;
 
-    public static string path = Application.dataPath + "/Resources/Managers/SaveData/";
-    public string GetJsonPathWithAcc { get { return PlayerData.path + id + ".json"; } }
-
     public bool isFirstStart;
     public string LastScene;
     public Vector3 LastPosition;
