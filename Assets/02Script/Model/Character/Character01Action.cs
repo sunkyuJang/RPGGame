@@ -84,6 +84,7 @@ public partial class Character : Model
     {
         if (BeforeState != actionState)
         {
+            print(BeforeState + "//" + actionState);
             NowState = actionState;
         }
     }
@@ -235,7 +236,12 @@ public partial class Character : Model
         canGetHit = false;
 
         DoAnimator(AnimatorState.GetHit);
-        yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
+        while (!NowAnimatorInfo.IsName("GetHit"))
+        {
+            DoAnimator(AnimatorState.GetHit);
+            yield return new WaitForFixedUpdate();
+        }
+        //        yield return new WaitWhile(() => NowAnimatorInfo.IsName("GetHit"));
 
         if (nowHP > 0)
         {

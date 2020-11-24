@@ -41,25 +41,37 @@ public class Slime : NormalMonster
     {
         canAttack = false;
         canGetHit = false;
-        DoAnimator(ActionState.attack);
 
-        yield return StartCoroutine(WaitTillAnimator("NomalAttack", true));
-
+        //DoAnimator(ActionState.attack);
+        while (!NowAnimatorInfo.IsName("NomalAttack"))
+        {
+            DoAnimator(ActionState.attack);
+            yield return new WaitForFixedUpdate();
+        }
+        //yield return StartCoroutine(WaitTillAnimator("NomalAttack", true));
+        print("Attack out");
         var nowSkill = GetSkillData(SkillDataName + "NormalAttack");
         nowSkill.ActivateSkill();
 
-        while (BeforeState == ActionState.attack)
-        {
-            yield return new WaitForFixedUpdate();
-            transform.LookAt(Character.transform.position);
+        NowState = ActionState.battle;
+        canGetHit = true;
 
-            if (NowAnimatorInfo.normalizedTime >= 0.9f)
-            {
-                NowState = ActionState.battle;
-                canGetHit = true;
-                StartCoroutine(StartAttackDelayTimer(2f));
-                break;
-            }
-        }
+        yield return new WaitWhile(() => nowSkill.isCoolDown);
+
+        canAttack = true;
+
+        // while (BeforeState == ActionState.attack)
+        // {
+        //     yield return new WaitForFixedUpdate();
+        //     transform.LookAt(Character.transform.position);
+
+        //     if (NowAnimatorInfo.normalizedTime >= 0.9f)
+        //     {
+        //         NowState = ActionState.battle;
+        //         canGetHit = true;
+        //         StartCoroutine(StartAttackDelayTimer(2f));
+        //         break;
+        //     }
+        // }
     }
 }

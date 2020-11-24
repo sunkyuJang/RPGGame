@@ -83,8 +83,11 @@ public class SkullMagician : NormalMonster
         canGetHit = false;
         Rigidbody.velocity = Vector3.zero;
 
-        DoAnimator(ActionState.attack);
-        yield return StartCoroutine(WaitTillAnimator("NomalAttack", true));
+        while (!NowAnimatorInfo.IsName("NomalAttack"))
+        {
+            DoAnimator(ActionState.attack);
+            yield return new WaitForFixedUpdate();
+        }
 
         var nowAttack = skillListHandler.skillDatas[0];
         nowAttack.ActivateSkill();
