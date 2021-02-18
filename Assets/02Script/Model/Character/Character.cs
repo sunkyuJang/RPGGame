@@ -53,7 +53,7 @@ public partial class Character : Model
     {
         UpdateInAction();
     }
-    new private void FixedUpdate()
+    private void FixedUpdate()
     {
         CheckOnterrian();
     }

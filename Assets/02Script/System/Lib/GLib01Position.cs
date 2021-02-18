@@ -27,15 +27,18 @@ namespace GLip
             }
             return closeOne;
         }
+
         public static List<Collider> GetSelectedColliderInFOV(Transform centerTransform, float castRad, float castFOVRad, string targetTag)
         {
             var list = GetNearByObj(centerTransform.position, castRad);
             return SelectColliderInFOV(list, targetTag, centerTransform, castFOVRad);
         }
+
         public static List<Collider> GetNearByObj(Vector3 startPosition, float castRad)
         {
             return Physics.OverlapSphere(startPosition, castRad).ToList<Collider>();
         }
+
         public static List<Collider> SelectColliderInFOV(List<Collider> colliders, string targetTag, Transform centerTransform, float castFOVRad)
         {
             List<Collider> newList = new List<Collider>();
@@ -80,6 +83,7 @@ namespace GLip
             Rect rect = GMath.GetRect(rectTransform);
             return IsContainTouch(rect, out index);
         }
+
         public static bool IsContainTouch(Rect rect, out int index)
         {
             index = 0;
@@ -93,15 +97,18 @@ namespace GLip
             }
             return false;
         }
+
         public static bool IsContainMousePosition(RectTransform rectTransform)
         {
             Rect rect = GMath.GetRect(rectTransform);
             return rect.Contains(Input.mousePosition);
         }
+
         public static bool IsContainMousePosition(Rect rect)
         {
             return rect.Contains(Input.mousePosition);
         }
+
         public static bool IsTouchStillPressed(int touchId)
         {
             for (int i = 0; i < Input.touches.Length; i++)
@@ -135,6 +142,7 @@ namespace GLip
             }
             return false;
         }
+
         public static bool IsContainInput(Rect rect, out bool isTouch, out int touchId, out bool isMouse)
         {
             isTouch = false;
@@ -153,6 +161,7 @@ namespace GLip
             }
             return false;
         }
+
         public static bool IsContainInput(Rect rect, bool isTouch, int touchId, bool isMouse)
         {
             isTouch = false;
@@ -190,12 +199,14 @@ namespace GLip
             else if (IsMouseStillPressed()) return Input.mousePosition;
             return Vector2.zero;
         }
+        
         public static bool IsHoldPressedInput(bool isTouched, int touchID, bool isMouse)
         {
             if (isTouched) return IsTouchStillPressed(touchID);
             else if (isMouse) return IsMouseStillPressed();
             else { return false; }
         }
+
         public static Vector3 ReverceLeft(Vector3 vector3) { return new Vector3(vector3.x * -1, vector3.y, vector3.z); }
         public static Vector3 ReverceUp(Vector3 vector3) { return new Vector3(vector3.x, vector3.y * -1, vector3.z); }
         public static Vector3 ReverceFront(Vector3 vector3) { return new Vector3(vector3.x, vector3.y, vector3.z * -1); }

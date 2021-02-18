@@ -26,6 +26,7 @@ namespace GLip
         {
             Debug.Log(rect.xMin + "//" + rect.yMin + "//" + rect.xMax + "//" + rect.yMax);
         }
+
         public static bool IsInArea(List<Vector2> points, Rect area, ref Vector2 point)
         {
             for (int i = 0; i < points.Count; i++)
@@ -39,10 +40,12 @@ namespace GLip
         {
             return radius360 <= 180 ? radius360 : radius360 - 360;
         }
+
         public static float Get360DegToRad(float radius360)
         {
             return Get360DegToDeg180(radius360) * Mathf.Deg2Rad;
         }
+
         public static Vector2[] MoveToRad(float centerRadian, float moveToRadian, float dist)
         {
             Vector2[] vectors = new Vector2[2];
@@ -54,6 +57,7 @@ namespace GLip
             }
             return vectors;
         }
+        
         public static float DegreeToRatio(float degree)
         {
             return (0.5f * degree) / 45f;
